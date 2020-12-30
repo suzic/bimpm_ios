@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="17709" systemVersion="20C69" minimumToolsVersion="Automatic" sourceLanguage="Objective-C" userDefinedModelVersionIdentifier="">
+    <entity name="ZHAllow" representedClassName="ZHAllow" syncable="YES">
+        <attribute name="allow_level" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid_target" optional="YES" attributeType="String"/>
+        <relationship name="belongTarget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="hasAllows" inverseEntity="ZHTarget"/>
+        <relationship name="belongUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasAllows" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHDepartment" representedClassName="ZHDepartment" syncable="YES">
+        <attribute name="fid_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_department" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasDepartments" inverseEntity="ZHProject"/>
+        <relationship name="hasUsers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHDepartmentUser" inverseName="belongDepartment" inverseEntity="ZHDepartmentUser"/>
+    </entity>
+    <entity name="ZHDepartmentUser" representedClassName="ZHDepartmentUser" syncable="YES">
+        <attribute name="is_leader" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="assignUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUserProject" inverseName="inDepartments" inverseEntity="ZHUserProject"/>
+        <relationship name="belongDepartment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHDepartment" inverseName="hasUsers" inverseEntity="ZHDepartment"/>
+    </entity>
+    <entity name="ZHFlow" representedClassName="ZHFlow" syncable="YES">
+        <attribute name="dynamic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="memo" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="state" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid_flow" optional="YES" attributeType="String"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasFlows" inverseEntity="ZHProject"/>
+        <relationship name="createUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asFlowCreator" inverseEntity="ZHUser"/>
+        <relationship name="hasTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHTask" inverseName="belongFlow" inverseEntity="ZHTask"/>
+        <relationship name="stepCurrent" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHStep" inverseName="asCurrent" inverseEntity="ZHStep"/>
+        <relationship name="stepFirst" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ZHStep" inverseName="asFirst" inverseEntity="ZHStep"/>
+        <relationship name="stepLast" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ZHStep" inverseName="asLast" inverseEntity="ZHStep"/>
+    </entity>
+    <entity name="ZHForm" representedClassName="ZHForm" syncable="YES">
+        <attribute name="buddy_file" optional="YES" attributeType="String"/>
+        <attribute name="instance_ident" optional="YES" attributeType="String"/>
+        <attribute name="instance_name" optional="YES" attributeType="String"/>
+        <attribute name="instance_set" optional="YES" attributeType="String"/>
+        <attribute name="key_pattern" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="uid_form" optional="YES" attributeType="String"/>
+        <attribute name="uid_ident" optional="YES" attributeType="String"/>
+        <attribute name="unique_check" optional="YES" attributeType="String"/>
+        <attribute name="update_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="update_user" optional="YES" attributeType="String"/>
+        <attribute name="url_alarm" optional="YES" attributeType="String"/>
+        <attribute name="url_info" optional="YES" attributeType="String"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasForms" inverseEntity="ZHProject"/>
+        <relationship name="buddyFile" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="asFormBuddy" inverseEntity="ZHTarget"/>
+        <relationship name="hasItems" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHFormItem" inverseName="belongForm" inverseEntity="ZHFormItem"/>
+        <relationship name="lastEditor" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asFormEditor" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHFormItem" representedClassName="ZHFormItem" syncable="YES">
+        <attribute name="d_name" optional="YES" attributeType="String"/>
+        <attribute name="enum_pool" optional="YES" attributeType="String"/>
+        <attribute name="ident" optional="YES" attributeType="String"/>
+        <attribute name="instance_value" optional="YES" attributeType="String"/>
+        <attribute name="length_max" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="length_min" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="not_null" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="String"/>
+        <attribute name="uid_item" optional="YES" attributeType="String"/>
+        <attribute name="unique" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="belongForm" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHForm" inverseName="hasItems" inverseEntity="ZHForm"/>
+    </entity>
+    <entity name="ZHMessage" representedClassName="ZHMessage" syncable="YES">
+        <attribute name="content" optional="YES" attributeType="String"/>
+        <attribute name="is_read" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="read_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="send_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <attribute name="uid_message" optional="YES" attributeType="String"/>
+        <relationship name="assignTarget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="inMessages" inverseEntity="ZHTarget"/>
+        <relationship name="assignTask" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="inMessages" inverseEntity="ZHTask"/>
+        <relationship name="inProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="messages" inverseEntity="ZHProject"/>
+        <relationship name="receiver" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asReceiver" inverseEntity="ZHUser"/>
+        <relationship name="sender" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asSender" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHModule" representedClassName="ZHModule" syncable="YES">
+        <attribute name="id_module" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="is_public" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="online" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="operation" optional="YES" attributeType="String"/>
+        <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="route" optional="YES" attributeType="String"/>
+        <relationship name="belongRoles" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHRole" inverseName="hasModules" inverseEntity="ZHRole"/>
+    </entity>
+    <entity name="ZHProject" representedClassName="ZHProject" syncable="YES">
+        <attribute name="actual_storage" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="address" optional="YES" attributeType="String"/>
+        <attribute name="build_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="company" optional="YES" attributeType="String"/>
+        <attribute name="current_manager" optional="YES" attributeType="String"/>
+        <attribute name="current_storage" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="enable_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fid_parent" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="is_pattern" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="kind" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="kind_name" optional="YES" attributeType="String"/>
+        <attribute name="level" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="location_lat" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="location_long" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="progress" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="snap_image" optional="YES" attributeType="String"/>
+        <attribute name="total_storage" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="assignMemo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ZHProjectMemo" inverseName="assignProject" inverseEntity="ZHProjectMemo"/>
+        <relationship name="hasDepartments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHDepartment" inverseName="belongProject" inverseEntity="ZHDepartment"/>
+        <relationship name="hasFlows" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHFlow" inverseName="belongProject" inverseEntity="ZHFlow"/>
+        <relationship name="hasForms" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHForm" inverseName="belongProject" inverseEntity="ZHForm"/>
+        <relationship name="hasRoles" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHRole" inverseName="belongProject" inverseEntity="ZHRole"/>
+        <relationship name="hasTargets" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHTarget" inverseName="belongProject" inverseEntity="ZHTarget"/>
+        <relationship name="hasUsers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHUserProject" inverseName="belongProject" inverseEntity="ZHUserProject"/>
+        <relationship name="messages" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHMessage" inverseName="inProject" inverseEntity="ZHMessage"/>
+    </entity>
+    <entity name="ZHProjectMemo" representedClassName="ZHProjectMemo" syncable="YES">
+        <attribute name="check" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="edit_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fid_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="line" optional="YES" attributeType="String"/>
+        <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="page_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="assignProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="assignMemo" inverseEntity="ZHProject"/>
+    </entity>
+    <entity name="ZHRole" representedClassName="ZHRole" syncable="YES">
+        <attribute name="fid_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_role" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="is_base" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <relationship name="actUsers" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="ZHUserProject" inverseName="assignRole" inverseEntity="ZHUserProject"/>
+        <relationship name="baseRole" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHRole" inverseName="extendRoles" inverseEntity="ZHRole"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasRoles" inverseEntity="ZHProject"/>
+        <relationship name="extendRoles" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="ZHRole" inverseName="baseRole" inverseEntity="ZHRole"/>
+        <relationship name="hasModules" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHModule" inverseName="belongRoles" inverseEntity="ZHModule"/>
+    </entity>
+    <entity name="ZHStep" representedClassName="ZHStep" syncable="YES">
+        <attribute name="days_waiting" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="decision" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="end_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fid_clone_step" optional="YES" attributeType="String"/>
+        <attribute name="in_waiting" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="interrupt_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="memo" optional="YES" attributeType="String"/>
+        <attribute name="memo_uid_doc_fixed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="plan_end" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="plan_start" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="process_type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="response_user_fixed" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="start_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="state" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid_step" optional="YES" attributeType="String"/>
+        <relationship name="asCurrent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHFlow" inverseName="stepCurrent" inverseEntity="ZHFlow"/>
+        <relationship name="asFirst" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHFlow" inverseName="stepFirst" inverseEntity="ZHFlow"/>
+        <relationship name="asLast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHFlow" inverseName="stepLast" inverseEntity="ZHFlow"/>
+        <relationship name="assignTask" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ZHTask" inverseName="assignStep" inverseEntity="ZHTask"/>
+        <relationship name="hasNext" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="ZHStep" inverseName="hasPrevs" inverseEntity="ZHStep"/>
+        <relationship name="hasPrevs" optional="YES" toMany="YES" deletionRule="Deny" destinationEntity="ZHStep" inverseName="hasNext" inverseEntity="ZHStep"/>
+        <relationship name="memoDocs" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="inSteps" inverseEntity="ZHTarget"/>
+        <relationship name="responseUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasSteps" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHTarget" representedClassName="ZHTarget" syncable="YES">
+        <attribute name="access_mode" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="check_sum" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fid_parent" optional="YES" attributeType="String"/>
+        <attribute name="history_size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_module" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="is_file" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="link" optional="YES" attributeType="String"/>
+        <attribute name="multi_editable" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pass_md5" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="size" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sub_file_count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="sub_folder_count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="tag" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid_target" optional="YES" attributeType="String"/>
+        <attribute name="version" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="asFormBuddy" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHForm" inverseName="buddyFile" inverseEntity="ZHForm"/>
+        <relationship name="asTaskFirst" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="firstTarget" inverseEntity="ZHTask"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasTargets" inverseEntity="ZHProject"/>
+        <relationship name="hasAllows" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHAllow" inverseName="belongTarget" inverseEntity="ZHAllow"/>
+        <relationship name="inMessages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHMessage" inverseName="assignTarget" inverseEntity="ZHMessage"/>
+        <relationship name="inSteps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHStep" inverseName="memoDocs" inverseEntity="ZHStep"/>
+        <relationship name="owner" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="ownTargets" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHTask" representedClassName="ZHTask" syncable="YES">
+        <attribute name="category" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="end_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="fid_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="fid_step" optional="YES" attributeType="String"/>
+        <attribute name="fid_user" optional="YES" attributeType="String"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="interrupt_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="memo" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="priority" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="start_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="type" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid_task" optional="YES" attributeType="String"/>
+        <relationship name="assignStep" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHStep" inverseName="assignTask" inverseEntity="ZHStep"/>
+        <relationship name="belongFlow" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHFlow" inverseName="hasTasks" inverseEntity="ZHFlow"/>
+        <relationship name="currentUsers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asTaskCurrent" inverseEntity="ZHUser"/>
+        <relationship name="endUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asTaskEnder" inverseEntity="ZHUser"/>
+        <relationship name="firstTarget" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="asTaskFirst" inverseEntity="ZHTarget"/>
+        <relationship name="inMessages" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHMessage" inverseName="assignTask" inverseEntity="ZHMessage"/>
+        <relationship name="responseUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasTasks" inverseEntity="ZHUser"/>
+        <relationship name="startUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="asTaskStarter" inverseEntity="ZHUser"/>
+    </entity>
+    <entity name="ZHUser" representedClassName="ZHUser" syncable="YES">
+        <attribute name="avatar" optional="YES" attributeType="String"/>
+        <attribute name="captcha_code" optional="YES" attributeType="String"/>
+        <attribute name="current_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="device" optional="YES" attributeType="String"/>
+        <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="gender" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="id_user" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="is_login" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="lock_password" optional="YES" attributeType="String"/>
+        <attribute name="name" optional="YES" attributeType="String"/>
+        <attribute name="pass_md5" optional="YES" attributeType="String"/>
+        <attribute name="password" optional="YES" attributeType="String"/>
+        <attribute name="phone" optional="YES" attributeType="String"/>
+        <attribute name="signature" optional="YES" attributeType="String"/>
+        <attribute name="status" optional="YES" attributeType="Integer 16" usesScalarValueType="YES"/>
+        <attribute name="token" optional="YES" attributeType="String"/>
+        <attribute name="uid_chat" optional="YES" attributeType="String"/>
+        <attribute name="verify_code" optional="YES" attributeType="String"/>
+        <attribute name="wechat_num" optional="YES" attributeType="String"/>
+        <relationship name="asFlowCreator" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHFlow" inverseName="createUser" inverseEntity="ZHFlow"/>
+        <relationship name="asFormEditor" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHForm" inverseName="lastEditor" inverseEntity="ZHForm"/>
+        <relationship name="asReceiver" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHMessage" inverseName="receiver" inverseEntity="ZHMessage"/>
+        <relationship name="asSender" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHMessage" inverseName="sender" inverseEntity="ZHMessage"/>
+        <relationship name="asTaskCurrent" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="currentUsers" inverseEntity="ZHTask"/>
+        <relationship name="asTaskEnder" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="endUser" inverseEntity="ZHTask"/>
+        <relationship name="asTaskStarter" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="startUser" inverseEntity="ZHTask"/>
+        <relationship name="hasAllows" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHAllow" inverseName="belongUser" inverseEntity="ZHAllow"/>
+        <relationship name="hasProjects" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHUserProject" inverseName="belongUser" inverseEntity="ZHUserProject"/>
+        <relationship name="hasSteps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHStep" inverseName="responseUser" inverseEntity="ZHStep"/>
+        <relationship name="hasTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHTask" inverseName="responseUser" inverseEntity="ZHTask"/>
+        <relationship name="ownTargets" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTarget" inverseName="owner" inverseEntity="ZHTarget"/>
+    </entity>
+    <entity name="ZHUserProject" representedClassName="ZHUserProject" syncable="YES">
+        <attribute name="enable" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="enter_date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id_user_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="in_apply" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="in_invite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="in_manager_invite" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="info" optional="YES" attributeType="String"/>
+        <attribute name="invite_user" optional="YES" attributeType="String"/>
+        <attribute name="is_default" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="user_task_count" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="assignRole" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHRole" inverseName="actUsers" inverseEntity="ZHRole"/>
+        <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasUsers" inverseEntity="ZHProject"/>
+        <relationship name="belongUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasProjects" inverseEntity="ZHUser"/>
+        <relationship name="inDepartments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHDepartmentUser" inverseName="assignUser" inverseEntity="ZHDepartmentUser"/>
+    </entity>
+    <elements>
+        <element name="ZHAllow" positionX="1200" positionY="842" width="160" height="103"/>
+        <element name="ZHDepartment" positionX="900" positionY="863" width="160" height="133"/>
+        <element name="ZHDepartmentUser" positionX="600" positionY="893" width="160" height="103"/>
+        <element name="ZHFlow" positionX="0" positionY="76" width="160" height="238"/>
+        <element name="ZHForm" positionX="1200" positionY="15" width="160" height="298"/>
+        <element name="ZHFormItem" positionX="1500" positionY="60" width="160" height="238"/>
+        <element name="ZHMessage" positionX="300" positionY="897" width="160" height="194"/>
+        <element name="ZHModule" positionX="300" positionY="30" width="160" height="163"/>
+        <element name="ZHProject" positionX="900" positionY="234" width="160" height="463"/>
+        <element name="ZHProjectMemo" positionX="900" positionY="0" width="160" height="148"/>
+        <element name="ZHRole" positionX="600" positionY="0" width="160" height="193"/>
+        <element name="ZHStep" positionX="0" positionY="339" width="160" height="418"/>
+        <element name="ZHTarget" positionX="1200" positionY="399" width="160" height="418"/>
+        <element name="ZHTask" positionX="0" positionY="814" width="160" height="344"/>
+        <element name="ZHUser" positionX="300" positionY="294" width="160" height="494"/>
+        <element name="ZHUserProject" positionX="600" positionY="384" width="160" height="254"/>
+    </elements>
+</model>

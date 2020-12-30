@@ -1,0 +1,71 @@
+//
+//  PrefixHeader.pch
+//  TTManager
+//
+//  Created by chao liu on 2020/12/25.
+//
+
+#ifndef PrefixHeader_h
+#define PrefixHeader_h
+
+#import "Commons.h"
+#import "DataBaseheader.h"
+#import "NetWorkInterface.h"
+#import "APIManagerHeader.h"
+#import "NotificationHeader.h"
+#import "AppDelegate.h"
+
+//重写NSLog,Debug模式下打印日志和当前行数
+#if DEBUG
+#define NSLog(FORMAT, ...) fprintf(stderr,"Class:%s\tFunction:%s\tLine:%d\tContent:%s\n",[[[NSString stringWithUTF8String:__FILE__] lastPathComponent] UTF8String],__PRETTY_FUNCTION__,__LINE__, [[NSString stringWithFormat:FORMAT, ##__VA_ARGS__] UTF8String]);
+#else
+#define NSLog(FORMAT, ...) nil
+#endif
+
+//c， oc通用断言
+#ifdef __OBJC__
+    #define Assert NSAssert
+#else
+    #include <assert.h>
+    #define Assert assert
+#endif
+
+/*!
+ 定义安全的空语句
+ */
+#define SafeEmptyStatement       do {}while(0)
+
+//通用的debug log开关
+#if DevelopmentEnvironment
+    #define ShowDebugLogs   1
+#else
+    #define ShowDebugLogs   0
+#endif // DevelopmentEnvironmen
+
+#if ShowDebugLogs
+    #ifdef __OBJC__
+        #define DebugLog(fmt, ...) NSLog((@"%s %s %3d:\n" fmt), __FILE__, __PRETTY_FUNCTION__, __LINE__, ##__VA_ARGS__)
+    #else
+        #if 1
+            #define DebugLog(...) (printf("%s %s %s [%s] %3d:\n", __DATE__, __TIME__,  _FILE_, __PRETTY_FUNCTION__, __LINE__), printf(__VA_ARGS__), printf("\n"))
+        #else
+            #define DebugLog(...)   SafeEmptyStatement
+        #endif
+    #endif
+#else
+    #define DebugLog(...)   SafeEmptyStatement
+#endif //ShowDebugLogs
+
+#if OS_OBJECT_USE_OBJC
+#undef SDDispatchQueueRelease
+#undef SDDispatchQueueSetterSementics
+#define SDDispatchQueueRelease(q)
+#define SDDispatchQueueSetterSementics strong
+#else
+#undef SDDispatchQueueRelease
+#undef SDDispatchQueueSetterSementics
+#define SDDispatchQueueRelease(q) (dispatch_release(q))
+#define SDDispatchQueueSetterSementics assign
+#endif
+
+#endif /* PrefixHeader_h */

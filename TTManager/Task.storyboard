@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="pNC-zS-Eu6">
+            <objects>
+                <navigationController id="auy-SP-Nxf" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="7Vz-mx-ixE">
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ZPV-zh-sxs" kind="relationship" relationship="rootViewController" id="4ii-NN-2hN"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Lzb-NG-Tmm" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-1357" y="125"/>
+        </scene>
+        <!--New Task Controller-->
+        <scene sceneID="URD-SK-arc">
+            <objects>
+                <viewController id="ZPV-zh-sxs" customClass="NewTaskController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="7AE-OZ-u8K">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="4LU-nJ-gXv"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="pwM-vS-rRw">
+                        <barButtonItem key="leftBarButtonItem" systemItem="stop" id="ocL-dd-4De">
+                            <connections>
+                                <action selector="closeVCAction:" destination="ZPV-zh-sxs" id="hoV-xQ-xeO"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="HKG-PX-ogR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-510" y="121"/>
+        </scene>
+        <!--Task List Controller-->
+        <scene sceneID="e4b-AI-I0Z">
+            <objects>
+                <viewController storyboardIdentifier="taskListVC" id="rRu-JT-Kfv" customClass="TaskListController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="lte-3i-wLo">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="5OG-YY-Lhz"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <connections>
+                        <segue destination="5nF-Qh-Y0r" kind="push" identifier="showTaskDetail" id="Wai-1a-9Ku"/>
+                        <segue destination="auy-SP-Nxf" kind="presentation" identifier="newTask" modalPresentationStyle="fullScreen" id="ab9-J5-XWj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iwd-Xu-cuO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="275" y="107"/>
+        </scene>
+        <!--Task Details Controller-->
+        <scene sceneID="DoL-Q3-7J9">
+            <objects>
+                <viewController id="5nF-Qh-Y0r" customClass="TaskDetailsController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="022-Ty-ibk">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="g2I-U6-Xt5"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="EdP-73-jtZ"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IXl-Xc-q2b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1036" y="106"/>
+        </scene>
+    </scenes>
+    <resources>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
