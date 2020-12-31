@@ -9,13 +9,14 @@
 #import "TaskTabView.h"
 #import "TaskListView.h"
 #import "DragButton.h"
+#import "TaskController.h"
 
 @interface TaskListController ()
 
 @property (nonatomic, strong) TaskTabView *taskTabView;
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
-
+@property (nonatomic,assign)TaskType taskType;
 @end
 
 @implementation TaskListController
@@ -27,6 +28,10 @@
     self.automaticallyAdjustsScrollViewInsets = NO;
 //    _taskStatus = Task_list;
     [self addUI];
+}
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self.taskTabView changCurrentTab:self.taskStatus];
 }
 - (void)addUI{
     [self.view addSubview:self.taskTabView];
@@ -40,9 +45,8 @@
         view.listTitle = [self getListTitleWithStatus:view.taskStatus];
         [viewArray addObject:view];
     }
-    [self.taskTabView setChildrenViewList:viewArray];
     [self.view layoutIfNeeded];
-    [self.taskTabView changCurrentTab:self.taskStatus];
+    [self.taskTabView setChildrenViewList:viewArray];
     DragButton *dragBtn = [DragButton initDragButtonVC:self];
     [dragBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(-15);
@@ -56,6 +60,7 @@
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     for (NSString *newTaskType in self.newTasTypeklist) {
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            self.taskType = TaskType_newTask;
             [self performSegueWithIdentifier:@"newTask" sender:nil];
         }];
         [alert addAction:action];
@@ -108,19 +113,25 @@
 }
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:@"Task_list_selected"]) {
-        [self performSegueWithIdentifier:@"showTaskDetail" sender:nil];
+        self.taskType = TaskType_details;
+        [self performSegueWithIdentifier:@"newTask" sender:nil];
+//        [self performSegueWithIdentifier:@"showTaskDetail" sender:nil];
     }else if([eventName isEqualToString:@"new_task_action"]){
         [self showSelectNewTaskType];
     }
 }
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"newTask"]) {
+        UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
+        TaskController *vc = (TaskController *)[nav topViewController];
+        vc.taskType = self.taskType;
+    }
 }
-*/
 
 @end

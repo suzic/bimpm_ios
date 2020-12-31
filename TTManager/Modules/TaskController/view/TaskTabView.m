@@ -77,14 +77,14 @@
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
         [button setTitle:taskListView.listTitle forState:UIControlStateNormal];
         [button.titleLabel setFont:[UIFont systemFontOfSize:14.0f]];
-        [button setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
+        [button setTitleColor:RGB_COLOR(153, 153, 153) forState:UIControlStateNormal];
         [button setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateSelected];
         [self.tabToolView addSubview:button];
         button.tag = i;
-        if (i == 0) {
-            self.lastSelectedButton = button;
-            button.selected = YES;
-        }
+//        if (i == 0) {
+//            self.lastSelectedButton = button;
+//            button.selected = YES;
+//        }
         [button addTarget:self action:@selector(changeTab:) forControlEvents:UIControlEventTouchUpInside];
         // tab
         [button makeConstraints:^(MASConstraintMaker *make) {
@@ -134,7 +134,6 @@
         make.center.equalTo(self.lineView);
         make.height.equalTo(self.lineView);
     }];
-    
 }
 
 #pragma mark - Action
@@ -142,11 +141,13 @@
     self.lastSelectedButton.selected = NO;
     button.selected = YES;
     self.lastSelectedButton = button;
-    [self changCurrentTab:button.tag];
+    [self.scrollView setContentOffset:CGPointMake(button.tag*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
 }
 - (void)changCurrentTab:(NSInteger)selected{
-    [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
-    [self layoutIfNeeded];
+    UIButton *button = [self.tabToolView viewWithTag:selected];
+    button.selected = YES;
+    self.lastSelectedButton = button;
+    [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:NO];
 }
 #pragma amrk - setter and getter
 - (UIView *)tabToolView{

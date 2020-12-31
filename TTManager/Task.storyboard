@@ -25,10 +25,10 @@
             </objects>
             <point key="canvasLocation" x="-1357" y="125"/>
         </scene>
-        <!--New Task Controller-->
+        <!--Task Controller-->
         <scene sceneID="URD-SK-arc">
             <objects>
-                <viewController id="ZPV-zh-sxs" customClass="NewTaskController" sceneMemberID="viewController">
+                <viewController id="ZPV-zh-sxs" customClass="TaskController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="7AE-OZ-u8K">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -58,29 +58,12 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <segue destination="5nF-Qh-Y0r" kind="push" identifier="showTaskDetail" id="Wai-1a-9Ku"/>
                         <segue destination="auy-SP-Nxf" kind="presentation" identifier="newTask" modalPresentationStyle="fullScreen" id="ab9-J5-XWj"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="iwd-Xu-cuO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="275" y="107"/>
-        </scene>
-        <!--Task Details Controller-->
-        <scene sceneID="DoL-Q3-7J9">
-            <objects>
-                <viewController id="5nF-Qh-Y0r" customClass="TaskDetailsController" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="022-Ty-ibk">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <viewLayoutGuide key="safeArea" id="g2I-U6-Xt5"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="EdP-73-jtZ"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="IXl-Xc-q2b" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1036" y="106"/>
         </scene>
     </scenes>
     <resources>

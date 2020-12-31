@@ -58,14 +58,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(is_login)}];
     }
 }
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    NSLog(@"主控制器将要显示");
-}
-- (void)viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    NSLog(@"主控制器快要隐藏了啊");
-}
+
 #pragma mark - init
 - (void)initUI
 {

@@ -1,22 +1,31 @@
 //
-//  TaskDetailsController.m
+//  TaskController.m
 //  TTManager
 //
-//  Created by chao liu on 2020/12/28.
+//  Created by chao liu on 2020/12/30.
 //
 
-#import "TaskDetailsController.h"
+#import "TaskController.h"
 
-@interface TaskDetailsController ()
+@interface TaskController ()
 
 @end
 
-@implementation TaskDetailsController
+@implementation TaskController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"任务详情";
+    self.title = @"创建任务";
+    if (self.taskType == TaskType_details) {
+        NSLog(@"创建任务详情界面");
+    }else if(self.taskType == TaskType_newTask){
+        NSLog(@"创建新任务界面");
+    }
+}
+
+- (IBAction)closeVCAction:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 /*
