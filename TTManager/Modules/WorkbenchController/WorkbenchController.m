@@ -11,6 +11,7 @@
 #import "TaskInforCell.h"
 #import "HeaderCell.h"
 #import "MoreWorkMsgController.h"
+#import "TaskListController.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -103,10 +104,28 @@
     {
         NSLog(@"跳转任务详情带去的参数======%@",userInfo)
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
-        UIViewController *VC = [sb instantiateViewControllerWithIdentifier:@"taskListVC"];
+        TaskListController *VC = (TaskListController *)[sb instantiateViewControllerWithIdentifier:@"taskListVC"];
         VC.hidesBottomBarWhenPushed = YES;
+        VC.taskStatus = [self getCurrentSelectedTaskStatus:userInfo];
         [self.navigationController pushViewController:VC animated:YES];
     }
+}
+- (TaskStatus)getCurrentSelectedTaskStatus:(NSDictionary *)dic{
+    TaskStatus status = Task_list;
+    if ([dic[@"selectedTaskType"] isEqualToString:@"0"]) {
+        if ([dic[@"selectedTaskStatus"] isEqualToString:@"0"]) {
+            status = Task_list;
+        }else if([dic[@"selectedTaskStatus"] isEqualToString:@"1"]){
+            status = Task_finish;
+        }
+    }else if([dic[@"selectedTaskType"] isEqualToString:@"1"]){
+        if ([dic[@"selectedTaskStatus"] isEqualToString:@"0"]) {
+            status = Task_sponsoring;
+        }else if([dic[@"selectedTaskStatus"] isEqualToString:@"1"]){
+            status = Task_sponsored;
+        }
+    }
+    return status;
 }
 /*
 #pragma mark - Navigation

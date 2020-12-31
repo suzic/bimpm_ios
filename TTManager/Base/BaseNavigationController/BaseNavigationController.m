@@ -29,7 +29,7 @@
         _viewControlersList = @[NSClassFromString(@"MonitoringController"),
                                 NSClassFromString(@"WorkbenchController"),
                                 NSClassFromString(@"DocumentLibController"),
-                                NSClassFromString(@"ConversationController"),
+                                NSClassFromString(@"ConversationListController"),
                                 NSClassFromString(@"TeamController"),
                                 NSClassFromString(@"FileListView")];
     }

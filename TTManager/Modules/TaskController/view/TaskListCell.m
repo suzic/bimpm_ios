@@ -10,8 +10,6 @@
 @interface TaskListCell ()
 
 @property (nonatomic, strong)UIView *lineView;
-@property (nonatomic, strong)UILabel *taskName;
-@property (nonatomic, strong)UILabel *predictTime;
 @property (nonatomic, strong)UIImageView *userImage;
 
 @end

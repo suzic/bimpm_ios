@@ -25,6 +25,7 @@
     // Do any additional setup after loading the view.
     self.title = @"任务列表";
     self.automaticallyAdjustsScrollViewInsets = NO;
+//    _taskStatus = Task_list;
     [self addUI];
 }
 - (void)addUI{
@@ -40,7 +41,8 @@
         [viewArray addObject:view];
     }
     [self.taskTabView setChildrenViewList:viewArray];
-    
+    [self.view layoutIfNeeded];
+    [self.taskTabView changCurrentTab:self.taskStatus];
     DragButton *dragBtn = [DragButton initDragButtonVC:self];
     [dragBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(-15);
@@ -83,6 +85,7 @@
     }
     return _newTasTypeklist;
 }
+
 - (NSString *)getListTitleWithStatus:(TaskStatus)status{
     NSString *listTitle = @"";
     switch (status) {

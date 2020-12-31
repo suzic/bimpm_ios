@@ -14,7 +14,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userPhone;
 @property (weak, nonatomic) IBOutlet UILabel *userEmali;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-
+@property (nonatomic, strong) NSArray *newTasTypeklist;
 @end
 
 @implementation UserInforController
@@ -28,7 +28,12 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
-
+- (NSArray *)newTasTypeklist{
+    if (_newTasTypeklist == nil) {
+        _newTasTypeklist = @[@"任务",@"申请",@"通知",@"会审",@"巡检"];
+    }
+    return _newTasTypeklist;
+}
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -47,8 +52,26 @@
 }
 #pragma mark - Action
 - (IBAction)goConversationAction:(id)sender {
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"conversationController"];
+    [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (IBAction)goTaskAction:(id)sender {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    for (NSString *newTaskType in self.newTasTypeklist) {
+        UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
+            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
+            [self presentViewController:nav animated:YES completion:nil];
+        }];
+        [alert addAction:action];
+    }
+    UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:action];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 /*

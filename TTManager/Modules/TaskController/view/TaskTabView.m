@@ -40,8 +40,7 @@
 
 #pragma mark - public
 
-- (void)setChildrenViewList:(NSArray *)listView
-{
+- (void)setChildrenViewList:(NSArray *)listView{
     [self addSubview:self.tabToolView];
     [self.tabToolView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
@@ -120,6 +119,7 @@
     
     // line
     [self.tabToolView addSubview:self.lineView];
+    
     [self.lineView makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(0);
         make.bottom.equalTo(self.tabToolView);
@@ -142,9 +142,12 @@
     self.lastSelectedButton.selected = NO;
     button.selected = YES;
     self.lastSelectedButton = button;
-    [self.scrollView setContentOffset:CGPointMake(button.tag*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    [self changCurrentTab:button.tag];
 }
-
+- (void)changCurrentTab:(NSInteger)selected{
+    [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    [self layoutIfNeeded];
+}
 #pragma amrk - setter and getter
 - (UIView *)tabToolView{
     if (_tabToolView == nil) {

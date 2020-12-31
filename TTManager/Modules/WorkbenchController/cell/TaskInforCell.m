@@ -104,8 +104,6 @@
     }
     [self.lineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(x);
-        make.bottom.equalTo(self.tabBgView);
-        make.height.equalTo(2);
     }];
     [self.contentView layoutIfNeeded];
 }
@@ -114,26 +112,26 @@
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
     // 派发给我的
     if (self.currentSelectedIndex == 0) {
-        dic[@"selectedTaskType"] = @"派发给我的";
+        dic[@"selectedTaskType"] = @"0";
         // 未完成的
         if (selected == 0) {
-            dic[@"selectedTaskStatus"] = @"未完成";
+            dic[@"selectedTaskStatus"] = @"0";
         }
         // 已经完成的
         else if(selected == 1){
-            dic[@"selectedTaskStatus"] = @"已完成";
+            dic[@"selectedTaskStatus"] = @"1";
         }
     }
     // 我派发的
     else if(self.currentSelectedIndex == 1){
-        dic[@"selectedTaskType"] = @"我派发的";
+        dic[@"selectedTaskType"] = @"1";
         // 未完成的
         if (selected == 0) {
-            dic[@"selectedTaskStatus"] = @"未派发";
+            dic[@"selectedTaskStatus"] = @"0";
         }
         // 已经完成的
         else if(selected == 1){
-            dic[@"selectedTaskStatus"] = @"进行中";
+            dic[@"selectedTaskStatus"] = @"1";
         }
     }
     return dic;

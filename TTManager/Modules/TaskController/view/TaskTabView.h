@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TaskTabView : UIView
 
 - (void)setChildrenViewList:(NSArray *)listView;
+- (void)changCurrentTab:(NSInteger)selected;
 
 @end
 

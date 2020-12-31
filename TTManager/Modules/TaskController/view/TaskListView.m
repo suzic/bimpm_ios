@@ -67,8 +67,8 @@
     if (!cell) {
         cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
     }
-    
-//    cell.textLabel.text = [self getListTitleWithStatus:self.taskStatus];
+
+    cell.taskName.text = [self getListTitleWithStatus:self.taskStatus];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
