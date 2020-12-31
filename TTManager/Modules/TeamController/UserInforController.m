@@ -63,6 +63,7 @@
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
             UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
+            nav.modalPresentationStyle = UIModalPresentationFullScreen;
             [self presentViewController:nav animated:YES completion:nil];
         }];
         [alert addAction:action];
