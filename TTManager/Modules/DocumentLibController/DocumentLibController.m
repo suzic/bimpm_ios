@@ -8,12 +8,13 @@
 #import "DocumentLibController.h"
 #import "DocumentLibCell.h"
 #import "FileCatalogCell.h"
+#import "FileListView.h"
 
-@interface DocumentLibController ()<UITableViewDelegate,UITableViewDataSource,UICollectionViewDelegate,UICollectionViewDataSource>
+@interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UICollectionView *fileCatalogCollectionView;
-
+@property (weak, nonatomic) IBOutlet UIView *fileContainerView;
+@property (nonatomic, strong)FileListView *fileView;
 @end
 
 @implementation DocumentLibController
@@ -23,46 +24,12 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    self.documentTitleArray = [NSMutableArray arrayWithArray:[self.documentTitleArray subarrayWithRange:NSMakeRange(0, self.navigationController.viewControllers.count)]];
-    NSLog(@"当前文件目录%@---------%ld",self.documentTitleArray,self.navigationController.viewControllers.count);
 }
 
-#pragma mark -setter and getter
-- (NSMutableArray *)documentTitleArray{
-    if (_documentTitleArray == nil) {
-        _documentTitleArray = [NSMutableArray arrayWithArray:@[@"文档"]];
-    }
-    return _documentTitleArray;
+- (void)loadFileCatalogCollectionView{
+    [self.fileCatalogCollectionView reloadData];
 }
-
-#pragma mark - UITableViewDelegate and UITableViewDataSource
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 68.0f;
-}
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.01;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    DocumentLibCell *cell = [tableView dequeueReusableCellWithIdentifier:@"documentLibCell" forIndexPath:indexPath];
-    cell.documentIcon.image = [UIImage imageNamed:@"file_group"];
-    return cell;
-}
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DocumentLibController *VC = (DocumentLibController *)[sb instantiateViewControllerWithIdentifier:@"documentList"];
-    [self.documentTitleArray addObject:[NSString stringWithFormat:@"%lu",self.navigationController.viewControllers.count]];
-    VC.documentTitleArray = self.documentTitleArray;
-    [self.navigationController pushViewController:VC animated:YES];
-}
-#pragma mark - UICollectionViewDelegate UICollectionViewDataSource
+//#pragma mark - UICollectionViewDelegate UICollectionViewDataSource
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -70,13 +37,14 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.documentTitleArray.count;
+    return self.fileView.navigationController.viewControllers.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FileCatalogCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"titleCell" forIndexPath:indexPath];
-    NSString *fileName = self.documentTitleArray[indexPath.row];
-    cell.fileName.text = fileName;
-    cell.arrow.hidden = self.documentTitleArray.count == (indexPath.row + 1);
+    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    NSString *titleName = [NSString stringWithFormat:@"目录%@",vc.title];
+    cell.fileName.text = titleName;
+    cell.arrow.hidden = self.fileView.navigationController.viewControllers.count == (indexPath.row + 1);
     return cell;
 }
 
@@ -87,30 +55,36 @@
     return CGSizeMake(frame.size.width + 15 + 5, 64);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    DocumentLibController *vc = (DocumentLibController *)self.navigationController.viewControllers[indexPath.row];
-//    NSRange subRang = NSMakeRange(0, indexPath.row+1);
-//    self.documentTitleArray = [NSMutableArray arrayWithArray:[self.documentTitleArray subarrayWithRange:subRang]];
-    vc.documentTitleArray = self.documentTitleArray;
-    [self.navigationController popToViewController:vc animated:YES];
+    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    [self.fileView.navigationController popToViewController:vc animated:YES];
+//    DocumentLibController *vc = (DocumentLibController *)self.navigationController.viewControllers[indexPath.row];
+////    NSRange subRang = NSMakeRange(0, indexPath.row+1);
+////    self.documentTitleArray = [NSMutableArray arrayWithArray:[self.documentTitleArray subarrayWithRange:subRang]];
+//    vc.documentTitleArray = self.documentTitleArray;
+//    [self.navigationController popToViewController:vc animated:YES];
 }
-- (void)goNext{
-    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-   animation.duration = 2;
-   animation.repeatCount = 2;
-   animation.beginTime =CACurrentMediaTime() + 1;// 1秒后执行
-   animation.fromValue = [NSValue valueWithCGPoint:self.tableView.layer.position]; // 起始帧
-   animation.toValue = [NSValue valueWithCGPoint:CGPointMake(kScreenWidth, 0)]; // 终了帧
-   // 视图添加动画
-   [self.tableView.layer addAnimation:animation forKey:@"move-layer"];
-}
-/*
+//- (void)goNext{
+//    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
+//   animation.duration = 2;
+//   animation.repeatCount = 2;
+//   animation.beginTime =CACurrentMediaTime() + 1;// 1秒后执行
+//   animation.fromValue = [NSValue valueWithCGPoint:self.tableView.layer.position]; // 起始帧
+//   animation.toValue = [NSValue valueWithCGPoint:CGPointMake(kScreenWidth, 0)]; // 终了帧
+//   // 视图添加动画
+//   [self.tableView.layer addAnimation:animation forKey:@"move-layer"];
+//}
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    if ([segue.identifier isEqualToString:@"showFileList"]) {
+        UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
+        self.fileView = (FileListView *)nav.topViewController;
+        self.fileView.containerVC = self;
+    }
 }
-*/
 
 @end

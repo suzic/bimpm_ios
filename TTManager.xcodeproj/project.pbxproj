@@ -99,6 +99,7 @@
 		402AA2042599E02100A9DABA /* Task.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402AA2032599E02100A9DABA /* Task.storyboard */; };
 		402AA2082599E05400A9DABA /* TaskListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA2072599E05400A9DABA /* TaskListController.m */; };
 		402AA20C2599E06600A9DABA /* TaskDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA20B2599E06600A9DABA /* TaskDetailsController.m */; };
+		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -290,6 +291,8 @@
 		402AA2072599E05400A9DABA /* TaskListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListController.m; sourceTree = "<group>"; };
 		402AA20A2599E06600A9DABA /* TaskDetailsController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskDetailsController.h; sourceTree = "<group>"; };
 		402AA20B2599E06600A9DABA /* TaskDetailsController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskDetailsController.m; sourceTree = "<group>"; };
+		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
+		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -458,6 +461,8 @@
 				402AA1B325986F7D00A9DABA /* cell */,
 				402A9F452595A4DD00A9DABA /* DocumentLibController.h */,
 				402A9F462595A4DD00A9DABA /* DocumentLibController.m */,
+				403BF2FF259D792F004D317C /* FileListView.h */,
+				403BF300259D792F004D317C /* FileListView.m */,
 			);
 			path = DocumentLibController;
 			sourceTree = "<group>";
@@ -1050,6 +1055,7 @@
 				402AA1122595D92E00A9DABA /* ZHFormItem+CoreDataClass.m in Sources */,
 				40931C9D259B33C4008C3518 /* DragButton.m in Sources */,
 				402AA0ED2595D8CF00A9DABA /* ZHAllow+CoreDataClass.m in Sources */,
+				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,

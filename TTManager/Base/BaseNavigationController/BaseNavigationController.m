@@ -30,7 +30,8 @@
                                 NSClassFromString(@"WorkbenchController"),
                                 NSClassFromString(@"DocumentLibController"),
                                 NSClassFromString(@"ConversationController"),
-                                NSClassFromString(@"TeamController")];
+                                NSClassFromString(@"TeamController"),
+                                NSClassFromString(@"FileListView")];
     }
     return _viewControlersList;
 }
