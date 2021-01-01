@@ -1499,7 +1499,7 @@
         <image name="show-psd" width="18" height="12.666666984558105"/>
         <image name="team_normal" width="20" height="20"/>
         <image name="test" width="127" height="193.5"/>
-        <image name="test-1" width="120" height="120"/>
+        <image name="test-1" width="49" height="49"/>
         <image name="user_header" width="280" height="204"/>
         <image name="workbench_nromal" width="20" height="20"/>
         <image name="workbench_selected" width="20" height="20"/>

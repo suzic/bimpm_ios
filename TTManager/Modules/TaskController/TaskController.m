@@ -7,11 +7,14 @@
 
 #import "TaskController.h"
 #import "TaskStepView.h"
+#import "TaskOperationView.h"
 
 @interface TaskController ()
-
+// 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
 @property (nonatomic, strong) NSArray *stepArray;
+// 任务操作页面
+@property (nonatomic, strong) TaskOperationView *taskOperationView;
 
 @end
 
@@ -30,6 +33,8 @@
 }
 - (void)addUI{
     [self.view addSubview:self.stepView];
+    [self.view addSubview:self.taskOperationView];
+    
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(25);
         make.left.right.equalTo(0);
@@ -37,6 +42,11 @@
     }];
     self.stepView.stepArray = self.stepArray;
     
+    [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(-SafeAreaBottomHeight);
+        make.height.equalTo(88);
+    }];
 }
 #pragma mark -setting and getter
 - (TaskStepView *)stepView{
@@ -52,7 +62,12 @@
     }
     return _stepArray;
 }
-
+- (TaskOperationView *)taskOperationView{
+    if (_taskOperationView == nil) {
+        _taskOperationView = [[TaskOperationView alloc] init];
+    }
+    return _taskOperationView;
+}
 - (IBAction)closeVCAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
 }

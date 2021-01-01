@@ -104,6 +104,7 @@
 		406FCA51259E360700636079 /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA50259E360700636079 /* SettingCell.m */; };
 		406FCA55259F02F700636079 /* TaskStepCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA54259F02F700636079 /* TaskStepCell.m */; };
 		406FCA59259F060200636079 /* StepUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA58259F060200636079 /* StepUserView.m */; };
+		406FCA5E259F7DD100636079 /* TaskOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA5D259F7DD100636079 /* TaskOperationView.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -305,6 +306,8 @@
 		406FCA54259F02F700636079 /* TaskStepCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepCell.m; sourceTree = "<group>"; };
 		406FCA57259F060200636079 /* StepUserView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StepUserView.h; sourceTree = "<group>"; };
 		406FCA58259F060200636079 /* StepUserView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StepUserView.m; sourceTree = "<group>"; };
+		406FCA5C259F7DD100636079 /* TaskOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskOperationView.h; sourceTree = "<group>"; };
+		406FCA5D259F7DD100636079 /* TaskOperationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskOperationView.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -903,6 +906,8 @@
 				406FCA54259F02F700636079 /* TaskStepCell.m */,
 				406FCA57259F060200636079 /* StepUserView.h */,
 				406FCA58259F060200636079 /* StepUserView.m */,
+				406FCA5C259F7DD100636079 /* TaskOperationView.h */,
+				406FCA5D259F7DD100636079 /* TaskOperationView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1102,6 +1107,7 @@
 				402A9F952595CDDC00A9DABA /* ProjectSelectController.m in Sources */,
 				402AA1B625986FA300A9DABA /* DocumentLibCell.m in Sources */,
 				406FCA42259E066300636079 /* ConversationListController.m in Sources */,
+				406FCA5E259F7DD100636079 /* TaskOperationView.m in Sources */,
 				402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */,
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
