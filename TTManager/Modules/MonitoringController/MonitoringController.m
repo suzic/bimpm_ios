@@ -8,12 +8,10 @@
 #import "MonitoringController.h"
 #import "ProjectViewCell.h"
 #import "WebController.h"
-//#import "FrameNavView.h"
 
 @interface MonitoringController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
-//@property (nonatomic, strong)FrameNavView *headerView;
 @end
 
 @implementation MonitoringController
@@ -29,15 +27,7 @@
     else
         self.automaticallyAdjustsScrollViewInsets = NO;
 }
-//- (FrameNavView *)headerView
-//{
-//    if (_headerView == nil) {
-//        _headerView = [FrameNavView initFrameNavView];
-//        _headerView.frame = CGRectMake(0, 0, kScreenWidth, SafeAreaTopHeight);
-//        _headerView.delegate = self;
-//    }
-//    return _headerView;
-//}
+
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {

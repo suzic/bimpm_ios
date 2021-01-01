@@ -6,8 +6,12 @@
 //
 
 #import "TaskController.h"
+#import "TaskStepView.h"
 
 @interface TaskController ()
+
+@property (nonatomic, strong) TaskStepView *stepView;
+@property (nonatomic, strong) NSArray *stepArray;
 
 @end
 
@@ -22,6 +26,31 @@
     }else if(self.taskType == TaskType_newTask){
         NSLog(@"创建新任务界面");
     }
+    [self addUI];
+}
+- (void)addUI{
+    [self.view addSubview:self.stepView];
+    [self.stepView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(25);
+        make.left.right.equalTo(0);
+        make.height.equalTo(itemHeight);
+    }];
+    self.stepView.stepArray = self.stepArray;
+    
+}
+#pragma mark -setting and getter
+- (TaskStepView *)stepView{
+    if (_stepView == nil) {
+        _stepView = [[TaskStepView alloc] init];
+    }
+    return _stepView;
+}
+
+- (NSArray *)stepArray{
+    if (_stepArray == nil) {
+        _stepArray = @[@"1",@"2",@"3",@"4",@"5"];
+    }
+    return _stepArray;
 }
 
 - (IBAction)closeVCAction:(id)sender {

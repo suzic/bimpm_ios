@@ -80,7 +80,7 @@
         [button setTitleColor:RGB_COLOR(153, 153, 153) forState:UIControlStateNormal];
         [button setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateSelected];
         [self.tabToolView addSubview:button];
-        button.tag = i;
+        button.tag = i+10000;
 //        if (i == 0) {
 //            self.lastSelectedButton = button;
 //            button.selected = YES;
@@ -144,7 +144,7 @@
     [self.scrollView setContentOffset:CGPointMake(button.tag*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
 }
 - (void)changCurrentTab:(NSInteger)selected{
-    UIButton *button = [self.tabToolView viewWithTag:selected];
+    UIButton *button = (UIButton *)[self.tabToolView viewWithTag:(selected+10000)];
     button.selected = YES;
     self.lastSelectedButton = button;
     [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:NO];

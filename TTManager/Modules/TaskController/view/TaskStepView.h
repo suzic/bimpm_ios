@@ -9,7 +9,12 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+#define itemWidth   70.0f
+#define itemHeight  120.0f
+
 @interface TaskStepView : UIView
+
+@property (nonatomic, strong) NSArray *stepArray;
 
 @end
 
