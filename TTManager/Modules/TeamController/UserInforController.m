@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *userEmali;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
+@property (weak, nonatomic) IBOutlet UIView *bottomView;
 @end
 
 @implementation UserInforController
@@ -27,6 +28,7 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    [self.bottomView borderForColor:RGB_COLOR(238, 238, 238) borderWidth:0.5 borderType:UIBorderSideTypeTop];
 }
 - (NSArray *)newTasTypeklist{
     if (_newTasTypeklist == nil) {
@@ -34,20 +36,42 @@
     }
     return _newTasTypeklist;
 }
+// 改变字体颜色
+- (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
+    NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:text];
+    [attributedStr addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(77, 138, 243) range:NSMakeRange(0, text.length)];
+    [attributedStr addAttribute:NSFontAttributeName value:[UIFont systemFontOfSize:13.0f] range:NSMakeRange(0, text.length)];
+    for (NSString *str in changeText) {
+        NSRange rang = [text rangeOfString:str];
+        [attributedStr addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(153, 153, 153) range:rang];
+    }
+    return attributedStr;
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return 10;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+    return 30.0f;
+}
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44.0f;
+}
+-(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell"];
+    NSMutableAttributedString *attributedStr = [self changTextColor:@"一共参与了11个项目" changText:@[@"一共参与了",@"个项目"]];
+    cell.textLabel.attributedText = attributedStr;
+    cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
+    return cell;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
+    cell.textLabel.attributedText = [self changTextColor:@"众和空间 中我是 管理员" changText:@[@"中我是"]];
     return cell;
 }
 #pragma mark - Action
