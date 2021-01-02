@@ -14,6 +14,8 @@
 @property (nonatomic, strong) UIButton *predictTimeBtn;
 // 预计完成时间
 @property (nonatomic, strong) UILabel *predictTimeLabel;
+// 灰色同意 暂时不知啥操作
+@property (nonatomic, strong) UIButton *grayAgreeBtn;
 // 同意
 @property (nonatomic, strong) UIButton *agreeBtn;
 // 拒绝
@@ -36,16 +38,23 @@
     [self addSubview:bgView];
     
     UIView *view = [[UIView alloc] init];
-    
     [view addSubview:self.predictTimeLabel];
+    [view addSubview:self.grayAgreeBtn];
     [view addSubview:self.agreeBtn];
     [view addSubview:self.rejectBtn];
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = RGB_COLOR(238, 238, 238);
+    [view addSubview:lineView];
     [self addSubview:view];
-    
+    [lineView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+        make.height.equalTo(0.5);
+    }];
     [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
         make.height.equalTo(self).multipliedBy(0.5);
     }];
+    
     [self.predictTimeBtn makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(18);
         make.centerY.equalTo(bgView);
@@ -68,8 +77,14 @@
         make.width.equalTo(70);
     }];
     [self.agreeBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.predictTimeLabel.mas_right);
+        make.left.equalTo(self.grayAgreeBtn.mas_right);
         make.right.equalTo(self.rejectBtn.mas_left);
+        make.width.equalTo(self.rejectBtn.mas_width);
+        make.height.equalTo(self.rejectBtn.mas_height);
+    }];
+    [self.grayAgreeBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.predictTimeLabel.mas_right);
+        make.right.equalTo(self.agreeBtn.mas_left);
         make.width.equalTo(self.rejectBtn.mas_width);
         make.height.equalTo(self.rejectBtn.mas_height);
     }];
@@ -105,6 +120,16 @@
         _predictTimeLabel.text = @"2021-1-30";
     }
     return _predictTimeLabel;
+}
+- (UIButton *)grayAgreeBtn{
+    if (_grayAgreeBtn == nil) {
+        _grayAgreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_grayAgreeBtn setTitle:@"同意" forState:UIControlStateNormal];
+        [_grayAgreeBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
+        _grayAgreeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_grayAgreeBtn setBackgroundColor:RGB_COLOR(244, 244, 244)];
+    }
+    return _grayAgreeBtn;
 }
 - (UIButton *)agreeBtn{
     if (_agreeBtn == nil) {
