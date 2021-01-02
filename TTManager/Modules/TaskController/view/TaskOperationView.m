@@ -91,9 +91,9 @@
         [_predictTimeBtn setTitleColor:RGB_COLOR(153, 153, 153) forState:UIControlStateNormal];
         _predictTimeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
         [_predictTimeBtn setImage:[UIImage imageNamed:@"task_time"] forState:UIControlStateNormal];
-        _predictTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;        [_predictTimeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
+        _predictTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [_predictTimeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
         _predictTimeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
-//        _predictTimeBtn.imageEdgeInsets = UIEdgeInsetsMake(0,_predictTimeBtn.titleLabel.bounds.size.width, 0,-_predictTimeBtn.titleLabel.bounds.size.width);
     }
     return _predictTimeBtn;
 }

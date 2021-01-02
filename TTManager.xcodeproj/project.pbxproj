@@ -105,6 +105,8 @@
 		406FCA55259F02F700636079 /* TaskStepCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA54259F02F700636079 /* TaskStepCell.m */; };
 		406FCA59259F060200636079 /* StepUserView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA58259F060200636079 /* StepUserView.m */; };
 		406FCA5E259F7DD100636079 /* TaskOperationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA5D259F7DD100636079 /* TaskOperationView.m */; };
+		406FCA6225A0430900636079 /* TaskTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA6125A0430900636079 /* TaskTitleView.m */; };
+		406FCA6725A0517400636079 /* TaskContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA6625A0517400636079 /* TaskContentView.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -308,6 +310,10 @@
 		406FCA58259F060200636079 /* StepUserView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = StepUserView.m; sourceTree = "<group>"; };
 		406FCA5C259F7DD100636079 /* TaskOperationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskOperationView.h; sourceTree = "<group>"; };
 		406FCA5D259F7DD100636079 /* TaskOperationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskOperationView.m; sourceTree = "<group>"; };
+		406FCA6025A0430900636079 /* TaskTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskTitleView.h; sourceTree = "<group>"; };
+		406FCA6125A0430900636079 /* TaskTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskTitleView.m; sourceTree = "<group>"; };
+		406FCA6525A0517400636079 /* TaskContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskContentView.h; sourceTree = "<group>"; };
+		406FCA6625A0517400636079 /* TaskContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskContentView.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -906,6 +912,10 @@
 				406FCA54259F02F700636079 /* TaskStepCell.m */,
 				406FCA57259F060200636079 /* StepUserView.h */,
 				406FCA58259F060200636079 /* StepUserView.m */,
+				406FCA6025A0430900636079 /* TaskTitleView.h */,
+				406FCA6125A0430900636079 /* TaskTitleView.m */,
+				406FCA6525A0517400636079 /* TaskContentView.h */,
+				406FCA6625A0517400636079 /* TaskContentView.m */,
 				406FCA5C259F7DD100636079 /* TaskOperationView.h */,
 				406FCA5D259F7DD100636079 /* TaskOperationView.m */,
 			);
@@ -1058,6 +1068,7 @@
 				402A9F642595B12A00A9DABA /* UIAlertAction+ButtonIndex.m in Sources */,
 				40931C99259ACDA0008C3518 /* TaskTabView.m in Sources */,
 				402A9F7D2595B60900A9DABA /* UIColor+Hex.m in Sources */,
+				406FCA6725A0517400636079 /* TaskContentView.m in Sources */,
 				402AA1AB259791C600A9DABA /* LoginUserManager.m in Sources */,
 				402AA180259726D700A9DABA /* ApiErrIntercept.m in Sources */,
 				402AA0F02595D8CF00A9DABA /* ZHAllow+CoreDataProperties.m in Sources */,
@@ -1122,6 +1133,7 @@
 				402AA1992597448800A9DABA /* APILoginManager.m in Sources */,
 				402AA0DA2595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m in Sources */,
 				402A9F752595B5BF00A9DABA /* NSArray+Dlog.m in Sources */,
+				406FCA6225A0430900636079 /* TaskTitleView.m in Sources */,
 				402AA1C72598A64800A9DABA /* UIView+BorderLine.m in Sources */,
 				402AA1102595D92E00A9DABA /* ZHFormItem+CoreDataProperties.m in Sources */,
 				402AA183259726D700A9DABA /* LCURLResponse.m in Sources */,
