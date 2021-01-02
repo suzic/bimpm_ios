@@ -73,6 +73,7 @@
         [_changeProjectBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
         [_changeProjectBtn addTarget:self action:@selector(changeProjectAction:) forControlEvents:UIControlEventTouchUpInside];
         [_changeProjectBtn setTitle:@"众和空间" forState:UIControlStateNormal];
+        _changeProjectBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     }
     return _changeProjectBtn;
 }

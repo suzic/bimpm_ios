@@ -6,9 +6,10 @@
 //
 
 #import "MoreWorkMsgController.h"
+#import "MessageView.h"
 
 @interface MoreWorkMsgController ()
-
+@property (nonatomic, strong) MessageView *messageView;
 @end
 
 @implementation MoreWorkMsgController
@@ -18,8 +19,23 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"消息详情";
+    [self addUI];
 }
-
+- (void)addUI{
+    [self.view addSubview:self.messageView];
+    [self.messageView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+        make.height.equalTo(self.view).multipliedBy(0.5);
+    }];
+}
+#pragma mark - setter and getter
+- (MessageView *)messageView{
+    if (_messageView == nil) {
+        _messageView = [[MessageView alloc] init];
+        _messageView.backgroundColor = RGB_COLOR(72, 147, 241);
+    }
+    return _messageView;
+}
 /*
 #pragma mark - Navigation
 

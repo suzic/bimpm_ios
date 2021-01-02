@@ -102,10 +102,10 @@
     }else{
         x = kScreenWidth/2 + (kScreenWidth/2-self.myTaskBtn.titleLabel.size.width)/2;
     }
+    [self layoutIfNeeded];
     [self.lineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(x);
     }];
-    [self.contentView layoutIfNeeded];
 }
 // 获取跳转任务对应的参数
 - (NSDictionary *)getTaskStatusForTaskList:(NSInteger)selected{

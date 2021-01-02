@@ -97,6 +97,7 @@
         [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
         _adjunctFileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _adjunctFileBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
     }
     return _adjunctFileBtn;
 }

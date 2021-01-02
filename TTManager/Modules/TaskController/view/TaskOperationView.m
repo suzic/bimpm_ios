@@ -107,7 +107,6 @@
         _predictTimeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
         [_predictTimeBtn setImage:[UIImage imageNamed:@"task_time"] forState:UIControlStateNormal];
         _predictTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        [_predictTimeBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -5, 0, 0)];
         _predictTimeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     }
     return _predictTimeBtn;
