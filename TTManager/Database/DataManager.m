@@ -56,9 +56,21 @@ static NSString *const CoreDataModelFileName = @"bimpm";
 {
     if (_currentProjectList == nil)
     {
-        _currentProjectList = [NSMutableArray arrayWithCapacity:4];
+        _currentProjectList = [NSMutableArray array];
         for (ZHUserProject *UP in self.currentUser.hasProjects)
             [_currentProjectList addObject:UP.belongProject];
+        NSArray *resultArr = [_currentProjectList sortedArrayUsingComparator:^NSComparisonResult(id  _Nonnull obj1, id  _Nonnull obj2) {
+            ZHProject *project1 = (ZHProject *)obj1;
+            ZHProject *project2 = (ZHProject *)obj2;
+            if (project1.id_project > project2.id_project) {
+                return NSOrderedDescending;
+            }else if (project1.id_project < project2.id_project){
+                return NSOrderedAscending;
+            }else{
+                return NSOrderedSame;
+            }
+        }];
+        _currentProjectList = [NSMutableArray arrayWithArray:resultArr];
     }
     return _currentProjectList;
 }

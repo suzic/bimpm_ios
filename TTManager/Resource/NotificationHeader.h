@@ -14,6 +14,6 @@
 #define NotiUserLoginNeeded             @"NotiUserLoginNeeded"
 #define NotiUserDeviceCheck             @"NotiUserDeviceCheck"
 
+#define NotiShowHeaderView              @"NotiShowHeaderView"
 #define NotiShowSettings                @"NotiShowSettings"
-#define NotiShowSelectProject           @"NotiShowSelectProject"
 #endif /* NotificationHeader_h */

@@ -73,7 +73,7 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self routerEventWithName:@"Task_list_selected" userInfo:@{}];
+    [self routerEventWithName:Task_list_selected userInfo:@{}];
 }
 
 - (NSString *)getListTitleWithStatus:(TaskStatus)status{

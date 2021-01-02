@@ -314,6 +314,7 @@
 		406FCA6125A0430900636079 /* TaskTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskTitleView.m; sourceTree = "<group>"; };
 		406FCA6525A0517400636079 /* TaskContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskContentView.h; sourceTree = "<group>"; };
 		406FCA6625A0517400636079 /* TaskContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskContentView.m; sourceTree = "<group>"; };
+		406FCA6A25A0B6DE00636079 /* ResponderChainHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResponderChainHeader.h; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -429,6 +430,7 @@
 				402A9F6E2595B49C00A9DABA /* Commons.h */,
 				402AA1912597291200A9DABA /* APIManagerHeader.h */,
 				402AA19425973EAC00A9DABA /* NotificationHeader.h */,
+				406FCA6A25A0B6DE00636079 /* ResponderChainHeader.h */,
 			);
 			path = Resource;
 			sourceTree = "<group>";

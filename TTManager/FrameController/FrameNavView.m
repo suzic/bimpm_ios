@@ -12,22 +12,16 @@
 
 @property (nonatomic, strong)  UIButton *userAvatar;
 @property (nonatomic, strong)  UIButton *changeProjectBtn;
+@property (nonatomic, strong) NSMutableArray *projectList;
 
 @end
 
 @implementation FrameNavView
 
-//+ (instancetype)initFrameNavView{
-//    FrameNavView *view = [[NSBundle mainBundle] loadNibNamed:@"FrameNavView" owner:nil options:nil][0];
-//    view.backgroundColor = RGB_COLOR(5, 125, 255);
-//    [view.changeProjectBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
-//    return  view;
-//}
 - (instancetype)initWithCoder:(NSCoder *)coder{
     self = [super initWithCoder:coder];
     if (self) {
         [self addUI];
-
     }
     return self;
 }
@@ -56,6 +50,18 @@
     [self layoutIfNeeded];
     self.userAvatar.clipsToBounds = YES;
     self.userAvatar.layer.cornerRadius = 16.0f;
+    
+    [self setCurrentProjectTitle];
+    
+}
+- (void)setCurrentProjectTitle{
+    ZHProject *currentProject = [DataManager defaultInstance].currentProject;
+    NSLog(@"当前选择的项目名称===%@",currentProject.name);
+    NSString *projectTitle = @"众和空间";
+    if (currentProject != nil) {
+        projectTitle = currentProject.name;
+    }
+    [self.changeProjectBtn setTitle:projectTitle forState:UIControlStateNormal];
 }
 #pragma mark - setter and getter
 - (UIButton *)userAvatar{
@@ -72,11 +78,19 @@
         [_changeProjectBtn setImage:[UIImage imageNamed:@"button_ down"] forState:UIControlStateNormal];
         [_changeProjectBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
         [_changeProjectBtn addTarget:self action:@selector(changeProjectAction:) forControlEvents:UIControlEventTouchUpInside];
-        [_changeProjectBtn setTitle:@"众和空间" forState:UIControlStateNormal];
         _changeProjectBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     }
     return _changeProjectBtn;
 }
+- (NSMutableArray *)projectList{
+    if (_projectList == nil) {
+        _projectList = [DataManager defaultInstance].currentProjectList;
+        
+        [_projectList addObject:@"回到列表"];
+    }
+    return _projectList;
+}
+#pragma mark -setter and getter
 - (void)changeProjectAction:(UIButton *)sender {
     [self showPopView:self.changeProjectBtn];
 }
@@ -88,7 +102,7 @@
     PopViewController *popView = [[PopViewController alloc] init];
     popView.delegate = self;
     popView.view.alpha = 1.0;
-    popView.dataList = @[@"价格高到低",@"价格低到高"];
+    popView.dataList = self.projectList;
     popView.modalPresentationStyle = UIModalPresentationPopover;
     
     popView.popoverPresentationController.sourceView = sourceView;
@@ -106,9 +120,17 @@
     return YES;
 }
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
-//    [self performSegueWithIdentifier:@"showSelectedProject" sender:nil];
-//    self.projectView.hidden = NO;
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowSelectProject object:@{@"currentProject":@""}];
+    if (indexPath.row == self.projectList.count-1){
+        if (self.delegate && [self.delegate respondsToSelector:@selector(clickShowProjectListView)]) {
+            [self.delegate clickShowProjectListView];
+        }
+    }else{
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(frameNavView:selected:)]) {
+            [self.delegate frameNavView:self selected:indexPath.row];
+        }
+        [self setCurrentProjectTitle];
+    }
 }
 // 暂时不需要
 - (void)transformButtonImage:(BOOL)down{

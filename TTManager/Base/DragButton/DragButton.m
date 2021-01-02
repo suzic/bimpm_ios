@@ -39,7 +39,7 @@
 
 - (void)logButtonAction:(DragButton *)button
 {
-    [self routerEventWithName:@"new_task_action" userInfo:@{}];
+    [self routerEventWithName:new_task_action userInfo:@{}];
 }
 
 - (void)handlePan:(UIPanGestureRecognizer *)pan

@@ -253,15 +253,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7Pi-6Y-GCc" customClass="FrameNavView">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="90"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="4xc-ia-Pu0"/>
-                                </constraints>
-                            </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="0eH-LM-tzU">
-                                <rect key="frame" x="15" y="105" width="413" height="738"/>
+                                <rect key="frame" x="15" y="103" width="413" height="740"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="tND-qb-jNg">
                                     <size key="itemSize" width="128" height="128"/>
@@ -320,17 +313,13 @@
                         <viewLayoutGuide key="safeArea" id="gsH-oB-5wE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="top" secondItem="7Pi-6Y-GCc" secondAttribute="top" id="AIm-RG-YmE"/>
                             <constraint firstItem="0eH-LM-tzU" firstAttribute="leading" secondItem="gsH-oB-5wE" secondAttribute="leading" constant="15" id="NaZ-hU-O53"/>
-                            <constraint firstItem="0eH-LM-tzU" firstAttribute="top" secondItem="7Pi-6Y-GCc" secondAttribute="bottom" constant="15" id="TUY-BD-sVS"/>
-                            <constraint firstItem="7Pi-6Y-GCc" firstAttribute="centerX" secondItem="gsH-oB-5wE" secondAttribute="centerX" id="bqh-Hp-0iz"/>
                             <constraint firstItem="gsH-oB-5wE" firstAttribute="trailing" secondItem="0eH-LM-tzU" secondAttribute="trailing" id="evA-yM-BCp"/>
-                            <constraint firstItem="7Pi-6Y-GCc" firstAttribute="width" secondItem="KdB-aW-abn" secondAttribute="width" id="war-Ee-fdP"/>
+                            <constraint firstItem="0eH-LM-tzU" firstAttribute="top" secondItem="gsH-oB-5wE" secondAttribute="top" constant="15" id="knK-p4-ryl"/>
                             <constraint firstItem="0eH-LM-tzU" firstAttribute="bottom" secondItem="gsH-oB-5wE" secondAttribute="bottom" id="yoD-qt-Bak"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="muT-04-aXm"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="collectionView" destination="0eH-LM-tzU" id="4zV-4s-ln0"/>
                     </connections>
@@ -347,13 +336,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="4ag-2v-bPb" customClass="FrameNavView">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="90"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="Q6a-wg-9ac"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uHE-wy-0Ax">
                                 <rect key="frame" x="0.0" y="90" width="428" height="68"/>
                                 <subviews>
@@ -440,20 +422,16 @@
                         <viewLayoutGuide key="safeArea" id="Y0d-4N-o33"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="4ag-2v-bPb" firstAttribute="centerX" secondItem="Y0d-4N-o33" secondAttribute="centerX" id="00F-41-K9H"/>
-                            <constraint firstItem="4ag-2v-bPb" firstAttribute="width" secondItem="Mcy-ht-D2P" secondAttribute="width" id="779-Eu-d8P"/>
                             <constraint firstItem="uHE-wy-0Ax" firstAttribute="width" secondItem="Mcy-ht-D2P" secondAttribute="width" id="DCb-zF-PCm"/>
                             <constraint firstItem="yPV-gN-cka" firstAttribute="width" secondItem="uHE-wy-0Ax" secondAttribute="width" id="PDI-3y-7eO"/>
                             <constraint firstItem="uHE-wy-0Ax" firstAttribute="centerX" secondItem="Y0d-4N-o33" secondAttribute="centerX" id="Qpk-c6-RRh"/>
-                            <constraint firstItem="4ag-2v-bPb" firstAttribute="top" secondItem="Mcy-ht-D2P" secondAttribute="top" id="T36-4e-fcS"/>
                             <constraint firstItem="Y0d-4N-o33" firstAttribute="bottom" secondItem="yPV-gN-cka" secondAttribute="bottom" id="dEv-Zt-MxN"/>
+                            <constraint firstItem="uHE-wy-0Ax" firstAttribute="top" secondItem="Y0d-4N-o33" secondAttribute="top" constant="2" id="fLa-xr-ODp"/>
                             <constraint firstItem="yPV-gN-cka" firstAttribute="centerX" secondItem="uHE-wy-0Ax" secondAttribute="centerX" id="gzW-HX-N1Y"/>
                             <constraint firstItem="yPV-gN-cka" firstAttribute="top" secondItem="uHE-wy-0Ax" secondAttribute="bottom" id="kW4-Ql-4IR"/>
-                            <constraint firstItem="uHE-wy-0Ax" firstAttribute="top" secondItem="4ag-2v-bPb" secondAttribute="bottom" id="yPu-cy-EJc"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="auz-x1-DfR"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="yPV-gN-cka" id="otG-Id-P9I"/>
                         <outlet property="teamNameBtn" destination="obw-Fm-vIo" id="h5j-9F-Yvh"/>
@@ -470,25 +448,10 @@
                     <view key="view" contentMode="scaleToFill" id="fVc-6B-8cL">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-Ly-EwL" customClass="FrameNavView">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="90"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="GOx-R2-ZHc"/>
-                                </constraints>
-                            </view>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Cy3-E4-mwn"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="qRg-Ly-EwL" firstAttribute="centerX" secondItem="Cy3-E4-mwn" secondAttribute="centerX" id="B3P-MO-q6I"/>
-                            <constraint firstItem="qRg-Ly-EwL" firstAttribute="top" secondItem="fVc-6B-8cL" secondAttribute="top" id="lIq-ET-y5d"/>
-                            <constraint firstItem="qRg-Ly-EwL" firstAttribute="width" secondItem="fVc-6B-8cL" secondAttribute="width" id="zX5-Ny-vWT"/>
-                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="YWW-IY-OEz"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <segue destination="jpW-fN-Mpe" kind="push" id="Leo-7U-QCP"/>
                     </connections>
@@ -505,13 +468,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BFG-Q8-on2" customClass="FrameNavView">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="90"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="b8d-M4-DsE"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cK3-OG-qo8" userLabel="Catalogue View">
                                 <rect key="frame" x="0.0" y="90" width="428" height="64"/>
                                 <subviews>
@@ -586,20 +542,16 @@
                         <viewLayoutGuide key="safeArea" id="x4D-Y2-9zg"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="BFG-Q8-on2" firstAttribute="centerX" secondItem="x4D-Y2-9zg" secondAttribute="centerX" id="04H-99-Dgv"/>
-                            <constraint firstItem="cK3-OG-qo8" firstAttribute="top" secondItem="BFG-Q8-on2" secondAttribute="bottom" id="3WH-EL-JGL"/>
-                            <constraint firstItem="BFG-Q8-on2" firstAttribute="top" secondItem="l1e-ME-PUN" secondAttribute="top" id="6zD-yI-mBs"/>
                             <constraint firstItem="x4D-Y2-9zg" firstAttribute="bottom" secondItem="VC7-IP-Mus" secondAttribute="bottom" id="G4V-Bw-HSe"/>
                             <constraint firstItem="x4D-Y2-9zg" firstAttribute="trailing" secondItem="VC7-IP-Mus" secondAttribute="trailing" id="P7t-7V-Txb"/>
                             <constraint firstItem="cK3-OG-qo8" firstAttribute="width" secondItem="l1e-ME-PUN" secondAttribute="width" id="RbC-bY-38R"/>
                             <constraint firstItem="VC7-IP-Mus" firstAttribute="leading" secondItem="x4D-Y2-9zg" secondAttribute="leading" id="XEy-by-Hxq"/>
-                            <constraint firstItem="BFG-Q8-on2" firstAttribute="width" secondItem="l1e-ME-PUN" secondAttribute="width" id="Xc0-iy-uQf"/>
                             <constraint firstItem="cK3-OG-qo8" firstAttribute="centerX" secondItem="x4D-Y2-9zg" secondAttribute="centerX" id="hyo-HZ-DLR"/>
                             <constraint firstItem="VC7-IP-Mus" firstAttribute="top" secondItem="4Wa-R1-nwA" secondAttribute="bottom" id="j0J-3a-1Fb"/>
+                            <constraint firstItem="cK3-OG-qo8" firstAttribute="top" secondItem="x4D-Y2-9zg" secondAttribute="top" constant="2" id="k6Z-B9-f6z"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="660-wD-wrx"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="fileCatalogCollectionView" destination="4Wa-R1-nwA" id="s9d-UI-53o"/>
                         <outlet property="fileContainerView" destination="VC7-IP-Mus" id="5lb-b5-cIl"/>
@@ -716,15 +668,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KCz-pA-SHO" customClass="FrameNavView">
-                                <rect key="frame" x="0.0" y="0.0" width="428" height="90"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="90" id="kQe-Fk-Vdn"/>
-                                </constraints>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dp6-Jb-50x" userLabel="Time View">
-                                <rect key="frame" x="0.0" y="90" width="428" height="68"/>
+                                <rect key="frame" x="0.0" y="88" width="428" height="68"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="2020年12月27" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c9O-aV-tZI">
                                         <rect key="frame" x="15" y="25.666666666666675" width="178" height="32.333333333333343"/>
@@ -749,7 +694,7 @@
                                 </constraints>
                             </view>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" allowsSelection="NO" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="CfF-xn-zhj">
-                                <rect key="frame" x="0.0" y="158" width="428" height="685"/>
+                                <rect key="frame" x="0.0" y="156" width="428" height="687"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="messageCell" rowHeight="197" id="wxT-3h-Xpb" userLabel="Message Cell" customClass="MessageCell">
@@ -1073,20 +1018,16 @@
                         <viewLayoutGuide key="safeArea" id="Yyx-hc-Sif"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="Dp6-Jb-50x" firstAttribute="top" secondItem="KCz-pA-SHO" secondAttribute="bottom" id="7qE-xQ-otY"/>
-                            <constraint firstItem="KCz-pA-SHO" firstAttribute="top" secondItem="gmh-NE-RId" secondAttribute="top" id="C2k-j8-OsD"/>
                             <constraint firstItem="Yyx-hc-Sif" firstAttribute="trailing" secondItem="CfF-xn-zhj" secondAttribute="trailing" id="ac5-z3-d79"/>
                             <constraint firstItem="CfF-xn-zhj" firstAttribute="leading" secondItem="Yyx-hc-Sif" secondAttribute="leading" id="h78-xl-eZN"/>
+                            <constraint firstItem="Dp6-Jb-50x" firstAttribute="top" secondItem="Yyx-hc-Sif" secondAttribute="top" id="pJu-F1-asB"/>
                             <constraint firstItem="Dp6-Jb-50x" firstAttribute="width" secondItem="gmh-NE-RId" secondAttribute="width" id="tso-gP-k4o"/>
                             <constraint firstItem="CfF-xn-zhj" firstAttribute="top" secondItem="Dp6-Jb-50x" secondAttribute="bottom" id="um5-pP-HOJ"/>
                             <constraint firstItem="Yyx-hc-Sif" firstAttribute="bottom" secondItem="CfF-xn-zhj" secondAttribute="bottom" id="vRM-Gu-rcI"/>
                             <constraint firstItem="Dp6-Jb-50x" firstAttribute="centerX" secondItem="Yyx-hc-Sif" secondAttribute="centerX" id="xiO-aw-7wj"/>
-                            <constraint firstItem="KCz-pA-SHO" firstAttribute="centerX" secondItem="Yyx-hc-Sif" secondAttribute="centerX" id="z7k-09-hWX"/>
-                            <constraint firstItem="KCz-pA-SHO" firstAttribute="width" secondItem="gmh-NE-RId" secondAttribute="width" id="zTp-EH-rU9"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="iUP-g5-2Z8"/>
-                    <nil key="simulatedTopBarMetrics"/>
                     <connections>
                         <outlet property="tableView" destination="CfF-xn-zhj" id="Pxm-Dt-7G6"/>
                         <outlet property="timeInforLabel" destination="mYo-CH-FVS" id="PK0-yG-qjG"/>
@@ -1425,7 +1366,7 @@
                                             <rect key="frame" x="0.0" y="0.0" width="128" height="208"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="MpW-fo-3nb">
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="MpW-fo-3nb">
                                                     <rect key="frame" x="0.0" y="0.0" width="118" height="164"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">

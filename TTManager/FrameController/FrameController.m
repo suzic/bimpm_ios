@@ -6,8 +6,9 @@
 //
 
 #import "FrameController.h"
+#import "FrameNavView.h"
 
-@interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FrameNavViewDelegate>
 
 // 主页面view
 @property (weak, nonatomic) IBOutlet UIView *homeView;
@@ -22,6 +23,8 @@
 
 // 主页面VC
 @property (nonatomic, strong) UIViewController *homeVC;
+// 导航栏
+@property (nonatomic, strong) FrameNavView *headerView;
 // 抽屉VC
 @property (nonatomic, strong) UIViewController *userVC;
 
@@ -62,7 +65,7 @@
 #pragma mark - init
 - (void)initUI
 {
-//    [self.view insertSubview:self.headerView belowSubview:self.userView];
+    [self.view insertSubview:self.headerView belowSubview:self.userView];
     self.projectView.hidden = YES;
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.shadowView addGestureRecognizer:tapGesture];
@@ -73,7 +76,7 @@
     // 抽屉通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSettings:) name:NotiShowSettings object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backToMain:) name:@"NotiBackToMain" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(currentSelectedProject:) name:NotiShowSelectProject object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showHeaderView:) name:NotiShowHeaderView object:nil];
     // 登录相关的
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginSucceed:) name:NotiUserLogined object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginNeeded:) name:NotiUserLoginNeeded object:nil];
@@ -135,12 +138,17 @@
         }
     }
 }
+
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:@"selectedProject"]) {
+    if ([eventName isEqualToString:selectedProject]) {
         NSLog(@"选择项目");
         self.projectView.hidden = YES;
+        [DataManager defaultInstance].currentProject = userInfo[@"currentProject"];
+        [self.headerView setCurrentProjectTitle];
+        [self updateFrame];
     }
 }
+
 #pragma mark - NSNotification
 // 显示个人中心
 - (void)showSettings:(NSNotification *)notification
@@ -170,11 +178,11 @@
         self.userView.hidden = YES;
     }];
 }
-// 当前选中的项目
-- (void)currentSelectedProject:(NSNotification *)notification{
-    NSLog(@"当前选中的项目");
-    self.projectView.hidden = NO;
+- (void)showHeaderView:(NSNotification *)notification{
+    BOOL showHeader = [notification.object boolValue];
+    self.headerView.hidden = !showHeader;
 }
+
 // 默认情况下静默登录（silence = YES）；可通过notification.object参数@(NO)指定显式登录
 - (void)userLoginNeeded:(NSNotification *)notification
 {
@@ -243,11 +251,17 @@
 // 处理页面
 - (void)updateFrame
 {
-    NSMutableArray *currentProjectList = [DataManager defaultInstance].currentProjectList;
-    ZHProject *currentProject = nil;
-//    self.projectView.hidden = NO;
 }
-
+#pragma mark - FrameNavViewDelegate
+- (void)clickShowProjectListView{
+    self.projectView.hidden = NO;
+}
+- (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
+    self.projectView.hidden = YES;
+    NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
+    [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
+    [self updateFrame];
+}
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
@@ -306,6 +320,14 @@
         _newDeviceCheckManager.paramSource = self;
     }
     return _newDeviceCheckManager;
+}
+- (FrameNavView *)headerView{
+    if (_headerView == nil) {
+        _headerView = [[FrameNavView alloc] init];
+        _headerView.frame = CGRectMake(0, 0, kScreenWidth, SafeAreaTopHeight);
+        _headerView.delegate = self;
+    }
+    return _headerView;
 }
 #pragma mark - UIStoryboardSegue
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender

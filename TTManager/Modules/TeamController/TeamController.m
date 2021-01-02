@@ -24,6 +24,14 @@
     [self.teamNameBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
     self.teamNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
 }
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+}
 - (NSArray *)teamArray{
     if (_teamArray == nil) {
         _teamArray = @[@"市场部",@"销售部",@"采购部",@"营销部"];

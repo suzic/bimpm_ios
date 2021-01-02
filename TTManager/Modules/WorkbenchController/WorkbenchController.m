@@ -28,7 +28,14 @@
     // Do any additional setup after loading the view.
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+}
+- (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+}
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -89,18 +96,18 @@
 }
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:@"moreMessage"])
+    if ([eventName isEqualToString:MoreMessage])
     {
         NSLog(@"导航到更多消息页面");
         MoreWorkMsgController *moreVC = [[MoreWorkMsgController alloc] init];
         moreVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:moreVC animated:YES];
     }
-    else if([eventName isEqualToString:@"Function"])
+    else if([eventName isEqualToString:function_selected])
     {
         NSLog(@"当前点击的常用功能=====%@",userInfo[@"index"]);
     }
-    else if([eventName isEqualToString:@"taskList"])
+    else if([eventName isEqualToString:taskList_selected])
     {
         NSLog(@"跳转任务详情带去的参数======%@",userInfo)
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];

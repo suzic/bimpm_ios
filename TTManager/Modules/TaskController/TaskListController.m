@@ -112,11 +112,11 @@
     return listTitle;
 }
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:@"Task_list_selected"]) {
+    if ([eventName isEqualToString:Task_list_selected]) {
         self.taskType = TaskType_details;
         [self performSegueWithIdentifier:@"newTask" sender:nil];
 //        [self performSegueWithIdentifier:@"showTaskDetail" sender:nil];
-    }else if([eventName isEqualToString:@"new_task_action"]){
+    }else if([eventName isEqualToString:new_task_action]){
         [self showSelectNewTaskType];
     }
 }

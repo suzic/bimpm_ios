@@ -9,7 +9,20 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class FrameNavView;
+
+@protocol FrameNavViewDelegate <NSObject>
+
+- (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex;
+- (void)clickShowProjectListView;
+
+@end
+
 @interface FrameNavView : UIView
+
+@property (nonatomic,weak) id<FrameNavViewDelegate>delegate;
+
+- (void)setCurrentProjectTitle;
 
 @end
 

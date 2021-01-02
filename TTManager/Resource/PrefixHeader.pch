@@ -13,6 +13,7 @@
 #import "NetWorkInterface.h"
 #import "APIManagerHeader.h"
 #import "NotificationHeader.h"
+#import "ResponderChainHeader.h"
 #import "AppDelegate.h"
 
 //重写NSLog,Debug模式下打印日志和当前行数

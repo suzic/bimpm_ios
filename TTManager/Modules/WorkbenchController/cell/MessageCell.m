@@ -29,7 +29,7 @@
     }];
 }
 - (IBAction)moreMessageAction:(id)sender {
-    [self routerEventWithName:@"moreMessage" userInfo:@{}];
+    [self routerEventWithName:MoreMessage userInfo:@{}];
 }
 
 - (MessageView *)msgView{

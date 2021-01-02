@@ -55,23 +55,19 @@
     }
     for (UIView *view in cell.contentView.subviews)
          [view removeFromSuperview];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];
-
-//    if (self.imageList == nil)
-//    {
-//    }else
-//    {
-//        UIImageView *bgImage = [[UIImageView alloc] initWithImage:[UIImage imageNamed:self.imageList[indexPath.row]]];
-//        bgImage.frame = CGRectMake(10, 10, 30, 30);
-//        UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(50, 10, 60, 30)];
-//        label.font = [UIFont systemFontOfSize:14.0f];
-//        label.text = self.dataList[indexPath.row];
-//        [cell.contentView addSubview:bgImage];
-//        [cell.contentView addSubview:label];
-//        cell.contentView.backgroundColor = [UIColor clearColor];
-//        cell.backgroundColor = [UIColor clearColor];
-//    }
-
+    id dataItem = self.dataList[indexPath.row];
+    if ([dataItem isKindOfClass:[ZHProject class]]) {
+        
+        if (indexPath.row == self.dataList.count)
+        {
+            cell.textLabel.text = self.dataList[indexPath.row];
+        }else{
+            ZHProject *project = (ZHProject *)dataItem;
+            cell.textLabel.text = project.name;
+        }
+    }else{
+        cell.textLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];
+    }
     return cell;
 }
 

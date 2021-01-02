@@ -20,18 +20,18 @@
 {
     [super viewDidLoad];
     self.delegate = self;
-//    self.interactivePopGestureRecognizer.delegate = self;
-//    [self.navigationBar setBackgroundImage:[SZUtil createImageWithColor:RGBA_COLOR(5, 125, 255, 1.0)] forBarMetrics:UIBarMetricsDefault];
 }
 
 - (NSArray *)viewControlersList{
     if (_viewControlersList == nil) {
-        _viewControlersList = @[NSClassFromString(@"MonitoringController"),
-                                NSClassFromString(@"WorkbenchController"),
-                                NSClassFromString(@"DocumentLibController"),
-                                NSClassFromString(@"ConversationListController"),
-                                NSClassFromString(@"TeamController"),
-                                NSClassFromString(@"FileListView")];
+        /*
+         NSClassFromString(@"MonitoringController"),
+                                 NSClassFromString(@"WorkbenchController"),
+                                 NSClassFromString(@"DocumentLibController"),
+                                 NSClassFromString(@"ConversationListController"),
+                                 NSClassFromString(@"TeamController"),
+         */
+        _viewControlersList = @[NSClassFromString(@"FileListView")];
     }
     return _viewControlersList;
 }

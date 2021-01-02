@@ -11,6 +11,7 @@
 @interface ProjectSelectController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
+@property (nonatomic, strong) NSMutableArray *projectList;
 
 @end
 
@@ -25,6 +26,11 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
 
 }
+#pragma mark - setter and getter
+- (NSMutableArray *)projectList{
+    _projectList = [DataManager defaultInstance].currentProjectList;
+    return _projectList;
+}
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -32,11 +38,14 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return 10;
+    return self.projectList.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ProjectViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectIdentifler" forIndexPath:indexPath];
-    cell.projectName.text = @"众和空间";
+    ZHProject *project = self.projectList[indexPath.row];
+    [cell.projectImage sd_setImageWithURL:[NSURL URLWithString:project.snap_image] placeholderImage:[UIImage imageNamed:@"empty_image"]];
+    NSLog(@"参与的项目列表=====%@",project.snap_image);
+    cell.projectName.text = project.name;
     return cell;
 }
 
@@ -45,7 +54,7 @@
     return CGSizeMake((kScreenWidth-15)/2, 300.0f);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self routerEventWithName:@"selectedProject" userInfo:@{@"index":indexPath}];
+    [self routerEventWithName:selectedProject userInfo:@{@"currentProject":self.projectList[indexPath.row]}];
 }
 /*
 #pragma mark - Navigation

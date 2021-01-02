@@ -48,7 +48,7 @@
     return CGSizeMake((kScreenWidth-25)/4,FunctionCellHeight);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self routerEventWithName:@"Function" userInfo:@{@"index":@(indexPath.row)}];
+    [self routerEventWithName:function_selected userInfo:@{@"index":@(indexPath.row)}];
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
