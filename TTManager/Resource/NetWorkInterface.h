@@ -17,4 +17,25 @@
 #define URI_VERIFY_CAPTCHA                      @"/login/verifyByCaptcha"
 #define URI_VERIFY_PHONE                        @"/login/verifyByPhone"
 
+// 用户对项目操作
+#define URL_USER_PROJECT_INFO                   @"/user/UserToProjectInfo"
+#define URL_USER_PROJECT_GANTT                  @"/user/UserToProjectGantt"
+#define URL_USER_PROJECT_LIST                   @"/user/UserToProjectList"
+
+// 文件
+#define URL_TARGET_LIST                         @"/file/TargetList"
+#define URL_FILE_View                           @"/fileviewservice/FileView"
+
+// 团队成员
+#define URL_DEPARTMENT_LIST                      @"/department/DepartmentList"
+#define URL_DEPARTMENT_DETAIL                    @"/department/DepartmentDetail"
+
+// 任务
+#define URL_TASK_LIST                            @"/task/TaskList"
+#define URL_TASK_DETAIL                          @"/task/TaskDetail"
+#define URL_TASK_NEW                             @"/user/UserToProjectNew"
+#define URL_TASK_EDIT                            @"/user/UserToProjectEdit"
+#define URL_TASK_OPERATIONS                      @"/task/TaskOperations"
+#define URL_TASK_PROCESS                         @"/task/TaskProcess"
+
 #endif /* NetWorkInterface_h */
