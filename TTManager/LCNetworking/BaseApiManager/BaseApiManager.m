@@ -26,6 +26,7 @@
         _paramSource = nil;
         _errorMessage = nil;
         _pageSize = [[PageSize alloc] init];
+        _responsePageSize = [[PageSize alloc] init];
         if ([self conformsToProtocol:@protocol(APIManager)]) {
             self.child = (id<APIManager>)self;
         }else{

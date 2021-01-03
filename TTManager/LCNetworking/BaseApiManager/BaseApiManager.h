@@ -75,8 +75,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak)id<APIManagerValidator>validator;
 // 子类
 @property (nonatomic, weak)NSObject<APIManager>*child;
-
+// 当前请求的page
 @property (nonatomic, strong) PageSize *pageSize;
+// 服务器返回的page
+@property (nonatomic, strong) PageSize *responsePageSize;
 // 返回数据
 @property (nonatomic, strong) LCURLResponse *response;
 @property (nonatomic, copy) NSString *errorMessage;

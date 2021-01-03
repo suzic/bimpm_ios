@@ -33,13 +33,7 @@
     [super viewWillAppear:animated];
     [self.departmentListManager loadData];
 }
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
-//}
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+
 //}
 #pragma mark - action
 - (IBAction)changTeamAction:(id)sender
