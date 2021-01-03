@@ -30,6 +30,7 @@
         make.top.left.bottom.right.equalTo(self);
     }];
 }
+#pragma mark - setter and getter
 - (UITableView *)tableView{
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];

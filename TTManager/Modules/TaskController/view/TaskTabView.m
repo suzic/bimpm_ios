@@ -7,10 +7,12 @@
 
 #import "TaskTabView.h"
 #import "TaskListView.h"
+#import "TaskSearchView.h"
 
 @interface TaskTabView ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView *tabToolView;
+@property (nonatomic, strong) TaskSearchView *searchView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIButton *lastSelectedButton;
 @property (nonatomic, strong) UIScrollView *scrollView;
@@ -46,10 +48,16 @@
         make.top.left.right.equalTo(self);
         make.height.equalTo(44);
     }];
-    
+    [self addSubview:self.searchView];
+    [self.searchView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.tabToolView.mas_bottom);
+        make.left.equalTo(15);
+        make.right.equalTo(-15);
+        make.height.equalTo(64);
+    }];
     [self addSubview:self.scrollView];
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(44);
+        make.top.mas_equalTo(self.searchView.mas_bottom);
         make.right.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
     }];
@@ -149,7 +157,7 @@
     self.lastSelectedButton = button;
     [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:NO];
 }
-#pragma amrk - setter and getter
+#pragma mark - setter and getter
 - (UIView *)tabToolView{
     if (_tabToolView == nil) {
         _tabToolView = [[UIView alloc] init];
@@ -162,6 +170,12 @@
         _lineView = [[UIView alloc] init];
     }
     return _lineView;
+}
+- (TaskSearchView *)searchView{
+    if (_searchView == nil) {
+        _searchView = [[TaskSearchView alloc] init];
+    }
+    return _searchView;
 }
 - (UIScrollView *)scrollView{
     if (_scrollView == nil) {

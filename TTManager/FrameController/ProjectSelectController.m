@@ -8,11 +8,12 @@
 #import "ProjectSelectController.h"
 #import "ProjectViewCell.h"
 
-@interface ProjectSelectController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout>
+@interface ProjectSelectController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
 @property (nonatomic, strong) NSMutableArray *projectList;
-
+// api
+@property (nonatomic, strong)APIUTPListManager *UTPlistManager;
 @end
 
 @implementation ProjectSelectController
@@ -55,6 +56,34 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     [self routerEventWithName:selectedProject userInfo:@{@"currentProject":self.projectList[indexPath.row]}];
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.UTPlistManager) {
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.UTPlistManager) {
+        
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.UTPlistManager) {
+        
+    }
+}
+#pragma mark - setter and getter
+- (APIUTPListManager *)UTPlistManager{
+    if (_UTPlistManager == nil) {
+        _UTPlistManager = [[APIUTPListManager alloc] init];
+        _UTPlistManager.delegate = self;
+        _UTPlistManager.paramSource = self;
+    }
+    return _UTPlistManager;
 }
 /*
 #pragma mark - Navigation
