@@ -7,7 +7,7 @@
 
 #import "UserInforController.h"
 
-@interface UserInforController ()<UITableViewDelegate,UITableViewDataSource>
+@interface UserInforController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
 @property (weak, nonatomic) IBOutlet UILabel *username;
 @property (weak, nonatomic) IBOutlet UILabel *userSex;
@@ -16,6 +16,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
+
+// api
+@property (nonatomic, strong) APIDMDetailManager* dmDetailsManager;
+
 @end
 
 @implementation UserInforController
@@ -30,12 +34,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.bottomView borderForColor:RGB_COLOR(238, 238, 238) borderWidth:0.5 borderType:UIBorderSideTypeTop];
 }
-- (NSArray *)newTasTypeklist{
-    if (_newTasTypeklist == nil) {
-        _newTasTypeklist = @[@"任务",@"申请",@"通知",@"会审",@"巡检"];
-    }
-    return _newTasTypeklist;
-}
+
 // 改变字体颜色
 - (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
     NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:text];
@@ -98,7 +97,36 @@
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.dmDetailsManager) {
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - setter and getter
+- (APIDMDetailManager *)dmDetailsManager{
+    if (_dmDetailsManager == nil) {
+        _dmDetailsManager = [[APIDMDetailManager alloc] init];
+        _dmDetailsManager.delegate = self;
+        _dmDetailsManager.paramSource = self;
+    }
+    return _dmDetailsManager;
+}
+- (NSArray *)newTasTypeklist{
+    if (_newTasTypeklist == nil) {
+        _newTasTypeklist = @[@"任务",@"申请",@"通知",@"会审",@"巡检"];
+    }
+    return _newTasTypeklist;
+}
 /*
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];

@@ -13,11 +13,16 @@
 #import "MoreWorkMsgController.h"
 #import "TaskListController.h"
 
-@interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource>
+@interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
+// api
+@property (nonatomic, strong) APIUTPListManager *UTPListManager;
+@property (nonatomic, strong) APIUTPInfoManager *UTPInfoManager;
+@property (nonatomic, strong) APITaskListManager *taskListManager;
+@property (nonatomic, strong) APIUTPGanttManager *UTPGanttManager;
 
 @end
 
@@ -133,6 +138,76 @@
         }
     }
     return status;
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.taskListManager) {
+        
+    }else if(manager == self.UTPListManager){
+        
+    }else if(manager == self.UTPInfoManager){
+        
+    }else if(manager == self.UTPGanttManager){
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.taskListManager) {
+        
+    }else if(manager == self.UTPListManager){
+        
+    }else if(manager == self.UTPInfoManager){
+        
+    }else if(manager == self.UTPGanttManager){
+        
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.taskListManager) {
+        
+    }else if(manager == self.UTPListManager){
+        
+    }else if(manager == self.UTPInfoManager){
+        
+    }else if(manager == self.UTPGanttManager){
+        
+    }
+}
+#pragma mark - setter and getter
+- (APITaskListManager *)taskListManager{
+    if (_taskListManager == nil) {
+        _taskListManager = [[APITaskListManager alloc] init];
+        _taskListManager.delegate = self;
+        _taskListManager.paramSource = self;
+    }
+    return _taskListManager;
+}
+- (APIUTPGanttManager *)UTPGanttManager{
+    if (_UTPGanttManager == nil) {
+        _UTPGanttManager = [[APIUTPGanttManager alloc] init];
+        _UTPGanttManager.delegate = self;
+        _UTPGanttManager.paramSource = self;
+    }
+    return _UTPGanttManager;
+}
+- (APIUTPInfoManager *)UTPInfoManager{
+    if (_UTPInfoManager == nil) {
+        _UTPInfoManager = [[APIUTPInfoManager alloc] init];
+        _UTPInfoManager.delegate = self;
+        _UTPInfoManager.paramSource = self;
+    }
+    return _UTPInfoManager;
+}
+- (APIUTPListManager *)UTPListManager{
+    if (_UTPListManager == nil) {
+        _UTPListManager = [[APIUTPListManager alloc] init];
+        _UTPListManager.delegate = self;
+        _UTPListManager.paramSource = self;
+    }
+    return _UTPListManager;
 }
 /*
 #pragma mark - Navigation

@@ -11,7 +11,7 @@
 #import "TaskTitleView.h"
 #import "TaskContentView.h"
 
-@interface TaskController ()
+@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
 @property (nonatomic, strong) NSArray *stepArray;
@@ -21,6 +21,13 @@
 @property (nonatomic, strong) TaskContentView *taskContentView;
 // 任务操作页面
 @property (nonatomic, strong) TaskOperationView *taskOperationView;
+
+// api
+@property (nonatomic, strong) APITaskNewManager *taskNewManager;
+@property (nonatomic, strong) APITaskEditManager *taskEditManager;
+@property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
+@property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
+@property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
 
 @end
 
@@ -99,6 +106,47 @@
         _taskContentView = [[TaskContentView alloc] init];
     }
     return _taskContentView;
+}
+#pragma mark api init
+- (APITaskProcessManager *)taskProcessManager{
+    if (_taskProcessManager == nil) {
+        _taskProcessManager = [[APITaskProcessManager alloc] init];
+        _taskProcessManager.delegate = self;
+        _taskProcessManager.paramSource = self;
+    }
+    return _taskProcessManager;
+}
+-(APITaskNewManager *)taskNewManager{
+    if (_taskNewManager == nil) {
+        _taskNewManager = [[APITaskNewManager alloc] init];
+        _taskNewManager.delegate = self;
+        _taskNewManager.paramSource = self;
+    }
+    return _taskNewManager;
+}
+- (APITaskEditManager *)taskEditManager{
+    if (_taskEditManager == nil) {
+        _taskEditManager = [[APITaskEditManager alloc] init];
+        _taskEditManager.delegate = self;
+        _taskEditManager.paramSource = self;
+    }
+    return _taskEditManager;
+}
+- (APITaskOperationsManager *)taskOperationsManager{
+    if (_taskOperationsManager == nil) {
+        _taskOperationsManager = [[APITaskOperationsManager alloc] init];
+        _taskOperationsManager.delegate = self;
+        _taskOperationsManager.paramSource = self;
+    }
+    return _taskOperationsManager;
+}
+-(APITaskDeatilManager *)taskDetailManager{
+    if (_taskDetailManager == nil) {
+        _taskDetailManager = [[APITaskDeatilManager alloc] init];
+        _taskDetailManager.delegate = self;
+        _taskDetailManager.paramSource = self;
+    }
+    return _taskDetailManager;
 }
 - (IBAction)closeVCAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

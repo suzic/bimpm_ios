@@ -13,7 +13,7 @@
 
 // 团队
 #import "APIDepartmentManager.h"
-#import "APITaskDeatilManager.h"
+#import "APIDMDetailManager.h"
 
 // 任务
 #import "APITaskNewManager.h"

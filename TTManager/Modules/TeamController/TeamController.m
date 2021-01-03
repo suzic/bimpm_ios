@@ -10,10 +10,15 @@
 #import "UserInforController.h"
 #import "PopViewController.h"
 
-@interface TeamController ()<UITableViewDelegate,UITableViewDataSource,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
+@interface TeamController ()<UITableViewDelegate,UITableViewDataSource,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *teamNameBtn;
 @property (nonatomic, strong) NSArray *teamArray;
+// api
+@property (nonatomic, strong)APIDepartmentManager *departmentListManager;
+@property (nonatomic, strong) APIDMDetailManager* dmDetailsManager;
+
 @end
 
 @implementation TeamController
@@ -31,12 +36,6 @@
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-}
-- (NSArray *)teamArray{
-    if (_teamArray == nil) {
-        _teamArray = @[@"市场部",@"销售部",@"采购部",@"营销部"];
-    }
-    return _teamArray;
 }
 #pragma mark - action
 - (IBAction)changTeamAction:(id)sender
@@ -96,6 +95,46 @@
     NSLog(@"当前选择部门");
     [self.teamNameBtn setTitle:self.teamArray[indexPath.row] forState:UIControlStateNormal];
     [self.tableView reloadData];
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.dmDetailsManager) {
+        
+    }else if(manager == self.departmentListManager){
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - setter and getter
+- (APIDepartmentManager *)departmentListManager{
+    if (_departmentListManager == nil) {
+        _departmentListManager = [[APIDepartmentManager alloc] init];
+        _departmentListManager.delegate = self;
+        _departmentListManager.paramSource = self;
+    }
+    return _departmentListManager;
+}
+- (APIDMDetailManager *)dmDetailsManager{
+    if (_dmDetailsManager == nil) {
+        _dmDetailsManager = [[APIDMDetailManager alloc] init];
+        _dmDetailsManager.delegate = self;
+        _dmDetailsManager.paramSource = self;
+    }
+    return _dmDetailsManager;
+}
+- (NSArray *)teamArray{
+    if (_teamArray == nil) {
+        _teamArray = @[@"市场部",@"销售部",@"采购部",@"营销部"];
+    }
+    return _teamArray;
 }
 /*
 #pragma mark - Navigation

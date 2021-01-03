@@ -10,11 +10,14 @@
 #import "FileCatalogCell.h"
 #import "FileListView.h"
 
-@interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *fileCatalogCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
 @property (nonatomic, strong)FileListView *fileView;
+// api
+@property (nonatomic, strong)APITargetListManager *targetListManager;
+
 @end
 
 @implementation DocumentLibController
@@ -62,23 +65,32 @@
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
     [self.fileView.navigationController popToViewController:vc animated:YES];
-//    DocumentLibController *vc = (DocumentLibController *)self.navigationController.viewControllers[indexPath.row];
-////    NSRange subRang = NSMakeRange(0, indexPath.row+1);
-////    self.documentTitleArray = [NSMutableArray arrayWithArray:[self.documentTitleArray subarrayWithRange:subRang]];
-//    vc.documentTitleArray = self.documentTitleArray;
-//    [self.navigationController popToViewController:vc animated:YES];
 }
-//- (void)goNext{
-//    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"position"];
-//   animation.duration = 2;
-//   animation.repeatCount = 2;
-//   animation.beginTime =CACurrentMediaTime() + 1;// 1秒后执行
-//   animation.fromValue = [NSValue valueWithCGPoint:self.tableView.layer.position]; // 起始帧
-//   animation.toValue = [NSValue valueWithCGPoint:CGPointMake(kScreenWidth, 0)]; // 终了帧
-//   // 视图添加动画
-//   [self.tableView.layer addAnimation:animation forKey:@"move-layer"];
-//}
 
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.targetListManager) {
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - setter and getter
+- (APITargetListManager *)targetListManager{
+    if (_targetListManager == nil) {
+        _targetListManager = [[APITargetListManager alloc] init];
+        _targetListManager.delegate = self;
+        _targetListManager.paramSource = self;
+    }
+    return _targetListManager;
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
