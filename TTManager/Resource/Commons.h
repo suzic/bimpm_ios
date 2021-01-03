@@ -8,6 +8,9 @@
 #ifndef Commons_h
 #define Commons_h
 
+#define RongCloudIMKey     @"y745wfm8yhplv"
+#define RongCloudIMSecret  @"Awlfd3KNBBT"
+
 // 添加这个宏，就不用带mas_前缀
 #define MAS_SHORTHAND
 // 添加这个宏，equalTo就等价于mas_equalTo
@@ -22,6 +25,7 @@
 #import <SDWebImage/SDWebImage.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Masonry/Masonry.h>
+#import <RongIMKit/RongIMKit.h>
 
 #import "SZUtil.h"
 #import "UIViewExt.h"

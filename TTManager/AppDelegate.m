@@ -20,13 +20,32 @@
     [DataManager defaultInstance];
     // 初始化键盘
     [self initIQKeyBoard];
+    // 初始化融云
+    [self initRongCloudIM];
     
     [self setAppearanceStyle];
+    
     return YES;
 }
 + (AppDelegate *)sharedDelegate
 {
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
+}
+- (void)initRongCloudIM{
+    self.initRongCloud = NO;
+    [[RCIM sharedRCIM] initWithAppKey:RongCloudIMKey];
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (user.uid_chat) {
+        [[RCIM sharedRCIM] connectWithToken:user.uid_chat dbOpened:^(RCDBErrorCode code) {
+            } success:^(NSString *userId) {
+                NSLog(@"连接融云IM成功");
+                self.initRongCloud = YES;
+            } error:^(RCConnectErrorCode errorCode) {
+                NSLog(@"连接融云IM失败");
+            }];
+    }
+    // 聊天信息本地存储
+    [RCIM sharedRCIM].enablePersistentUserInfoCache = YES;
 }
 #pragma mark - initIQKeyBoard
 - (void)initIQKeyBoard

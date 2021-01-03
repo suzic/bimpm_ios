@@ -266,6 +266,9 @@
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLogined object:nil];
+        if ([AppDelegate sharedDelegate].initRongCloud == NO) {
+            [[AppDelegate sharedDelegate] initRongCloudIM];
+        }
     }
 }
 

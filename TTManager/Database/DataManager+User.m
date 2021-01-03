@@ -134,6 +134,7 @@
         user.lock_password = dicData[@"lock_password"];
     if (![SZUtil isEmptyOrNull:dicData[@"avatar"]])
         user.avatar = dicData[@"avatar"];
+    user.uid_chat = dicData[@"uid_chat"];
     user.status = [dicData[@"status"] intValue];
     user.gender = [dicData[@"gender"] intValue];
 }
