@@ -119,6 +119,8 @@
 		406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAA825A1A67800636079 /* APITaskDeatilManager.m */; };
 		406FCAAF25A1A6EA00636079 /* APITaskOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAAE25A1A6EA00636079 /* APITaskOperationsManager.m */; };
 		406FCAB525A1A74900636079 /* APITaskProcessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAB425A1A74900636079 /* APITaskProcessManager.m */; };
+		406FCAC425A1F76100636079 /* PageSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAC325A1F76100636079 /* PageSize.m */; };
+		406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAD225A2036900636079 /* UIViewController+AOP.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -351,6 +353,10 @@
 		406FCAAE25A1A6EA00636079 /* APITaskOperationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITaskOperationsManager.m; sourceTree = "<group>"; };
 		406FCAB325A1A74900636079 /* APITaskProcessManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APITaskProcessManager.h; sourceTree = "<group>"; };
 		406FCAB425A1A74900636079 /* APITaskProcessManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITaskProcessManager.m; sourceTree = "<group>"; };
+		406FCAC225A1F76100636079 /* PageSize.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PageSize.h; sourceTree = "<group>"; };
+		406FCAC325A1F76100636079 /* PageSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageSize.m; sourceTree = "<group>"; };
+		406FCAD125A2036900636079 /* UIViewController+AOP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AOP.h"; sourceTree = "<group>"; };
+		406FCAD225A2036900636079 /* UIViewController+AOP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AOP.m"; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -610,6 +616,8 @@
 				402A9F722595B5BF00A9DABA /* NSDictionary+Dlog.m */,
 				402AA1C52598A64800A9DABA /* UIView+BorderLine.h */,
 				402AA1C62598A64800A9DABA /* UIView+BorderLine.m */,
+				406FCAD125A2036900636079 /* UIViewController+AOP.h */,
+				406FCAD225A2036900636079 /* UIViewController+AOP.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -793,6 +801,7 @@
 		402AA168259726D700A9DABA /* LCNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				406FCAC125A1F74900636079 /* PageSize */,
 				402AA169259726D700A9DABA /* ApiErrIntercept */,
 				402AA16C259726D700A9DABA /* BaseApiManager */,
 				402AA171259726D700A9DABA /* LCURLResponse */,
@@ -1053,6 +1062,15 @@
 			path = APITaskProcessManager;
 			sourceTree = "<group>";
 		};
+		406FCAC125A1F74900636079 /* PageSize */ = {
+			isa = PBXGroup;
+			children = (
+				406FCAC225A1F76100636079 /* PageSize.h */,
+				406FCAC325A1F76100636079 /* PageSize.m */,
+			);
+			path = PageSize;
+			sourceTree = "<group>";
+		};
 		40931C8D259ACB36008C3518 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -1249,6 +1267,7 @@
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
 				402AA1402596D09800A9DABA /* LoginValidChecker.m in Sources */,
+				406FCAC425A1F76100636079 /* PageSize.m in Sources */,
 				40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */,
 				402AA1B02598496C00A9DABA /* ProjectViewCell.m in Sources */,
 				402AA1032595D90400A9DABA /* ZHTask+CoreDataClass.m in Sources */,
@@ -1262,6 +1281,7 @@
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,
+				406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */,
 				402AA0E02595D8A300A9DABA /* ZHModule+CoreDataClass.m in Sources */,
 				402AA1D42598AD1700A9DABA /* TaskInforCell.m in Sources */,
 				40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */,

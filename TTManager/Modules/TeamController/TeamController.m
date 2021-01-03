@@ -31,12 +31,16 @@
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+    [self.departmentListManager loadData];
 }
-- (void)viewWillDisappear:(BOOL)animated{
-    [super viewWillDisappear:animated];
-    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-}
+//- (void)viewWillAppear:(BOOL)animated{
+//    [super viewWillAppear:animated];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+//}
+//- (void)viewWillDisappear:(BOOL)animated{
+//    [super viewWillDisappear:animated];
+//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+//}
 #pragma mark - action
 - (IBAction)changTeamAction:(id)sender
 {
@@ -100,9 +104,11 @@
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     if (manager == self.dmDetailsManager) {
-        
     }else if(manager == self.departmentListManager){
-        
+        ZHUser *user = [DataManager defaultInstance].currentUser;
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"id_user":INT_32_TO_STRING(user.id_user)};
     }
     return dic;
 }

@@ -26,7 +26,7 @@
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Masonry/Masonry.h>
 #import <RongIMKit/RongIMKit.h>
-
+#import <Aspects/Aspects.h>
 #import "SZUtil.h"
 #import "UIViewExt.h"
 #import "SZModalAlert.h"
@@ -56,5 +56,7 @@ tmp;\
 //获取导航栏+状态栏的高度
 #define SafeAreaTopHeight  (STATUS_HEIGHT + 44.0f)
 #define SafeAreaBottomHeight (IPHONE_X == YES ? 34 : 0)
+
+#define INT_32_TO_STRING(data) ([NSString stringWithFormat:@"%d",data])
 
 #endif /* Commons_h */

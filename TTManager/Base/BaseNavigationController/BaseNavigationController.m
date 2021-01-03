@@ -26,10 +26,10 @@
     if (_viewControlersList == nil) {
         /*
          NSClassFromString(@"MonitoringController"),
-                                 NSClassFromString(@"WorkbenchController"),
-                                 NSClassFromString(@"DocumentLibController"),
-                                 NSClassFromString(@"ConversationListController"),
-                                 NSClassFromString(@"TeamController"),
+         NSClassFromString(@"WorkbenchController"),
+         NSClassFromString(@"DocumentLibController"),
+         NSClassFromString(@"ConversationListController"),
+         NSClassFromString(@"TeamController"),
          */
         _viewControlersList = @[NSClassFromString(@"FileListView")];
     }
@@ -41,6 +41,7 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [self setNavigationBarHidden:[self.viewControlersList containsObject:[viewController class]] animated:YES];
+
 }
 
 //- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{

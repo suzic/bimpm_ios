@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "LCURLResponse.h"
 #import "ApiProxy.h"
+#import "PageSize.h"
 
 @class BaseApiManager;
 
@@ -75,6 +76,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 子类
 @property (nonatomic, weak)NSObject<APIManager>*child;
 
+@property (nonatomic, strong) PageSize *pageSize;
 // 返回数据
 @property (nonatomic, strong) LCURLResponse *response;
 @property (nonatomic, copy) NSString *errorMessage;

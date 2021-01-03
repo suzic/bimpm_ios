@@ -13,6 +13,8 @@
     self = [super init];
     if (self) {
         self.validator = self;
+        self.pageSize.pageIndex = 1;
+        self.pageSize.pageSize = 20;
     }
     return self;
 }
@@ -31,7 +33,9 @@
     return YES;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSDictionary *dic = @{@"data":params,
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
+    dict[@"pager"] = [self.pageSize currentPage];
+    NSDictionary *dic = @{@"data":dict,
                           @"module":@"",
                           @"priority":@"5"};
     return dic;
