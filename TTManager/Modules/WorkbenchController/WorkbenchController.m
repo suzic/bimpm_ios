@@ -32,6 +32,14 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+
+}
+- (void)reoladNetwork{
+    [self.UTPListManager loadData];
+    [self.UTPInfoManager loadData];
+    [self.taskListManager loadData];
+    [self.UTPGanttManager loadData];
 }
 //- (void)viewWillAppear:(BOOL)animated{
 //    [super viewWillAppear:animated];

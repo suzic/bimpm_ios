@@ -10,13 +10,11 @@
 #import "FileCatalogCell.h"
 #import "FileListView.h"
 
-@interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *fileCatalogCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
 @property (nonatomic, strong)FileListView *fileView;
-// api
-@property (nonatomic, strong)APITargetListManager *targetListManager;
 
 @end
 
@@ -67,30 +65,6 @@
     [self.fileView.navigationController popToViewController:vc animated:YES];
 }
 
-#pragma mark - APIManagerParamSource
-- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
-    NSDictionary *dic = @{};
-    if (manager == self.targetListManager) {
-        
-    }
-    return dic;
-}
-#pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    
-}
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    
-}
-#pragma mark - setter and getter
-- (APITargetListManager *)targetListManager{
-    if (_targetListManager == nil) {
-        _targetListManager = [[APITargetListManager alloc] init];
-        _targetListManager.delegate = self;
-        _targetListManager.paramSource = self;
-    }
-    return _targetListManager;
-}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

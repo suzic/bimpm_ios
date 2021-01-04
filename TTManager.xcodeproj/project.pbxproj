@@ -121,6 +121,7 @@
 		406FCAB525A1A74900636079 /* APITaskProcessManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAB425A1A74900636079 /* APITaskProcessManager.m */; };
 		406FCAC425A1F76100636079 /* PageSize.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAC325A1F76100636079 /* PageSize.m */; };
 		406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAD225A2036900636079 /* UIViewController+AOP.m */; };
+		406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAE025A2F09200636079 /* NSDictionary+Extend.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -357,6 +358,8 @@
 		406FCAC325A1F76100636079 /* PageSize.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PageSize.m; sourceTree = "<group>"; };
 		406FCAD125A2036900636079 /* UIViewController+AOP.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+AOP.h"; sourceTree = "<group>"; };
 		406FCAD225A2036900636079 /* UIViewController+AOP.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+AOP.m"; sourceTree = "<group>"; };
+		406FCADF25A2F09200636079 /* NSDictionary+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSDictionary+Extend.h"; sourceTree = "<group>"; };
+		406FCAE025A2F09200636079 /* NSDictionary+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Extend.m"; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -618,6 +621,8 @@
 				402AA1C62598A64800A9DABA /* UIView+BorderLine.m */,
 				406FCAD125A2036900636079 /* UIViewController+AOP.h */,
 				406FCAD225A2036900636079 /* UIViewController+AOP.m */,
+				406FCADF25A2F09200636079 /* NSDictionary+Extend.h */,
+				406FCAE025A2F09200636079 /* NSDictionary+Extend.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1294,6 +1299,7 @@
 				402AA0DE2595D8A300A9DABA /* ZHRole+CoreDataProperties.m in Sources */,
 				402AA187259726D700A9DABA /* ApiProxy.m in Sources */,
 				402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */,
+				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
 				402AA0B62595D87100A9DABA /* ZHUser+CoreDataClass.m in Sources */,

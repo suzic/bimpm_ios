@@ -49,9 +49,17 @@
     }
     return user;
 }
-
-- (ZHProject *)getProjectFromCoredataById:(int)projectId
-{
+- (void)cleraDepartmentFromCurrentProject:(ZHProject *)currentProject{
+    for (ZHDepartment *department in currentProject.hasDepartments) {
+        [self deleteFromCoreData:department];
+    }
+}
+- (void)cleraDepartmentUserFromCurrentDepartment:(ZHDepartment *)currentDepartment{
+    for (ZHDepartmentUser *departmentUser in currentDepartment.hasUsers) {
+        [self deleteFromCoreData:departmentUser];
+    }
+}
+- (ZHProject *)getProjectFromCoredataById:(int)projectId{
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id_project = %d", projectId];
     NSArray *result = [self arrayFromCoreData:@"ZHProject" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHProject *project = nil;
@@ -67,7 +75,32 @@
     }
     return project;
 }
-
+- (ZHDepartment *)getDepartMentFromCoredataById:(int)id_department{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id_department = %d", id_department];
+    NSArray *result = [self arrayFromCoreData:@"ZHDepartment" predicate:predicate limit:1 offset:0 orderBy:nil];
+    ZHDepartment *department = nil;
+    if (result != nil && result.count > 0)
+        department = result[0];
+    else
+    {
+        department = (ZHDepartment *)[self insertIntoCoreData:@"ZHDepartment"];
+        department.id_department = id_department;
+    }
+    return department;
+}
+- (ZHDepartmentUser *)getDepartmentUserFromCoredataById:(int)order_index{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"order_index = %d", order_index];
+    NSArray *result = [self arrayFromCoreData:@"ZHDepartment" predicate:predicate limit:1 offset:0 orderBy:nil];
+    ZHDepartmentUser *departmentUser = nil;
+    if (result != nil && result.count > 0)
+        departmentUser = result[0];
+    else
+    {
+        departmentUser = (ZHDepartmentUser *)[self insertIntoCoreData:@"ZHDepartmentUser"];
+        departmentUser.order_index = order_index;
+    }
+    return departmentUser;
+}
 - (ZHUserProject *)getUserProjectFromCoredataById:(int)upId
 {
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"id_user_project = %d", upId];

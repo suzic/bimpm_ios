@@ -145,6 +145,8 @@
         self.projectView.hidden = YES;
         [DataManager defaultInstance].currentProject = userInfo[@"currentProject"];
         [self.headerView setCurrentProjectTitle];
+        [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self updateFrame];
     }
 }
@@ -260,6 +262,7 @@
     self.projectView.hidden = YES;
     NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
     [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
+    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
     [self updateFrame];
 }
 #pragma mark - ApiManagerCallBackDelegate

@@ -129,6 +129,7 @@
         if (self.delegate && [self.delegate respondsToSelector:@selector(frameNavView:selected:)]) {
             [self.delegate frameNavView:self selected:indexPath.row];
         }
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self setCurrentProjectTitle];
     }
 }

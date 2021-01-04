@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIImageView *documentIcon;
 @property (weak, nonatomic) IBOutlet UILabel *documentTitle;
 
+@property (nonatomic, strong)ZHUser *currentUser;
+
 @end
 
 NS_ASSUME_NONNULL_END

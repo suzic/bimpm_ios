@@ -9,7 +9,9 @@
 #import "DocumentLibCell.h"
 #import "DocumentLibController.h"
 
-@interface FileListView ()<UIGestureRecognizerDelegate>
+@interface FileListView ()<UIGestureRecognizerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+// api
+@property (nonatomic, strong)APITargetListManager *targetListManager;
 
 @end
 
@@ -23,6 +25,13 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     self.title = [NSString stringWithFormat:@"%ld",self.navigationController.viewControllers.count];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+
+}
+- (void)reoladNetwork{
+    self.targetListManager.pageSize.pageIndex = 1;
+    self.targetListManager.pageSize.pageSize = 20;
+    [self.targetListManager loadData];
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
@@ -58,7 +67,30 @@
     VC.containerVC = self.containerVC;
     [self.navigationController pushViewController:VC animated:YES];
 }
-
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.targetListManager) {
+        
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - setter and getter
+- (APITargetListManager *)targetListManager{
+    if (_targetListManager == nil) {
+        _targetListManager = [[APITargetListManager alloc] init];
+        _targetListManager.delegate = self;
+        _targetListManager.paramSource = self;
+    }
+    return _targetListManager;
+}
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer{
     //判断是否为rootViewController

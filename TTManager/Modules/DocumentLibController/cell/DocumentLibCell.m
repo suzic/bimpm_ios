@@ -13,7 +13,13 @@
     [super awakeFromNib];
     // Initialization code
 }
-
+- (void)setCurrentUser:(ZHUser *)currentUser{
+    if (_currentUser != currentUser) {
+        _currentUser = currentUser;
+        [self.documentIcon sd_setImageWithURL:[NSURL URLWithString:_currentUser.avatar]];
+        self.documentTitle.text = _currentUser.name;
+    }
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

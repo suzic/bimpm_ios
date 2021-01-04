@@ -52,6 +52,83 @@
 }
 // 本地数据库
 - (id)departmentListCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    self.pageSize = dict[@"page"];
+    ZHProject *currentProject = [DataManager defaultInstance].currentProject;
+    // 清除已有的项目部门
+    [[DataManager defaultInstance] cleraDepartmentFromCurrentProject:currentProject];
+    
+    NSArray *department_list = dict[@"department_list"];
+    for (NSDictionary *dic in department_list) {
+        // 获取当前部门
+        ZHDepartment *department = [[DataManager defaultInstance] getDepartMentFromCoredataById:[dic[@"id_department"] intValue]];
+        department.fid_project = currentProject.id_project;
+        department.info = dic[@"info"];
+        department.name = dic[@"name"];
+        NSArray *leader = dic[@"leader"];
+        int order_index = 0;
+        department.id_department = [dic[@"id_department"] intValue];
+        [[DataManager defaultInstance] cleraDepartmentUserFromCurrentDepartment:department];
+        
+        for (NSDictionary *MPDic in dic[@"member_in_project_list"]) {
+        
+            ZHDepartmentUser *departmentUser = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
+            departmentUser.order_index = order_index;
+            // 判断是否是领导
+            departmentUser.is_leader = [leader containsObject:MPDic[@"id_user_project"]];
+            // 获取当前userProject
+            ZHUserProject *userProject = [[DataManager defaultInstance] getUserProjectFromCoredataById:[MPDic[@"id_user_project"] intValue]];
+            userProject.id_user_project = [MPDic[@"id_user_project"] intValue];
+            userProject.order_index = order_index;
+            userProject.is_default = [MPDic[@"is_default"] boolValue];
+            userProject.in_apply = [MPDic[@"in_apply"] boolValue];
+            userProject.in_manager_invite = [MPDic[@"in_manager_invite"] boolValue];
+            userProject.in_invite = [MPDic[@"in_invite"] boolValue];
+            userProject.enable = [MPDic[@"enable"] boolValue];
+            userProject.invite_user = MPDic[@"invite_user"];
+            if (![SZUtil isEmptyOrNull:MPDic[@"enter_date"]]) {
+                userProject.enter_date = [SZUtil dateFromStr:MPDic[@"enter_date"] withFormatterStr:@"yyyy-MM-dd"];
+            }
+            userProject.info = MPDic[@"info"];
+            userProject.user_task_count = [MPDic[@"user_task_count"] intValue];
+//            userProject.last_action = MPDicp[@"last_action"];
+            // 获取user
+            ZHUser *user = [[DataManager defaultInstance] getUserFromCoredataByID:[MPDic[@"id_user"] intValue]];
+            // user数据
+            NSDictionary *userInfo = [self getUserInfo:dic[@"member_list"] id_user:[MPDic[@"id_user"] intValue]];
+            user.id_user = [userInfo[@"userInfo"] intValue];
+            user.phone = userInfo[@"phone"];
+            user.name = userInfo[@"name"];
+            user.lock_password = userInfo[@"lock_password"];
+            user.avatar = userInfo[@"avatar"];
+            
+            user.gender = [userInfo[@"gender"] intValue];
+            user.email = userInfo[@"email"];
+            user.status = [userInfo[@"status"] intValue];
+            user.signature = userInfo[@"signature"];
+            user.uid_chat = userInfo[@"uid_chat"];
+            
+            userProject.belongUser = user;
+            
+            departmentUser.assignUser = userProject;
+            
+            departmentUser.belongDepartment = department;
+            order_index++;
+        }
+        
+        department.belongProject = currentProject;
+    }
+    response.responseData = currentProject;
+    return response;
+}
+- (NSDictionary *)getUserInfo:(NSArray *)userList id_user:(int)id_user{
+    NSDictionary *userDic = nil;
+    for (NSDictionary *dic in userList) {
+        if ([dic[@"id_user"] intValue] == id_user) {
+            userDic = dic;
+            break;
+        }
+    }
+    return userDic;
 }
 @end
