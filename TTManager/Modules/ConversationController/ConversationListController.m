@@ -6,7 +6,6 @@
 //
 
 #import "ConversationListController.h"
-#import "ConversationController.h"
 
 @interface ConversationListController ()
 
@@ -32,11 +31,11 @@
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model
                atIndexPath:(NSIndexPath *)indexPath{
-    ConversationController *conversationVC = [[ConversationController alloc] init];
-    conversationVC.conversationType = ConversationType_PRIVATE;
-    conversationVC.targetId = model.targetId;
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:model.targetId];
+    conversationVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
+
 - (void)didTapCellPortrait:(RCConversationModel *)model{
     
 }

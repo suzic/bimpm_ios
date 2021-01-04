@@ -17,7 +17,6 @@
 		402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F3D2595A4B800A9DABA /* MonitoringController.m */; };
 		402A9F432595A4CF00A9DABA /* WorkbenchController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F422595A4CF00A9DABA /* WorkbenchController.m */; };
 		402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F462595A4DD00A9DABA /* DocumentLibController.m */; };
-		402A9F4B2595A4E800A9DABA /* ConversationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F4A2595A4E800A9DABA /* ConversationController.m */; };
 		402A9F4F2595A4F900A9DABA /* TeamController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F4E2595A4F900A9DABA /* TeamController.m */; };
 		402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F532595B04500A9DABA /* BaseNavigationController.m */; };
 		402A9F612595B12A00A9DABA /* SZUtil.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9F592595B12A00A9DABA /* SZUtil.m */; };
@@ -152,8 +151,6 @@
 		402A9F422595A4CF00A9DABA /* WorkbenchController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkbenchController.m; sourceTree = "<group>"; };
 		402A9F452595A4DD00A9DABA /* DocumentLibController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentLibController.h; sourceTree = "<group>"; };
 		402A9F462595A4DD00A9DABA /* DocumentLibController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentLibController.m; sourceTree = "<group>"; };
-		402A9F492595A4E800A9DABA /* ConversationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationController.h; sourceTree = "<group>"; };
-		402A9F4A2595A4E800A9DABA /* ConversationController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationController.m; sourceTree = "<group>"; };
 		402A9F4D2595A4F900A9DABA /* TeamController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TeamController.h; sourceTree = "<group>"; };
 		402A9F4E2595A4F900A9DABA /* TeamController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TeamController.m; sourceTree = "<group>"; };
 		402A9F532595B04500A9DABA /* BaseNavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseNavigationController.m; sourceTree = "<group>"; };
@@ -550,8 +547,6 @@
 			children = (
 				406FCA40259E066300636079 /* ConversationListController.h */,
 				406FCA41259E066300636079 /* ConversationListController.m */,
-				402A9F492595A4E800A9DABA /* ConversationController.h */,
-				402A9F4A2595A4E800A9DABA /* ConversationController.m */,
 			);
 			path = ConversationController;
 			sourceTree = "<group>";
@@ -1326,7 +1321,6 @@
 				402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */,
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
-				402A9F4B2595A4E800A9DABA /* ConversationController.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,

@@ -6,7 +6,6 @@
 //
 
 #import "UserInforController.h"
-#import "ConversationController.h"
 
 @interface UserInforController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
@@ -104,10 +103,9 @@
 }
 #pragma mark - Action
 - (IBAction)goConversationAction:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    ConversationController *vc = (ConversationController *)[sb instantiateViewControllerWithIdentifier:@"conversationController"];
-    vc.targetId = self.user.uid_chat;
-    [self.navigationController pushViewController:vc animated:YES];
+    NSLog(@"融云im%@",self.user.uid_chat);
+    RCConversationViewController *conversationVC = [[RCConversationViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.user.uid_chat];
+    [self.navigationController pushViewController:conversationVC animated:YES];
 }
 
 - (IBAction)goTaskAction:(id)sender {
