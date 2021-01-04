@@ -8,8 +8,11 @@
 #import "FileListView.h"
 #import "DocumentLibCell.h"
 #import "DocumentLibController.h"
+#import "WebController.h"
 
 @interface FileListView ()<UIGestureRecognizerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+
+@property (nonatomic, strong) NSArray *fileListArray;
 // api
 @property (nonatomic, strong)APITargetListManager *targetListManager;
 
@@ -19,13 +22,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
-    self.title = [NSString stringWithFormat:@"%ld",self.navigationController.viewControllers.count];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    [self reoladNetwork];
 
 }
 - (void)reoladNetwork{
@@ -37,7 +41,6 @@
     [super viewDidAppear:animated];
     //隐藏导航栏造成的返回手势失效
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
-    [self.containerVC loadFileCatalogCollectionView];
 }
 #pragma mark - Table view data source
 
@@ -45,7 +48,7 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return self.fileListArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 68.0f;
@@ -56,31 +59,57 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     DocumentLibCell *cell = [tableView dequeueReusableCellWithIdentifier:@"documentLibCell" forIndexPath:indexPath];
-    cell.documentIcon.image = [UIImage imageNamed:@"file_group"];
+    ZHTarget *target = self.fileListArray[indexPath.row];
+    cell.target = target;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"documentList"];
-    FileListView *VC = (FileListView *)[nav topViewController];
-    VC.containerVC = self.containerVC;
-    [self.navigationController pushViewController:VC animated:YES];
+    ZHTarget *target = self.fileListArray[indexPath.row];
+    // 文件夹
+    if (target.is_file == 0)
+    {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"documentList"];
+        
+        FileListView *VC = (FileListView *)[nav topViewController];
+        VC.containerVC = self.containerVC;
+        VC.uid_parent = target.fid_parent;
+        [self.navigationController pushViewController:VC animated:YES];
+    }else if(target.is_file == 1){
+        WebController *webVC = [[WebController alloc] init];
+        webVC.loadUrl = target.link;
+        webVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:webVC animated:YES];
+    }
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     if (manager == self.targetListManager) {
-        
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"id_module":@"0",
+                @"uid_parent":self.uid_parent};
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    
+    if (manager == self.targetListManager) {
+        [self.tableView showDataCount:self.fileListArray.count];
+        [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
+        self.title = @"";
+        [self.containerVC loadFileCatalogCollectionView];
+        [self.tableView reloadData];
+    }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    
+    if (manager == self.targetListManager) {
+        self.title = @"";
+        [self.tableView showDataCount:0];
+        [self.containerVC loadFileCatalogCollectionView];
+    }
 }
 #pragma mark - setter and getter
 - (APITargetListManager *)targetListManager{
@@ -91,6 +120,13 @@
     }
     return _targetListManager;
 }
+- (NSArray *)fileListArray{
+     NSArray *result = (NSArray *)self.targetListManager.response.responseData;
+    if (_fileListArray == nil) {
+        _fileListArray = result;
+    }
+    return _fileListArray;
+}
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer{
     //判断是否为rootViewController
@@ -99,60 +135,5 @@
     }
     return YES;
 }
-
-
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
-}
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

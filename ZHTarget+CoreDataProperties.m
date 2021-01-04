@@ -1,8 +1,8 @@
 //
 //  ZHTarget+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/4.
 //
 //
 
@@ -32,6 +32,7 @@
 @dynamic type;
 @dynamic uid_target;
 @dynamic version;
+@dynamic fid_project;
 @dynamic asFormBuddy;
 @dynamic asTaskFirst;
 @dynamic belongProject;
@@ -39,5 +40,7 @@
 @dynamic inMessages;
 @dynamic inSteps;
 @dynamic owner;
+@dynamic childrenTarget;
+@dynamic parentTarget;
 
 @end

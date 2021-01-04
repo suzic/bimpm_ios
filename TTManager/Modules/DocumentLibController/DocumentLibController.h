@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DocumentLibController : UIViewController
 
 - (void)loadFileCatalogCollectionView;
+- (void)fileViewListEmpty:(BOOL)empty;
 
 @end
 

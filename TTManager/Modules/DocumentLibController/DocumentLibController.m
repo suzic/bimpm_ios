@@ -35,6 +35,10 @@
 - (void)loadFileCatalogCollectionView{
     [self.fileCatalogCollectionView reloadData];
 }
+- (void)fileViewListEmpty:(BOOL)empty{
+    if (self.fileView.navigationController.viewControllers.count <=1)
+        self.fileCatalogCollectionView.hidden = empty;
+}
 //#pragma mark - UICollectionViewDelegate UICollectionViewDataSource
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -75,6 +79,7 @@
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         self.fileView = (FileListView *)nav.topViewController;
         self.fileView.containerVC = self;
+        self.fileView.uid_parent = @"NULL";
     }
 }
 

@@ -31,7 +31,12 @@
 - (IBAction)moreMessageAction:(id)sender {
     [self routerEventWithName:MoreMessage userInfo:@{}];
 }
-
+- (void)setGanntInfoList:(NSArray *)ganntInfoList{
+    if (_ganntInfoList != ganntInfoList) {
+        _ganntInfoList = ganntInfoList;
+        self.msgView.messageArray = _ganntInfoList;
+    }
+}
 - (MessageView *)msgView{
     if (_msgView == nil) {
         _msgView = [[MessageView alloc] init];

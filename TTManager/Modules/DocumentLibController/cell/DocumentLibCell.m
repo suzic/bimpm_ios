@@ -20,6 +20,26 @@
         self.documentTitle.text = _currentUser.name;
     }
 }
+- (void)setTarget:(ZHTarget *)target{
+    if (_target != target) {
+        _target = target;
+        NSString *fileIconImage = [self getCurrentfileTypeImageView:_target];
+        self.documentIcon.image = [UIImage imageNamed:fileIconImage];
+        self.documentTitle.text = _target.name;
+    }
+}
+- (NSString *)getCurrentfileTypeImageView:(ZHTarget *)target{
+    NSString *name = @"file_group";
+    // 文件夹
+    if (target.is_file == 0) {
+        name = @"file_group";
+    }
+    // 文件
+    else if(target.is_file == 1){
+        name = [NSString stringWithFormat:@"file_group_%d",target.type];
+    }
+    return name;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

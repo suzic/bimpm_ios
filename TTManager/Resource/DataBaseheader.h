@@ -27,5 +27,5 @@
 #import "DataManager.h"
 #import "LoginUserManager.h"
 #import "DataManager+User.h"
-
+#import "DataManager+Target.h"
 #endif /* DataBaseheader_h */

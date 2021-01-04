@@ -81,7 +81,7 @@
             <objects>
                 <viewController id="s44-es-CbV" customClass="UserSettingController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mqc-DI-kSi">
-                        <rect key="frame" x="0.0" y="0.0" width="342.33333333333331" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="342" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTj-Mq-EeE" userLabel="Header View">
@@ -183,6 +183,8 @@
                     </view>
                     <connections>
                         <outlet property="tableView" destination="p5r-0c-L1H" id="edR-YC-9d0"/>
+                        <outlet property="userImage" destination="R3P-Xh-Dgv" id="mdX-AL-RC9"/>
+                        <outlet property="userName" destination="L3T-Kq-dr0" id="qOX-vH-vaH"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oFI-Kp-Zfy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

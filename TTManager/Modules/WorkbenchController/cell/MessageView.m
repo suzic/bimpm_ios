@@ -35,12 +35,13 @@
 - (void)setMessageArray:(NSArray *)messageArray{
     if (_messageArray != messageArray) {
         _messageArray = messageArray;
+        [self.tableView showDataCount:_messageArray.count];
         [self.tableView reloadData];
     }
 }
 #pragma mark -UITableViewDelegate  UITableViewDataSource
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 30;
+    return self.messageArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
@@ -57,7 +58,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     cell.imageView.image = [UIImage imageNamed:@"delete_password"];
-    cell.textLabel.text = @"我是一条测试消息";
+    cell.textLabel.text = self.messageArray[indexPath.row];
     cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
     cell.textLabel.textColor = [UIColor whiteColor];
     return cell;

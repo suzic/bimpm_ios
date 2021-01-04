@@ -112,6 +112,9 @@
 }
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
     self.currentSelected = indexPath.row;
+    ZHDepartment *department = self.teamArray[self.currentSelected];
+    NSArray *array = [self currentUserList:department.hasUsers];
+    [self.tableView showDataCount:array.count];
     [self.tableView reloadData];
 }
 #pragma mark - APIManagerParamSource
@@ -131,6 +134,8 @@
     if (manager == self.departmentListManager) {
         self.departmentListManager.response = manager.response;
         self.currentSelected = 0;
+        [self.tableView showDataCount:self.teamArray.count];
+        self.teamNameBtn.hidden = !(self.teamArray.count > 0);
         [self.tableView reloadData];
     }
 }
@@ -172,7 +177,7 @@
     }
     currentSelected = _currentSelected;
     NSArray *title = [self departmentTitle];
-    if (title > 0) {
+    if (title.count > 0) {
         [self.teamNameBtn setTitle:title[_currentSelected] forState:UIControlStateNormal];
     }
 }

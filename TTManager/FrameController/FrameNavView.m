@@ -52,7 +52,8 @@
     self.userAvatar.layer.cornerRadius = 16.0f;
     
     [self setCurrentProjectTitle];
-    
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    [self.userAvatar sd_setBackgroundImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test-1"]];
 }
 - (void)setCurrentProjectTitle{
     ZHProject *currentProject = [DataManager defaultInstance].currentProject;
@@ -61,6 +62,8 @@
     if (currentProject != nil) {
         projectTitle = currentProject.name;
     }
+    
+    
     [self.changeProjectBtn setTitle:projectTitle forState:UIControlStateNormal];
 }
 #pragma mark - setter and getter

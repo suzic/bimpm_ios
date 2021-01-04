@@ -12,12 +12,15 @@
 #import "HeaderCell.h"
 #import "MoreWorkMsgController.h"
 #import "TaskListController.h"
+#import "MessageCell.h"
+#import "TaskInforCell.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
+@property (nonatomic, strong) NSArray *ganttInfoArray;
 // api
 @property (nonatomic, strong) APIUTPListManager *UTPListManager;
 @property (nonatomic, strong) APIUTPInfoManager *UTPInfoManager;
@@ -33,6 +36,7 @@
     // Do any additional setup after loading the view.
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    [self reoladNetwork];
 
 }
 - (void)reoladNetwork{
@@ -41,14 +45,7 @@
     [self.taskListManager loadData];
     [self.UTPGanttManager loadData];
 }
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
-//}
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-//}
+
 #pragma mark - UITableViewDelegate and UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -72,7 +69,11 @@
     UITableViewCell *cell = nil;
     switch (indexPath.section) {
         case 0:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+        {
+            MessageCell *msgCell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+            msgCell.ganntInfoList = self.ganttInfoArray;
+            cell = msgCell;
+        }
             break;
         case 1:
             cell = [tableView dequeueReusableCellWithIdentifier:@"functionCell" forIndexPath:indexPath];
@@ -150,6 +151,7 @@
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
+    ZHProject *project = [DataManager defaultInstance].currentProject;
     if (manager == self.taskListManager) {
         
     }else if(manager == self.UTPListManager){
@@ -157,7 +159,9 @@
     }else if(manager == self.UTPInfoManager){
         
     }else if(manager == self.UTPGanttManager){
-        
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"forward_days":@"7",
+                @"gantt_type":@"0"};
     }
     return dic;
 }
@@ -170,7 +174,9 @@
     }else if(manager == self.UTPInfoManager){
         
     }else if(manager == self.UTPGanttManager){
-        
+        self.ganttInfoArray = manager.response.responseData;
+        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
+        [self.tableView reloadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -216,6 +222,12 @@
         _UTPListManager.paramSource = self;
     }
     return _UTPListManager;
+}
+- (NSArray *)ganttInfoArray{
+    if (_ganttInfoArray == nil) {
+        _ganttInfoArray = [NSArray array];
+    }
+    return _ganttInfoArray;
 }
 /*
 #pragma mark - Navigation

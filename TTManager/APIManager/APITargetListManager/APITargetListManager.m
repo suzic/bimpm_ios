@@ -31,7 +31,9 @@
     return YES;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSDictionary *dic = @{@"data":params,
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
+    dict[@"pager"] = [self.pageSize currentPage];
+    NSDictionary *dic = @{@"data":dict,
                           @"module":@"",
                           @"priority":@"5"};
     return dic;
@@ -48,6 +50,9 @@
 }
 // 本地数据库
 - (id)targetListCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    self.pageSize = dict[@"page"];
+    NSArray *array = [[DataManager defaultInstance] syncTargetWithInfo:dict];
+    return array;
 }
 @end

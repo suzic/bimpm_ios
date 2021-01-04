@@ -48,7 +48,8 @@
 }
 // 本地数据库
 - (id)userToProjectGanttCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = response.responseData[@"data"];
+    return dict[@"gantt_info"];
 }
 
 @end

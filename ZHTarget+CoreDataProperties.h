@@ -1,8 +1,8 @@
 //
 //  ZHTarget+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/4.
 //
 //
 
@@ -33,6 +33,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int32_t type;
 @property (nullable, nonatomic, copy) NSString *uid_target;
 @property (nonatomic) int32_t version;
+@property (nullable, nonatomic, copy) NSString *fid_project;
 @property (nullable, nonatomic, retain) ZHForm *asFormBuddy;
 @property (nullable, nonatomic, retain) NSSet<ZHTask *> *asTaskFirst;
 @property (nullable, nonatomic, retain) ZHProject *belongProject;
@@ -40,6 +41,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<ZHMessage *> *inMessages;
 @property (nullable, nonatomic, retain) NSSet<ZHStep *> *inSteps;
 @property (nullable, nonatomic, retain) ZHUser *owner;
+@property (nullable, nonatomic, retain) NSSet<ZHTarget *> *childrenTarget;
+@property (nullable, nonatomic, retain) ZHTarget *parentTarget;
 
 @end
 
@@ -64,6 +67,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeInStepsObject:(ZHStep *)value;
 - (void)addInSteps:(NSSet<ZHStep *> *)values;
 - (void)removeInSteps:(NSSet<ZHStep *> *)values;
+
+- (void)addChildrenTargetObject:(ZHTarget *)value;
+- (void)removeChildrenTargetObject:(ZHTarget *)value;
+- (void)addChildrenTarget:(NSSet<ZHTarget *> *)values;
+- (void)removeChildrenTarget:(NSSet<ZHTarget *> *)values;
 
 @end
 
