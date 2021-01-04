@@ -33,8 +33,36 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.bottomView borderForColor:RGB_COLOR(238, 238, 238) borderWidth:0.5 borderType:UIBorderSideTypeTop];
+    [self loadData];
 }
+- (void)loadData{
+    [self.userImage sd_setImageWithURL:[NSURL URLWithString:self.user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+    self.username.text = self.user.name;
+    NSString *email = @"";
+    NSString *phone = @"";
+    NSString *sex = @"未知";
 
+    if ([SZUtil isEmptyOrNull:self.user.email]) {
+        email = [NSString stringWithFormat:@"电子邮箱: %@",@"暂未"];
+    }else{
+        email = [NSString stringWithFormat:@"电子邮箱: %@",self.user.email];
+    }
+    
+    if ([SZUtil isEmptyOrNull:self.user.phone]) {
+        phone = [NSString stringWithFormat:@"手机号码: %@",@"暂未"];
+    }else{
+        phone = [NSString stringWithFormat:@"手机号码: %@",self.user.phone];
+    }
+    if (self.user.gender == 1) {
+        sex = @"男";
+    }else if(self.user.gender == 2){
+        sex = @"女";
+    }
+    
+    self.userEmali.text = email;
+    self.userPhone.text = phone;
+    self.userSex.text = sex;
+}
 // 改变字体颜色
 - (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
     NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:text];

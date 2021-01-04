@@ -50,7 +50,7 @@
 #pragma mark - private methods
 
 - (id)loginCoreData:(LCURLResponse *)response{
-    NSDictionary * oneData = (NSDictionary*)response.responseData[@"data"];
+    NSDictionary * oneData = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     
 //    // 使用重置的方式获取新的登录账户
 //    [DataManager defaultInstance].currentUser = nil;

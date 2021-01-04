@@ -209,10 +209,14 @@
         return;
     
     userProject.id_user_project = [dicData[@"id_user_project"] intValue];
+    userProject.enable = [dicData[@"enable"] boolValue];
     userProject.is_default = [dicData[@"is_default"] intValue];
     userProject.in_apply = [dicData[@"in_apply"] intValue];
     userProject.in_invite = [dicData[@"in_invite"] intValue];
+    userProject.invite_user = dicData[@"invite_user"];
     userProject.in_manager_invite = [dicData[@"in_manager_invite"] intValue];
+    userProject.user_task_count = [dicData[@"user_task_count"] intValue];
+
     if (![SZUtil isEmptyOrNull:dicData[@"invite_user"]])
         userProject.invite_user = dicData[@"invite_user"];
     
@@ -245,14 +249,16 @@
     role.name = dicData[@"name"];
     role.info = dicData[@"info"];
     role.is_base = [dicData[@"is_base"] intValue];
-
+    
     // 建立与衍生角色之间的关联
     if (role.is_base != 1)
     {
         NSDictionary *roleDic = dicData[@"base"];
-        ZHRole *baseRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];
-        [[DataManager defaultInstance] syncRole:baseRole withRoleInfo:roleDic];
-        role.baseRole = baseRole;
+        if ([roleDic isKindOfClass:[NSDictionary class]]){
+            ZHRole *baseRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];
+            [[DataManager defaultInstance] syncRole:baseRole withRoleInfo:roleDic];
+            role.baseRole = baseRole;
+        }
     }
 
     // 建立与项目的外键关联

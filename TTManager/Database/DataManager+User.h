@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取项目部门t
 /// @param id_department id_department
 - (ZHDepartment *)getDepartMentFromCoredataById:(int)id_department;
+
 - (ZHDepartmentUser *)getDepartmentUserFromCoredataById:(int)order_index;
 /// 获取Role
 /// @param roleId roleId
