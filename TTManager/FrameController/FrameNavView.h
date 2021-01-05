@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak) id<FrameNavViewDelegate>delegate;
 
-- (void)setCurrentProjectTitle;
+- (void)reloadData;
 
 @end
 

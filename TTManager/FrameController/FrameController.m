@@ -7,6 +7,7 @@
 
 #import "FrameController.h"
 #import "FrameNavView.h"
+#import "UserSettingController.h"
 
 @interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FrameNavViewDelegate>
 
@@ -25,6 +26,7 @@
 @property (nonatomic, strong) UIViewController *homeVC;
 // 导航栏
 @property (nonatomic, strong) FrameNavView *headerView;
+@property (nonatomic, strong) UserSettingController *settingVC;
 // 抽屉VC
 @property (nonatomic, strong) UIViewController *userVC;
 
@@ -144,7 +146,7 @@
         NSLog(@"选择项目");
         self.projectView.hidden = YES;
         [DataManager defaultInstance].currentProject = userInfo[@"currentProject"];
-        [self.headerView setCurrentProjectTitle];
+        [self.headerView reloadData];
         [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self updateFrame];
@@ -273,6 +275,8 @@
         if ([AppDelegate sharedDelegate].initRongCloud == NO) {
             [[AppDelegate sharedDelegate] initRongCloudIM];
         }
+        [self.headerView reloadData];
+        [self.settingVC reloadData];
         [self updateFrame];
     }
 }
@@ -349,21 +353,13 @@
     {
         UINavigationController * navi = [segue destinationViewController];
         self.homeVC = (UIViewController *)[navi topViewController];
+    }else if ([segue.identifier isEqualToString:@"setting"]) {
+        self.settingVC = (UserSettingController *)[segue destinationViewController];
     }
 }
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

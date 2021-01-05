@@ -51,19 +51,20 @@
     self.userAvatar.clipsToBounds = YES;
     self.userAvatar.layer.cornerRadius = 16.0f;
     
-    [self setCurrentProjectTitle];
+    [self reloadData];
+    
+}
+
+- (void)reloadData{
+    self.hidden = NO;
     ZHUser *user = [DataManager defaultInstance].currentUser;
     [self.userAvatar sd_setBackgroundImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test-1"]];
-}
-- (void)setCurrentProjectTitle{
     ZHProject *currentProject = [DataManager defaultInstance].currentProject;
     NSLog(@"当前选择的项目名称===%@",currentProject.name);
     NSString *projectTitle = @"众和空间";
     if (currentProject != nil) {
         projectTitle = currentProject.name;
     }
-    
-    
     [self.changeProjectBtn setTitle:projectTitle forState:UIControlStateNormal];
 }
 #pragma mark - setter and getter
@@ -86,9 +87,8 @@
     return _changeProjectBtn;
 }
 - (NSMutableArray *)projectList{
-    if (_projectList == nil) {
+    if (_projectList == nil || _projectList.count <= 0) {
         _projectList = [DataManager defaultInstance].currentProjectList;
-        [_projectList addObject:@"回到列表"];
     }
     return _projectList;
 }
@@ -104,7 +104,9 @@
     PopViewController *popView = [[PopViewController alloc] init];
     popView.delegate = self;
     popView.view.alpha = 1.0;
-    popView.dataList = self.projectList;
+    NSMutableArray *projectlist = [NSMutableArray arrayWithArray:self.projectList];
+    [projectlist addObject:@"回到列表"];
+    popView.dataList = projectlist;
     popView.modalPresentationStyle = UIModalPresentationPopover;
     
     popView.popoverPresentationController.sourceView = sourceView;
@@ -132,22 +134,8 @@
             [self.delegate frameNavView:self selected:indexPath.row];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
-        [self setCurrentProjectTitle];
+        [self reloadData];
     }
-}
-// 暂时不需要
-- (void)transformButtonImage:(BOOL)down{
-    
-    CABasicAnimation* rotationAnimation;
-    rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.z"];
-    rotationAnimation.fromValue = [NSNumber numberWithFloat:down == YES ? 0.0 :M_PI];
-    rotationAnimation.toValue = [NSNumber numberWithFloat: down == YES ? M_PI :0];
-    rotationAnimation.duration = 0.4;
-    rotationAnimation.cumulative = YES;
-    rotationAnimation.repeatCount = 1;
-    rotationAnimation.removedOnCompletion = NO;
-    rotationAnimation.fillMode = kCAFillModeForwards;
-    [self.changeProjectBtn.imageView.layer addAnimation:rotationAnimation forKey:@"rotationAnimation"];
 }
 
 /*

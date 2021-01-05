@@ -37,7 +37,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dVN-XS-5RQ">
                                 <rect key="frame" x="-342.33333333333331" y="0.0" width="342.33333333333331" height="926"/>
                                 <connections>
-                                    <segue destination="s44-es-CbV" kind="embed" id="8t7-Jm-wM6"/>
+                                    <segue destination="s44-es-CbV" kind="embed" identifier="setting" id="8t7-Jm-wM6"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -81,7 +81,7 @@
             <objects>
                 <viewController id="s44-es-CbV" customClass="UserSettingController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mqc-DI-kSi">
-                        <rect key="frame" x="0.0" y="0.0" width="342" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="342.33333333333331" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hTj-Mq-EeE" userLabel="Header View">

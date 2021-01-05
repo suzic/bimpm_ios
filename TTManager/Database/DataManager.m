@@ -54,7 +54,7 @@ static NSString *const CoreDataModelFileName = @"bimpm";
 // 当前用户的项目列表
 - (NSMutableArray *)currentProjectList
 {
-    if (_currentProjectList == nil)
+    if (_currentProjectList == nil || _currentProjectList.count <= 0)
     {
         _currentProjectList = [NSMutableArray array];
         for (ZHUserProject *UP in self.currentUser.hasProjects)

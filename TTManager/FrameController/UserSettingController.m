@@ -21,6 +21,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+}
+- (void)reloadData{
     ZHUser *user = [DataManager defaultInstance].currentUser;
     [self.userImage sd_setBackgroundImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test-1"]];
     self.userName.text = user.name;
