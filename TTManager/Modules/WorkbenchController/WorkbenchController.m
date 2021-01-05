@@ -152,8 +152,12 @@
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHProject *project = [DataManager defaultInstance].currentProject;
+    ZHUser *user = [DataManager defaultInstance].currentUser;
     if (manager == self.taskListManager) {
-        
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"id_user":INT_32_TO_STRING(user.id_user),
+                @"is_starter":@"0",
+                @"is_finished":@"0"};
     }else if(manager == self.UTPListManager){
         
     }else if(manager == self.UTPInfoManager){
@@ -175,7 +179,6 @@
         
     }else if(manager == self.UTPGanttManager){
         self.ganttInfoArray = manager.response.responseData;
-        NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:0];
         [self.tableView reloadData];
     }
 }

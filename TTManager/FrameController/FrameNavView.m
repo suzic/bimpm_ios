@@ -88,7 +88,6 @@
 - (NSMutableArray *)projectList{
     if (_projectList == nil) {
         _projectList = [DataManager defaultInstance].currentProjectList;
-        
         [_projectList addObject:@"回到列表"];
     }
     return _projectList;

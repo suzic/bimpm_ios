@@ -47,6 +47,17 @@
 }
 // 本地数据库
 - (id)taskListCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    NSMutableArray *array = [NSMutableArray array];
+    NSArray *list = dict[@"list"];
+    if ([list isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *taskDic in dict[@"list"]) {
+            
+            ZHTask *task = [[DataManager defaultInstance] syncTaskWithTaskInfo:taskDic];
+            [array addObject:task];
+        }
+    }
+    response.responseData = array;
+    return response;
 }
 @end

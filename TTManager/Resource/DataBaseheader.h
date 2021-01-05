@@ -28,4 +28,6 @@
 #import "LoginUserManager.h"
 #import "DataManager+User.h"
 #import "DataManager+Target.h"
+#import "DataManager+Task.h"
+
 #endif /* DataBaseheader_h */

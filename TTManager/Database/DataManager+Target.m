@@ -25,37 +25,40 @@
     NSMutableArray *result = [NSMutableArray array];
     
     for (NSDictionary *targetDic in dic[@"list"]) {
-        
-        ZHProject *project = [self getProjectFromCoredataById:[targetDic[@"fid_project"] intValue]];
-        ZHTarget *childrenTarget = [self getTargetFromCoreDataById:targetDic[@"uid_target"]];
-        childrenTarget.uid_target = targetDic[@"uid_target"];
-        childrenTarget.fid_parent = targetDic[@"fid_parent"];
-        childrenTarget.fid_project = targetDic[@"fid_project"];
-        childrenTarget.id_module = [targetDic[@"id_module"] intValue];
-        childrenTarget.is_file = [targetDic[@"is_file"] boolValue];
-        childrenTarget.access_mode = [targetDic[@"access_mode"] intValue];
-//        childrenTarget.record_status = [targetDic[@"record_status"] intValue];
-        childrenTarget.name = targetDic[@"name"];
-        childrenTarget.password = targetDic[@"password"];
-        childrenTarget.size = [targetDic[@"size"] intValue];
-        childrenTarget.history_size = [targetDic[@"history_size"] intValue];
-        childrenTarget.type = [targetDic[@"type"] intValue];
-        childrenTarget.multi_editable = [targetDic[@"multi_editable"] intValue];
-        childrenTarget.link = targetDic[@"link"];
-        childrenTarget.check_sum = [targetDic[@"check_sum"] intValue];
-        childrenTarget.version = [targetDic[@"version"] intValue];
-        
-        childrenTarget.sub_folder_count = [targetDic[@"sub_folder_count"] intValue];
-        childrenTarget.sub_file_count = [targetDic[@"sub_file_count"] intValue];
-
-        // 父id存在的时候查找
-        if (![SZUtil isEmptyOrNull:dic[@"fid_parent"]]) {
-            ZHTarget *parentTarget = [self getTargetFromCoreDataById:targetDic[@"fid_parent"]];
-            childrenTarget.parentTarget = parentTarget;
-        }
-        childrenTarget.belongProject = project;
+        ZHTarget *childrenTarget = [self syncTargetWithInfoItem:targetDic];
         [result addObject:childrenTarget];
     }
     return result;
+}
+- (ZHTarget *)syncTargetWithInfoItem:(NSDictionary *)targetItem{
+    ZHProject *project = [self getProjectFromCoredataById:[targetItem[@"fid_project"] intValue]];
+    ZHTarget *childrenTarget = [self getTargetFromCoreDataById:targetItem[@"uid_target"]];
+    childrenTarget.uid_target = targetItem[@"uid_target"];
+    childrenTarget.fid_parent = targetItem[@"fid_parent"];
+    childrenTarget.fid_project = targetItem[@"fid_project"];
+    childrenTarget.id_module = [targetItem[@"id_module"] intValue];
+    childrenTarget.is_file = [targetItem[@"is_file"] boolValue];
+    childrenTarget.access_mode = [targetItem[@"access_mode"] intValue];
+//        childrenTarget.record_status = [targetDic[@"record_status"] intValue];
+    childrenTarget.name = targetItem[@"name"];
+    childrenTarget.password = targetItem[@"password"];
+    childrenTarget.size = [targetItem[@"size"] intValue];
+    childrenTarget.history_size = [targetItem[@"history_size"] intValue];
+    childrenTarget.type = [targetItem[@"type"] intValue];
+    childrenTarget.multi_editable = [targetItem[@"multi_editable"] intValue];
+    childrenTarget.link = targetItem[@"link"];
+    childrenTarget.check_sum = [targetItem[@"check_sum"] intValue];
+    childrenTarget.version = [targetItem[@"version"] intValue];
+    
+    childrenTarget.sub_folder_count = [targetItem[@"sub_folder_count"] intValue];
+    childrenTarget.sub_file_count = [targetItem[@"sub_file_count"] intValue];
+
+    // 父id存在的时候查找
+    if (![SZUtil isEmptyOrNull:targetItem[@"fid_parent"]]) {
+        ZHTarget *parentTarget = [self getTargetFromCoreDataById:targetItem[@"fid_parent"]];
+        childrenTarget.parentTarget = parentTarget;
+    }
+    childrenTarget.belongProject = project;
+    return childrenTarget;
 }
 @end

@@ -123,6 +123,7 @@
 		406FCAEB25A31E7A00636079 /* ZHTarget+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAE925A31E7A00636079 /* ZHTarget+CoreDataClass.m */; };
 		406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */; };
 		406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF125A34A8200636079 /* UITableView+EmptyView.m */; };
+		406FCAF725A400C000636079 /* DataManager+Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF625A400C000636079 /* DataManager+Task.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -363,6 +364,8 @@
 		406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHTarget+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
 		406FCAF025A34A8200636079 /* UITableView+EmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+EmptyView.h"; sourceTree = "<group>"; };
 		406FCAF125A34A8200636079 /* UITableView+EmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+EmptyView.m"; sourceTree = "<group>"; };
+		406FCAF525A400C000636079 /* DataManager+Task.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataManager+Task.h"; sourceTree = "<group>"; };
+		406FCAF625A400C000636079 /* DataManager+Task.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Task.m"; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -659,6 +662,8 @@
 				402AA0452595D6EF00A9DABA /* DataManager+User.m */,
 				406FCAE325A3159B00636079 /* DataManager+Target.h */,
 				406FCAE425A3159B00636079 /* DataManager+Target.m */,
+				406FCAF525A400C000636079 /* DataManager+Task.h */,
+				406FCAF625A400C000636079 /* DataManager+Task.m */,
 				402A9F9D2595D6EE00A9DABA /* objects */,
 			);
 			path = Database;
@@ -1240,6 +1245,7 @@
 				402AA0DD2595D8A300A9DABA /* ZHDepartment+CoreDataClass.m in Sources */,
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
+				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
 				40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */,
 				402AA0D82595D8A300A9DABA /* ZHRole+CoreDataClass.m in Sources */,
 				406FCA7E25A195B600636079 /* APIDMDetailManager.m in Sources */,

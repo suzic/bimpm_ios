@@ -146,10 +146,10 @@
     return module;
 }
 
-- (void)syncUser:(ZHUser *)user withUserInfo:(NSDictionary *)dicData
+- (ZHUser *)syncUser:(ZHUser *)user withUserInfo:(NSDictionary *)dicData
 {
     if (user == nil || dicData == nil)
-        return;
+        return nil;
     
     user.id_user = [dicData[@"id_user"] intValue];
     
@@ -170,6 +170,7 @@
     user.uid_chat = dicData[@"uid_chat"];
     user.status = [dicData[@"status"] intValue];
     user.gender = [dicData[@"gender"] intValue];
+    return user;
 }
 
 - (void)syncProject:(ZHProject *)project withProjectInfo:(NSDictionary *)dicData

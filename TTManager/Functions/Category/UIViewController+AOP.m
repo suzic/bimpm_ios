@@ -34,7 +34,7 @@
                        NSClassFromString(@"TeamController"),
                        NSClassFromString(@"FileListView"),
                        NSClassFromString(@"PopViewController"),
-                       NSClassFromString(@"LoginViewController")];
+                       NSClassFromString(@"FrameController")];
     if ([array containsObject:[self class]]) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
     }else{

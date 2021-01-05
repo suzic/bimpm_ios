@@ -51,7 +51,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 同步用户数据
 /// @param user 当前用户
 /// @param dicData 数据
-- (void)syncUser:(ZHUser *)user withUserInfo:(NSDictionary *)dicData;
+- (ZHUser *)syncUser:(ZHUser *)user withUserInfo:(NSDictionary *)dicData;
 
 /// 同步project
 /// @param project project

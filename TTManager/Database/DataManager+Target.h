@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (NSMutableArray *)syncTargetWithInfo:(NSDictionary *)dic;
 
+- (ZHTarget *)syncTargetWithInfoItem:(NSDictionary *)targetItem;
+
 @end
 
 NS_ASSUME_NONNULL_END

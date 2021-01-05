@@ -253,6 +253,7 @@
 // 处理页面
 - (void)updateFrame
 {
+    self.headerView.hidden = NO;
 }
 #pragma mark - FrameNavViewDelegate
 - (void)clickShowProjectListView{
@@ -272,6 +273,7 @@
         if ([AppDelegate sharedDelegate].initRongCloud == NO) {
             [[AppDelegate sharedDelegate] initRongCloudIM];
         }
+        [self updateFrame];
     }
 }
 
