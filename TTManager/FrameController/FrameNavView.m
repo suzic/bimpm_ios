@@ -124,7 +124,7 @@
     return YES;
 }
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.projectList.count-1){
+    if (indexPath.row == self.projectList.count){
         if (self.delegate && [self.delegate respondsToSelector:@selector(clickShowProjectListView)]) {
             [self.delegate clickShowProjectListView];
         }
