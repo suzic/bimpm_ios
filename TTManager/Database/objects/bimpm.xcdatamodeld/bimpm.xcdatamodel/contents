@@ -12,13 +12,16 @@
         <attribute name="info" optional="YES" attributeType="String"/>
         <attribute name="name" optional="YES" attributeType="String"/>
         <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasDepartments" inverseEntity="ZHProject"/>
+        <relationship name="hasDMUsers" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHDepartmentUser" inverseName="assignDepartment" inverseEntity="ZHDepartmentUser"/>
         <relationship name="hasUsers" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHDepartmentUser" inverseName="belongDepartment" inverseEntity="ZHDepartmentUser"/>
     </entity>
     <entity name="ZHDepartmentUser" representedClassName="ZHDepartmentUser" syncable="YES">
         <attribute name="is_leader" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="assignDepartment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHDepartment" inverseName="hasDMUsers" inverseEntity="ZHDepartment"/>
         <relationship name="assignUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUserProject" inverseName="inDepartments" inverseEntity="ZHUserProject"/>
         <relationship name="belongDepartment" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHDepartment" inverseName="hasUsers" inverseEntity="ZHDepartment"/>
+        <relationship name="belongUserProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUserProject" inverseName="hasDMUsers" inverseEntity="ZHUserProject"/>
     </entity>
     <entity name="ZHFlow" representedClassName="ZHFlow" syncable="YES">
         <attribute name="dynamic" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -271,12 +274,13 @@
         <relationship name="assignRole" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHRole" inverseName="actUsers" inverseEntity="ZHRole"/>
         <relationship name="belongProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="hasUsers" inverseEntity="ZHProject"/>
         <relationship name="belongUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasProjects" inverseEntity="ZHUser"/>
+        <relationship name="hasDMUsers" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHDepartmentUser" inverseName="belongUserProject" inverseEntity="ZHDepartmentUser"/>
         <relationship name="inDepartments" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHDepartmentUser" inverseName="assignUser" inverseEntity="ZHDepartmentUser"/>
     </entity>
     <elements>
         <element name="ZHAllow" positionX="1200" positionY="842" width="160" height="103"/>
-        <element name="ZHDepartment" positionX="900" positionY="863" width="160" height="133"/>
-        <element name="ZHDepartmentUser" positionX="600" positionY="893" width="160" height="103"/>
+        <element name="ZHDepartment" positionX="900" positionY="863" width="160" height="148"/>
+        <element name="ZHDepartmentUser" positionX="600" positionY="893" width="160" height="133"/>
         <element name="ZHFlow" positionX="0" positionY="76" width="160" height="238"/>
         <element name="ZHForm" positionX="1200" positionY="15" width="160" height="298"/>
         <element name="ZHFormItem" positionX="1500" positionY="60" width="160" height="238"/>
@@ -289,6 +293,6 @@
         <element name="ZHTarget" positionX="1200" positionY="399" width="160" height="463"/>
         <element name="ZHTask" positionX="0" positionY="814" width="160" height="344"/>
         <element name="ZHUser" positionX="300" positionY="294" width="160" height="494"/>
-        <element name="ZHUserProject" positionX="600" positionY="384" width="160" height="254"/>
+        <element name="ZHUserProject" positionX="600" positionY="384" width="160" height="283"/>
     </elements>
 </model>

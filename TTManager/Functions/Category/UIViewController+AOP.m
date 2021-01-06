@@ -27,19 +27,19 @@
 }
 #pragma mark - AOP
 - (void)AOP_viewWillAppear:(BOOL)animated{
-    NSArray *array = @[NSClassFromString(@"MonitoringController"),
-                       NSClassFromString(@"WorkbenchController"),
-                       NSClassFromString(@"DocumentLibController"),
-                       NSClassFromString(@"ConversationListController"),
-                       NSClassFromString(@"TeamController"),
-                       NSClassFromString(@"FileListView"),
-                       NSClassFromString(@"PopViewController"),
-                       NSClassFromString(@"FrameController")];
-    if ([array containsObject:[self class]]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
-    }else{
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-    }
+//    NSArray *array = @[NSClassFromString(@"MonitoringController"),
+//                       NSClassFromString(@"WorkbenchController"),
+//                       NSClassFromString(@"DocumentLibController"),
+//                       NSClassFromString(@"ConversationListController"),
+//                       NSClassFromString(@"TeamController"),
+//                       NSClassFromString(@"FileListView"),
+//                       NSClassFromString(@"PopViewController"),
+//                       NSClassFromString(@"FrameController")];
+//    if ([array containsObject:[self class]]) {
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+//    }else{
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+//    }
 }
 
 @end

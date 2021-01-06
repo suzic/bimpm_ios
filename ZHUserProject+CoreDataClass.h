@@ -1,15 +1,15 @@
 //
 //  ZHUserProject+CoreDataClass.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/1/19.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class ZHProject, ZHRole, ZHUser;
+@class ZHDepartmentUser, ZHProject, ZHRole, ZHUser;
 
 NS_ASSUME_NONNULL_BEGIN
 

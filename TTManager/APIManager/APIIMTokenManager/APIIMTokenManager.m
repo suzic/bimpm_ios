@@ -1,26 +1,23 @@
 //
-//  APIDepartmentManager.m
+//  APIIMTokenManager.m
 //  TTManager
 //
-//  Created by chao liu on 2021/1/3.
+//  Created by chao liu on 2021/1/6.
 //
 
-#import "APIDepartmentManager.h"
+#import "APIIMTokenManager.h"
 
-@implementation APIDepartmentManager
-
+@implementation APIIMTokenManager
 - (instancetype)init{
     self = [super init];
     if (self) {
         self.validator = self;
-        self.pageSize.pageIndex = 1;
-        self.pageSize.pageSize = 20;
     }
     return self;
 }
 #pragma mark - APIManager
 - (NSString *)apiName{
-    return URL_DEPARTMENT_LIST;
+    return URL_CHAT_TOKEN;
 }
 - (NSString *)service{
     return SERVICEADDRESS;
@@ -30,12 +27,10 @@
 }
 
 - (BOOL)isCoreData {
-    return YES;
+    return NO;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
-    dict[@"pager"] = [self.pageSize currentPage];
-    NSDictionary *dic = @{@"data":dict,
+    NSDictionary *dic = @{@"data":params,
                           @"module":@"",
                           @"priority":@"5"};
     return dic;
@@ -48,14 +43,6 @@
     return YES;
 }
 - (id)coreDataCallBackData:(LCURLResponse *)response{
-    return [self departmentListCoreData:response];
-}
-// 本地数据库
-- (id)departmentListCoreData:(LCURLResponse *)response{
-    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
-    self.pageSize = dict[@"page"];
-    [[DataManager defaultInstance] syncDepartMentWithInfo:dict];
-    response.responseData = [DataManager defaultInstance].currentProject;
     return response;
 }
 

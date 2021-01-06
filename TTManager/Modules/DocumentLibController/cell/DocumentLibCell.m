@@ -18,6 +18,7 @@
         _currentUser = currentUser;
         [self.documentIcon sd_setImageWithURL:[NSURL URLWithString:_currentUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
         self.documentTitle.text = _currentUser.name;
+        NSLog(@"%@",_currentUser.name);
     }
 }
 - (void)setTarget:(ZHTarget *)target{

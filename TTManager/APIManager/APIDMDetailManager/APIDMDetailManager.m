@@ -48,6 +48,10 @@
 }
 // 本地数据库
 - (id)departmentDetailCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    self.pageSize = dict[@"page"];
+    [[DataManager defaultInstance] syncDepartMentWithInfo:dict];
+    response.responseData = [DataManager defaultInstance].currentProject;
+    return response;
 }
 @end

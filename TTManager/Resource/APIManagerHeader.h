@@ -10,6 +10,7 @@
 // 登录
 #import "APICaptchManager.h"
 #import "APILoginManager.h"
+#import "APIIMTokenManager.h"
 
 // 团队
 #import "APIDepartmentManager.h"

@@ -1,8 +1,8 @@
 //
 //  ZHDepartmentUser+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int32_t order_index;
 @property (nullable, nonatomic, retain) ZHUserProject *assignUser;
 @property (nullable, nonatomic, retain) ZHDepartment *belongDepartment;
+@property (nullable, nonatomic, retain) ZHDepartment *assignDepartment;
+@property (nullable, nonatomic, retain) ZHUserProject *belongUserProject;
 
 @end
 

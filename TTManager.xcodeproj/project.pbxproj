@@ -38,20 +38,14 @@
 		402AA0B42595D87100A9DABA /* ZHUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0AC2595D87100A9DABA /* ZHUser+CoreDataProperties.m */; };
 		402AA0B52595D87100A9DABA /* ZHMessage+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0AD2595D87100A9DABA /* ZHMessage+CoreDataProperties.m */; };
 		402AA0B62595D87100A9DABA /* ZHUser+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0B02595D87100A9DABA /* ZHUser+CoreDataClass.m */; };
-		402AA0D52595D8A300A9DABA /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0BA2595D8A200A9DABA /* ZHUserProject+CoreDataClass.m */; };
 		402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0BE2595D8A200A9DABA /* ZHProjectMemo+CoreDataProperties.m */; };
-		402AA0D72595D8A300A9DABA /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C02595D8A200A9DABA /* ZHUserProject+CoreDataProperties.m */; };
 		402AA0D82595D8A300A9DABA /* ZHRole+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C12595D8A200A9DABA /* ZHRole+CoreDataClass.m */; };
 		402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C32595D8A200A9DABA /* ZHModule+CoreDataProperties.m */; };
-		402AA0DA2595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C62595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m */; };
 		402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C72595D8A300A9DABA /* ZHProject+CoreDataClass.m */; };
 		402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C82595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m */; };
-		402AA0DD2595D8A300A9DABA /* ZHDepartment+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0C92595D8A300A9DABA /* ZHDepartment+CoreDataClass.m */; };
 		402AA0DE2595D8A300A9DABA /* ZHRole+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0CA2595D8A300A9DABA /* ZHRole+CoreDataProperties.m */; };
-		402AA0DF2595D8A300A9DABA /* ZHDepartmentUser+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0CD2595D8A300A9DABA /* ZHDepartmentUser+CoreDataClass.m */; };
 		402AA0E02595D8A300A9DABA /* ZHModule+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0CF2595D8A300A9DABA /* ZHModule+CoreDataClass.m */; };
 		402AA0E12595D8A300A9DABA /* ZHProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0D12595D8A300A9DABA /* ZHProject+CoreDataProperties.m */; };
-		402AA0E22595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0D42595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.m */; };
 		402AA0ED2595D8CF00A9DABA /* ZHAllow+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0E52595D8CF00A9DABA /* ZHAllow+CoreDataClass.m */; };
 		402AA0F02595D8CF00A9DABA /* ZHAllow+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0EC2595D8CF00A9DABA /* ZHAllow+CoreDataProperties.m */; };
 		402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA0F32595D90400A9DABA /* ZHStep+CoreDataProperties.m */; };
@@ -124,6 +118,13 @@
 		406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */; };
 		406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF125A34A8200636079 /* UITableView+EmptyView.m */; };
 		406FCAF725A400C000636079 /* DataManager+Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF625A400C000636079 /* DataManager+Task.m */; };
+		406FCB0925A4CC2100636079 /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */; };
+		406FCB0A25A4CC2100636079 /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */; };
+		406FCB0B25A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */; };
+		406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */; };
+		406FCB0D25A4CC2100636079 /* ZHDepartment+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */; };
+		406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */; };
+		406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB1525A5571C00636079 /* APIIMTokenManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -197,33 +198,21 @@
 		402AA0B12595D87100A9DABA /* ZHMessage+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHMessage+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0B22595D87100A9DABA /* ZHUser+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUser+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0B92595D8A200A9DABA /* ZHProject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHProject+CoreDataProperties.h"; sourceTree = "<group>"; };
-		402AA0BA2595D8A200A9DABA /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = "<group>"; };
 		402AA0BB2595D8A200A9DABA /* ZHRole+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHRole+CoreDataProperties.h"; sourceTree = "<group>"; };
 		402AA0BC2595D8A200A9DABA /* ZHRole+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHRole+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0BD2595D8A200A9DABA /* ZHModule+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHModule+CoreDataProperties.h"; sourceTree = "<group>"; };
 		402AA0BE2595D8A200A9DABA /* ZHProjectMemo+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHProjectMemo+CoreDataProperties.m"; sourceTree = "<group>"; };
-		402AA0BF2595D8A200A9DABA /* ZHDepartmentUser+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataClass.h"; sourceTree = "<group>"; };
-		402AA0C02595D8A200A9DABA /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		402AA0C12595D8A200A9DABA /* ZHRole+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHRole+CoreDataClass.m"; sourceTree = "<group>"; };
-		402AA0C22595D8A200A9DABA /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		402AA0C32595D8A200A9DABA /* ZHModule+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHModule+CoreDataProperties.m"; sourceTree = "<group>"; };
 		402AA0C42595D8A200A9DABA /* ZHProject+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHProject+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0C52595D8A200A9DABA /* ZHProjectMemo+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHProjectMemo+CoreDataClass.h"; sourceTree = "<group>"; };
-		402AA0C62595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataProperties.m"; sourceTree = "<group>"; };
 		402AA0C72595D8A300A9DABA /* ZHProject+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHProject+CoreDataClass.m"; sourceTree = "<group>"; };
 		402AA0C82595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHProjectMemo+CoreDataClass.m"; sourceTree = "<group>"; };
-		402AA0C92595D8A300A9DABA /* ZHDepartment+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataClass.m"; sourceTree = "<group>"; };
 		402AA0CA2595D8A300A9DABA /* ZHRole+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHRole+CoreDataProperties.m"; sourceTree = "<group>"; };
 		402AA0CB2595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHProjectMemo+CoreDataProperties.h"; sourceTree = "<group>"; };
-		402AA0CC2595D8A300A9DABA /* ZHDepartment+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataProperties.h"; sourceTree = "<group>"; };
-		402AA0CD2595D8A300A9DABA /* ZHDepartmentUser+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataClass.m"; sourceTree = "<group>"; };
 		402AA0CE2595D8A300A9DABA /* ZHModule+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHModule+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0CF2595D8A300A9DABA /* ZHModule+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHModule+CoreDataClass.m"; sourceTree = "<group>"; };
-		402AA0D02595D8A300A9DABA /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0D12595D8A300A9DABA /* ZHProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHProject+CoreDataProperties.m"; sourceTree = "<group>"; };
-		402AA0D22595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataProperties.h"; sourceTree = "<group>"; };
-		402AA0D32595D8A300A9DABA /* ZHDepartment+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataClass.h"; sourceTree = "<group>"; };
-		402AA0D42595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataProperties.m"; sourceTree = "<group>"; };
 		402AA0E52595D8CF00A9DABA /* ZHAllow+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHAllow+CoreDataClass.m"; sourceTree = "<group>"; };
 		402AA0E72595D8CF00A9DABA /* ZHAllow+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHAllow+CoreDataClass.h"; sourceTree = "<group>"; };
 		402AA0EA2595D8CF00A9DABA /* ZHAllow+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHAllow+CoreDataProperties.h"; sourceTree = "<group>"; };
@@ -367,6 +356,20 @@
 		406FCAF525A400C000636079 /* DataManager+Task.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataManager+Task.h"; sourceTree = "<group>"; };
 		406FCAF625A400C000636079 /* DataManager+Task.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Task.m"; sourceTree = "<group>"; };
 		406FCAFA25A4602200636079 /* TTManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TTManager.entitlements; sourceTree = "<group>"; };
+		406FCAFD25A4CC2100636079 /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
+		406FCAFE25A4CC2100636079 /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
+		406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
+		406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
+		406FCB0125A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
+		406FCB0225A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
+		406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
+		406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
+		406FCB0525A4CC2100636079 /* ZHDepartment+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
+		406FCB0625A4CC2100636079 /* ZHDepartment+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
+		406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
+		406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
+		406FCB1425A5571C00636079 /* APIIMTokenManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIIMTokenManager.h; sourceTree = "<group>"; };
+		406FCB1525A5571C00636079 /* APIIMTokenManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIIMTokenManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -433,7 +436,6 @@
 		402A9EF12595769900A9DABA /* TTManager */ = {
 			isa = PBXGroup;
 			children = (
-				406FCAFA25A4602200636079 /* TTManager.entitlements */,
 				402A9EF22595769900A9DABA /* AppDelegate.h */,
 				402A9EF32595769900A9DABA /* AppDelegate.m */,
 				402A9F172595778E00A9DABA /* FrameController */,
@@ -449,6 +451,7 @@
 				402A9F032595769C00A9DABA /* LaunchScreen.storyboard */,
 				402A9F062595769C00A9DABA /* Info.plist */,
 				402AA2032599E02100A9DABA /* Task.storyboard */,
+				406FCAFA25A4602200636079 /* TTManager.entitlements */,
 			);
 			path = TTManager;
 			sourceTree = "<group>";
@@ -702,14 +705,18 @@
 		402AA0B82595D87700A9DABA /* ProjectManage */ = {
 			isa = PBXGroup;
 			children = (
-				402AA0D32595D8A300A9DABA /* ZHDepartment+CoreDataClass.h */,
-				402AA0C92595D8A300A9DABA /* ZHDepartment+CoreDataClass.m */,
-				402AA0CC2595D8A300A9DABA /* ZHDepartment+CoreDataProperties.h */,
-				402AA0C62595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m */,
-				402AA0BF2595D8A200A9DABA /* ZHDepartmentUser+CoreDataClass.h */,
-				402AA0CD2595D8A300A9DABA /* ZHDepartmentUser+CoreDataClass.m */,
-				402AA0D22595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.h */,
-				402AA0D42595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.m */,
+				406FCAFD25A4CC2100636079 /* ZHUserProject+CoreDataProperties.h */,
+				406FCAFE25A4CC2100636079 /* ZHUserProject+CoreDataClass.h */,
+				406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */,
+				406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */,
+				406FCB0125A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.h */,
+				406FCB0225A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.h */,
+				406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */,
+				406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */,
+				406FCB0525A4CC2100636079 /* ZHDepartment+CoreDataProperties.h */,
+				406FCB0625A4CC2100636079 /* ZHDepartment+CoreDataClass.h */,
+				406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */,
+				406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */,
 				402AA0CE2595D8A300A9DABA /* ZHModule+CoreDataClass.h */,
 				402AA0CF2595D8A300A9DABA /* ZHModule+CoreDataClass.m */,
 				402AA0BD2595D8A200A9DABA /* ZHModule+CoreDataProperties.h */,
@@ -726,10 +733,6 @@
 				402AA0C12595D8A200A9DABA /* ZHRole+CoreDataClass.m */,
 				402AA0BB2595D8A200A9DABA /* ZHRole+CoreDataProperties.h */,
 				402AA0CA2595D8A300A9DABA /* ZHRole+CoreDataProperties.m */,
-				402AA0D02595D8A300A9DABA /* ZHUserProject+CoreDataClass.h */,
-				402AA0BA2595D8A200A9DABA /* ZHUserProject+CoreDataClass.m */,
-				402AA0C22595D8A200A9DABA /* ZHUserProject+CoreDataProperties.h */,
-				402AA0C02595D8A200A9DABA /* ZHUserProject+CoreDataProperties.m */,
 			);
 			path = ProjectManage;
 			sourceTree = "<group>";
@@ -797,6 +800,7 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				406FCB1325A556F600636079 /* APIIMTokenManager */,
 				406FCAB225A1A71D00636079 /* APITaskProcessManager */,
 				406FCAAC25A1A6B200636079 /* APITaskOperationsManager */,
 				406FCAA625A1A66500636079 /* APITaskDeatilManager */,
@@ -1088,6 +1092,15 @@
 			path = PageSize;
 			sourceTree = "<group>";
 		};
+		406FCB1325A556F600636079 /* APIIMTokenManager */ = {
+			isa = PBXGroup;
+			children = (
+				406FCB1425A5571C00636079 /* APIIMTokenManager.h */,
+				406FCB1525A5571C00636079 /* APIIMTokenManager.m */,
+			);
+			path = APIIMTokenManager;
+			sourceTree = "<group>";
+		};
 		40931C8D259ACB36008C3518 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -1244,8 +1257,8 @@
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
-				402AA0DD2595D8A300A9DABA /* ZHDepartment+CoreDataClass.m in Sources */,
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
+				406FCB0B25A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
 				40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */,
@@ -1253,6 +1266,7 @@
 				406FCA7E25A195B600636079 /* APIDMDetailManager.m in Sources */,
 				402A9F822595B7A500A9DABA /* FrameNavView.m in Sources */,
 				402A9F082595769C00A9DABA /* main.m in Sources */,
+				406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */,
 				402AA0E12595D8A300A9DABA /* ZHProject+CoreDataProperties.m in Sources */,
 				406FCA51259E360700636079 /* SettingCell.m in Sources */,
 				402AA1F725998E4A00A9DABA /* UIResponder+Router.m in Sources */,
@@ -1261,7 +1275,6 @@
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
 				402AA1012595D90400A9DABA /* ZHFlow+CoreDataClass.m in Sources */,
 				402A9F762595B5BF00A9DABA /* NSDictionary+Dlog.m in Sources */,
-				402AA0E22595D8A300A9DABA /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				402A9F642595B12A00A9DABA /* UIAlertAction+ButtonIndex.m in Sources */,
 				406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */,
 				40931C99259ACDA0008C3518 /* TaskTabView.m in Sources */,
@@ -1275,7 +1288,6 @@
 				406FCAAF25A1A6EA00636079 /* APITaskOperationsManager.m in Sources */,
 				402AA1D02598AD0100A9DABA /* FunctionCell.m in Sources */,
 				402A9F622595B12A00A9DABA /* SZModalAlert.m in Sources */,
-				402AA0D72595D8A300A9DABA /* ZHUserProject+CoreDataProperties.m in Sources */,
 				402A9F432595A4CF00A9DABA /* WorkbenchController.m in Sources */,
 				402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */,
 				402AA0B42595D87100A9DABA /* ZHUser+CoreDataProperties.m in Sources */,
@@ -1299,6 +1311,7 @@
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
+				406FCB0925A4CC2100636079 /* ZHUserProject+CoreDataClass.m in Sources */,
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,
@@ -1306,9 +1319,11 @@
 				402AA0E02595D8A300A9DABA /* ZHModule+CoreDataClass.m in Sources */,
 				402AA1D42598AD1700A9DABA /* TaskInforCell.m in Sources */,
 				40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */,
+				406FCB0A25A4CC2100636079 /* ZHUserProject+CoreDataProperties.m in Sources */,
 				402A9EF42595769900A9DABA /* AppDelegate.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
+				406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */,
 				402A9F912595CC9F00A9DABA /* UIViewExt.m in Sources */,
 				402AA182259726D700A9DABA /* BaseApiManager.m in Sources */,
 				402AA0DE2595D8A300A9DABA /* ZHRole+CoreDataProperties.m in Sources */,
@@ -1318,8 +1333,6 @@
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
 				402AA0B62595D87100A9DABA /* ZHUser+CoreDataClass.m in Sources */,
-				402AA0D52595D8A300A9DABA /* ZHUserProject+CoreDataClass.m in Sources */,
-				402AA0DF2595D8A300A9DABA /* ZHDepartmentUser+CoreDataClass.m in Sources */,
 				402AA1172595D9AC00A9DABA /* bimpm.xcdatamodeld in Sources */,
 				402A9F952595CDDC00A9DABA /* ProjectSelectController.m in Sources */,
 				406FCA8E25A1A47E00636079 /* APIUTPInfoManager.m in Sources */,
@@ -1338,9 +1351,9 @@
 				406FCA7925A1953400636079 /* APIDepartmentManager.m in Sources */,
 				402AA0B52595D87100A9DABA /* ZHMessage+CoreDataProperties.m in Sources */,
 				402AA1992597448800A9DABA /* APILoginManager.m in Sources */,
-				402AA0DA2595D8A300A9DABA /* ZHDepartment+CoreDataProperties.m in Sources */,
 				402A9F752595B5BF00A9DABA /* NSArray+Dlog.m in Sources */,
 				406FCA6225A0430900636079 /* TaskTitleView.m in Sources */,
+				406FCB0D25A4CC2100636079 /* ZHDepartment+CoreDataClass.m in Sources */,
 				402AA1C72598A64800A9DABA /* UIView+BorderLine.m in Sources */,
 				406FCA9425A1A51900636079 /* APIUTPGanttManager.m in Sources */,
 				402AA1102595D92E00A9DABA /* ZHFormItem+CoreDataProperties.m in Sources */,
@@ -1348,6 +1361,7 @@
 				402AA183259726D700A9DABA /* LCURLResponse.m in Sources */,
 				406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */,
 				402AA184259726D700A9DABA /* RequestHeaders.m in Sources */,
+				406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */,
 				402AA185259726D700A9DABA /* ServiceIdentifer.m in Sources */,
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,

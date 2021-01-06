@@ -1,8 +1,8 @@
 //
 //  ZHUserProject+CoreDataClass.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/1/19.
+//  Created by chao liu on 2021/1/6.
 //
 //
 

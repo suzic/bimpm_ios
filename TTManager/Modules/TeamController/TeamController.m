@@ -71,6 +71,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     if (self.teamArray.count > 0) {
         ZHDepartment *department = self.teamArray[self.currentSelected];
+        NSLog(@"当前部门下的员工个数%ld",department.hasUsers.count);
         return department.hasUsers.count;
     }
     return 0;
@@ -87,6 +88,7 @@
     ZHDepartment *department = self.teamArray[self.currentSelected];
     NSArray *array = [self currentUserList:department.hasUsers];
     ZHDepartmentUser *departmentUser = array[indexPath.row];
+    NSLog(@"%@",departmentUser.assignUser.belongUser.uid_chat);
     cell.currentUser = departmentUser.assignUser.belongUser;
     return cell;
 }
@@ -98,6 +100,7 @@
     NSArray *array = [self currentUserList:department.hasUsers];
     ZHDepartmentUser *departmentUser = array[indexPath.row];
     vc.user = departmentUser.assignUser.belongUser;
+    vc.id_department = department.id_department;
     NSLog(@"当前的user%@",vc.user);
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -160,14 +163,17 @@
     return _dmDetailsManager;
 }
 - (NSArray *)teamArray{
-    _teamArray = [NSArray array];
-    ZHProject *project = [DataManager defaultInstance].currentProject;
-    NSSet *department = project.hasDepartments;
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_department" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    NSArray *userArray = [department sortedArrayUsingDescriptors:sortDescriptors];
-    if (userArray.count > 0) {
-        _teamArray = userArray;
+    if (_teamArray == nil || _teamArray.count <= 0)
+    {
+        _teamArray = [NSArray array];
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        NSSet *department = project.hasDepartments;
+        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_department" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+        NSArray *userArray = [department sortedArrayUsingDescriptors:sortDescriptors];
+        if (userArray.count > 0) {
+            _teamArray = userArray;
+        }
     }
     return _teamArray;
 }
@@ -184,6 +190,7 @@
 - (NSArray *)departmentTitle{
     NSMutableArray *array = [NSMutableArray array];
     for (ZHDepartment *departMent in self.teamArray) {
+        NSLog(@"%@",departMent.name);
         [array addObject:departMent.name];
     }
     return array;

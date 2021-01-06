@@ -1,8 +1,8 @@
 //
 //  ZHDepartment+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
@@ -21,6 +21,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *name;
 @property (nullable, nonatomic, retain) ZHProject *belongProject;
 @property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *hasUsers;
+@property (nullable, nonatomic, retain) ZHDepartmentUser *hasDMUsers;
 
 @end
 

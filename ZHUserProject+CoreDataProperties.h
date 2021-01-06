@@ -1,8 +1,8 @@
 //
 //  ZHUserProject+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
@@ -26,10 +26,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) BOOL is_default;
 @property (nonatomic) int32_t order_index;
 @property (nonatomic) int32_t user_task_count;
-@property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *inDepartments;
 @property (nullable, nonatomic, retain) ZHRole *assignRole;
 @property (nullable, nonatomic, retain) ZHProject *belongProject;
 @property (nullable, nonatomic, retain) ZHUser *belongUser;
+@property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *inDepartments;
+@property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *hasDMUsers;
 
 @end
 
@@ -39,6 +40,11 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeInDepartmentsObject:(ZHDepartmentUser *)value;
 - (void)addInDepartments:(NSSet<ZHDepartmentUser *> *)values;
 - (void)removeInDepartments:(NSSet<ZHDepartmentUser *> *)values;
+
+- (void)addHasDMUsersObject:(ZHDepartmentUser *)value;
+- (void)removeHasDMUsersObject:(ZHDepartmentUser *)value;
+- (void)addHasDMUsers:(NSSet<ZHDepartmentUser *> *)values;
+- (void)removeHasDMUsers:(NSSet<ZHDepartmentUser *> *)values;
 
 @end
 

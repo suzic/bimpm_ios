@@ -19,7 +19,8 @@
 
 // api
 @property (nonatomic, strong) APIDMDetailManager* dmDetailsManager;
-
+@property (nonatomic, strong) APIIMTokenManager *IMTokenManager;
+@property (nonatomic, strong) NSArray *infoArray;
 @end
 
 @implementation UserInforController
@@ -34,6 +35,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.bottomView borderForColor:RGB_COLOR(238, 238, 238) borderWidth:0.5 borderType:UIBorderSideTypeTop];
     [self loadData];
+    [self.tableView showDataCount:self.infoArray.count];
 }
 - (void)loadData{
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:self.user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
@@ -62,6 +64,7 @@
     self.userEmali.text = email;
     self.userPhone.text = phone;
     self.userSex.text = sex;
+    [self.dmDetailsManager loadData];
 }
 // 改变字体颜色
 - (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
@@ -81,7 +84,7 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 10;
+    return self.infoArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 30.0f;
@@ -90,24 +93,36 @@
     return 44.0f;
 }
 -(UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell"];
-    NSMutableAttributedString *attributedStr = [self changTextColor:@"一共参与了11个项目" changText:@[@"一共参与了",@"个项目"]];
-    cell.textLabel.attributedText = attributedStr;
-    cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
-    return cell;
+    if (self.infoArray.count >0) {
+        UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell"];
+        NSString *textTitle = [NSString stringWithFormat:@"一共参与了%ld个项目",self.infoArray.count];
+        NSMutableAttributedString *attributedStr = [self changTextColor:textTitle changText:@[@"一共参与了",@"个项目"]];
+        cell.textLabel.attributedText = attributedStr;
+        cell.textLabel.font = [UIFont systemFontOfSize:15.0f];
+        return cell;
+    }
+    return nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
-    cell.textLabel.attributedText = [self changTextColor:@"众和空间 中我是 管理员" changText:@[@"中我是"]];
+    ZHUserProject *userProject = self.infoArray[indexPath.row];
+    NSString *titleText = [NSString stringWithFormat:@"%@ 中我是",userProject.belongProject.name];
+    cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"中我是"]];
     return cell;
 }
 #pragma mark - Action
 - (IBAction)goConversationAction:(id)sender {
     NSLog(@"融云im%@",self.user.uid_chat);
+    if (![SZUtil isEmptyOrNull:self.user.uid_chat]) {
+        [self goConversationView];
+    }else{
+        [self.IMTokenManager loadData];
+    }
+}
+- (void)goConversationView{
     RCConversationViewController *conversationVC = [[RCConversationViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.user.uid_chat];
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
-
 - (IBAction)goTaskAction:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     for (NSString *newTaskType in self.newTasTypeklist) {
@@ -128,17 +143,48 @@
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
+    ZHProject *project = [DataManager defaultInstance].currentProject;
     if (manager == self.dmDetailsManager) {
-        
+        dic=@{@"id_project":INT_32_TO_STRING(project.id_project),
+              @"id_department":INT_32_TO_STRING(self.id_department)};
+    }else if(manager == self.IMTokenManager){
+        dic = @{@"id_user":INT_32_TO_STRING(self.user.id_user)};
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    
+    if (manager == self.dmDetailsManager) {
+        NSLog(@"获取数据成功");
+        [self assemblyData];
+        [self.tableView showDataCount:self.infoArray.count];
+        [self.tableView reloadData];
+    }else if(manager == self.IMTokenManager){
+        self.user.uid_chat = manager.response.responseData[@"data"][@"uid_chat"];
+        [[DataManager defaultInstance] saveContext];
+        [self goConversationView];
+    }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     
+}
+- (void)assemblyData{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    NSSet *department = user.hasProjects;
+    
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_user_project" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    self.infoArray = [department sortedArrayUsingDescriptors:sortDescriptors];
+}
+- (BOOL)isleader:(ZHDepartment *)department{
+    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+    for (ZHDepartmentUser *user in department.hasUsers) {
+        if (user.assignUser.belongUser.id_user == currentUser.id_user && user.is_leader == YES) {
+            return YES;
+            break;;
+        }
+    }
+    return NO;
 }
 #pragma mark - setter and getter
 - (APIDMDetailManager *)dmDetailsManager{
@@ -149,64 +195,24 @@
     }
     return _dmDetailsManager;
 }
+- (APIIMTokenManager *)IMTokenManager{
+    if (_IMTokenManager == nil) {
+        _IMTokenManager = [[APIIMTokenManager alloc] init];
+        _IMTokenManager.delegate = self;
+        _IMTokenManager.paramSource = self;
+    }
+    return _IMTokenManager;
+}
 - (NSArray *)newTasTypeklist{
     if (_newTasTypeklist == nil) {
         _newTasTypeklist = @[@"任务",@"申请",@"通知",@"会审",@"巡检"];
     }
     return _newTasTypeklist;
 }
-/*
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:<#@"reuseIdentifier"#> forIndexPath:indexPath];
-    
-    // Configure the cell...
-    
-    return cell;
+- (NSArray *)infoArray{
+    if (_infoArray == nil) {
+        _infoArray = [NSArray array];
+    }
+    return _infoArray;
 }
-*/
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    } else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

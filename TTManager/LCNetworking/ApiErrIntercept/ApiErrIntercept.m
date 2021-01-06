@@ -20,7 +20,7 @@
     // 需要重新登录 抛出登录通知，继续下一步操作
     if ([status isEqualToNumber:@1]||[status isEqualToNumber:@2]){
     }else{
-//        [SZAlert showInfo:dataDic[@"msg"] underTitle:@"众和空间"];
+        [SZAlert showInfo:dataDic[@"msg"] underTitle:@"众和空间"];
     }
     return result;
 }

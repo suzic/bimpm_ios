@@ -1,8 +1,8 @@
 //
 //  ZHUserProject+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
@@ -25,9 +25,10 @@
 @dynamic is_default;
 @dynamic order_index;
 @dynamic user_task_count;
-@dynamic inDepartments;
 @dynamic assignRole;
 @dynamic belongProject;
 @dynamic belongUser;
+@dynamic inDepartments;
+@dynamic hasDMUsers;
 
 @end

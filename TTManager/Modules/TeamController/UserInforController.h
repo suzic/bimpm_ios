@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UserInforController : UIViewController
 
-@property (nonatomic, strong)ZHUser *user;
+@property (nonatomic, strong) ZHUser *user;
+@property (nonatomic, assign) int id_department;
 
 @end
 

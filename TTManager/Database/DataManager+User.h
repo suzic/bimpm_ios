@@ -34,6 +34,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 获取项目部门t
 /// @param id_department id_department
 - (ZHDepartment *)getDepartMentFromCoredataById:(int)id_department;
+- (void)syncDepartMentWithInfo:(NSDictionary *)dict;
 
 - (ZHDepartmentUser *)getDepartmentUserFromCoredataById:(int)order_index;
 /// 获取Role
@@ -61,7 +62,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 同步用户的Project
 /// @param userProject userProject
 /// @param dicData 数据
-- (void)syncUserProject:(ZHUserProject *)userProject withUDInfo:(NSDictionary *)dicData;
+- (ZHUserProject *)syncUserProject:(ZHUserProject *)userProject withUDInfo:(NSDictionary *)dicData;
 
 /// 同步role
 /// @param role role

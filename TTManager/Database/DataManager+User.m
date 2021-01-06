@@ -204,10 +204,10 @@
     project.kind = [dicData[@"kind"] intValue];
 }
 
-- (void)syncUserProject:(ZHUserProject *)userProject withUDInfo:(NSDictionary *)dicData
+- (ZHUserProject *)syncUserProject:(ZHUserProject *)userProject withUDInfo:(NSDictionary *)dicData
 {
     if (userProject == nil || dicData == nil)
-        return;
+        return nil;
     
     userProject.id_user_project = [dicData[@"id_user_project"] intValue];
     userProject.enable = [dicData[@"enable"] boolValue];
@@ -226,8 +226,9 @@
     if (![SZUtil isEmptyOrNull:dicData[@"enter_date"]])
         userProject.enter_date = [dateFormatter dateFromString:dicData[@"enter_date"]];
     
-    // 同步并关联对应的用户
+//    // 同步并关联对应的用户
     ZHUser *assignUser = [[DataManager defaultInstance] getUserFromCoredataByID:[dicData[@"id_user"] intValue]];
+
     userProject.belongUser = assignUser;
     
     // 同步并关联对应的项目
@@ -239,6 +240,7 @@
     ZHRole *currentRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];
     [[DataManager defaultInstance] syncRole:currentRole withRoleInfo:roleDic];
     userProject.assignRole = currentRole;
+    return userProject;
 }
 
 - (void)syncRole:(ZHRole *)role withRoleInfo:(NSDictionary *)dicData
@@ -291,5 +293,82 @@
     module.online = [dicData[@"online"] boolValue];
     // module.operation = [dicData[@"operation"] stringValue];
 }
+- (void)syncDepartMentWithInfo:(NSDictionary *)dict{
+    
+    ZHProject *currentProject = [DataManager defaultInstance].currentProject;
+    // 清除已有的项目部门
+    [[DataManager defaultInstance] cleraDepartmentFromCurrentProject:currentProject];
+    
+    NSArray *department_list = dict[@"department_list"];
+    for (NSDictionary *dic in department_list) {
+        /*
+         1:创建部门 ZHDepartment
+         2:创建 ZHDepartmentUser
+         3:创建 ZHUserProject
+         4:查找user
+         */
+        ZHDepartment *department = [[DataManager defaultInstance] getDepartMentFromCoredataById:[dic[@"id_department"] intValue]];
+        department.fid_project = currentProject.id_project;
+        department.info = dic[@"info"];
+        department.name = dic[@"name"];
+        NSArray *leader = dic[@"leader"];
+        int order_index = 0;
+        department.id_department = [dic[@"id_department"] intValue];
+        [[DataManager defaultInstance] cleraDepartmentUserFromCurrentDepartment:department];
+        
+        for (NSDictionary *MPDic in dic[@"member_in_project_list"]) {
+            // 部门用户
+            ZHDepartmentUser *departmentUser = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
+            departmentUser.belongDepartment = department;
+            
+            // 获取当前userProject
+            ZHUserProject *userProject = [[DataManager defaultInstance] getUserProjectFromCoredataById:[MPDic[@"id_user_project"] intValue]];
+            [self cleanDepartmentUserByUserProject:userProject];
+            [userProject addInDepartmentsObject:departmentUser];
+            userProject = [[DataManager defaultInstance] syncUserProject:userProject withUDInfo:MPDic];
+            userProject.order_index = order_index;
+            
+            NSDictionary *userDic = [self getUserInfo:dic[@"member_list"] id_user:[MPDic[@"id_user"] intValue]];
+            ZHUser *user = [self getUserFromCoredataByID:[MPDic[@"id_user"] intValue]];
+            user = [self syncUser:user withUserInfo:userDic];
+            userProject.belongUser = user;
+            
+                    
+            for (NSDictionary *infoDic in MPDic[@"department_list"]) {
+                // 部门用户
+                ZHDepartmentUser *departmentUserItem = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
+               
+                departmentUserItem.order_index = 0;
+                // 判断是否是领导
+                departmentUserItem.is_leader = [leader containsObject:MPDic[@"id_user"]];
+                
+                ZHDepartment *belongdepartment = [self getDepartMentFromCoredataById:[infoDic[@"id_department"] intValue]];
+                belongdepartment.name = infoDic[@"name"];
+                belongdepartment.info = infoDic[@"info"];
+                
+                [userProject addHasDMUsersObject:departmentUserItem];
+//                [belongdepartment addHasUsersObject:departmentUserItem];
+                departmentUserItem.assignDepartment = belongdepartment;
+                order_index++;
+            }
+        }
+        department.belongProject = currentProject;
+    }
+}
 
+- (void)cleanDepartmentUserByUserProject:(ZHUserProject *)userProject{
+    for (ZHDepartmentUser *departmentUser in userProject.inDepartments) {
+        [self deleteFromCoreData:departmentUser];
+    }
+}
+- (NSDictionary *)getUserInfo:(NSArray *)userList id_user:(int)id_user{
+    NSDictionary *userDic = nil;
+    for (NSDictionary *dic in userList) {
+        if ([dic[@"id_user"] intValue] == id_user) {
+            userDic = dic;
+            break;
+        }
+    }
+    return userDic;
+}
 @end

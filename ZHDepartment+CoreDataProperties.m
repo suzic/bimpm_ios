@@ -1,8 +1,8 @@
 //
 //  ZHDepartment+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/6.
 //
 //
 
@@ -20,5 +20,6 @@
 @dynamic name;
 @dynamic belongProject;
 @dynamic hasUsers;
+@dynamic hasDMUsers;
 
 @end
