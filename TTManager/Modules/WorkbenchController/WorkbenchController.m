@@ -21,10 +21,8 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
 @property (nonatomic, strong) NSArray *ganttInfoArray;
+@property (nonatomic, assign) NSInteger currentSelectedTaskType;
 // api
-@property (nonatomic, strong) APIUTPListManager *UTPListManager;
-@property (nonatomic, strong) APIUTPInfoManager *UTPInfoManager;
-@property (nonatomic, strong) APITaskListManager *taskListManager;
 @property (nonatomic, strong) APIUTPGanttManager *UTPGanttManager;
 
 @end
@@ -40,9 +38,6 @@
 
 }
 - (void)reoladNetwork{
-    [self.UTPListManager loadData];
-    [self.UTPInfoManager loadData];
-    [self.taskListManager loadData];
     [self.UTPGanttManager loadData];
 }
 
@@ -114,6 +109,7 @@
     {
         NSLog(@"导航到更多消息页面");
         MoreWorkMsgController *moreVC = [[MoreWorkMsgController alloc] init];
+        moreVC.infoArray = self.ganttInfoArray;
         moreVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:moreVC animated:YES];
     }
@@ -148,21 +144,12 @@
     }
     return status;
 }
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHProject *project = [DataManager defaultInstance].currentProject;
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    if (manager == self.taskListManager) {
-        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
-                @"id_user":INT_32_TO_STRING(user.id_user),
-                @"is_starter":@"0",
-                @"is_finished":@"0"};
-    }else if(manager == self.UTPListManager){
-        
-    }else if(manager == self.UTPInfoManager){
-        
-    }else if(manager == self.UTPGanttManager){
+    if(manager == self.UTPGanttManager){
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
                 @"forward_days":@"7",
                 @"gantt_type":@"0"};
@@ -171,37 +158,18 @@
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.taskListManager) {
-        
-    }else if(manager == self.UTPListManager){
-        
-    }else if(manager == self.UTPInfoManager){
-        
-    }else if(manager == self.UTPGanttManager){
+    if(manager == self.UTPGanttManager){
         self.ganttInfoArray = manager.response.responseData;
         [self.tableView reloadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.taskListManager) {
-        
-    }else if(manager == self.UTPListManager){
-        
-    }else if(manager == self.UTPInfoManager){
-        
-    }else if(manager == self.UTPGanttManager){
+    if(manager == self.UTPGanttManager){
         
     }
 }
 #pragma mark - setter and getter
-- (APITaskListManager *)taskListManager{
-    if (_taskListManager == nil) {
-        _taskListManager = [[APITaskListManager alloc] init];
-        _taskListManager.delegate = self;
-        _taskListManager.paramSource = self;
-    }
-    return _taskListManager;
-}
+
 - (APIUTPGanttManager *)UTPGanttManager{
     if (_UTPGanttManager == nil) {
         _UTPGanttManager = [[APIUTPGanttManager alloc] init];
@@ -210,22 +178,7 @@
     }
     return _UTPGanttManager;
 }
-- (APIUTPInfoManager *)UTPInfoManager{
-    if (_UTPInfoManager == nil) {
-        _UTPInfoManager = [[APIUTPInfoManager alloc] init];
-        _UTPInfoManager.delegate = self;
-        _UTPInfoManager.paramSource = self;
-    }
-    return _UTPInfoManager;
-}
-- (APIUTPListManager *)UTPListManager{
-    if (_UTPListManager == nil) {
-        _UTPListManager = [[APIUTPListManager alloc] init];
-        _UTPListManager.delegate = self;
-        _UTPListManager.paramSource = self;
-    }
-    return _UTPListManager;
-}
+
 - (NSArray *)ganttInfoArray{
     if (_ganttInfoArray == nil) {
         _ganttInfoArray = [NSArray array];

@@ -10,6 +10,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MoreWorkMsgController : UIViewController
+@property (nonatomic, strong)NSArray *infoArray;
 
 @end
 

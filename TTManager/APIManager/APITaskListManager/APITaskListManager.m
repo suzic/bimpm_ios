@@ -30,7 +30,9 @@
     return YES;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSDictionary *dic = @{@"data":params,
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
+    dict[@"pager"] = [self.pageSize currentPage];
+    NSDictionary *dic = @{@"data":dict,
                           @"module":@"",
                           @"priority":@"5"};
     return dic;
@@ -49,6 +51,10 @@
 - (id)taskListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     NSMutableArray *array = [NSMutableArray array];
+    if (self.dataType == taskListDataType_none) {
+        self.responsePageSize = [self.responsePageSize pageDic: dict[@"page"]];
+        return nil;
+    }
     NSArray *list = dict[@"list"];
     if ([list isKindOfClass:[NSArray class]]) {
         for (NSDictionary *taskDic in dict[@"list"]) {

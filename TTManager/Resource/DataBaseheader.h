@@ -23,6 +23,7 @@
 #import "ZHMessage+CoreDataClass.h"
 #import "ZHDepartmentUser+CoreDataClass.h"
 #import "ZHDepartment+CoreDataClass.h"
+#import "ZHProjectMemo+CoreDataClass.h"
 
 #import "DataManager.h"
 #import "LoginUserManager.h"

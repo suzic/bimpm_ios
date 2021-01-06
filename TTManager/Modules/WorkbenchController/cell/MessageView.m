@@ -57,8 +57,16 @@
     }
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
+    id data = self.messageArray[indexPath.row];
     cell.imageView.image = [UIImage imageNamed:@"delete_password"];
-    cell.textLabel.text = self.messageArray[indexPath.row];
+    if ([data isKindOfClass:[NSString class]])
+    {
+        cell.textLabel.text = (NSString *)data;
+    }else if([data isKindOfClass:[ZHProjectMemo class]]){
+        ZHProjectMemo *memo = (ZHProjectMemo *)data;
+        cell.textLabel.text = memo.line;
+        cell.detailTextLabel.text = [SZUtil getTimeString:memo.edit_date];
+    }
     cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
     cell.textLabel.textColor = [UIColor whiteColor];
     return cell;

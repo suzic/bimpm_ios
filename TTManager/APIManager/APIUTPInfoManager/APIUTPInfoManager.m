@@ -48,6 +48,28 @@
 }
 // 本地数据库
 - (id)userToProjectInfoCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *dict = [NSDictionary changeType:response.responseData[@"data"]];
+    NSMutableArray *resultArray = [NSMutableArray array];
+    NSArray *projectMemo = dict[@"project_memo"];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
+    if ([projectMemo isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *projectMemoDic in projectMemo) {
+            ZHProject *project = [[DataManager defaultInstance] getProjectFromCoredataById:[projectMemoDic[@"fid_project"] intValue]];
+            ZHProjectMemo *meno = (ZHProjectMemo *)[[DataManager defaultInstance] insertIntoCoreData:@"page_index"];
+            meno.page_index = [projectMemoDic[@"order_index"] intValue];
+            meno.order_index = [projectMemoDic[@"order_index"] intValue];
+            meno.check = [projectMemoDic[@"check"] boolValue];
+            meno.line = projectMemoDic[@"line"];
+            
+            if (![SZUtil isEmptyOrNull:projectMemoDic[@"edit_date"]]) {
+                meno.edit_date = project.build_date = [dateFormatter dateFromString:projectMemoDic[@"edit_date"]];
+            }
+            meno.assignProject = project;
+            [resultArray addObject:meno];
+        }
+    }
+    return resultArray;
 }
 @end

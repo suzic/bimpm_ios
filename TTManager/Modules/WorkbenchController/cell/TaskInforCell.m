@@ -7,8 +7,13 @@
 
 #import "TaskInforCell.h"
 
-@interface TaskInforCell ()
+@interface TaskInforCell ()<APIManagerParamSource,ApiManagerCallBackDelegate>
+
 @property (nonatomic, assign) NSInteger currentSelectedIndex;
+@property (nonatomic, strong) APITaskListManager *taskfinishManager;
+@property (nonatomic, strong) APITaskListManager *taskunfinishedManager;
+@property (nonatomic, copy) NSString *firstCount;
+@property (nonatomic, copy) NSString *secondCount;
 @end
 
 @implementation TaskInforCell
@@ -16,6 +21,9 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.currentSelectedIndex = 0;
+    self.firstCount = 0;
+    self.secondCount = 0;
     CGFloat x = (kScreenWidth/2-self.myTaskBtn.titleLabel.size.width)/2;
     CGFloat w = self.myTaskBtn.titleLabel.size.width;
  
@@ -31,6 +39,8 @@
     [self.firstItembgView addGestureRecognizer:firstTap];
     UITapGestureRecognizer *secondTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(secondTapAction:)];
     [self.secondItembgView addGestureRecognizer:secondTap];
+    
+    [self requestTaskListCount:self.currentSelectedIndex];
 }
 #pragma mark - Action
 
@@ -44,7 +54,6 @@
     [self changeLineViewLocation:currentTag];
     
     [self changeTaskInfor:currentTag];
-    //
 }
 
 - (void)firstTapAction:(UITapGestureRecognizer *)tap{
@@ -61,29 +70,25 @@
 
 - (void)changeTaskInfor:(NSInteger)currentTag{
     NSString *first = @"未完成";
-    NSString *firstCount = @"8";
     UIColor *firstColor = [SZUtil colorWithHex:@"#EEF6FC"];
     NSString *second = @"已完成";
-    NSString *secondCount = @"10";
     UIColor *secondColor = [SZUtil colorWithHex:@"#FFF5E4"];
     if (currentTag == 1)
     {
         first = @"进行中";
-        firstCount = @"20";
         firstColor = [SZUtil colorWithHex:@"#FFF5E4"];
         
         second = @"未开始";
-        secondCount = @"13";
         secondColor = [SZUtil colorWithHex:@"#EEF6FC"];
     }
     
     self.firstItembgView.backgroundColor = firstColor;
     self.firstStatusName.text = first;
-    self.firstStatusCount.text = firstCount;
+    self.firstStatusCount.text = self.firstCount;
     
     self.secondItembgView.backgroundColor = secondColor;
     self.secondStatusName.text = second;
-    self.secondStatusCount.text = secondCount;
+    self.secondStatusCount.text = self.secondCount;
 }
 - (void)changeSelecteStyle:(NSInteger)currentTag{
     if (currentTag == 0) {
@@ -135,6 +140,65 @@
         }
     }
     return dic;
+}
+// 请求任务个数 0 派发给我的，1 我派发的
+// is_starter 是否是发起型任务 0-不是 1-是发起型。
+// is_finished /是否是已经完成/发起的任务 0-未完成/未发起  1-完成/发起
+- (void)requestTaskListCount:(NSInteger)type{
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    [self.taskunfinishedManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(project.id_project),
+                                               @"is_starter":[NSString stringWithFormat:@"%ld",type],
+                                               @"is_finished":@"0"}];
+    [self.taskfinishManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(project.id_project),
+                                               @"is_starter":[NSString stringWithFormat:@"%ld",type],
+                                               @"is_finished":@"1"}];
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    return @{};
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.taskfinishManager) {
+        self.secondCount = [NSString stringWithFormat:@"%ld",manager.responsePageSize.total_row];
+        [self changeTaskInfor:self.currentSelectedIndex];
+    }else if(manager == self.taskunfinishedManager){
+        self.firstCount = [NSString stringWithFormat:@"%ld",manager.responsePageSize.total_row];
+        [self changeTaskInfor:self.currentSelectedIndex];
+    }
+    
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.taskfinishManager) {
+        
+    }else if(manager == self.taskunfinishedManager){
+        
+    }
+}
+#pragma mark - setter and getter
+// 包含派发给我的 和我派发的
+- (APITaskListManager *)taskfinishManager{
+    if (_taskfinishManager == nil) {
+        _taskfinishManager = [[APITaskListManager alloc] init];
+        _taskfinishManager.delegate = self;
+        _taskfinishManager.paramSource = self;
+        _taskfinishManager.pageSize.pageIndex = 0;
+        _taskfinishManager.pageSize.pageSize = 0;
+        _taskfinishManager.dataType = taskListDataType_none;
+    }
+    return _taskfinishManager;
+}
+// 包含派发给我的 和我派发的
+- (APITaskListManager *)taskunfinishedManager{
+    if (_taskunfinishedManager == nil) {
+        _taskunfinishedManager = [[APITaskListManager alloc] init];
+        _taskunfinishedManager.delegate = self;
+        _taskunfinishedManager.paramSource = self;
+        _taskunfinishedManager.pageSize.pageIndex = 0;
+        _taskunfinishedManager.pageSize.pageSize = 0;
+        _taskfinishManager.dataType = taskListDataType_none;
+    }
+    return _taskunfinishedManager;
 }
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
