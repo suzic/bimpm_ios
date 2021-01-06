@@ -25,6 +25,7 @@
 #import <SDWebImage/SDWebImage.h>
 #import <MBProgressHUD/MBProgressHUD.h>
 #import <Masonry/Masonry.h>
+#import <MJRefresh/MJRefresh.h>
 #import <RongIMKit/RongIMKit.h>
 #import <Aspects/Aspects.h>
 #import "SZUtil.h"

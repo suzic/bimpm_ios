@@ -34,6 +34,19 @@
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(self);
     }];
+    [self.tableView showDataCount:self.taskArray.count];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresData)];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(refresMoreData)];
+}
+#pragma mark - 下拉更新数据 上拉加载更多
+- (void)refresData{
+    self.taskListManager.pageSize.pageIndex = 1;
+    [self.tableView.mj_footer resetNoMoreData];
+    [self.taskListManager loadData];
+}
+- (void)refresMoreData{
+    self.taskListManager.pageSize.pageIndex++;
+    [self.taskListManager loadData];
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -97,6 +110,17 @@
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.taskListManager) {
         self.needReloadData = NO;
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        if (manager.responsePageSize.currentCount < self.taskListManager.pageSize.pageSize) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        }
+        [self.taskArray addObjectsFromArray:(NSArray *)manager.response.responseData];
+        if (self.taskArray.count <= 0) {
+            self.tableView.mj_footer.hidden = YES;
+        }
+        [self.tableView reloadData];
+        
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -110,6 +134,7 @@
         _taskListManager.paramSource = self;
         _taskListManager.pageSize.pageSize = 20;
         _taskListManager.pageSize.pageIndex = 1;
+        _taskListManager.dataType = taskListDataType_default;
     }
     return _taskListManager;
 }

@@ -44,6 +44,7 @@
     }];
     _selectedTaskIndex = offsetX/w;
     [self changeTabSelected:_selectedTaskIndex];
+    [self getCurrentdisplayTaskListView:_selectedTaskIndex];
     [self.tabToolView layoutIfNeeded];
 }
 
@@ -166,7 +167,6 @@
     }
     if (_selectedTaskIndex != selectedTaskIndex) {
         _selectedTaskIndex = selectedTaskIndex;
-        [self changeTabSelected:_selectedTaskIndex];
         [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
     }
 }

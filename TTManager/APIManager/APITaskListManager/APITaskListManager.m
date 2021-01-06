@@ -51,19 +51,17 @@
 - (id)taskListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     NSMutableArray *array = [NSMutableArray array];
+    self.responsePageSize = [self.responsePageSize pageDic: dict[@"page"]];
     if (self.dataType == taskListDataType_none) {
-        self.responsePageSize = [self.responsePageSize pageDic: dict[@"page"]];
         return nil;
     }
     NSArray *list = dict[@"list"];
     if ([list isKindOfClass:[NSArray class]]) {
         for (NSDictionary *taskDic in dict[@"list"]) {
-            
             ZHTask *task = [[DataManager defaultInstance] syncTaskWithTaskInfo:taskDic];
             [array addObject:task];
         }
     }
-    response.responseData = array;
-    return response;
+    return array;
 }
 @end
