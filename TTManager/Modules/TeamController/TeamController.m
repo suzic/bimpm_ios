@@ -163,17 +163,14 @@
     return _dmDetailsManager;
 }
 - (NSArray *)teamArray{
-    if (_teamArray == nil || _teamArray.count <= 0)
-    {
-        _teamArray = [NSArray array];
-        ZHProject *project = [DataManager defaultInstance].currentProject;
-        NSSet *department = project.hasDepartments;
-        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_department" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-        NSArray *userArray = [department sortedArrayUsingDescriptors:sortDescriptors];
-        if (userArray.count > 0) {
-            _teamArray = userArray;
-        }
+    _teamArray = [NSArray array];
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    NSSet *department = project.hasDepartments;
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_department" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    NSArray *userArray = [department sortedArrayUsingDescriptors:sortDescriptors];
+    if (userArray.count > 0) {
+        _teamArray = userArray;
     }
     return _teamArray;
 }

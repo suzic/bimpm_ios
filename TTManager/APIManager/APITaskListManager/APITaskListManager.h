@@ -9,6 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+//typedef NS_ENUM(NSInteger,TaskListDataType){
+//    
+//};
+
 @interface APITaskListManager : BaseApiManager<APIManager,APIManagerValidator>
 
 @end

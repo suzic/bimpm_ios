@@ -35,6 +35,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param id_department id_department
 - (ZHDepartment *)getDepartMentFromCoredataById:(int)id_department;
 - (void)syncDepartMentWithInfo:(NSDictionary *)dict;
+- (void)syncDepartmentDetailWithInfo:(NSDictionary *)dict;
 
 - (ZHDepartmentUser *)getDepartmentUserFromCoredataById:(int)order_index;
 /// 获取Role

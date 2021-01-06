@@ -319,12 +319,16 @@
         for (NSDictionary *MPDic in dic[@"member_in_project_list"]) {
             // 部门用户
             ZHDepartmentUser *departmentUser = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
-            departmentUser.belongDepartment = department;
-            
+            [department addHasUsersObject:departmentUser];
+            departmentUser.order_index = order_index;
+            departmentUser.is_leader = [leader containsObject:MPDic[@"id_user"]];
+
             // 获取当前userProject
             ZHUserProject *userProject = [[DataManager defaultInstance] getUserProjectFromCoredataById:[MPDic[@"id_user_project"] intValue]];
+            
             [self cleanDepartmentUserByUserProject:userProject];
             [userProject addInDepartmentsObject:departmentUser];
+            
             userProject = [[DataManager defaultInstance] syncUserProject:userProject withUDInfo:MPDic];
             userProject.order_index = order_index;
             
@@ -333,24 +337,25 @@
             user = [self syncUser:user withUserInfo:userDic];
             userProject.belongUser = user;
             
-                    
-            for (NSDictionary *infoDic in MPDic[@"department_list"]) {
-                // 部门用户
-                ZHDepartmentUser *departmentUserItem = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
-               
-                departmentUserItem.order_index = 0;
-                // 判断是否是领导
-                departmentUserItem.is_leader = [leader containsObject:MPDic[@"id_user"]];
-                
-                ZHDepartment *belongdepartment = [self getDepartMentFromCoredataById:[infoDic[@"id_department"] intValue]];
-                belongdepartment.name = infoDic[@"name"];
-                belongdepartment.info = infoDic[@"info"];
-                
-                [userProject addHasDMUsersObject:departmentUserItem];
-//                [belongdepartment addHasUsersObject:departmentUserItem];
-                departmentUserItem.assignDepartment = belongdepartment;
-                order_index++;
-            }
+            
+            order_index++;
+//            for (NSDictionary *infoDic in MPDic[@"department_list"]) {
+//                // 部门用户
+//                ZHDepartmentUser *departmentUserItem = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
+//
+//                departmentUserItem.order_index = 0;
+//                // 判断是否是领导
+//                departmentUserItem.is_leader = [leader containsObject:MPDic[@"id_user"]];
+//
+//                ZHDepartment *belongdepartment = [self getDepartMentFromCoredataById:[infoDic[@"id_department"] intValue]];
+//                belongdepartment.name = infoDic[@"name"];
+//                belongdepartment.info = infoDic[@"info"];
+//
+//                [userProject addHasDMUsersObject:departmentUserItem];
+////                [belongdepartment addHasUsersObject:departmentUserItem];
+//                departmentUserItem.assignDepartment = belongdepartment;
+//                order_index++;
+//            }
         }
         department.belongProject = currentProject;
     }

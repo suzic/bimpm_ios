@@ -106,8 +106,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
     ZHUserProject *userProject = self.infoArray[indexPath.row];
-    NSString *titleText = [NSString stringWithFormat:@"%@ 中我是",userProject.belongProject.name];
-    cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"中我是"]];
+    NSString *titleText = [NSString stringWithFormat:@"项目名称: %@",userProject.belongProject.name];
+    cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"项目名称:"]];
     return cell;
 }
 #pragma mark - Action

@@ -50,7 +50,7 @@
 - (id)departmentDetailCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     self.pageSize = dict[@"page"];
-    [[DataManager defaultInstance] syncDepartMentWithInfo:dict];
+    [[DataManager defaultInstance] syncDepartMentWithInfo:@{@"department_list":@[dict[@"department"]]}];
     response.responseData = [DataManager defaultInstance].currentProject;
     return response;
 }
