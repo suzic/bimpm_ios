@@ -7,10 +7,14 @@
 
 #import "TaskListView.h"
 #import "TaskListCell.h"
+#import "TaskListController.h"
 
-@interface TaskListView ()<UITableViewDelegate,UITableViewDataSource>
+@interface TaskListView ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) APITaskListManager *taskListManager;
+@property (nonatomic, strong) NSMutableArray *taskArray;
+@property (nonatomic, assign) BOOL needReloadData;
 
 @end
 
@@ -19,6 +23,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.needReloadData = YES;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }
@@ -47,7 +52,7 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 10;
+    return self.taskArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 64;
@@ -68,34 +73,83 @@
     if (!cell) {
         cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
     }
-
-    cell.taskName.text = [self getListTitleWithStatus:self.taskStatus];
+    cell.taskName.text = @"任务列表";
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     [self routerEventWithName:Task_list_selected userInfo:@{}];
 }
-
-- (NSString *)getListTitleWithStatus:(TaskStatus)status{
-    NSString *listTitle = @"";
-    switch (status) {
+- (void)reloadDataFromNetwork{
+    if (self.needReloadData == YES) {
+        [self.taskListManager loadData];
+    }
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    if (manager == self.taskListManager) {
+        dic = [self getCurrentParamSource:self.currentTaskStatus];
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.taskListManager) {
+        self.needReloadData = NO;
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - setter and getter
+- (APITaskListManager *)taskListManager{
+    if (_taskListManager == nil) {
+        _taskListManager = [[APITaskListManager alloc] init];
+        _taskListManager.delegate = self;
+        _taskListManager.paramSource = self;
+        _taskListManager.pageSize.pageSize = 20;
+        _taskListManager.pageSize.pageIndex = 1;
+    }
+    return _taskListManager;
+}
+- (NSMutableArray *)taskArray{
+    if (_taskArray == nil) {
+        _taskArray = [NSMutableArray array];
+    }
+    if (_taskArray.count <= 0) {
+        
+    }
+    return _taskArray;
+}
+- (NSDictionary *)getCurrentParamSource:(TaskStatus)taskStatus{
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    NSString *is_starter = @"";
+    NSString *is_finished = @"";
+    switch (taskStatus) {
         case Task_list:
-            listTitle = @"我的任务";
+            is_starter = @"0";
+            is_finished = @"0";
             break;
         case Task_finish:
-            listTitle = @"已完成任务";
+            is_starter = @"0";
+            is_finished = @"1";
             break;
         case Task_sponsoring:
-            listTitle = @"正在发起";
+            is_starter = @"1";
+            is_finished = @"0";
             break;
         case Task_sponsored:
-            listTitle = @"已发起";
+            is_starter = @"1";
+            is_finished = @"1";
             break;
         default:
             break;
     }
-    return listTitle;
+    NSDictionary *dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                          @"is_starter":is_starter,
+                          @"is_finished":is_finished};
+    return dic;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

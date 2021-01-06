@@ -29,12 +29,12 @@
     // Do any additional setup after loading the view.
     self.title = @"任务列表";
     self.automaticallyAdjustsScrollViewInsets = NO;
-//    _taskStatus = Task_list;
     [self addUI];
+
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    [self.taskTabView changCurrentTab:self.taskStatus];
+    self.taskTabView.selectedTaskIndex = self.taskStatus;
 }
 - (void)addUI{
     [self.view addSubview:self.taskTabView];
@@ -44,8 +44,8 @@
     NSMutableArray *viewArray = [NSMutableArray array];
     for (NSNumber *status in self.listSattusArray) {
         TaskListView *view = [[TaskListView alloc] init];
-        view.taskStatus = [status integerValue];
-        view.listTitle = [self getListTitleWithStatus:view.taskStatus];
+        view.currentTaskStatus = [status integerValue];
+        view.listTitle = [self getListTitleWithStatus:[status integerValue]];
         [viewArray addObject:view];
     }
     [self.view layoutIfNeeded];
@@ -123,13 +123,13 @@
     NSString *listTitle = @"";
     switch (status) {
         case Task_list:
-            listTitle = @"我的任务";
+            listTitle = @"进行中";
             break;
         case Task_finish:
-            listTitle = @"已完成任务";
+            listTitle = @"已完成";
             break;
         case Task_sponsoring:
-            listTitle = @"正在发起";
+            listTitle = @"起草中";
             break;
         case Task_sponsored:
             listTitle = @"已发起";

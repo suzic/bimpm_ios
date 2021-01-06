@@ -14,10 +14,12 @@
 @property (nonatomic, strong) UIView *tabToolView;
 @property (nonatomic, strong) TaskSearchView *searchView;
 @property (nonatomic, strong) UIView *lineView;
-@property (nonatomic, strong) UIButton *lastSelectedButton;
 @property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic,strong) UIView *contentView;
+@property (nonatomic, strong) UIView *contentView;
 
+// 任务列表的集合
+@property (nonatomic, strong) NSMutableArray *taskListViewArray;
+@property (nonatomic, strong) NSMutableArray *tabButtonArray;
 @end
 
 @implementation TaskTabView
@@ -25,24 +27,31 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        _selectedTaskIndex = NSNotFound;
+        self.tabButtonArray = [NSMutableArray array];
+        self.taskListViewArray = [NSMutableArray array];
     }
     return self;
 }
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    CGFloat offsetY = scrollView.contentOffset.x;
+    CGFloat offsetX = scrollView.contentOffset.x;
     CGFloat w = CGRectGetWidth(self.frame);
-    CGFloat x = w/4/w*offsetY;
+    CGFloat x = w/4/w*offsetX;
     [self.lineView updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(x);
     }];
+    _selectedTaskIndex = offsetX/w;
+    [self changeTabSelected:_selectedTaskIndex];
     [self.tabToolView layoutIfNeeded];
 }
 
 #pragma mark - public
 
 - (void)setChildrenViewList:(NSArray *)listView{
+    [self.taskListViewArray addObjectsFromArray:listView];
+    
     [self addSubview:self.tabToolView];
     [self.tabToolView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(self);
@@ -89,11 +98,10 @@
         [button setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateSelected];
         [self.tabToolView addSubview:button];
         button.tag = i+10000;
-//        if (i == 0) {
-//            self.lastSelectedButton = button;
-//            button.selected = YES;
-//        }
+        
         [button addTarget:self action:@selector(changeTab:) forControlEvents:UIControlEventTouchUpInside];
+        
+        [self.tabButtonArray addObject:button];
         // tab
         [button makeConstraints:^(MASConstraintMaker *make) {
             if (tabButton == nil) {
@@ -146,18 +154,35 @@
 
 #pragma mark - Action
 - (void)changeTab:(UIButton *)button{
-    self.lastSelectedButton.selected = NO;
-    button.selected = YES;
-    self.lastSelectedButton = button;
-    [self.scrollView setContentOffset:CGPointMake(button.tag*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    if (button.tag == self.selectedTaskIndex) {
+        return;
+    }
+    self.selectedTaskIndex = button.tag - 10000;
 }
-- (void)changCurrentTab:(NSInteger)selected{
-    UIButton *button = (UIButton *)[self.tabToolView viewWithTag:(selected+10000)];
-    button.selected = YES;
-    self.lastSelectedButton = button;
-    [self.scrollView setContentOffset:CGPointMake(selected*CGRectGetWidth(self.scrollView.frame),0) animated:NO];
+
+- (void)setSelectedTaskIndex:(NSInteger)selectedTaskIndex{
+    if (selectedTaskIndex == NSNotFound) {
+        return;
+    }
+    if (_selectedTaskIndex != selectedTaskIndex) {
+        _selectedTaskIndex = selectedTaskIndex;
+        [self changeTabSelected:_selectedTaskIndex];
+        [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    }
+}
+
+- (void)changeTabSelected:(NSInteger)index{
+    for (UIButton *button in self.tabButtonArray) {
+        button.selected = button.tag == index + 10000;
+    }
+}
+// 获取当前显示的tasklist 并且reloaddata
+- (void)getCurrentdisplayTaskListView:(NSInteger)index{
+    TaskListView *currentListView = self.taskListViewArray[index];
+    [currentListView reloadDataFromNetwork];
 }
 #pragma mark - setter and getter
+
 - (UIView *)tabToolView{
     if (_tabToolView == nil) {
         _tabToolView = [[UIView alloc] init];

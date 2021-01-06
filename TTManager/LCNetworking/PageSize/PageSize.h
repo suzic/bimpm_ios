@@ -16,6 +16,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) NSInteger totalPages;
 @property (nonatomic, assign) NSInteger currentCount;
 @property (nonatomic, assign) NSInteger total_row;
+@property (nonatomic, strong) NSMutableArray *filters;
+@property (nonatomic, strong) NSMutableArray *orders;
 
 - (NSDictionary *)currentPage;
 - (PageSize *)pageDic:(NSDictionary *)page;

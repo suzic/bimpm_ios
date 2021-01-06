@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskListView : UIView
 
-@property (nonatomic, assign) TaskStatus taskStatus;
 @property (nonatomic, copy) NSString *listTitle;
+@property (nonatomic, assign) TaskStatus currentTaskStatus;
+- (void)reloadDataFromNetwork;
 
 @end
 

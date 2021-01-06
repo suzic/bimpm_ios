@@ -9,10 +9,23 @@
 
 @implementation PageSize
 
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        self.orders = [NSMutableArray array];
+        self.filters = [NSMutableArray array];
+    }
+    return self;
+}
 - (NSDictionary *)currentPage{
     NSString *pageSizeString = [NSString stringWithFormat:@"%ld", self.pageSize];
     NSString *pageIndexString = [NSString stringWithFormat:@"%ld", self.pageIndex];
-    NSDictionary * dict = @{@"page_size":pageSizeString, @"page_index":pageIndexString, @"total_pages":@"", @"current_count":@""};
+    NSDictionary * dict = @{@"page_size":pageSizeString,
+                            @"page_index":pageIndexString,
+                            @"total_pages":@"",
+                            @"current_count":@"",
+                            @"orders":self.orders,
+                            @"filter":self.filters};
     return dict;
 }
 - (PageSize *)pageDic:(NSDictionary *)page{
