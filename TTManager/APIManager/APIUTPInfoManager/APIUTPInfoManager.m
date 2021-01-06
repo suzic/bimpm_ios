@@ -57,7 +57,7 @@
     if ([projectMemo isKindOfClass:[NSArray class]]) {
         for (NSDictionary *projectMemoDic in projectMemo) {
             ZHProject *project = [[DataManager defaultInstance] getProjectFromCoredataById:[projectMemoDic[@"fid_project"] intValue]];
-            ZHProjectMemo *meno = (ZHProjectMemo *)[[DataManager defaultInstance] insertIntoCoreData:@"page_index"];
+            ZHProjectMemo *meno = (ZHProjectMemo *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHProjectMemo"];
             meno.page_index = [projectMemoDic[@"order_index"] intValue];
             meno.order_index = [projectMemoDic[@"order_index"] intValue];
             meno.check = [projectMemoDic[@"check"] boolValue];
