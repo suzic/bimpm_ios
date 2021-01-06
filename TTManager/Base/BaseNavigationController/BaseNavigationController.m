@@ -43,7 +43,18 @@
     [self setNavigationBarHidden:[self.viewControlersList containsObject:[viewController class]] animated:YES];
 
 }
-
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
+    NSArray *array = @[NSClassFromString(@"MonitoringController"),
+                      NSClassFromString(@"WorkbenchController"),
+                      NSClassFromString(@"DocumentLibController"),
+                      NSClassFromString(@"ConversationListController"),
+                      NSClassFromString(@"TeamController")];
+    if ([array containsObject:[viewController class]]) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
+    }
+}
 //- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
 //    if (self.viewControllers.count <= 1) {
 //        return NO;
