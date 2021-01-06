@@ -30,7 +30,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) ZHProject *belongProject;
 @property (nullable, nonatomic, retain) ZHUser *belongUser;
 @property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *inDepartments;
-@property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *hasDMUsers;
 
 @end
 
@@ -40,11 +39,6 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)removeInDepartmentsObject:(ZHDepartmentUser *)value;
 - (void)addInDepartments:(NSSet<ZHDepartmentUser *> *)values;
 - (void)removeInDepartments:(NSSet<ZHDepartmentUser *> *)values;
-
-- (void)addHasDMUsersObject:(ZHDepartmentUser *)value;
-- (void)removeHasDMUsersObject:(ZHDepartmentUser *)value;
-- (void)addHasDMUsers:(NSSet<ZHDepartmentUser *> *)values;
-- (void)removeHasDMUsers:(NSSet<ZHDepartmentUser *> *)values;
 
 @end
 

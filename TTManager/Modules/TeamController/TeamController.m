@@ -175,10 +175,11 @@
     return _teamArray;
 }
 - (void)setCurrentSelected:(NSInteger)currentSelected{
-    if (currentSelected == NSNotFound) {
+    _currentSelected = currentSelected;
+
+    if (_currentSelected == NSNotFound) {
         return;
     }
-    currentSelected = _currentSelected;
     NSArray *title = [self departmentTitle];
     if (title.count > 0) {
         [self.teamNameBtn setTitle:title[_currentSelected] forState:UIControlStateNormal];

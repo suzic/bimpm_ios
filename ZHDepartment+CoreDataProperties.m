@@ -20,6 +20,5 @@
 @dynamic name;
 @dynamic belongProject;
 @dynamic hasUsers;
-@dynamic hasDMUsers;
 
 @end

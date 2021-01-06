@@ -319,15 +319,16 @@
         for (NSDictionary *MPDic in dic[@"member_in_project_list"]) {
             // 部门用户
             ZHDepartmentUser *departmentUser = (ZHDepartmentUser *)[[DataManager defaultInstance] insertIntoCoreData:@"ZHDepartmentUser"];
-            [department addHasUsersObject:departmentUser];
+            departmentUser.belongDepartment = department;
             departmentUser.order_index = order_index;
             departmentUser.is_leader = [leader containsObject:MPDic[@"id_user"]];
 
             // 获取当前userProject
             ZHUserProject *userProject = [[DataManager defaultInstance] getUserProjectFromCoredataById:[MPDic[@"id_user_project"] intValue]];
             
-            [self cleanDepartmentUserByUserProject:userProject];
+//            [self cleanDepartmentUserByUserProject:userProject];
             [userProject addInDepartmentsObject:departmentUser];
+            departmentUser.assignUser = userProject;
             
             userProject = [[DataManager defaultInstance] syncUserProject:userProject withUDInfo:MPDic];
             userProject.order_index = order_index;
@@ -357,6 +358,7 @@
 //                order_index++;
 //            }
         }
+        NSLog(@"当前部门下的人数%ld",department.hasUsers.count);
         department.belongProject = currentProject;
     }
 }

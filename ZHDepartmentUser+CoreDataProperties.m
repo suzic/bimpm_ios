@@ -18,7 +18,5 @@
 @dynamic order_index;
 @dynamic assignUser;
 @dynamic belongDepartment;
-@dynamic assignDepartment;
-@dynamic belongUserProject;
 
 @end

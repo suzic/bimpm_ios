@@ -29,6 +29,5 @@
 @dynamic belongProject;
 @dynamic belongUser;
 @dynamic inDepartments;
-@dynamic hasDMUsers;
 
 @end

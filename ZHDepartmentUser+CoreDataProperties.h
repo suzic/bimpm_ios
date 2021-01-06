@@ -19,8 +19,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int32_t order_index;
 @property (nullable, nonatomic, retain) ZHUserProject *assignUser;
 @property (nullable, nonatomic, retain) ZHDepartment *belongDepartment;
-@property (nullable, nonatomic, retain) ZHDepartment *assignDepartment;
-@property (nullable, nonatomic, retain) ZHUserProject *belongUserProject;
 
 @end
 

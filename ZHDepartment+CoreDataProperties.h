@@ -21,7 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *name;
 @property (nullable, nonatomic, retain) ZHProject *belongProject;
 @property (nullable, nonatomic, retain) NSSet<ZHDepartmentUser *> *hasUsers;
-@property (nullable, nonatomic, retain) ZHDepartmentUser *hasDMUsers;
 
 @end
 
