@@ -23,6 +23,11 @@
     }
     return self;
 }
+#pragma mark - Actions
+- (void)chooseAdjunctFile:(UIButton *)button{
+    [self routerEventWithName:choose_adjunct_file userInfo:@{}];
+}
+
 - (void)addUI{
     [self addSubview:self.priorityView];
     
@@ -96,6 +101,7 @@
         _adjunctFileBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
         [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
+        [_adjunctFileBtn addTarget:self action:@selector(chooseAdjunctFile:) forControlEvents:UIControlEventTouchUpInside];
         _adjunctFileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         _adjunctFileBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
     }

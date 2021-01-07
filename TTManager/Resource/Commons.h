@@ -37,6 +37,7 @@
 #import "UIResponder+Router.h"
 #import "NSDictionary+Extend.h"
 #import "UITableView+EmptyView.h"
+#import "UIViewController+ImagePicker.h"
 
 // 获取屏幕的尺寸
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)

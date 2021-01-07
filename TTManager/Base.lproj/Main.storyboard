@@ -27,7 +27,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="twk-Ky-pHJ" userLabel="ProjectView">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <connections>
-                                    <segue destination="dOR-R3-OnI" kind="embed" id="LWj-JW-fbO"/>
+                                    <segue destination="dOR-R3-OnI" kind="embed" identifier="project" id="LWj-JW-fbO"/>
                                 </connections>
                             </containerView>
                             <view hidden="YES" alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jyk-20-m19">
@@ -333,7 +333,7 @@
         <!--Team Controller-->
         <scene sceneID="V0i-ec-TXg">
             <objects>
-                <viewController id="3Gv-td-7Sc" customClass="TeamController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="teamController" id="3Gv-td-7Sc" customClass="TeamController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Mcy-ht-D2P">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

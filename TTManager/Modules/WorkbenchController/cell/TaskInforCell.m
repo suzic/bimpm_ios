@@ -58,12 +58,12 @@
 
 - (void)firstTapAction:(UITapGestureRecognizer *)tap{
     NSDictionary *dic = [self getTaskStatusForTaskList:0];
-    [self routerEventWithName:taskList_selected userInfo:dic];
+    [self routerEventWithName:push_to_taskList userInfo:dic];
 }
 
 - (void)secondTapAction:(UITapGestureRecognizer *)tap{
     NSDictionary *dic = [self getTaskStatusForTaskList:1];
-    [self routerEventWithName:taskList_selected userInfo:dic];
+    [self routerEventWithName:push_to_taskList userInfo:dic];
 }
 
 #pragma mark - private method

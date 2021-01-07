@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		21F2797630A34B151672E38C /* libPods-TTManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 578C9E99FFA515FBBC675532 /* libPods-TTManager.a */; };
+		400B494E25A6B598006CBEBB /* UIViewController+ImagePicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 400B494D25A6B598006CBEBB /* UIViewController+ImagePicker.m */; };
+		400B495125A6B653006CBEBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495025A6B653006CBEBB /* AssetsLibrary.framework */; };
+		400B495325A6B660006CBEBB /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495225A6B660006CBEBB /* Photos.framework */; };
+		400B495525A6B66D006CBEBB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495425A6B66D006CBEBB /* AVFoundation.framework */; };
 		402A9EF42595769900A9DABA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9EF32595769900A9DABA /* AppDelegate.m */; };
 		402A9EFD2595769900A9DABA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402A9EFB2595769900A9DABA /* Main.storyboard */; };
 		402A9F022595769C00A9DABA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 402A9F012595769C00A9DABA /* Assets.xcassets */; };
@@ -136,6 +140,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		400B494C25A6B598006CBEBB /* UIViewController+ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ImagePicker.h"; sourceTree = "<group>"; };
+		400B494D25A6B598006CBEBB /* UIViewController+ImagePicker.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+ImagePicker.m"; sourceTree = "<group>"; };
+		400B495025A6B653006CBEBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
+		400B495225A6B660006CBEBB /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
+		400B495425A6B66D006CBEBB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		402A9EEF2595769900A9DABA /* TTManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		402A9EF22595769900A9DABA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		402A9EF32595769900A9DABA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -396,6 +405,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				400B495525A6B66D006CBEBB /* AVFoundation.framework in Frameworks */,
+				400B495325A6B660006CBEBB /* Photos.framework in Frameworks */,
+				400B495125A6B653006CBEBB /* AssetsLibrary.framework in Frameworks */,
 				402AA1E12599738E00A9DABA /* WebKit.framework in Frameworks */,
 				402AA1222595E13100A9DABA /* CoreData.framework in Frameworks */,
 				402A9F692595B1B500A9DABA /* UIKit.framework in Frameworks */,
@@ -607,6 +619,9 @@
 		402A9F672595B1B500A9DABA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				400B495425A6B66D006CBEBB /* AVFoundation.framework */,
+				400B495225A6B660006CBEBB /* Photos.framework */,
+				400B495025A6B653006CBEBB /* AssetsLibrary.framework */,
 				402AA1E02599738E00A9DABA /* WebKit.framework */,
 				402AA1212595E13100A9DABA /* CoreData.framework */,
 				402A9F682595B1B500A9DABA /* UIKit.framework */,
@@ -634,6 +649,8 @@
 				406FCAE025A2F09200636079 /* NSDictionary+Extend.m */,
 				406FCAF025A34A8200636079 /* UITableView+EmptyView.h */,
 				406FCAF125A34A8200636079 /* UITableView+EmptyView.m */,
+				400B494C25A6B598006CBEBB /* UIViewController+ImagePicker.h */,
+				400B494D25A6B598006CBEBB /* UIViewController+ImagePicker.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1306,6 +1323,7 @@
 				402A9F4F2595A4F900A9DABA /* TeamController.m in Sources */,
 				406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */,
 				402AA1122595D92E00A9DABA /* ZHFormItem+CoreDataClass.m in Sources */,
+				400B494E25A6B598006CBEBB /* UIViewController+ImagePicker.m in Sources */,
 				40931C9D259B33C4008C3518 /* DragButton.m in Sources */,
 				402AA0ED2595D8CF00A9DABA /* ZHAllow+CoreDataClass.m in Sources */,
 				403BF301259D792F004D317C /* FileListView.m in Sources */,

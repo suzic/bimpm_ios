@@ -36,28 +36,7 @@
     [super viewDidAppear:animated];
     self.taskTabView.selectedTaskIndex = self.taskStatus;
 }
-- (void)addUI{
-    [self.view addSubview:self.taskTabView];
-    [self.taskTabView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.bottom.equalTo(self.view);
-    }];
-    NSMutableArray *viewArray = [NSMutableArray array];
-    for (NSNumber *status in self.listSattusArray) {
-        TaskListView *view = [[TaskListView alloc] init];
-        view.currentTaskStatus = [status integerValue];
-        view.listTitle = [self getListTitleWithStatus:[status integerValue]];
-        [viewArray addObject:view];
-    }
-    [self.view layoutIfNeeded];
-    [self.taskTabView setChildrenViewList:viewArray];
-    DragButton *dragBtn = [DragButton initDragButtonVC:self];
-    [dragBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-15);
-        make.bottom.equalTo(-(SafeAreaBottomHeight == 0 ? 15 :SafeAreaBottomHeight));
-        make.width.height.equalTo(49);
-    }];
-    
-}
+
 #pragma mark - private method
 - (void)showSelectNewTaskType{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
@@ -143,12 +122,33 @@
     if ([eventName isEqualToString:Task_list_selected]) {
         self.taskType = TaskType_details;
         [self performSegueWithIdentifier:@"newTask" sender:nil];
-//        [self performSegueWithIdentifier:@"showTaskDetail" sender:nil];
     }else if([eventName isEqualToString:new_task_action]){
         [self showSelectNewTaskType];
     }
 }
-
+#pragma mark - UI
+- (void)addUI{
+    [self.view addSubview:self.taskTabView];
+    [self.taskTabView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.bottom.equalTo(self.view);
+    }];
+    NSMutableArray *viewArray = [NSMutableArray array];
+    for (NSNumber *status in self.listSattusArray) {
+        TaskListView *view = [[TaskListView alloc] init];
+        view.currentTaskStatus = [status integerValue];
+        view.listTitle = [self getListTitleWithStatus:[status integerValue]];
+        [viewArray addObject:view];
+    }
+    [self.view layoutIfNeeded];
+    [self.taskTabView setChildrenViewList:viewArray];
+    DragButton *dragBtn = [DragButton initDragButtonVC:self];
+    [dragBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-15);
+        make.bottom.equalTo(-(SafeAreaBottomHeight == 0 ? 15 :SafeAreaBottomHeight));
+        make.width.height.equalTo(49);
+    }];
+    
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation

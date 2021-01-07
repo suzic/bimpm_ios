@@ -8,11 +8,22 @@
 #ifndef ResponderChainHeader_h
 #define ResponderChainHeader_h
 
-#define selectedProject     @"selectedProject"
-#define Task_list_selected  @"Task_list_selected"
-#define MoreMessage         @"moreMessage"
-#define new_task_action     @"new_task_action"
-#define function_selected   @"function_selected"
-#define taskList_selected   @"taskList_selected"
+// 选择的项目
+#define selectedProject       @"selectedProject"
+// 选择某个task
+#define Task_list_selected    @"Task_list_selected"
+// 工作台查看更多消息
+#define MoreMessage           @"moreMessage"
+// 新建任务
+#define new_task_action       @"new_task_action"
+// 首页 常用模块点击
+#define function_selected     @"function_selected"
 
+#define push_to_taskList     @"push_to_taskList"
+
+// 选择任务步骤对应的用户
+#define selected_taskStep_user  @"selected_taskStep_user"
+
+// 选择附件
+#define choose_adjunct_file     @"choose_adjunct_file"
 #endif /* ResponderChainHeader_h */

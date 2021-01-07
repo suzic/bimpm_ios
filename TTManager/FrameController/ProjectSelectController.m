@@ -27,6 +27,9 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
 
 }
+- (void)reloadData{
+    [self.projectCollectionView reloadData];
+}
 #pragma mark - setter and getter
 - (NSMutableArray *)projectList{
     _projectList = [DataManager defaultInstance].currentProjectList;

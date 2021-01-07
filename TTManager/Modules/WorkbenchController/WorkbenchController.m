@@ -117,7 +117,7 @@
     {
         NSLog(@"当前点击的常用功能=====%@",userInfo[@"index"]);
     }
-    else if([eventName isEqualToString:taskList_selected])
+    else if([eventName isEqualToString:push_to_taskList])
     {
         NSLog(@"跳转任务详情带去的参数======%@",userInfo)
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];

@@ -8,6 +8,7 @@
 #import "FrameController.h"
 #import "FrameNavView.h"
 #import "UserSettingController.h"
+#import "ProjectSelectController.h"
 
 @interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FrameNavViewDelegate>
 
@@ -27,6 +28,7 @@
 // 导航栏
 @property (nonatomic, strong) FrameNavView *headerView;
 @property (nonatomic, strong) UserSettingController *settingVC;
+@property (nonatomic, strong) ProjectSelectController *projectVC;
 // 抽屉VC
 @property (nonatomic, strong) UIViewController *userVC;
 
@@ -277,6 +279,13 @@
         }
         [self.headerView reloadData];
         [self.settingVC reloadData];
+        NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
+        if ([SZUtil isEmptyOrNull:id_project]) {
+            self.projectView.hidden = NO;
+        }else{
+            self.projectView.hidden = YES;
+        }
+        [self.projectVC reloadData];
         [self updateFrame];
     }
 }
@@ -355,6 +364,8 @@
         self.homeVC = (UIViewController *)[navi topViewController];
     }else if ([segue.identifier isEqualToString:@"setting"]) {
         self.settingVC = (UserSettingController *)[segue destinationViewController];
+    }else if([segue.identifier isEqualToString:@"project"]){
+        self.projectVC = (ProjectSelectController *)[segue destinationViewController];
     }
 }
 

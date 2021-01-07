@@ -95,6 +95,7 @@ static NSString *reuseIdentifier = @"StepCell";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self routerEventWithName:selected_taskStep_user userInfo:@{}];
 }
 
 #pragma mark - setting and getter

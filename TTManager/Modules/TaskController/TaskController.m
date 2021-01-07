@@ -10,6 +10,7 @@
 #import "TaskOperationView.h"
 #import "TaskTitleView.h"
 #import "TaskContentView.h"
+#import "TeamController.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
 // 任务步骤
@@ -43,37 +44,42 @@
         NSLog(@"创建新任务界面");
     }
     [self addUI];
+    [self loadData];
 }
-- (void)addUI{
-    // 步骤
-    [self.view addSubview:self.stepView];
-    // 任务名称
-    [self.view addSubview:self.taskTitleView];
-    // 任务内容
-    [self.view addSubview:self.taskContentView];
-    // 底部操作栏
-    [self.view addSubview:self.taskOperationView];
+
+- (void)loadData{
+    if (self.taskType == TaskType_details) {
+        [self.taskDetailManager loadData];
+    }else if(self.taskType == TaskType_newTask){
+        [self.taskNewManager loadData];
+    }
+}
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if([eventName isEqualToString:selected_taskStep_user]){
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
+        team.selectedUserType = YES;
+        team.selectUserBlock = ^(ZHUser * _Nonnull user) {
+            NSLog(@"当前选择的用户==%@",user.name);
+        };
+        [self.navigationController pushViewController:team animated:YES];
+    }else if([eventName isEqualToString:choose_adjunct_file]){
+        [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
+            NSLog(@"当前选择的图片");
+        }];
+    }
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *params = @{};
+    return params;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
     
-    [self.stepView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(25);
-        make.left.right.equalTo(0);
-        make.height.equalTo(itemHeight);
-    }];
-    self.stepView.stepArray = self.stepArray;
-    [self.taskTitleView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(0);
-        make.top.equalTo(self.stepView.mas_bottom).offset(25);
-    }];
-    [self.taskContentView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskTitleView.mas_bottom);
-        make.left.right.equalTo(0);
-    }];
-    [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskContentView.mas_bottom);
-        make.left.right.equalTo(0);
-        make.bottom.equalTo(-SafeAreaBottomHeight);
-        make.height.equalTo(88);
-    }];
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
 }
 #pragma mark -setting and getter
 - (TaskStepView *)stepView{
@@ -147,6 +153,38 @@
         _taskDetailManager.paramSource = self;
     }
     return _taskDetailManager;
+}
+#pragma mark - UI
+- (void)addUI{
+    // 步骤
+    [self.view addSubview:self.stepView];
+    // 任务名称
+    [self.view addSubview:self.taskTitleView];
+    // 任务内容
+    [self.view addSubview:self.taskContentView];
+    // 底部操作栏
+    [self.view addSubview:self.taskOperationView];
+    
+    [self.stepView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(25);
+        make.left.right.equalTo(0);
+        make.height.equalTo(itemHeight);
+    }];
+    self.stepView.stepArray = self.stepArray;
+    [self.taskTitleView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(0);
+        make.top.equalTo(self.stepView.mas_bottom).offset(25);
+    }];
+    [self.taskContentView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.taskTitleView.mas_bottom);
+        make.left.right.equalTo(0);
+    }];
+    [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.taskContentView.mas_bottom);
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(-SafeAreaBottomHeight);
+        make.height.equalTo(88);
+    }];
 }
 - (IBAction)closeVCAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

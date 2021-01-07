@@ -94,15 +94,22 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Team" bundle:nil];
-    UserInforController *vc = (UserInforController *)[storyBoard instantiateViewControllerWithIdentifier:@"userInforController"];
     ZHDepartment *department = self.teamArray[self.currentSelected];
     NSArray *array = [self currentUserList:department.hasUsers];
     ZHDepartmentUser *departmentUser = array[indexPath.row];
-    vc.user = departmentUser.assignUser.belongUser;
-    vc.id_department = department.id_department;
-    NSLog(@"当前的user%@",vc.user);
-    [self.navigationController pushViewController:vc animated:YES];
+    if (self.selectedUserType == NO) {
+        UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Team" bundle:nil];
+        UserInforController *vc = (UserInforController *)[storyBoard instantiateViewControllerWithIdentifier:@"userInforController"];
+        vc.user = departmentUser.assignUser.belongUser;
+        vc.id_department = department.id_department;
+        NSLog(@"当前的user%@",vc.user);
+        [self.navigationController pushViewController:vc animated:YES];
+    }else{
+        if (self.selectUserBlock) {
+            self.selectUserBlock(departmentUser.assignUser.belongUser);
+        }
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 #pragma mark - PopViewSelectedIndexDelegate
