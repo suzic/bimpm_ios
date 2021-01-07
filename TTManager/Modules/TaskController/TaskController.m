@@ -11,11 +11,15 @@
 #import "TaskTitleView.h"
 #import "TaskContentView.h"
 #import "TeamController.h"
+#import "ZHCalendarView.h"
 
-@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
+
+@property (nonatomic, strong) NSArray *stepArray;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
-@property (nonatomic, strong) NSArray *stepArray;
+// 日历
+@property (nonatomic, strong) ZHCalendarView *calendarView;
 // 任务名称
 @property (nonatomic, strong) TaskTitleView *taskTitleView;
 // 任务内容
@@ -54,6 +58,7 @@
         [self.taskNewManager loadData];
     }
 }
+#pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:selected_taskStep_user]){
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -67,6 +72,9 @@
         [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
             NSLog(@"当前选择的图片");
         }];
+    }else if([eventName isEqualToString:select_caldenar_view]){
+        NSLog(@"选择日期");
+        [self.calendarView showCalendarView:YES];
     }
 }
 #pragma mark - APIManagerParamSource
@@ -79,6 +87,10 @@
     
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+#pragma mark - ZHCalendarViewDelegate
+- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)start end:(CalendarDayModel *)end totalDays:(NSInteger)totalDay{
     
 }
 #pragma mark -setting and getter
@@ -112,6 +124,15 @@
         _taskContentView = [[TaskContentView alloc] init];
     }
     return _taskContentView;
+}
+- (ZHCalendarView *)calendarView{
+    if (_calendarView == nil) {
+        _calendarView = [[ZHCalendarView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight)];
+        _calendarView.delegate = self;
+        [_calendarView needMonth:12];
+        [[AppDelegate sharedDelegate].window addSubview:_calendarView];
+    }
+    return _calendarView;
 }
 #pragma mark api init
 - (APITaskProcessManager *)taskProcessManager{

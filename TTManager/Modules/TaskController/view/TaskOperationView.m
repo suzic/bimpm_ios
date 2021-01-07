@@ -31,6 +31,11 @@
     }
     return self;
 }
+#pragma mark - Action
+- (void)selectTime:(UIButton *)button{
+    [self routerEventWithName:select_caldenar_view userInfo:@{}];
+}
+#pragma mark - UI
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
     [bgView addSubview:self.predictTimeBtn];
@@ -106,6 +111,7 @@
         [_predictTimeBtn setTitleColor:RGB_COLOR(153, 153, 153) forState:UIControlStateNormal];
         _predictTimeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
         [_predictTimeBtn setImage:[UIImage imageNamed:@"task_time"] forState:UIControlStateNormal];
+        [_predictTimeBtn addTarget:self action:@selector(selectTime:) forControlEvents:UIControlEventTouchUpInside];
         _predictTimeBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _predictTimeBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 5, 0, 0);
     }
