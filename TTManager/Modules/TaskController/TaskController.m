@@ -77,6 +77,10 @@
         NSLog(@"选择日期");
         [self.calendarView showCalendarView:YES];
         self.calendarView.defaultSelectedDate = @"2021-01-29";
+    }else if([eventName isEqualToString:selected_task_priority]){
+        NSString *priority = userInfo[@"priority"];
+        NSLog(@"当前选择的任务等级 %@",priority);
+        [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
     }
 }
 #pragma mark - APIManagerParamSource
@@ -208,6 +212,8 @@
         make.bottom.equalTo(-SafeAreaBottomHeight);
         make.height.equalTo(88);
     }];
+    
+    self.taskContentView.priorityType = priority_type_highGrade;
 }
 - (IBAction)closeVCAction:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];

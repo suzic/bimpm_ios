@@ -23,15 +23,28 @@
     }
     return self;
 }
+
 #pragma mark - Actions
 - (void)chooseAdjunctFile:(UIButton *)button{
     [self routerEventWithName:choose_adjunct_file userInfo:@{}];
 }
 
+
+- (void)priorityAction:(UIButton *)button{
+    self.priorityType = button.tag;
+}
+// 改变当前选择的任务优先级状态
+- (void)changePriorityStatus:(PriorityType)type{
+    for (UIButton *button in self.prioritybtnArray) {
+        button.selected = (type == button.tag);
+    };
+}
+#pragma mark - UI
 - (void)addUI{
     [self addSubview:self.priorityView];
     
     [self addPriorityViewSubViews];
+    
     [self addSubview:self.contentView];
     
     [self.contentView addSubview:self.adjunctFileBtn];
@@ -65,6 +78,7 @@
     UIButton *lastBtn = nil;
     for (int i = 0; i < self.prioritybtnArray.count; i++) {
         UIButton *btn = self.prioritybtnArray[i];
+        btn.tag = i;
         [self.priorityView addSubview:btn];
         [btn makeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(16);
@@ -75,12 +89,24 @@
                 make.left.equalTo(lastBtn.mas_right).offset(10);
             }
         }];
+        [btn addTarget:self action:@selector(priorityAction:) forControlEvents:UIControlEventTouchUpInside];
         [self.priorityView layoutIfNeeded];
+        btn.clipsToBounds = YES;
         btn.layer.cornerRadius = 8.0f;
         lastBtn = btn;
     }
 }
 #pragma mark - setter and getter
+
+- (void)setPriorityType:(PriorityType)priorityType{
+    if (_priorityType != priorityType) {
+        _priorityType = priorityType;
+        [self changePriorityStatus:_priorityType];
+        NSString *priority = [NSString stringWithFormat:@"%ld",_priorityType];
+        [self routerEventWithName:selected_task_priority userInfo:@{@"priority":priority}];
+    }
+}
+
 - (UIView *)priorityView{
     if (_priorityView == nil) {
         _priorityView = [[UIView alloc] init];
@@ -113,15 +139,20 @@
         for (int i = 0; i < 3; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
             button.tag = i +10000;
-            UIColor *bgColor = RGB_COLOR(0, 183, 147);
+            UIColor *normalColor = nil;
+            UIColor *selectColor = nil;
             if (i == 0) {
-                bgColor = RGB_COLOR(0, 183, 147);
+                normalColor = RGBA_COLOR(0, 183, 147, 0.3);
+                selectColor = RGB_COLOR(0, 183, 147);
             }else if(i == 1){
-                bgColor = RGB_COLOR(244, 216, 2);
+                normalColor = RGBA_COLOR(244, 216, 2, 0.3);
+                selectColor = RGB_COLOR(244, 216, 2);
             }else{
-                bgColor = RGB_COLOR(255, 77, 77);
+                normalColor = RGBA_COLOR(255, 77, 77, 0.3);
+                selectColor = RGB_COLOR(255, 77, 77);
             }
-            [button setBackgroundColor:bgColor];
+            [button setBackgroundImage:[SZUtil createImageWithColor:normalColor] forState:UIControlStateNormal];
+            [button setBackgroundImage:[SZUtil createImageWithColor:selectColor] forState:UIControlStateSelected];
             [result addObject:button];
         }
         _prioritybtnArray = result;

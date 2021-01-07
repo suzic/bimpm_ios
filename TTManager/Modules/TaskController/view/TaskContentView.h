@@ -9,7 +9,15 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef NS_ENUM(NSInteger,PriorityType){
+    priority_type_low        = 0,  // 低级
+    priority_type_middle     = 1, // 中级
+    priority_type_highGrade  = 2  // 高级
+};
+
 @interface TaskContentView : UIView
+// 当前任务优先级
+@property (nonatomic, assign)PriorityType priorityType;
 
 @end
 

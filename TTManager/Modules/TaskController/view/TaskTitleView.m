@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) UIView *taskTypeTagView;
 @property (nonatomic, strong) UITextView *taskTitle;
-@property (nonatomic,strong) MASConstraint *heightconstrain;
 
 @end
 
@@ -37,21 +36,29 @@
         make.top.equalTo(0);
         make.left.equalTo(self.taskTypeTagView.mas_right).offset(14);
         make.right.equalTo(-12);
-        make.height.equalTo(MaxTitleHeight);
+        make.height.greaterThanOrEqualTo(30);
+        make.height.lessThanOrEqualTo(90);
+        make.bottom.equalTo(-10);
     }];
-    [self makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.taskTitle.mas_bottom);
-    }];
-    
+
 }
-- (void)updateTextViewHeight:(NSString *)text{
-    
+- (void)setTaskTitleStatusColor:(PriorityType)type{
+    UIColor *lineColor = nil;
+    if (type == priority_type_low) {
+        lineColor = RGB_COLOR(0, 183, 147);
+    }else if(type == priority_type_middle){
+        lineColor = RGB_COLOR(244, 216, 2);
+    }else if(type == priority_type_highGrade){
+        lineColor = RGB_COLOR(255, 77, 77);
+    }else{
+        lineColor = [UIColor grayColor];
+    }
+    self.taskTypeTagView.backgroundColor = lineColor;
 }
 #pragma mark - setting and getter
 - (UIView *)taskTypeTagView{
     if (_taskTypeTagView == nil) {
         _taskTypeTagView = [[UIView alloc] init];
-        _taskTypeTagView.backgroundColor = RGB_COLOR(255, 77, 77);
     }
     return _taskTypeTagView;
 }
@@ -60,7 +67,7 @@
         _taskTitle = [[UITextView alloc] init];
         _taskTitle.textColor = RGB_COLOR(51, 51, 51);
         _taskTitle.font = [UIFont systemFontOfSize:20.0f];
-        _taskTitle.text = @"任务名称9月计划图开发计划图-任务处理,任务名称9月计划图开发计划图-任务处理,任务名称9月计划图开发计划图-任务处理";
+        _taskTitle.text = @"任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事";
         _taskTitle.delegate = self;
         _taskTitle.textContainerInset = UIEdgeInsetsMake(-2, 0, 0, 0);
     }
@@ -68,25 +75,39 @@
 }
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
-    CGRect frame = textView.frame;
-    CGSize constraintSize = CGSizeMake(frame.size.width, MAXFLOAT);
-    CGSize size = [textView sizeThatFits:constraintSize];
-    if (size.height<= frame.size.height) {
-        size.height=frame.size.height;
-    }else{
-        if (size.height >= MaxTitleHeight)
-        {
-            size.height = MaxTitleHeight;
-            textView.scrollEnabled = YES;   // 允许滚动
-        }
-        else
-        {
-            textView.scrollEnabled = NO;    // 不允许滚动
-        }
+    
+    NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
+    NSLog(@"当前textView的高度是---%ld",height);
+    if (height > MaxTitleHeight) {
+        textView.scrollEnabled = YES;
+        height = MaxTitleHeight;
+    }else if(height <= 30){
+        height = 30;
     }
     [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(size.height);
+        make.height.equalTo(height);
     }];
+//    CGRect frame = textView.frame;
+//    [textView sizeToFit];
+//    CGSize constraintSize = CGSizeMake(frame.size.width, CGFLOAT_MAX);
+//    CGSize size = [textView sizeThatFits:constraintSize];
+//    if (size.height <= frame.size.height) {
+//        size.height=frame.size.height;
+//
+//    }else{
+//        if (size.height >= MaxTitleHeight)
+//        {
+//            size.height = MaxTitleHeight;
+//            textView.scrollEnabled = YES;   // 允许滚动
+//        }
+//        else
+//        {
+//            textView.scrollEnabled = NO;    // 不允许滚动
+//        }
+//    }
+//    [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
+//        make.height.equalTo(size.height);
+//    }];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
