@@ -12,6 +12,7 @@
 #import "CalendarMonthHeaderView.h"
 #import "CalendarMonthCollectionViewLayout.h"
 #import "ZHCalendarHeaderView.h"
+#import "NSDate+WQCalendarLogic.h"
 
 static NSString *MonthHeader = @"MonthHeaderView";
 static NSString *DayCell = @"DayCell";
@@ -25,6 +26,7 @@ static NSString *DayCell = @"DayCell";
 @property (nonatomic ,strong) NSMutableArray *calendarMonth;//每个月份的中的daymodel容器数组
 @property (nonatomic ,strong) CalendarLogic *Logic;
 @property (nonatomic, strong) NSIndexPath *lastSelecteIndexPath;
+@property (nonatomic, strong) CalendarDayModel *defaultDayModel;
 
 @end
 
@@ -73,7 +75,16 @@ static NSString *DayCell = @"DayCell";
     }
     return _collectionView;
 }
-
+- (void)setDefaultSelectedDate:(NSString *)defaultSelectedDate{
+    if (_defaultSelectedDate != defaultSelectedDate) {
+        _defaultSelectedDate = defaultSelectedDate;
+        NSDate *date = [NSDate date];
+        date = [date dateFromString:_defaultSelectedDate];
+        NSDateComponents *defaultDC= [date YMDComponents];
+        self.defaultDayModel = [CalendarDayModel calendarDayWithYear:defaultDC.year month:defaultDC.month day:defaultDC.day];
+        [self.collectionView reloadData];
+    }
+}
 - (void)creatUI
 {
     UIView *bgView = [[UIView alloc] init];
@@ -102,6 +113,10 @@ static NSString *DayCell = @"DayCell";
     };
     headerView.sureBlock = ^{
         __strong typeof(self) strongSelf = weakSelf;
+        NSMutableArray *month = strongSelf.calendarMonth[self.lastSelecteIndexPath.section];
+        if (self.delegate && [self.delegate respondsToSelector:@selector(ZHCalendarViewDidSelectedDate:)]) {
+            [self.delegate ZHCalendarViewDidSelectedDate:month[self.lastSelecteIndexPath.row]];
+        }
         [strongSelf showCalendarView:NO];
     };
 }
@@ -124,6 +139,11 @@ static NSString *DayCell = @"DayCell";
     CalendarDayCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:DayCell forIndexPath:indexPath];
     NSMutableArray *monthArray = [self.calendarMonth objectAtIndex:indexPath.section];
     CalendarDayModel *model = [monthArray objectAtIndex:indexPath.row];
+    if (_lastSelecteIndexPath == nil){
+        if ([model isEqualTo:self.defaultDayModel]) {
+            self.lastSelecteIndexPath = indexPath;
+        };
+    }
     cell.backgroundColor = [UIColor whiteColor];
     cell.model = model;
     return cell;

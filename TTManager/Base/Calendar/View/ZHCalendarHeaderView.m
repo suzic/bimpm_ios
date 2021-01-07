@@ -34,6 +34,8 @@
     
     UIButton *sureButton = [UIButton buttonWithType:UIButtonTypeCustom];
     [sureButton setTitle:@"确认" forState:UIControlStateNormal];
+    [sureButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    sureButton.titleLabel.font = [UIFont fontWithName:@"PingFangSC-Medium" size:15];
     [sureButton addTarget:self action:@selector(sureCalendarView:) forControlEvents:UIControlEventTouchUpInside];
     [self addSubview:sureButton];
     
@@ -41,9 +43,13 @@
             make.top.left.bottom.right.equalTo(0);
     }];
     [closeButton makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(10);
+        make.left.equalTo(4);
         make.top.bottom.equalTo(0);
         make.width.equalTo(closeButton.mas_height);
+    }];
+    [sureButton makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-10);
+        make.top.bottom.equalTo(0);
     }];
 }
 - (void)closeCalendarView:(UIButton *)button{

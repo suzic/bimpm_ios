@@ -12,6 +12,7 @@
 #import "TaskContentView.h"
 #import "TeamController.h"
 #import "ZHCalendarView.h"
+#import "CalendarDayModel.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
 
@@ -75,6 +76,7 @@
     }else if([eventName isEqualToString:select_caldenar_view]){
         NSLog(@"选择日期");
         [self.calendarView showCalendarView:YES];
+        self.calendarView.defaultSelectedDate = @"2021-01-29";
     }
 }
 #pragma mark - APIManagerParamSource
@@ -90,8 +92,8 @@
     
 }
 #pragma mark - ZHCalendarViewDelegate
-- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)start end:(CalendarDayModel *)end totalDays:(NSInteger)totalDay{
-    
+- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
+    NSLog(@"当前选择的日历时间====%@",[selectedDate toString]);
 }
 #pragma mark -setting and getter
 - (TaskStepView *)stepView{

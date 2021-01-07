@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @protocol ZHCalendarViewDelegate <NSObject>
 
-- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)start end:(CalendarDayModel *)end totalDays:(NSInteger)totalDay;
+- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate;
 
 @end;
 
@@ -20,6 +20,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak) id<ZHCalendarViewDelegate>delegate;
 
+// 第一次调用日历 有默认值时候赋值 会自动更改 当前日历的lastSelectedIndexPath
+@property (nonatomic, strong) NSString *defaultSelectedDate;
 // 日历显示几个月
 - (void)needMonth:(NSUInteger)month;
 
