@@ -25,7 +25,11 @@
 }
 - (NSArray *)functionArray{
     if (_functionArray == nil) {
-        _functionArray = @[@{@"titile":@"打卡",@"image":@"test-1"},@{@"titile":@"任务",@"image":@"test-1"},@{@"titile":@"施工日志",@"image":@"test-1"},@{@"titile":@"巡检",@"image":@"test-1"}];
+        _functionArray = @[
+        @{@"titile":@"打卡",@"image":@"function_daka"},
+        @{@"titile":@"任务",@"image":@"function_task"},
+        @{@"titile":@"施工日志",@"image":@"function_log"},
+        @{@"titile":@"巡检",@"image":@"function_polling"}];
     }
     return _functionArray;
 }

@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "TaskController.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,7 +15,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskStepView : UIView
 
+/// 步骤数据 数据格式@[startUser,@[stepUser,],enduUser]
 @property (nonatomic, strong) NSArray *stepArray;
+
+/// 当前步骤类型
+@property (nonatomic, assign) TaskStepType currentStepType;
 
 @end
 

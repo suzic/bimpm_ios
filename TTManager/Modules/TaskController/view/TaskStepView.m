@@ -8,8 +8,10 @@
 #import "TaskStepView.h"
 #import "TaskStepCell.h"
 #import "StepUserView.h"
+#import "TaskStepFooterView.h"
 
 static NSString *reuseIdentifier = @"StepCell";
+static NSString *footerIdentifier = @"FooterIdentifier";
 
 @interface TaskStepView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 // 中间步骤
@@ -18,6 +20,8 @@ static NSString *reuseIdentifier = @"StepCell";
 @property (nonatomic, strong) StepUserView *initiatorStepView;
 // 结束人
 @property (nonatomic, strong) StepUserView *finishrStepView;
+// 实际的中间步骤
+@property (nonatomic, strong) NSMutableArray *middleStepArray;
 
 @end
 
@@ -30,6 +34,104 @@ static NSString *reuseIdentifier = @"StepCell";
     }
     return self;
 }
+
+#pragma mark - private method
+- (void)updateCollectionViewConstraints{
+    CGFloat collectionW = self.stepArray.count*itemWidth;
+    CGFloat maxCollectionW = kScreenWidth - 15 - itemWidth*2;
+    if (collectionW > maxCollectionW) {
+        collectionW = maxCollectionW;
+    }
+    [self.collectionView updateConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(collectionW);
+    }];
+}
+#pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return self.stepArray.count;
+}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView *supplementaryView = nil;
+    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
+        TaskStepFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier forIndexPath:indexPath];
+        supplementaryView = footerView;
+    }
+    return supplementaryView;
+}
+
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    return cell;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    return CGSizeMake(itemWidth, itemHeight);
+}
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
+    return CGSizeMake(itemWidth, itemHeight);
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+    [self routerEventWithName:selected_taskStep_user userInfo:@{}];
+}
+
+#pragma mark - setting and getter
+
+- (void)setStepArray:(NSArray *)stepArray{
+    if (_stepArray != stepArray) {
+        _stepArray = stepArray;
+        self.initiatorStepView.user = _stepArray.firstObject;
+        self.finishrStepView.user = _stepArray.lastObject;
+        self.middleStepArray = _stepArray[1];
+        [self updateCollectionViewConstraints];
+        [self.collectionView reloadData];
+    }
+}
+- (NSMutableArray *)middleStepArray{
+    if (_middleStepArray == nil) {
+        _middleStepArray = [NSMutableArray array];
+    }
+    return _middleStepArray;
+}
+
+- (UICollectionView *)collectionView{
+    if (_collectionView == nil) {
+        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
+        layout.itemSize = CGSizeMake(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
+        layout.minimumLineSpacing = 0;
+        layout.minimumInteritemSpacing = 0;
+        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+      
+        _collectionView = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:layout];
+        _collectionView.dataSource = self;
+        _collectionView.delegate = self;
+        _collectionView.pagingEnabled = YES;
+        _collectionView.showsHorizontalScrollIndicator = NO;
+        _collectionView.showsVerticalScrollIndicator = NO;
+        _collectionView.bounces = NO;
+        [_collectionView registerClass:[TaskStepCell class] forCellWithReuseIdentifier:reuseIdentifier];
+        [_collectionView registerClass:[TaskStepFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier];
+    }
+    return _collectionView;
+}
+
+- (StepUserView *)initiatorStepView{
+    if (_initiatorStepView == nil) {
+        _initiatorStepView = [[StepUserView alloc] init];
+    }
+    return _initiatorStepView;
+}
+- (StepUserView *)finishrStepView{
+    if (_finishrStepView == nil) {
+        _finishrStepView = [[StepUserView alloc] init];
+    }
+    return _finishrStepView;
+}
+#pragma mark - UI
 - (void)addUI{
     
     // 发起人
@@ -65,78 +167,6 @@ static NSString *reuseIdentifier = @"StepCell";
         make.bottom.left.right.equalTo(0);
         make.height.equalTo(0.5);
     }];
-}
-#pragma mark - private method
-- (void)updateCollectionViewConstraints{
-    CGFloat collectionW = self.stepArray.count*itemWidth;
-    CGFloat maxCollectionW = kScreenWidth - 15 - itemWidth*2;
-    if (collectionW > maxCollectionW) {
-        collectionW = maxCollectionW;
-    }
-    [self.collectionView updateConstraints:^(MASConstraintMaker *make) {
-        make.width.equalTo(collectionW);
-    }];
-}
-#pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
-}
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.stepArray.count;
-}
-- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    return cell;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
-{
-    return CGSizeMake(itemWidth, itemHeight);
-}
-
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self routerEventWithName:selected_taskStep_user userInfo:@{}];
-}
-
-#pragma mark - setting and getter
-- (void)setStepArray:(NSArray *)stepArray{
-    if (_stepArray != stepArray) {
-        _stepArray = stepArray;
-        [self updateCollectionViewConstraints];
-        [self.collectionView reloadData];
-    }
-}
-- (UICollectionView *)collectionView{
-    if (_collectionView == nil) {
-        UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
-        layout.itemSize = CGSizeMake(CGRectGetWidth(self.frame), CGRectGetHeight(self.frame));
-        layout.minimumLineSpacing = 0;
-        layout.minimumInteritemSpacing = 0;
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-      
-        _collectionView = [[UICollectionView alloc]initWithFrame:self.bounds collectionViewLayout:layout];
-        _collectionView.dataSource = self;
-        _collectionView.delegate = self;
-        _collectionView.pagingEnabled = YES;
-        _collectionView.showsHorizontalScrollIndicator = NO;
-        _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.bounces = NO;
-        [_collectionView registerClass:[TaskStepCell class] forCellWithReuseIdentifier:reuseIdentifier];
-    }
-    return _collectionView;
-}
-
-- (StepUserView *)initiatorStepView{
-    if (_initiatorStepView == nil) {
-        _initiatorStepView = [[StepUserView alloc] init];
-    }
-    return _initiatorStepView;
-}
-- (StepUserView *)finishrStepView{
-    if (_finishrStepView == nil) {
-        _finishrStepView = [[StepUserView alloc] init];
-    }
-    return _finishrStepView;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

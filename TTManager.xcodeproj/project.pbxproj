@@ -145,6 +145,7 @@
 		40E334A325A6F5F9008DBDAB /* CalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3349A25A6F5F9008DBDAB /* CalendarDayModel.m */; };
 		40E334AB25A6F758008DBDAB /* ZHCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334AA25A6F758008DBDAB /* ZHCalendarView.m */; };
 		40E334B525A70C92008DBDAB /* ZHCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */; };
+		40E334B925A82260008DBDAB /* TaskStepFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B825A82260008DBDAB /* TaskStepFooterView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -419,6 +420,8 @@
 		40E334AA25A6F758008DBDAB /* ZHCalendarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCalendarView.m; sourceTree = "<group>"; };
 		40E334B325A70C92008DBDAB /* ZHCalendarHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHCalendarHeaderView.h; sourceTree = "<group>"; };
 		40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCalendarHeaderView.m; sourceTree = "<group>"; };
+		40E334B725A82260008DBDAB /* TaskStepFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskStepFooterView.h; sourceTree = "<group>"; };
+		40E334B825A82260008DBDAB /* TaskStepFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepFooterView.m; sourceTree = "<group>"; };
 		578C9E99FFA515FBBC675532 /* libPods-TTManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.debug.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.debug.xcconfig"; sourceTree = "<group>"; };
 		74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.release.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.release.xcconfig"; sourceTree = "<group>"; };
@@ -1156,6 +1159,8 @@
 				40931CA2259B5CD7008C3518 /* TaskListCell.m */,
 				40931CA5259C16CE008C3518 /* TaskStepView.h */,
 				40931CA6259C16CE008C3518 /* TaskStepView.m */,
+				40E334B725A82260008DBDAB /* TaskStepFooterView.h */,
+				40E334B825A82260008DBDAB /* TaskStepFooterView.m */,
 				406FCA53259F02F700636079 /* TaskStepCell.h */,
 				406FCA54259F02F700636079 /* TaskStepCell.m */,
 				406FCA57259F060200636079 /* StepUserView.h */,
@@ -1379,6 +1384,7 @@
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
 				402AA09F2595D6EF00A9DABA /* DataManager.m in Sources */,
+				40E334B925A82260008DBDAB /* TaskStepFooterView.m in Sources */,
 				406FCAA425A1A62400636079 /* APITaskEditManager.m in Sources */,
 				402AA1EE2599815700A9DABA /* MessageView.m in Sources */,
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,

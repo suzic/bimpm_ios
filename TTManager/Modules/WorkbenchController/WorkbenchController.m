@@ -70,8 +70,11 @@
             cell = msgCell;
         }
             break;
-        case 1:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"functionCell" forIndexPath:indexPath];
+        case 1:{
+            FunctionCell *functionCell = (FunctionCell *)[tableView dequeueReusableCellWithIdentifier:@"functionCell" forIndexPath:indexPath];
+            cell = functionCell;
+        }
+            
             break;
         case 2:
             cell = [tableView dequeueReusableCellWithIdentifier:@"taskInforCell" forIndexPath:indexPath];
@@ -103,7 +106,7 @@
     }
     return 0;
 }
-
+#pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:MoreMessage])
     {

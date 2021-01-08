@@ -109,7 +109,7 @@
 
 - (NSArray *)stepArray{
     if (_stepArray == nil) {
-        _stepArray = @[@"1",@"2",@"3",@"4",@"5"];
+        _stepArray = [NSArray array];
     }
     return _stepArray;
 }
@@ -197,7 +197,6 @@
         make.left.right.equalTo(0);
         make.height.equalTo(itemHeight);
     }];
-    self.stepView.stepArray = self.stepArray;
     [self.taskTitleView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(0);
         make.top.equalTo(self.stepView.mas_bottom).offset(25);
@@ -213,6 +212,8 @@
         make.height.equalTo(88);
     }];
     
+//    self.stepView.stepArray = self.stepArray;
+
     self.taskContentView.priorityType = priority_type_highGrade;
 }
 - (IBAction)closeVCAction:(id)sender {

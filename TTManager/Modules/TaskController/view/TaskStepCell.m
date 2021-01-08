@@ -24,7 +24,12 @@
     }
     return self;
 }
-
+- (void)setCurrentStep:(ZHStep *)currentStep{
+    if (_currentStep != currentStep) {
+        _currentStep = currentStep;
+        self.stepView.step = _currentStep;
+    }
+}
 - (void)addUI{
     [self.contentView addSubview:self.stepView];
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {

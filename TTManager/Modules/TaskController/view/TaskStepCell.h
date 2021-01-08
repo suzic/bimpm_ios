@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskStepCell : UICollectionViewCell
 
+@property (nonatomic, strong)ZHStep *currentStep;
+
 @end
 
 NS_ASSUME_NONNULL_END

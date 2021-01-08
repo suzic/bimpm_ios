@@ -61,13 +61,62 @@
     }];
     
 }
+#pragma mark - private method
+- (void)setUserInfo:(ZHUser *)user{
+    [self.stepUserImage sd_setImageWithURL:[NSURL URLWithString:user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+    self.stepUserName.text = user.name;
+}
+- (void)setStepInfo:(ZHStep *)step{
+    self.stepUserDispose.text = [self getDecisionText:step];
+    
+}
 #pragma mark - setting and getter
+- (void)setStep:(ZHStep *)step{
+    if (_step != step) {
+        _step = step;
+        [self setUserInfo:_step.responseUser];
+        [self setStepInfo:_step];
+    }
+}
+- (void)setUser:(ZHUser *)user{
+    if (_user != user) {
+        _user = user;
+        [self setUserInfo:_user];
+    }
+}
+// 获取当前人对任务的决策
+- (NSString *)getDecisionText:(ZHStep *)step{
+    NSString *decision = @"";
+    // 发起人
+    if (step.process_type == 0 && step.decision == 1) {
+        decision = @"发起人";
+    }else if(step.process_type == 1 && step.decision == 1){
+        decision = @"同意";
+    }else if(step.process_type == 1 && step.decision == 2){
+        decision = @"拒绝";
+    }else if(step.process_type == 2 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 2 && step.decision == 2){
+        decision = @"通过";
+    }else if(step.process_type == 3 && step.decision == 1){
+        decision = @"赞同";
+    }else if(step.process_type == 3 && step.decision == 2){
+        decision = @"反对";
+    }else if(step.process_type == 4 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 4 && step.decision == 2){
+        decision = @"驳回";
+    }else if(step.process_type == 5 && step.decision == 1){
+        decision = @"确认";
+    }else if(step.process_type == 6 && step.decision == 1){
+        decision = @"完成";
+    }
+    return decision;
+}
 - (UILabel *)stepStatus{
     if (_stepStatus == nil) {
         _stepStatus = [[UILabel alloc] init];
-        _stepStatus.text = @"反对";
         _stepStatus.font = [UIFont systemFontOfSize:8.0f];
-        // 圆角6
     }
     return _stepStatus;
 }
@@ -90,7 +139,6 @@
 - (UILabel *)stepUserName{
     if (_stepUserName == nil) {
         _stepUserName = [[UILabel alloc] init];
-        _stepUserName.text = @"刘超";
         _stepUserName.textColor = [SZUtil colorWithHex:@"#999999"];
         _stepStatus.font = [UIFont systemFontOfSize:11.0f];
     }

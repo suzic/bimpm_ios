@@ -16,12 +16,21 @@ typedef NS_ENUM(NSInteger,TaskType){
     TaskType_details,
     TaskType_newTask
 };
-
+typedef NS_ENUM(NSInteger,TaskStepType){
+    step_type_start_none_end          = 0, // 双点
+    step_type_start_serial_end        = 1, // 固定顺序型(双点中有多个顺序步骤人员)
+    step_type_start_parallel_end      = 2, // 固定并行(双点中有多个固定并行步骤人员)
+    step_type_start_open_parallel_end = 3, // 开放并行(双点中有多个并行步骤人员)
+};
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskController : UIViewController
 
+/// 当前任务页面显示的任务类型，详情 或 新建
 @property (nonatomic,assign)TaskType taskType;
+
+/// 当前任务的步骤类型
+@property (nonatomic,assign)TaskStepType stepType;
 
 @end
 
