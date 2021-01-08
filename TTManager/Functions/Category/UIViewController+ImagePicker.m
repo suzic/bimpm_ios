@@ -122,9 +122,15 @@ static void *isCut =  @"isCut"; //截取
                 }
         }];
     }];
+    
+    UIAlertAction * fileAction = [UIAlertAction actionWithTitle:@"文件库" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self routerEventWithName:open_document_library userInfo:@{}];
+    }];
+    
     [actionController addAction:cancelAction];
     [actionController addAction:takePhotoAction];
     [actionController addAction:choseFromAlbumAction];
+    [actionController addAction:fileAction];
     [self presentViewController:actionController animated:YES completion:^{}];
 }
 

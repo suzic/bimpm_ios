@@ -17,4 +17,6 @@
 #define NotiReloadHomeView              @"NotiReloadHomeView"
 #define NotiShowHeaderView              @"NotiShowHeaderView"
 #define NotiShowSettings                @"NotiShowSettings"
+
+#define NotiOpenDocumentLibrary         @"NotiOpenDocumentLibrary"
 #endif /* NotificationHeader_h */

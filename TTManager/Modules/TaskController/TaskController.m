@@ -127,6 +127,11 @@
     }else if([eventName isEqualToString:longPress_delete_index]){
         [self deleteCurrentSelectedStepUser:[userInfo[@"index"] integerValue]];
         NSLog(@"长按删除");
+    }else if([eventName isEqualToString:open_document_library]){
+        NSLog(@"打开文件库");
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"documentLibController"];
+        [self.navigationController pushViewController:vc animated:YES];
     }
 }
 #pragma mark - APIManagerParamSource

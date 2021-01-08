@@ -9,17 +9,19 @@
 #define ResponderChainHeader_h
 
 // 选择的项目
-#define selectedProject       @"selectedProject"
+#define selectedProject         @"selectedProject"
 // 选择某个task
-#define Task_list_selected    @"Task_list_selected"
+#define Task_list_selected      @"Task_list_selected"
 // 工作台查看更多消息
-#define MoreMessage           @"moreMessage"
+#define MoreMessage             @"moreMessage"
 // 新建任务
-#define new_task_action       @"new_task_action"
+#define new_task_action         @"new_task_action"
 // 首页 常用模块点击
-#define function_selected     @"function_selected"
+#define function_selected       @"function_selected"
+// 打开文件库
+#define open_document_library   @"open_document_library"
 
-#define push_to_taskList     @"push_to_taskList"
+#define push_to_taskList        @"push_to_taskList"
 
 // 选择任务步骤对应的用户
 #define selected_taskStep_user  @"selected_taskStep_user"
