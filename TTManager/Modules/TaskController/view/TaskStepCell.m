@@ -24,12 +24,21 @@
     }
     return self;
 }
+
 - (void)setCurrentStep:(ZHStep *)currentStep{
     if (_currentStep != currentStep) {
         _currentStep = currentStep;
         self.stepView.step = _currentStep;
     }
 }
+
+- (void)setUser:(ZHUser *)user{
+    if (_user != user) {
+        _user = user;
+        self.stepView.user = _user;
+    }
+}
+
 - (void)addUI{
     [self.contentView addSubview:self.stepView];
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {

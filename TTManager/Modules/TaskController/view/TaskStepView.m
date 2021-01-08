@@ -64,6 +64,11 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    if (self.taskType == TaskType_newTask) {
+        cell.user = self.middleStepArray[indexPath.row];
+    }else if(self.taskType == TaskType_details){
+        cell.currentStep = self.middleStepArray[indexPath.row];
+    }
     return cell;
 }
 

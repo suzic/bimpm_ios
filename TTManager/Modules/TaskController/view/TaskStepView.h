@@ -16,10 +16,14 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TaskStepView : UIView
 
 /// 步骤数据 数据格式@[startUser,@[stepUser,],enduUser]
+/// 新建:startUser = ZHUser,详情startUser = ZHStep
 @property (nonatomic, strong) NSArray *stepArray;
 
 /// 当前步骤类型
 @property (nonatomic, assign) TaskStepType currentStepType;
+
+/// 当前页面显示的页面类型 详情 新建
+@property (nonatomic, assign) TaskType taskType;
 
 @end
 
