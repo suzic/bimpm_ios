@@ -69,9 +69,23 @@
         _taskTitle.font = [UIFont systemFontOfSize:20.0f];
         _taskTitle.text = @"任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事";
         _taskTitle.delegate = self;
+        [self setTextViewPlaceholder:_taskTitle];
         _taskTitle.textContainerInset = UIEdgeInsetsMake(-2, 0, 0, 0);
     }
     return _taskTitle;
+}
+- (void)setTextViewPlaceholder:(UITextView *)textView{
+    
+    UILabel *placeHolderLabel = [[UILabel alloc] init];
+    placeHolderLabel.text = @"请输入任务标题";
+    placeHolderLabel.numberOfLines = 0;
+    placeHolderLabel.textColor = [UIColor lightGrayColor];
+    [placeHolderLabel sizeToFit];
+    [textView addSubview:placeHolderLabel];
+
+    textView.font = [UIFont systemFontOfSize:20.f];
+    placeHolderLabel.font = [UIFont systemFontOfSize:20.f];
+    [textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
 }
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
