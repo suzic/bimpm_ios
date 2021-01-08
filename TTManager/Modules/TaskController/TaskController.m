@@ -16,7 +16,7 @@
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
 
-@property (nonatomic, strong) NSArray *stepArray;
+@property (nonatomic, strong) NSMutableArray *stepArray;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
 // 日历
@@ -53,11 +53,53 @@
 }
 
 - (void)loadData{
+    self.stepView.taskType = self.taskType;
+
     if (self.taskType == TaskType_details) {
         [self.taskDetailManager loadData];
     }else if(self.taskType == TaskType_newTask){
         [self.taskNewManager loadData];
+        [self newTaskStepArray];
     }
+}
+
+#pragma mark - private method
+
+// 新任务时步骤初始化
+- (void)newTaskStepArray{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    [self.stepArray addObject:user];
+//    [self.stepArray addObject:[NSMutableArray array]];
+//    [self.stepArray addObject:@""];
+    self.stepView.stepArray = self.stepArray;
+}
+- (void)addStepUserToCurrentStepArray:(ZHUser *)user{
+    [self.stepArray addObject:user];
+    self.stepView.stepArray = self.stepArray;
+}
+- (void)taskDetailStepArray{
+    
+}
+- (void)deleteCurrentSelectedStepUser:(NSInteger)index{
+    NSString *string = @"";
+    id data = self.stepArray[index];
+    if ([data isKindOfClass:[ZHUser class]]) {
+        string = ((ZHUser *)data).name;
+    }else if([data isKindOfClass:[ZHStep class]]){
+        string = ((ZHStep *)data).responseUser.name;
+    }
+    string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.stepArray removeObjectAtIndex:index];
+        self.stepView.stepArray = self.stepArray;
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        
+    }];
+    [alert addAction:cancel];
+    [alert addAction:sure];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
@@ -67,6 +109,7 @@
         team.selectedUserType = YES;
         team.selectUserBlock = ^(ZHUser * _Nonnull user) {
             NSLog(@"当前选择的用户==%@",user.name);
+            [self addStepUserToCurrentStepArray:user];
         };
         [self.navigationController pushViewController:team animated:YES];
     }else if([eventName isEqualToString:choose_adjunct_file]){
@@ -81,6 +124,9 @@
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
         [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
+    }else if([eventName isEqualToString:longPress_delete_index]){
+        [self deleteCurrentSelectedStepUser:[userInfo[@"index"] integerValue]];
+        NSLog(@"长按删除");
     }
 }
 #pragma mark - APIManagerParamSource
@@ -107,9 +153,9 @@
     return _stepView;
 }
 
-- (NSArray *)stepArray{
+- (NSMutableArray *)stepArray{
     if (_stepArray == nil) {
-        _stepArray = [NSArray array];
+        _stepArray = [NSMutableArray array];
     }
     return _stepArray;
 }

@@ -40,11 +40,13 @@
 }
 
 - (void)addUI{
+    
     [self.contentView addSubview:self.stepView];
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(0);
     }];
 }
+
 #pragma mark - setting and getter
 - (StepUserView *)stepView{
     if (_stepView == nil) {

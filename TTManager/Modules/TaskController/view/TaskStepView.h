@@ -10,18 +10,16 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-#define itemWidth   70.0f
-#define itemHeight  120.0f
+#define itemWidth   60.0f
+#define itemHeight  70.0f
 
 @interface TaskStepView : UIView
 
 /// 步骤数据 数据格式@[startUser,@[stepUser,],enduUser]
 /// 新建:startUser = ZHUser,详情startUser = ZHStep
-@property (nonatomic, strong) NSArray *stepArray;
-
+@property (nonatomic, strong) NSMutableArray *stepArray;
 /// 当前步骤类型
 @property (nonatomic, assign) TaskStepType currentStepType;
-
 /// 当前页面显示的页面类型 详情 新建
 @property (nonatomic, assign) TaskType taskType;
 

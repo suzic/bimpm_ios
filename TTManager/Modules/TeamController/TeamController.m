@@ -32,7 +32,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     [self.teamNameBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
     self.teamNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
-    self.currentSelected = NSNotFound;
+    self.currentSelected = 0;
     [self reoladNetwork];
 }
 - (void)viewWillAppear:(BOOL)animated{

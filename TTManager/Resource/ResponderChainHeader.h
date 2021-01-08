@@ -23,6 +23,7 @@
 
 // 选择任务步骤对应的用户
 #define selected_taskStep_user  @"selected_taskStep_user"
+#define longPress_delete_index  @"longPress_delete_index"
 // 选择任务等级
 #define selected_task_priority  @"selected_task_priority"
 // 选择日历

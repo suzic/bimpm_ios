@@ -146,6 +146,7 @@
 		40E334AB25A6F758008DBDAB /* ZHCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334AA25A6F758008DBDAB /* ZHCalendarView.m */; };
 		40E334B525A70C92008DBDAB /* ZHCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */; };
 		40E334B925A82260008DBDAB /* TaskStepFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B825A82260008DBDAB /* TaskStepFooterView.m */; };
+		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -422,6 +423,8 @@
 		40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCalendarHeaderView.m; sourceTree = "<group>"; };
 		40E334B725A82260008DBDAB /* TaskStepFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskStepFooterView.h; sourceTree = "<group>"; };
 		40E334B825A82260008DBDAB /* TaskStepFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepFooterView.m; sourceTree = "<group>"; };
+		40E334BC25A8AAAE008DBDAB /* SupernatantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupernatantView.h; sourceTree = "<group>"; };
+		40E334BD25A8AAAE008DBDAB /* SupernatantView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupernatantView.m; sourceTree = "<group>"; };
 		578C9E99FFA515FBBC675532 /* libPods-TTManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.debug.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.debug.xcconfig"; sourceTree = "<group>"; };
 		74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.release.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.release.xcconfig"; sourceTree = "<group>"; };
@@ -533,6 +536,7 @@
 		402A9F2A2595A15900A9DABA /* Base */ = {
 			isa = PBXGroup;
 			children = (
+				40E334BB25A8AA91008DBDAB /* SupernatantView */,
 				40E3348B25A6F59C008DBDAB /* Calendar */,
 				40931C9F259B33C9008C3518 /* DragButton */,
 				402AA1F425998E4A00A9DABA /* ResponderChain */,
@@ -1223,6 +1227,15 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
+		40E334BB25A8AA91008DBDAB /* SupernatantView */ = {
+			isa = PBXGroup;
+			children = (
+				40E334BC25A8AAAE008DBDAB /* SupernatantView.h */,
+				40E334BD25A8AAAE008DBDAB /* SupernatantView.m */,
+			);
+			path = SupernatantView;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1430,6 +1443,7 @@
 				40E3349F25A6F5F9008DBDAB /* CalendarDayCell.m in Sources */,
 				402AA1172595D9AC00A9DABA /* bimpm.xcdatamodeld in Sources */,
 				402A9F952595CDDC00A9DABA /* ProjectSelectController.m in Sources */,
+				40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */,
 				406FCA8E25A1A47E00636079 /* APIUTPInfoManager.m in Sources */,
 				402AA1B625986FA300A9DABA /* DocumentLibCell.m in Sources */,
 				406FCA42259E066300636079 /* ConversationListController.m in Sources */,

@@ -32,6 +32,11 @@
         make.left.equalTo(0);
         make.height.equalTo(self.addImageView.mas_width);
     }];
+    UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addUserToStep:)];
+    [self addGestureRecognizer:tap];
+}
+- (void)addUserToStep:(UITapGestureRecognizer *)tap{
+    [self routerEventWithName:selected_taskStep_user userInfo:@{}];
 }
 - (UIImageView *)addImageView{
     if (_addImageView == nil) {
