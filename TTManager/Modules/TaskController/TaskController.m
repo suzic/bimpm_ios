@@ -18,6 +18,8 @@
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
 
+@property (nonatomic,strong) UIBarButtonItem *rightButtonItem;
+
 @property (nonatomic, strong) NSMutableArray *stepArray;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
@@ -46,14 +48,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    self.title = @"创建任务";
-    if (self.operabilityTools.isDetails) {
-        NSLog(@"创建任务详情界面");
-        self.title = @"任务详情";
-    }else{
-        NSLog(@"创建新任务界面");
-        self.title = @"新任务";
-    }
+    [self setNavbackItemAndTitle];
+    
     [self addUI];
     
     [self setModuleViewOperabilityTools];
@@ -62,10 +58,6 @@
 }
 
 - (void)loadData{
-//    self.stepView.taskType = self.taskType;
-//    self.stepView.currentStepType = self.stepType;
-//    self.taskParams.id_flow_template = self.stepType;
-    
     if (self.operabilityTools.isDetails) {
         [self.taskDetailManager loadData];
     }else{
@@ -75,12 +67,25 @@
 }
 
 #pragma mark - private method
+- (void)setNavbackItemAndTitle{
+    if (self.operabilityTools.isDetails) {
+        self.title = @"任务详情";
+    }else{
+        self.title = @"新任务";
+    }
+    self.navigationItem.rightBarButtonItem = self.rightButtonItem;
+}
+- (void)back{
+    if (self.operabilityTools.isDetails == YES) {
+        [self.navigationController popViewControllerAnimated:YES];
+    }else{
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }
+}
 // 新任务时步骤初始化
 - (void)newTaskStepArray{
     ZHUser *user = [DataManager defaultInstance].currentUser;
     [self.stepArray addObject:user];
-//    [self.stepArray addObject:[NSMutableArray array]];
-//    [self.stepArray addObject:@""];
     self.stepView.stepArray = self.stepArray;
 }
 - (void)addStepUserToCurrentStepArray:(ZHUser *)user{
@@ -159,9 +164,15 @@
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.taskNewManager) {
-        params = [self.taskParams getTaskParams];
+        params = [self.taskParams getNewTaskParams];
     }else if(manager == self.taskDetailManager){
         params = @{};
+    }else if(manager == self.taskEditManager){
+        
+    }else if(manager == self.taskOperationsManager){
+        
+    }else if(manager == self.taskProcessManager){
+        
     }
     return params;
 }
@@ -227,8 +238,15 @@
 - (TaskParams *)taskParams{
     if (_taskParams == nil) {
         _taskParams = [[TaskParams alloc] init];
+        _taskParams.id_flow_template = self.taskType;
     }
     return _taskParams;
+}
+- (UIBarButtonItem *)rightButtonItem{
+    if (_rightButtonItem == nil) {
+        _rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"task_more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu)];
+    }
+    return _rightButtonItem;
 }
 #pragma mark - api init
 - (APITaskProcessManager *)taskProcessManager{
@@ -308,7 +326,11 @@
     self.taskContentView.priorityType = priority_type_highGrade;
 }
 - (IBAction)closeVCAction:(id)sender {
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 
 /*

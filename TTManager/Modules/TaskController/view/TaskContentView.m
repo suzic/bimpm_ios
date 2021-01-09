@@ -29,7 +29,6 @@
     [self routerEventWithName:choose_adjunct_file userInfo:@{}];
 }
 
-
 - (void)priorityAction:(UIButton *)button{
     self.priorityType = button.tag;
 }
@@ -122,7 +121,10 @@
 - (UITextView *)contentView{
     if (_contentView == nil) {
         _contentView = [[UITextView alloc] init];
+        _contentView.textColor = RGB_COLOR(51, 51, 51);
+        _contentView.font = [UIFont systemFontOfSize:13.0f];
         [_contentView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+        [self setTextViewPlaceholder:_contentView];
     }
     return _contentView;
 }
@@ -164,6 +166,18 @@
         _prioritybtnArray = result;
     }
     return _prioritybtnArray;
+}
+- (void)setTextViewPlaceholder:(UITextView *)textView{
+    UILabel *placeHolderLabel = [[UILabel alloc] init];
+    placeHolderLabel.text = @"请输入任务内容";
+    placeHolderLabel.numberOfLines = 0;
+    placeHolderLabel.textColor = [UIColor lightGrayColor];
+    [placeHolderLabel sizeToFit];
+    [textView addSubview:placeHolderLabel];
+
+    textView.font = [UIFont systemFontOfSize:13.f];
+    placeHolderLabel.font = [UIFont systemFontOfSize:13.f];
+    [textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

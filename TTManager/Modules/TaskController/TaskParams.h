@@ -11,12 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskParams : NSObject
 
+// 新建任务的id_flow_template
 @property (nonatomic, assign) NSInteger id_flow_template;
-@property (nonatomic, strong) NSMutableDictionary *task_info;
 
-@property (nonatomic, strong) ZHTask *currentTask;
-
-- (NSDictionary *)getTaskParams;
+// 获取新建任务的请求参数
+- (NSMutableDictionary *)getNewTaskParams;
 
 @end
 

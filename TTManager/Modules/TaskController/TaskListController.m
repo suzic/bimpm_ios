@@ -80,6 +80,16 @@
     return listTitle;
 }
 
+- (void)pushTaskDetailsViewController:(NSDictionary *)dict{
+    ZHTask *task = dict[@"task"];
+    NSInteger taskStatus = [dict[@"taskStatus"] integerValue];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
+    TaskController *taskVC = (TaskController *)[sb instantiateViewControllerWithIdentifier:@"taskController"];
+    taskVC.id_task = task.uid_task;
+    taskVC.taskType = (taskStatus +6);
+    self.taskStatus = taskStatus;
+    [self.navigationController pushViewController:taskVC animated:YES];
+}
 #pragma mark - setter getter
 
 - (TaskTabView *)taskTabView{
@@ -103,7 +113,7 @@
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:Task_list_selected]) {
-        [self performSegueWithIdentifier:@"newTask" sender:nil];
+        [self pushTaskDetailsViewController:userInfo];
     }else if([eventName isEqualToString:new_task_action]){
         [self showSelectNewTaskType];
     }

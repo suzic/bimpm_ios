@@ -13,10 +13,10 @@
 
 @implementation TaskParams
 
-- (NSDictionary *)getTaskParams{
+- (NSDictionary *)getNewTaskParams{
     ZHProject *project = [DataManager defaultInstance].currentProject;
     NSMutableDictionary *dic = [NSMutableDictionary dictionary];
-    dic[@"id_flow_template"] = @"1";
+    dic[@"id_flow_template"] = [NSString stringWithFormat:@"%ld",self.id_flow_template];
     dic[@"task_info"] = @{@"type":@"0",
                           @"fid_project":INT_32_TO_STRING(project.id_project),
     };

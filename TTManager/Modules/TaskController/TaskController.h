@@ -27,8 +27,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskController : UIViewController
 
-@property (nonatomic, assign)TaskType taskType;
-
+@property (nonatomic, assign) TaskType taskType;
+// 当前任务id_task
+@property (nonatomic, copy) NSString *id_task;
 @end
 
 NS_ASSUME_NONNULL_END

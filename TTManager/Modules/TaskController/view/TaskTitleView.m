@@ -106,27 +106,6 @@
     [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(height);
     }];
-//    CGRect frame = textView.frame;
-//    [textView sizeToFit];
-//    CGSize constraintSize = CGSizeMake(frame.size.width, CGFLOAT_MAX);
-//    CGSize size = [textView sizeThatFits:constraintSize];
-//    if (size.height <= frame.size.height) {
-//        size.height=frame.size.height;
-//
-//    }else{
-//        if (size.height >= MaxTitleHeight)
-//        {
-//            size.height = MaxTitleHeight;
-//            textView.scrollEnabled = YES;   // 允许滚动
-//        }
-//        else
-//        {
-//            textView.scrollEnabled = NO;    // 不允许滚动
-//        }
-//    }
-//    [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
-//        make.height.equalTo(size.height);
-//    }];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
