@@ -35,8 +35,8 @@
 // 任务
 #define URL_TASK_LIST                            @"/task/TaskList"
 #define URL_TASK_DETAIL                          @"/task/TaskDetail"
-#define URL_TASK_NEW                             @"/user/UserToProjectNew"
-#define URL_TASK_EDIT                            @"/user/UserToProjectEdit"
+#define URL_TASK_NEW                             @"/task/TaskNew"
+#define URL_TASK_EDIT                            @"/task/TaskEdit"
 #define URL_TASK_OPERATIONS                      @"/task/TaskOperations"
 #define URL_TASK_PROCESS                         @"/task/TaskProcess"
 
