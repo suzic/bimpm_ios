@@ -16,7 +16,8 @@
 @property (nonatomic, strong) TaskTabView *taskTabView;
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
-@property (nonatomic,assign)TaskType taskType;
+@property (nonatomic,assign) TaskType taskType;
+@property (nonatomic,assign) TaskStepType taskStepType;
 // api
 @property (nonatomic, strong)APITaskListManager *taskListManager;
 
@@ -43,6 +44,7 @@
     for (NSString *newTaskType in self.newTasTypeklist) {
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             self.taskType = TaskType_newTask;
+            self.taskStepType = [self getCurrentSelectedAction:action];
             [self performSegueWithIdentifier:@"newTask" sender:nil];
         }];
         [alert addAction:action];
@@ -97,7 +99,15 @@
     }
     return _newTasTypeklist;
 }
-
+- (TaskStepType)getCurrentSelectedAction:(UIAlertAction *)action{
+    if ([action.title isEqualToString:@"任务"]||[action.title isEqualToString:@"申请"]) {
+        return step_type_start_none_end;
+    }else if([action.title isEqualToString:@"巡检"]){
+        return step_type_start_serial_end;
+    }else{
+        return step_type_start_open_parallel_end;
+    }
+}
 - (NSString *)getListTitleWithStatus:(TaskStatus)status{
     NSString *listTitle = @"";
     switch (status) {
@@ -159,6 +169,7 @@
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         TaskController *vc = (TaskController *)[nav topViewController];
         vc.taskType = self.taskType;
+        vc.stepType = self.taskStepType;
     }
 }
 

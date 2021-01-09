@@ -59,6 +59,8 @@ static NSString *footerIdentifier = @"FooterIdentifier";
     }
 }
 - (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
+    if (self.stepArray.count == 1)
+        return;
     if(longPress.state==UIGestureRecognizerStateBegan){
         NSInteger row = longPress.view.tag;
         [self routerEventWithName:longPress_delete_index userInfo:@{@"index":[NSString stringWithFormat:@"%ld",row]}];
@@ -99,6 +101,12 @@ static NSString *footerIdentifier = @"FooterIdentifier";
     return CGSizeMake(itemWidth, itemHeight);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
+    if (self.taskType == TaskType_newTask && self.currentStepType == step_type_start_none_end){
+        if (self.stepArray.count <2){
+            return CGSizeMake(itemWidth, itemHeight);
+        }
+        return CGSizeZero;
+    }
     return CGSizeMake(itemWidth, itemHeight);
 }
 

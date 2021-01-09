@@ -54,6 +54,7 @@
 
 - (void)loadData{
     self.stepView.taskType = self.taskType;
+    self.stepView.currentStepType = self.stepType;
 
     if (self.taskType == TaskType_details) {
         [self.taskDetailManager loadData];
@@ -150,7 +151,12 @@
 - (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
     NSLog(@"当前选择的日历时间====%@",[selectedDate toString]);
 }
-#pragma mark -setting and getter
+#pragma mark - setting and getter
+- (void)setStepType:(TaskStepType)stepType{
+    if (_stepType != stepType) {
+        _stepType = stepType;
+    }
+}
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
@@ -191,7 +197,7 @@
     }
     return _calendarView;
 }
-#pragma mark api init
+#pragma mark - api init
 - (APITaskProcessManager *)taskProcessManager{
     if (_taskProcessManager == nil) {
         _taskProcessManager = [[APITaskProcessManager alloc] init];
