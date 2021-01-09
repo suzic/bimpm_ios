@@ -40,7 +40,6 @@
         make.height.lessThanOrEqualTo(90);
         make.bottom.equalTo(-10);
     }];
-
 }
 - (void)setTaskTitleStatusColor:(PriorityType)type{
     UIColor *lineColor = nil;
@@ -61,6 +60,12 @@
         _taskTypeTagView = [[UIView alloc] init];
     }
     return _taskTypeTagView;
+}
+- (void)setTools:(OperabilityTools *)tools{
+    if (_tools != tools) {
+        _tools = tools;
+        self.taskTitle.editable = _tools.operabilityTitle;
+    }
 }
 - (UITextView *)taskTitle{
     if (_taskTitle == nil) {

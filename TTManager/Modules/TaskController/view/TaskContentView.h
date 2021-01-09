@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OperabilityTools.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -16,6 +17,8 @@ typedef NS_ENUM(NSInteger,PriorityType){
 };
 
 @interface TaskContentView : UIView
+
+@property (nonatomic, strong) OperabilityTools *tools;
 // 当前任务优先级
 @property (nonatomic, assign)PriorityType priorityType;
 

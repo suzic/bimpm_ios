@@ -30,6 +30,8 @@
 #define selected_task_priority  @"selected_task_priority"
 // 选择日历
 #define select_caldenar_view    @"select_caldenar_view"
+// 保存任务
+#define selected_save_task      @"selected_save_task"
 // 选择附件
 #define choose_adjunct_file     @"choose_adjunct_file"
 #endif /* ResponderChainHeader_h */

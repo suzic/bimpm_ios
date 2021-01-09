@@ -11,26 +11,23 @@
  2:任务详情，任务步骤不能修改，状态：发起，终止，反对，同意等状态
  3:新建任务，任务完成人可修改，状态：发起，终止，
  */
-// 页面显示
 typedef NS_ENUM(NSInteger,TaskType){
-    TaskType_details,
-    TaskType_newTask
+    task_type_new_task            = 1,//任务
+    task_type_new_apply           = 2,// 申请
+    task_type_new_noti            = 3,// 通知
+    task_type_new_joint           = 4, // 会审
+    task_type_new_polling         = 5,// 巡检
+    task_type_detail_proceeding   = 6,// 进行中
+    task_type_detail_finished     = 7,// 已经完成
+    task_type_detail_draft        = 8,// 我起草的
+    task_type_detail_initiate     = 9,// 已经发起
 };
-typedef NS_ENUM(NSInteger,TaskStepType){
-    step_type_start_none_end          = 0, // 双点
-    step_type_start_serial_end        = 1, // 固定顺序型(双点中有多个顺序步骤人员)
-    step_type_start_parallel_end      = 2, // 固定并行(双点中有多个固定并行步骤人员)
-    step_type_start_open_parallel_end = 3, // 开放并行(双点中有多个并行步骤人员)
-};
+
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskController : UIViewController
 
-/// 当前任务页面显示的任务类型，详情 或 新建
-@property (nonatomic,assign)TaskType taskType;
-
-/// 当前任务的步骤类型
-@property (nonatomic,assign)TaskStepType stepType;
+@property (nonatomic, assign)TaskType taskType;
 
 @end
 

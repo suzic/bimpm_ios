@@ -35,6 +35,9 @@
 - (void)selectTime:(UIButton *)button{
     [self routerEventWithName:select_caldenar_view userInfo:@{}];
 }
+- (void)saveTask:(UIButton *)button{
+    [self routerEventWithName:selected_save_task userInfo:@{}];
+}
 #pragma mark - UI
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
@@ -95,12 +98,20 @@
     }];
 }
 #pragma mark - setting and getter
+- (void)setTools:(OperabilityTools *)tools{
+    if (_tools != tools) {
+        _tools = tools;
+        self.saveBtn.enabled = _tools.operabilitySave;
+        self.predictTimeBtn.enabled = _tools.operabilityTime;
+    }
+}
 - (UIButton *)saveBtn{
     if (_saveBtn == nil) {
         _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
         [_saveBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
         _saveBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_saveBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _saveBtn;
 }

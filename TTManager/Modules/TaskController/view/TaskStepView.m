@@ -61,6 +61,9 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 - (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
     if (self.stepArray.count == 1)
         return;
+    if (self.tools.operabilityStep == NO) {
+        return;
+    }
     if(longPress.state==UIGestureRecognizerStateBegan){
         NSInteger row = longPress.view.tag;
         [self routerEventWithName:longPress_delete_index userInfo:@{@"index":[NSString stringWithFormat:@"%ld",row]}];
@@ -84,11 +87,11 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    if (self.taskType == TaskType_newTask) {
-        cell.user = self.stepArray[indexPath.row];
-    }else if(self.taskType == TaskType_details){
-        cell.currentStep = self.stepArray[indexPath.row];
-    }
+//    if (self.taskType == TaskType_newTask) {
+//        cell.user = self.stepArray[indexPath.row];
+//    }else if(self.taskType == TaskType_details){
+//        cell.currentStep = self.stepArray[indexPath.row];
+//    }
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
     [cell addGestureRecognizer:longPress];
     longPress.minimumPressDuration = 1.0;
@@ -101,8 +104,8 @@ static NSString *footerIdentifier = @"FooterIdentifier";
     return CGSizeMake(itemWidth, itemHeight);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    if (self.taskType == TaskType_newTask && self.currentStepType == step_type_start_none_end){
-        if (self.stepArray.count <2){
+    if (self.tools.operabilityStep == YES && self.tools.showStepAdd == YES){
+        if (self.stepArray.count < 2){
             return CGSizeMake(itemWidth, itemHeight);
         }
         return CGSizeZero;

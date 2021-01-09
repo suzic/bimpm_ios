@@ -17,7 +17,6 @@
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
 @property (nonatomic,assign) TaskType taskType;
-@property (nonatomic,assign) TaskStepType taskStepType;
 // api
 @property (nonatomic, strong)APITaskListManager *taskListManager;
 
@@ -42,30 +41,25 @@
 // 选择任务类型
 - (void)showSelectNewTaskType{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    int i = 1;
     for (NSString *newTaskType in self.newTasTypeklist) {
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            self.taskType = TaskType_newTask;
-            self.taskStepType = [self getCurrentSelectedAction:action];
+//            self.taskType = TaskType_newTask;
+            self.taskType = action.taskType;
             [self performSegueWithIdentifier:@"newTask" sender:nil];
         }];
+        action.taskType = i;
         [alert addAction:action];
+        i++;
     }
+    
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];
 }
-// 获取当前点击的新建任务类型
-- (TaskStepType)getCurrentSelectedAction:(UIAlertAction *)action{
-    if ([action.title isEqualToString:@"任务"]||[action.title isEqualToString:@"申请"]) {
-        return step_type_start_none_end;
-    }else if([action.title isEqualToString:@"巡检"]){
-        return step_type_start_serial_end;
-    }else{
-        return step_type_start_open_parallel_end;
-    }
-}
+
 // 当前list的title
 - (NSString *)getListTitleWithStatus:(TaskStatus)status{
     NSString *listTitle = @"";
@@ -135,7 +129,6 @@
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:Task_list_selected]) {
-        self.taskType = TaskType_details;
         [self performSegueWithIdentifier:@"newTask" sender:nil];
     }else if([eventName isEqualToString:new_task_action]){
         [self showSelectNewTaskType];
@@ -174,7 +167,6 @@
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         TaskController *vc = (TaskController *)[nav topViewController];
         vc.taskType = self.taskType;
-        vc.stepType = self.taskStepType;
     }
 }
 

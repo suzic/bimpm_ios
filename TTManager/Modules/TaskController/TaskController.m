@@ -13,6 +13,8 @@
 #import "TeamController.h"
 #import "ZHCalendarView.h"
 #import "CalendarDayModel.h"
+#import "TaskParams.h"
+#import "OperabilityTools.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
 
@@ -27,6 +29,8 @@
 @property (nonatomic, strong) TaskContentView *taskContentView;
 // 任务操作页面
 @property (nonatomic, strong) TaskOperationView *taskOperationView;
+@property (nonatomic, strong) OperabilityTools *operabilityTools;
+@property (nonatomic, strong) TaskParams *taskParams;
 
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
@@ -42,23 +46,29 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.title = @"创建任务";
-    if (self.taskType == TaskType_details) {
+//    self.title = @"创建任务";
+    if (self.operabilityTools.isDetails) {
         NSLog(@"创建任务详情界面");
-    }else if(self.taskType == TaskType_newTask){
+        self.title = @"任务详情";
+    }else{
         NSLog(@"创建新任务界面");
+        self.title = @"新任务";
     }
     [self addUI];
+    
+    [self setModuleViewOperabilityTools];
+    
     [self loadData];
 }
 
 - (void)loadData{
-    self.stepView.taskType = self.taskType;
-    self.stepView.currentStepType = self.stepType;
-
-    if (self.taskType == TaskType_details) {
+//    self.stepView.taskType = self.taskType;
+//    self.stepView.currentStepType = self.stepType;
+//    self.taskParams.id_flow_template = self.stepType;
+    
+    if (self.operabilityTools.isDetails) {
         [self.taskDetailManager loadData];
-    }else if(self.taskType == TaskType_newTask){
+    }else{
         [self.taskNewManager loadData];
         [self newTaskStepArray];
     }
@@ -79,6 +89,13 @@
 }
 - (void)taskDetailStepArray{
     
+}
+// 设置组件的tools
+- (void)setModuleViewOperabilityTools{
+    self.stepView.tools = self.operabilityTools;
+    self.taskTitleView.tools = self.operabilityTools;
+    self.taskContentView.tools = self.operabilityTools;
+    self.taskOperationView.tools = self.operabilityTools;
 }
 - (void)deleteCurrentSelectedStepUser:(NSInteger)index{
     NSString *string = @"";
@@ -133,12 +150,19 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"documentLibController"];
         [self.navigationController pushViewController:vc animated:YES];
+    }else if([eventName isEqualToString:selected_save_task]){
+        NSLog(@"保存任务");
     }
 }
 
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
+    if (manager == self.taskNewManager) {
+        params = [self.taskParams getTaskParams];
+    }else if(manager == self.taskDetailManager){
+        params = @{};
+    }
     return params;
 }
 #pragma mark - ApiManagerCallBackDelegate
@@ -155,6 +179,12 @@
 }
 
 #pragma mark - setting and getter
+- (void)setTaskType:(TaskType)taskType{
+    if (_taskType != taskType) {
+        _taskType = taskType;
+        self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
+    }
+}
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
@@ -194,7 +224,12 @@
     }
     return _calendarView;
 }
-
+- (TaskParams *)taskParams{
+    if (_taskParams == nil) {
+        _taskParams = [[TaskParams alloc] init];
+    }
+    return _taskParams;
+}
 #pragma mark - api init
 - (APITaskProcessManager *)taskProcessManager{
     if (_taskProcessManager == nil) {

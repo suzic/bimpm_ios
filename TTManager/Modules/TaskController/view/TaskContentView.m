@@ -11,7 +11,7 @@
 
 @property (nonatomic, strong) UIView *priorityView;
 @property (nonatomic, strong) NSArray *prioritybtnArray;
-@property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UITextView *contentView;
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
 
 @end
@@ -106,16 +106,22 @@
         [self routerEventWithName:selected_task_priority userInfo:@{@"priority":priority}];
     }
 }
-
+- (void)setTools:(OperabilityTools *)tools{
+    if (_tools != tools) {
+        _tools = tools;
+        self.adjunctFileBtn.enabled = !_tools.operabilityAdjunct;
+        self.contentView.editable = _tools.operabilityContent;
+    }
+}
 - (UIView *)priorityView{
     if (_priorityView == nil) {
         _priorityView = [[UIView alloc] init];
     }
     return _priorityView;
 }
-- (UIView *)contentView{
+- (UITextView *)contentView{
     if (_contentView == nil) {
-        _contentView = [[UIView alloc] init];
+        _contentView = [[UITextView alloc] init];
         [_contentView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
     }
     return _contentView;

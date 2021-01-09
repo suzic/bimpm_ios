@@ -147,6 +147,9 @@
 		40E334B525A70C92008DBDAB /* ZHCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */; };
 		40E334B925A82260008DBDAB /* TaskStepFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B825A82260008DBDAB /* TaskStepFooterView.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
+		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
+		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
+		40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -425,6 +428,12 @@
 		40E334B825A82260008DBDAB /* TaskStepFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepFooterView.m; sourceTree = "<group>"; };
 		40E334BC25A8AAAE008DBDAB /* SupernatantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupernatantView.h; sourceTree = "<group>"; };
 		40E334BD25A8AAAE008DBDAB /* SupernatantView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupernatantView.m; sourceTree = "<group>"; };
+		40E334C025A978A0008DBDAB /* TaskParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskParams.h; sourceTree = "<group>"; };
+		40E334C125A978A0008DBDAB /* TaskParams.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskParams.m; sourceTree = "<group>"; };
+		40E334C425A98E00008DBDAB /* OperabilityTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperabilityTools.h; sourceTree = "<group>"; };
+		40E334C525A98E00008DBDAB /* OperabilityTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperabilityTools.m; sourceTree = "<group>"; };
+		40E334C825A99DFF008DBDAB /* UIAlertAction+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIAlertAction+Extend.h"; sourceTree = "<group>"; };
+		40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertAction+Extend.m"; sourceTree = "<group>"; };
 		578C9E99FFA515FBBC675532 /* libPods-TTManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.debug.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.debug.xcconfig"; sourceTree = "<group>"; };
 		74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.release.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.release.xcconfig"; sourceTree = "<group>"; };
@@ -683,6 +692,8 @@
 				406FCAF125A34A8200636079 /* UITableView+EmptyView.m */,
 				400B494C25A6B598006CBEBB /* UIViewController+ImagePicker.h */,
 				400B494D25A6B598006CBEBB /* UIViewController+ImagePicker.m */,
+				40E334C825A99DFF008DBDAB /* UIAlertAction+Extend.h */,
+				40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1020,6 +1031,10 @@
 				402AA2072599E05400A9DABA /* TaskListController.m */,
 				40931CA9259C27DC008C3518 /* TaskController.h */,
 				40931CAA259C27DC008C3518 /* TaskController.m */,
+				40E334C425A98E00008DBDAB /* OperabilityTools.h */,
+				40E334C525A98E00008DBDAB /* OperabilityTools.m */,
+				40E334C025A978A0008DBDAB /* TaskParams.h */,
+				40E334C125A978A0008DBDAB /* TaskParams.m */,
 			);
 			path = TaskController;
 			sourceTree = "<group>";
@@ -1354,6 +1369,7 @@
 				402AA1D82598B02600A9DABA /* HeaderCell.m in Sources */,
 				402AA09E2595D6EF00A9DABA /* DataManager+User.m in Sources */,
 				40E334A325A6F5F9008DBDAB /* CalendarDayModel.m in Sources */,
+				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
@@ -1361,6 +1377,7 @@
 				406FCB0B25A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
+				40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */,
 				40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */,
 				402AA0D82595D8A300A9DABA /* ZHRole+CoreDataClass.m in Sources */,
 				406FCA7E25A195B600636079 /* APIDMDetailManager.m in Sources */,
@@ -1395,6 +1412,7 @@
 				402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */,
 				402AA0B42595D87100A9DABA /* ZHUser+CoreDataProperties.m in Sources */,
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
+				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
 				402AA09F2595D6EF00A9DABA /* DataManager.m in Sources */,
 				40E334B925A82260008DBDAB /* TaskStepFooterView.m in Sources */,
