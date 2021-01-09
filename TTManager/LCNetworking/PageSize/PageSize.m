@@ -34,7 +34,7 @@
     pageSize.pageIndex = [page[@"page_index"] integerValue];
     pageSize.totalPages = [page[@"total_pages"] integerValue];
     pageSize.currentCount = [page[@"current_count"] integerValue];
-    pageSize.total_row = [page[@"total_row"] integerValue];
+    pageSize.total_row = [page[@"total_rows"] integerValue];
     return pageSize;
 }
 @end

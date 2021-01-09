@@ -54,6 +54,8 @@
     [self changeLineViewLocation:currentTag];
     
     [self changeTaskInfor:currentTag];
+    
+    [self requestTaskListCount:self.currentSelectedIndex];
 }
 
 - (void)firstTapAction:(UITapGestureRecognizer *)tap{
@@ -160,10 +162,10 @@
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.taskfinishManager) {
-        self.secondCount = [NSString stringWithFormat:@"%ld",manager.responsePageSize.total_row];
+        self.secondCount = [NSString stringWithFormat:@"%ld",self.taskfinishManager.responsePageSize.total_row];
         [self changeTaskInfor:self.currentSelectedIndex];
     }else if(manager == self.taskunfinishedManager){
-        self.firstCount = [NSString stringWithFormat:@"%ld",manager.responsePageSize.total_row];
+        self.firstCount = [NSString stringWithFormat:@"%ld",self.taskunfinishedManager.responsePageSize.total_row];
         [self changeTaskInfor:self.currentSelectedIndex];
     }
     

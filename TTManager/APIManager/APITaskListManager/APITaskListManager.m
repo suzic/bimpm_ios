@@ -51,7 +51,7 @@
 - (id)taskListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     NSMutableArray *array = [NSMutableArray array];
-    self.responsePageSize = [self.responsePageSize pageDic: dict[@"page"]];
+    self.responsePageSize = [self.responsePageSize pageDic: dict[@"pager"]];
     if (self.dataType == taskListDataType_none) {
         return nil;
     }

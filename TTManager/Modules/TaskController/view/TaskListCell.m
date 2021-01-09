@@ -30,6 +30,11 @@
     }
     return self;
 }
+- (void)layoutSublayersOfLayer:(CALayer *)layer{
+    [super layoutSublayersOfLayer:layer];
+    self.userImage.clipsToBounds = YES;
+    self.userImage.layer.cornerRadius = _userImage.frame.size.height/2;
+}
 - (void)setCurrenttask:(ZHTask *)currenttask{
     if (_currenttask != currenttask) {
         _currenttask = currenttask;
@@ -81,9 +86,7 @@
         make.bottom.equalTo(-15);
         make.width.equalTo(self.userImage.mas_height).multipliedBy(1);
     }];
-    [self layoutIfNeeded];
-    self.userImage.clipsToBounds = YES;
-    self.userImage.layer.cornerRadius = 15;
+//    [self layoutIfNeeded];
     
     bgView.layer.cornerRadius = 5;
     bgView.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:9/255.0 blue:25/255.0 alpha:0.1].CGColor;
