@@ -11,7 +11,7 @@
 
 - (ZHTask *)getTaskFromCoredataByID:(int)uid_task{
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_task = %d", uid_task];
-    NSArray *result = [self arrayFromCoreData:@"ZHTarget" predicate:predicate limit:1 offset:0 orderBy:nil];
+    NSArray *result = [self arrayFromCoreData:@"ZHTask" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHTask *task = nil;
     if (result != nil && result.count > 0)
         task = result[0];
@@ -36,7 +36,7 @@
     return flow;
 }
 - (ZHStep *)getStepFromCoredataByID:(int)uid_step{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_flow = %d", uid_step];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_step = %d", uid_step];
     NSArray *result = [self arrayFromCoreData:@"ZHStep" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHStep *step = nil;
     if (result != nil && result.count > 0)
@@ -52,6 +52,9 @@
 - (ZHTask *)syncTaskWithTaskInfo:(NSDictionary *)info{
 //    // 当前选中的项目
 //    ZHProject *currentProject = [self getProjectFromCoredataById:[info[@"fid_project"] intValue]];
+    NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
+    
     ZHTask *task = [self getTaskFromCoredataByID:[info[@"uid_task"] intValue]];
     [self cleanTaskRelation:task];
     task.uid_task = info[@"uid_task"];
@@ -65,29 +68,49 @@
     task.memo = info[@"memo"];
 //    task.first_memo = info[@"first_memo"];
     task.priority = [info[@"priority"] intValue];
-    
-    task.start_date = info[@"start_date"];
-    task.end_date = info[@"end_date"];
-    task.interrupt_date = info[@"interrupt_date"];
+    if (![SZUtil isEmptyOrNull:info[@"start_date"]]) {
+        task.start_date = [dateFormatter dateFromString:info[@"start_date"]];
+    }
+    if (![SZUtil isEmptyOrNull:info[@"end_date"]]) {
+        task.end_date = [dateFormatter dateFromString:info[@"end_date"]];
+    }
+    if (![SZUtil isEmptyOrNull:info[@"interrupt_date"]]) {
+        task.interrupt_date = [dateFormatter dateFromString:info[@"interrupt_date"]];
+    }
+//    task.end_date = info[@"end_date"];
+//    task.interrupt_date = info[@"interrupt_date"];
     task.category = [info[@"category"] intValue];
     task.type = [info[@"type"] intValue];
     
     // startUser
-    ZHUser *startUser = [self syncTaskUserWithUserInfo:info[@"first_user_info"]];
+    ZHUser *startUser = nil;
+    if (info[@"first_user_info"] != nil) {
+        startUser = [self syncTaskUserWithUserInfo:info[@"first_user_info"]];
+    }
     //responseUser
-    ZHUser *responseUser = [self syncTaskUserWithUserInfo:info[@"user_info"]];
+    ZHUser *responseUser = nil;
+    if (info[@"user_info"] != nil) {
+        responseUser = [self syncTaskUserWithUserInfo:info[@"user_info"]];
+    }
     //endUser
-    ZHUser *endUser = [self syncTaskUserWithUserInfo:info[@"last_user_info"]];
+    ZHUser *endUser = nil;
+    if ([info[@"last_user_info"] isKindOfClass:[NSDictionary class]]) {
+        endUser = [self syncTaskUserWithUserInfo:info[@"last_user_info"]];
+    }
     
     // current_user_info
-    for (NSDictionary *dic in info[@"current_user_info"]) {
-        ZHUser *current_user_info = [self syncTaskUserWithUserInfo:dic[@"last_user_info"]];
-        [task addCurrentUsersObject:current_user_info];
+    if ([info[@"current_user_info"] isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *dic in info[@"current_user_info"]) {
+            ZHUser *current_user_info = [self syncTaskUserWithUserInfo:dic[@"last_user_info"]];
+            [task addCurrentUsersObject:current_user_info];
+        }
     }
-    //first_memo_target
-    for (NSDictionary *target in info[@"first_memo_target"]) {
-        ZHTarget *first_memo_target = [self syncTargetWithInfoItem:target];
-        task.firstTarget = first_memo_target;
+    if (![info[@"first_memo_target"] isEqualToString:@""]) {
+        //first_memo_target
+        for (NSDictionary *target in info[@"first_memo_target"]) {
+            ZHTarget *first_memo_target = [self syncTargetWithInfoItem:target];
+            task.firstTarget = first_memo_target;
+        }
     }
     // flow 默认只有一个
     NSArray *flowArray = info[@"flow"];
@@ -183,10 +206,13 @@
         step.interrupt_date = [dateFormatter dateFromString:stepDic[@"interrupt_date"]];
     }
     // memo_target_list
-    for (NSDictionary *targetDic in stepDic[@"memo_target_list"]) {
-        ZHTarget *target = [self syncTargetWithInfoItem:targetDic];
-        [step addMemoDocsObject:target];
+    if (![stepDic[@"memo_target_list"] isEqualToString:@""]) {
+        for (NSDictionary *targetDic in stepDic[@"memo_target_list"]) {
+            ZHTarget *target = [self syncTargetWithInfoItem:targetDic];
+            [step addMemoDocsObject:target];
+        }
     }
+    
     //response_user
     ZHUser *user = [self getUserFromCoredataByID:[stepDic[@"response_user"][@"id_user"] intValue]];
     step.responseUser = [self syncUser:user withUserInfo:stepDic[@"response_user"]];

@@ -86,7 +86,7 @@
     if (!cell) {
         cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
     }
-    cell.taskName.text = @"任务列表";
+    cell.currenttask = self.taskArray[indexPath.row];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -114,11 +114,13 @@
         [self.tableView.mj_footer endRefreshing];
         if (manager.responsePageSize.currentCount < self.taskListManager.pageSize.pageSize) {
             [self.tableView.mj_footer endRefreshingWithNoMoreData];
-        }
-        [self.taskArray addObjectsFromArray:(NSArray *)manager.response.responseData];
-        if (self.taskArray.count <= 0) {
             self.tableView.mj_footer.hidden = YES;
         }
+        if (self.taskListManager.pageSize.pageIndex == 1) {
+            [self.taskArray removeAllObjects];
+        }
+        [self.taskArray addObjectsFromArray:(NSArray *)manager.response.responseData];
+        [self.tableView showDataCount:self.taskArray.count];
         [self.tableView reloadData];
         
     }

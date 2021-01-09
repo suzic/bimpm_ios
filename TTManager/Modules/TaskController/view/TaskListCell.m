@@ -12,6 +12,9 @@
 @property (nonatomic, strong)UIView *lineView;
 @property (nonatomic, strong)UIImageView *userImage;
 
+@property (nonatomic, strong) UILabel *taskName;
+@property (nonatomic, strong) UILabel *predictTime;
+
 @end
 
 @implementation TaskListCell
@@ -27,6 +30,14 @@
     }
     return self;
 }
+- (void)setCurrenttask:(ZHTask *)currenttask{
+    if (_currenttask != currenttask) {
+        _currenttask = currenttask;
+        self.taskName.text =  _currenttask.name;
+        self.predictTime.text = [SZUtil getDateString:_currenttask.start_date];
+        [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+    }
+}
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
     bgView.backgroundColor = [UIColor whiteColor];
@@ -35,10 +46,10 @@
     [self.contentView addSubview:self.taskName];
     [self.contentView addSubview:self.predictTime];
     [self.contentView addSubview:self.userImage];
-    self.userImage.image = [UIImage imageNamed:@"test-1"];
+//    self.userImage.image = [UIImage imageNamed:@"test-1"];
     self.lineView.backgroundColor = [SZUtil colorWithHex:@"#04BA90"];
-    self.taskName.text = @"临时任务";
-    self.predictTime.text = @"预计于2020-12-31 12:00完成";
+//    self.taskName.text = @"临时任务";
+//    self.predictTime.text = @"预计于2020-12-31 12:00完成";
     [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(0);
     }];

@@ -11,14 +11,12 @@
 #import "DragButton.h"
 #import "TaskController.h"
 
-@interface TaskListController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface TaskListController ()
 
 @property (nonatomic, strong) TaskTabView *taskTabView;
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
 @property (nonatomic,assign) TaskType taskType;
-// api
-@property (nonatomic, strong)APITaskListManager *taskListManager;
 
 @end
 
@@ -82,32 +80,8 @@
     return listTitle;
 }
 
-#pragma mark - APIManagerParamSource
-- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
-    NSDictionary *dic = @{};
-    if (manager == self.taskListManager) {
-        
-    }
-    return dic;
-}
-#pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.taskListManager) {
-    }
-}
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.taskListManager) {
-    }
-}
 #pragma mark - setter getter
-- (APITaskListManager *)taskListManager{
-    if (_taskListManager == nil) {
-        _taskListManager = [[APITaskListManager alloc] init];
-        _taskListManager.delegate = self;
-        _taskListManager.paramSource = self;
-    }
-    return _taskListManager;
-}
+
 - (TaskTabView *)taskTabView{
     if (_taskTabView == nil) {
         _taskTabView = [[TaskTabView alloc] init];
