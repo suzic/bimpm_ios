@@ -15,10 +15,11 @@
 #import "CalendarDayModel.h"
 #import "TaskParams.h"
 #import "OperabilityTools.h"
+#import "PopViewController.h"
 
-@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate>
+@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
 
-@property (nonatomic,strong) UIBarButtonItem *rightButtonItem;
+@property (nonatomic,strong) UIButton *rightButtonItem;
 
 @property (nonatomic, strong) NSMutableArray *stepArray;
 // 任务步骤
@@ -31,6 +32,7 @@
 @property (nonatomic, strong) TaskContentView *taskContentView;
 // 任务操作页面
 @property (nonatomic, strong) TaskOperationView *taskOperationView;
+
 @property (nonatomic, strong) OperabilityTools *operabilityTools;
 @property (nonatomic, strong) TaskParams *taskParams;
 
@@ -68,19 +70,30 @@
 
 #pragma mark - private method
 - (void)setNavbackItemAndTitle{
-    if (self.operabilityTools.isDetails) {
-        self.title = @"任务详情";
-    }else{
-        self.title = @"新任务";
-    }
-    self.navigationItem.rightBarButtonItem = self.rightButtonItem;
+    self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
+    self.title = (self.operabilityTools.isDetails ? @"任务详情":@"新任务");
+    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButtonItem];
+    self.navigationItem.rightBarButtonItem = rightItem;
 }
+
 - (void)back{
     if (self.operabilityTools.isDetails == YES) {
         [self.navigationController popViewControllerAnimated:YES];
     }else{
         [self dismissViewControllerAnimated:YES completion:nil];
     }
+}
+- (void)showMenu:(UIButton *)rightBarItem{
+    PopViewController *menuView = [[PopViewController alloc] init];
+    menuView.delegate = self;
+    menuView.view.alpha = 1.0;
+    menuView.dataList = @[@"召回",@"终止"];
+    menuView.modalPresentationStyle = UIModalPresentationPopover;
+    menuView.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
+    menuView.popoverPresentationController.delegate = self;
+    menuView.popoverPresentationController.sourceView = rightBarItem;
+    menuView.popoverPresentationController.sourceRect = CGRectMake(rightBarItem.frame.origin.x, rightBarItem.frame.origin.y+20, 0, 0);
+    [self presentViewController:menuView animated:YES completion:nil];
 }
 // 新任务时步骤初始化
 - (void)newTaskStepArray{
@@ -188,7 +201,17 @@
 - (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
     NSLog(@"当前选择的日历时间====%@",[selectedDate toString]);
 }
-
+#pragma mark - PopViewSelectedIndexDelegate
+- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
+{
+    return UIModalPresentationNone;
+}
+- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
+    return YES;
+}
+- (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
+    NSLog(@"当前点击的item下标 %ld",indexPath.row);
+}
 #pragma mark - setting and getter
 - (void)setTaskType:(TaskType)taskType{
     if (_taskType != taskType) {
@@ -196,6 +219,7 @@
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
     }
 }
+
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
@@ -242,9 +266,12 @@
     }
     return _taskParams;
 }
-- (UIBarButtonItem *)rightButtonItem{
+- (UIButton *)rightButtonItem{
     if (_rightButtonItem == nil) {
-        _rightButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"task_more"] style:UIBarButtonItemStylePlain target:self action:@selector(showMenu)];
+        _rightButtonItem = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_rightButtonItem setImage:[UIImage imageNamed:@"task_more"] forState:UIControlStateNormal];
+        _rightButtonItem.frame = CGRectMake(0, 0, 20, 20);
+        [_rightButtonItem addTarget:self action:@selector(showMenu:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _rightButtonItem;
 }
