@@ -39,6 +39,7 @@
 }
 
 #pragma mark - private method
+// 选择任务类型
 - (void)showSelectNewTaskType{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     for (NSString *newTaskType in self.newTasTypeklist) {
@@ -55,6 +56,38 @@
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];
 }
+// 获取当前点击的新建任务类型
+- (TaskStepType)getCurrentSelectedAction:(UIAlertAction *)action{
+    if ([action.title isEqualToString:@"任务"]||[action.title isEqualToString:@"申请"]) {
+        return step_type_start_none_end;
+    }else if([action.title isEqualToString:@"巡检"]){
+        return step_type_start_serial_end;
+    }else{
+        return step_type_start_open_parallel_end;
+    }
+}
+// 当前list的title
+- (NSString *)getListTitleWithStatus:(TaskStatus)status{
+    NSString *listTitle = @"";
+    switch (status) {
+        case Task_list:
+            listTitle = @"进行中";
+            break;
+        case Task_finish:
+            listTitle = @"已完成";
+            break;
+        case Task_sponsoring:
+            listTitle = @"起草中";
+            break;
+        case Task_sponsored:
+            listTitle = @"已发起";
+            break;
+        default:
+            break;
+    }
+    return listTitle;
+}
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
@@ -99,35 +132,7 @@
     }
     return _newTasTypeklist;
 }
-- (TaskStepType)getCurrentSelectedAction:(UIAlertAction *)action{
-    if ([action.title isEqualToString:@"任务"]||[action.title isEqualToString:@"申请"]) {
-        return step_type_start_none_end;
-    }else if([action.title isEqualToString:@"巡检"]){
-        return step_type_start_serial_end;
-    }else{
-        return step_type_start_open_parallel_end;
-    }
-}
-- (NSString *)getListTitleWithStatus:(TaskStatus)status{
-    NSString *listTitle = @"";
-    switch (status) {
-        case Task_list:
-            listTitle = @"进行中";
-            break;
-        case Task_finish:
-            listTitle = @"已完成";
-            break;
-        case Task_sponsoring:
-            listTitle = @"起草中";
-            break;
-        case Task_sponsored:
-            listTitle = @"已发起";
-            break;
-        default:
-            break;
-    }
-    return listTitle;
-}
+#pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:Task_list_selected]) {
         self.taskType = TaskType_details;

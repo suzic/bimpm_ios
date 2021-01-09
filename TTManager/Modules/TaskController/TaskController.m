@@ -65,7 +65,6 @@
 }
 
 #pragma mark - private method
-
 // 新任务时步骤初始化
 - (void)newTaskStepArray{
     ZHUser *user = [DataManager defaultInstance].currentUser;
@@ -102,6 +101,7 @@
     [alert addAction:sure];
     [self presentViewController:alert animated:YES completion:nil];
 }
+
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:selected_taskStep_user]){
@@ -135,6 +135,7 @@
         [self.navigationController pushViewController:vc animated:YES];
     }
 }
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
@@ -147,23 +148,19 @@
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     
 }
+
 #pragma mark - ZHCalendarViewDelegate
 - (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
     NSLog(@"当前选择的日历时间====%@",[selectedDate toString]);
 }
+
 #pragma mark - setting and getter
-- (void)setStepType:(TaskStepType)stepType{
-    if (_stepType != stepType) {
-        _stepType = stepType;
-    }
-}
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
     }
     return _stepView;
 }
-
 - (NSMutableArray *)stepArray{
     if (_stepArray == nil) {
         _stepArray = [NSMutableArray array];
@@ -197,6 +194,7 @@
     }
     return _calendarView;
 }
+
 #pragma mark - api init
 - (APITaskProcessManager *)taskProcessManager{
     if (_taskProcessManager == nil) {
@@ -238,6 +236,7 @@
     }
     return _taskDetailManager;
 }
+
 #pragma mark - UI
 - (void)addUI{
     // 步骤
