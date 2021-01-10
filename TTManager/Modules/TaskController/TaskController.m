@@ -160,12 +160,16 @@
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
         [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
+        self.taskParams.priority = [priority integerValue];
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
     }else if([eventName isEqualToString:change_task_title]){
         NSLog(@"修改当前的任务名称 == %@",userInfo[@"taskTitle"]);
         self.taskParams.name = userInfo[@"taskTitle"];
+        [self.taskEditManager loadData];
     }else if([eventName isEqualToString:change_task_content]){
         NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
         self.taskParams.info = userInfo[@"taskContent"];
+        [self.taskEditManager loadData];
     }
     else if([eventName isEqualToString:longPress_delete_index]){
         [self deleteCurrentSelectedStepUser:[userInfo[@"index"] integerValue]];
@@ -204,12 +208,10 @@
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    self.operabilityTools.task = (ZHTask *)manager.response.responseData;
-    [self setModuleViewOperabilityTools];
-    [self setRequestParams:self.operabilityTools.task];
-    
-    if (manager == self.taskNewManager) {
-    }else if(manager == self.taskDetailManager){
+    if (manager == self.taskNewManager || manager == self.taskDetailManager) {
+        self.operabilityTools.task = (ZHTask *)manager.response.responseData;
+        [self setModuleViewOperabilityTools];
+        [self setRequestParams:self.operabilityTools.task];
     }else if(manager == self.taskEditManager){
     }else if(manager == self.taskOperationsManager){
     }else if(manager == self.taskProcessManager){
@@ -232,8 +234,14 @@
 
 #pragma mark - ZHCalendarViewDelegate
 - (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
-    NSLog(@"当前选择的日历时间====%@",[selectedDate toString]);
+    NSLog(@"当前选择的日历时间====%@",[selectedDate date]);
+    NSDate *selectDate = [selectedDate date];
+    
+    NSTimeInterval timeInterval = [selectDate timeIntervalSince1970];
+    self.taskParams.datePlan = [NSString stringWithFormat:@"%.0f",timeInterval];
+    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
 }
+
 #pragma mark - PopViewSelectedIndexDelegate
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
 {
@@ -384,7 +392,7 @@
     
 //    self.stepView.stepArray = self.stepArray;
 
-    self.taskContentView.priorityType = priority_type_highGrade;
+//    self.taskContentView.priorityType = priority_type_highGrade;
 }
 - (IBAction)closeVCAction:(id)sender {
     if (self.presentingViewController) {

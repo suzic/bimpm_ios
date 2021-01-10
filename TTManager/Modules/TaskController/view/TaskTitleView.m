@@ -59,6 +59,8 @@
     _tools = tools;
     self.taskTitle.text = _tools.task.name;
     self.taskTitle.editable = _tools.operabilityTitle;
+    [self textViewDidChange:self.taskTitle];
+    [self setTaskTitleStatusColor:_tools.task.priority];
 }
 - (UIView *)taskTypeTagView{
     if (_taskTypeTagView == nil) {

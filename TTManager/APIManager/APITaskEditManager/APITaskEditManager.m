@@ -27,7 +27,7 @@
 }
 
 - (BOOL)isCoreData {
-    return YES;
+    return NO;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSDictionary *dic = @{@"data":params,
@@ -43,7 +43,8 @@
     return YES;
 }
 - (id)coreDataCallBackData:(LCURLResponse *)response{
-    return [self taskEditCoreData:response];
+//    return [self taskEditCoreData:response];
+    return nil;
 }
 // 本地数据库
 - (id)taskEditCoreData:(LCURLResponse *)response{

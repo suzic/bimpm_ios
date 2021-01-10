@@ -46,7 +46,7 @@
     
     [self addSubview:self.contentView];
     
-    [self.contentView addSubview:self.adjunctFileBtn];
+    [self addSubview:self.adjunctFileBtn];
     
     [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(6);
@@ -55,7 +55,8 @@
         make.height.equalTo(20);
     }];
     [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.bottom.equalTo(-10);
+        make.right.equalTo(-26);
+        make.bottom.equalTo(-20);
         make.width.equalTo(self.contentView).multipliedBy(0.5);
     }];
     [self.contentView makeConstraints:^(MASConstraintMaker *make) {
@@ -110,6 +111,7 @@
     self.adjunctFileBtn.enabled = !_tools.operabilityAdjunct;
     self.contentView.editable = _tools.operabilityContent;
     self.contentView.text = _tools.task.info;
+    [self changePriorityStatus:_tools.task.priority];
 }
 - (UIView *)priorityView{
     if (_priorityView == nil) {
