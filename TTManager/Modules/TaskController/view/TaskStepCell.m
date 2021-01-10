@@ -24,18 +24,14 @@
     }
     return self;
 }
-
-- (void)setCurrentStep:(ZHStep *)currentStep{
+- (void)setCurrentStep:(id)currentStep{
     if (_currentStep != currentStep) {
         _currentStep = currentStep;
-        self.stepView.step = _currentStep;
-    }
-}
-
-- (void)setUser:(ZHUser *)user{
-    if (_user != user) {
-        _user = user;
-        self.stepView.user = _user;
+        if ([_currentStep isKindOfClass:[ZHStep class]]) {
+            self.stepView.step = (ZHStep *)_currentStep;
+        }else if([_currentStep isKindOfClass:[ZHUser class]]){
+            self.stepView.user = (ZHUser *)_currentStep;
+        }
     }
 }
 

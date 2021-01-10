@@ -14,6 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TaskTitleView : UIView
 
 @property (nonatomic, strong) OperabilityTools *tools;
+
 // 改变任务名称前的颜色
 - (void)setTaskTitleStatusColor:(PriorityType)type;
 

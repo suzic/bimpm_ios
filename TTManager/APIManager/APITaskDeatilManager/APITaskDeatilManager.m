@@ -47,6 +47,9 @@
 }
 // 本地数据库
 - (id)taskDeatilCoreData:(LCURLResponse *)response{
-    return nil;
+    NSDictionary *task_info = response.responseData[@"data"][@"task_info"];
+    task_info = [NSDictionary changeType:task_info];
+    ZHTask *task = [[DataManager defaultInstance] syncTaskWithTaskInfo:task_info];
+    return task;
 }
 @end

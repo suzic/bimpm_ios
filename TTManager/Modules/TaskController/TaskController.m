@@ -99,11 +99,9 @@
 - (void)newTaskStepArray{
     ZHUser *user = [DataManager defaultInstance].currentUser;
     [self.stepArray addObject:user];
-    self.stepView.stepArray = self.stepArray;
 }
 - (void)addStepUserToCurrentStepArray:(ZHUser *)user{
     [self.stepArray addObject:user];
-    self.stepView.stepArray = self.stepArray;
 }
 - (void)taskDetailStepArray{
     
@@ -114,6 +112,10 @@
     self.taskTitleView.tools = self.operabilityTools;
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
+}
+- (void)setRequestParams:(ZHTask *)task{
+    self.taskParams.name = task.name;
+    self.taskParams.info = task.info;
 }
 - (void)deleteCurrentSelectedStepUser:(NSInteger)index{
     NSString *string = @"";
@@ -126,8 +128,6 @@
     string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self.stepArray removeObjectAtIndex:index];
-        self.stepView.stepArray = self.stepArray;
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
@@ -160,7 +160,14 @@
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
         [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
-    }else if([eventName isEqualToString:longPress_delete_index]){
+    }else if([eventName isEqualToString:change_task_title]){
+        NSLog(@"修改当前的任务名称 == %@",userInfo[@"taskTitle"]);
+        self.taskParams.name = userInfo[@"taskTitle"];
+    }else if([eventName isEqualToString:change_task_content]){
+        NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
+        self.taskParams.info = userInfo[@"taskContent"];
+    }
+    else if([eventName isEqualToString:longPress_delete_index]){
         [self deleteCurrentSelectedStepUser:[userInfo[@"index"] integerValue]];
         NSLog(@"长按删除");
     }else if([eventName isEqualToString:open_document_library]){
@@ -179,7 +186,41 @@
     if (manager == self.taskNewManager) {
         params = [self.taskParams getNewTaskParams];
     }else if(manager == self.taskDetailManager){
-        params = @{};
+        params = [self.taskParams getTaskDetailsParams];
+    }else if(manager == self.taskEditManager){
+        params = [self.taskParams getTaskEditParams];
+    }else if(manager == self.taskOperationsManager){
+        params = @{@"id_task":self.id_task,
+                   @"code":@"",
+                   @"param":@"",
+                   @"info":@""};
+    }else if(manager == self.taskProcessManager){
+        params = @{@"task_list":@[self.id_task],
+                   @"code":@"",
+                   @"param":@"",
+                   @"info":@""};
+    }
+    return params;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    self.operabilityTools.task = (ZHTask *)manager.response.responseData;
+    [self setModuleViewOperabilityTools];
+    [self setRequestParams:self.operabilityTools.task];
+    
+    if (manager == self.taskNewManager) {
+    }else if(manager == self.taskDetailManager){
+    }else if(manager == self.taskEditManager){
+    }else if(manager == self.taskOperationsManager){
+    }else if(manager == self.taskProcessManager){
+    }
+}
+
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.taskNewManager) {
+        
+    }else if(manager == self.taskDetailManager){
+        
     }else if(manager == self.taskEditManager){
         
     }else if(manager == self.taskOperationsManager){
@@ -187,14 +228,6 @@
     }else if(manager == self.taskProcessManager){
         
     }
-    return params;
-}
-#pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    
-}
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    
 }
 
 #pragma mark - ZHCalendarViewDelegate
@@ -263,6 +296,7 @@
     if (_taskParams == nil) {
         _taskParams = [[TaskParams alloc] init];
         _taskParams.id_flow_template = self.taskType;
+        _taskParams.uid_task = self.id_task;
     }
     return _taskParams;
 }

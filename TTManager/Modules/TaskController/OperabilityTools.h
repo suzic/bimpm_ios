@@ -15,6 +15,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithType:(TaskType)type;
 
+@property (nonatomic, strong) ZHTask *task;
+
+@property (nonatomic, strong) NSMutableArray *stepArray;
+
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤
 @property (nonatomic,assign) BOOL operabilityStep;

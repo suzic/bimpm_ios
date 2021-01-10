@@ -15,6 +15,7 @@
     }
     return self;
 }
+// 默认任务详情哪些课操作
 - (void)initOperabilityTools:(TaskType)type{
     // 默认操作属性全是NO
     [self initProperty];
@@ -40,7 +41,9 @@
         self.isDetails = YES;
     }
 }
+
 - (void)initProperty{
+    self.stepArray = [NSMutableArray array];
     self.operabilityStep = NO;
     self.operabilityTitle = NO;
     self.operabilitySave = NO;
@@ -50,5 +53,34 @@
     self.operabilityPriority = NO;
     self.showStepAdd = YES;
     self.isDetails = NO;
+}
+#pragma mark - setter and getter
+- (void)setTask:(ZHTask *)task{
+    if (_task != task) {
+        _task = task;
+        self.stepArray = [self getCurrentTaskStep:_task];
+    }
+}
+- (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
+//    [self.stepArray addObject:task.startUser];
+    NSMutableArray *middleStepArray = [NSMutableArray array];
+    middleStepArray = [self getNextStepInfo:task.assignStep resultArray:middleStepArray];
+    [self.stepArray addObjectsFromArray:middleStepArray];
+//    if (task.endUser != nil) {
+//        [self.stepArray addObject:task.endUser];
+//    }
+    return self.stepArray;
+}
+- (NSMutableArray *)getNextStepInfo:(ZHStep *)step resultArray:(NSMutableArray *)result{
+    // 添加当前步骤
+    [result addObject:step];
+    if (step.hasNext.count <= 0) {
+        return  result;
+    }else{
+        for (ZHStep *nextStep in step.hasNext) {
+            [self getNextStepInfo:nextStep resultArray:result];
+        }
+        return result;
+    }
 }
 @end

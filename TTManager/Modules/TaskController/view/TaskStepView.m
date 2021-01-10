@@ -18,6 +18,8 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 // 中间步骤
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) SupernatantView  *supernatantView;
+@property (nonatomic, strong) NSMutableArray *stepArray;
+
 // 发起人
 //@property (nonatomic, strong) StepUserView *initiatorStepView;
 // 结束人
@@ -32,6 +34,7 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.stepArray = [NSMutableArray array];
         [self addUI];
     }
     return self;
@@ -92,6 +95,7 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 //    }else if(self.taskType == TaskType_details){
 //        cell.currentStep = self.stepArray[indexPath.row];
 //    }
+    cell.currentStep = self.stepArray[indexPath.row];
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
     [cell addGestureRecognizer:longPress];
     longPress.minimumPressDuration = 1.0;
@@ -130,15 +134,13 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 
 #pragma mark - setting and getter
 
-- (void)setStepArray:(NSMutableArray *)stepArray{
-    _stepArray = stepArray;
-//    self.initiatorStepView.user = _stepArray.firstObject;
-//    self.finishrStepView.user = _stepArray.lastObject;
-//    self.middleStepArray = _stepArray[1];
-//    [self updateCollectionViewConstraints];
+- (void)setTools:(OperabilityTools *)tools{
+    _tools = tools;
+    self.stepArray = _tools.stepArray;
     [self.collectionView reloadData];
     [self scrollToOffside];
 }
+
 //- (NSMutableArray *)middleStepArray{
 //    if (_middleStepArray == nil) {
 //        _middleStepArray = [NSMutableArray array];

@@ -7,7 +7,7 @@
 
 #import "TaskContentView.h"
 
-@interface TaskContentView ()
+@interface TaskContentView ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UIView *priorityView;
 @property (nonatomic, strong) NSArray *prioritybtnArray;
@@ -106,11 +106,10 @@
     }
 }
 - (void)setTools:(OperabilityTools *)tools{
-    if (_tools != tools) {
-        _tools = tools;
-        self.adjunctFileBtn.enabled = !_tools.operabilityAdjunct;
-        self.contentView.editable = _tools.operabilityContent;
-    }
+    _tools = tools;
+    self.adjunctFileBtn.enabled = !_tools.operabilityAdjunct;
+    self.contentView.editable = _tools.operabilityContent;
+    self.contentView.text = _tools.task.info;
 }
 - (UIView *)priorityView{
     if (_priorityView == nil) {
@@ -124,6 +123,7 @@
         _contentView.textColor = RGB_COLOR(51, 51, 51);
         _contentView.font = [UIFont systemFontOfSize:13.0f];
         [_contentView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+        _contentView.delegate = self;
         [self setTextViewPlaceholder:_contentView];
     }
     return _contentView;
@@ -178,6 +178,9 @@
     textView.font = [UIFont systemFontOfSize:13.f];
     placeHolderLabel.font = [UIFont systemFontOfSize:13.f];
     [textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [self routerEventWithName:change_task_content userInfo:@{@"taskContent":textView.text}];
 }
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -168,6 +168,7 @@
 }
 // 同步flow_step
 - (ZHStep *)syncStep:(ZHStep *)prevsStep withStepDic:(NSDictionary *)stepDic{
+    
     ZHStep *step = [self getStepFromCoredataByID:[stepDic[@"uid_step"] intValue]];
     // 如果prevsStep上一步存在
     if (prevsStep != nil) {
@@ -214,15 +215,20 @@
     }
     
     //response_user
-    ZHUser *user = [self getUserFromCoredataByID:[stepDic[@"response_user"][@"id_user"] intValue]];
-    step.responseUser = [self syncUser:user withUserInfo:stepDic[@"response_user"]];
+    if ([stepDic[@"response_user"] isKindOfClass:[NSDictionary class]]) {
+        ZHUser *user = [self getUserFromCoredataByID:[stepDic[@"response_user"][@"id_user"] intValue]];
+        step.responseUser = [self syncUser:user withUserInfo:stepDic[@"response_user"]];
+    }
+    
     
     // step_to
     NSArray *step_toArray = stepDic[@"step_to"];
-    if (step_toArray.count >0) {
-        for (NSDictionary *stepItemDic in step_toArray) {
-            ZHStep *stepItem = [self syncStep:step withStepDic:stepItemDic];
-            [step addHasNextObject:stepItem];
+    if ([step_toArray isKindOfClass:[NSArray class]]) {
+        if (step_toArray.count >0) {
+            for (NSDictionary *stepItemDic in step_toArray) {
+                ZHStep *stepItem = [self syncStep:step withStepDic:stepItemDic];
+                [step addHasNextObject:stepItem];
+            }
         }
     }
     return step;

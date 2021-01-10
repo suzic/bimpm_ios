@@ -22,5 +22,14 @@
     };
     return dic;
 }
-
+- (NSMutableDictionary *)getTaskDetailsParams{
+    NSDictionary *dic = @{@"uid_task":self.uid_task};
+    return [NSMutableDictionary dictionaryWithDictionary:dic];
+}
+- (NSMutableDictionary *)getTaskEditParams{
+    NSDictionary *dic = @{@"uid_task":self.uid_task,
+                          @"name":self.name,
+                          @"info":self.info};
+    return [NSMutableDictionary dictionaryWithDictionary:dic];
+}
 @end

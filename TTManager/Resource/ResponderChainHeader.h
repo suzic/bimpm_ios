@@ -25,9 +25,15 @@
 
 // 选择任务步骤对应的用户
 #define selected_taskStep_user  @"selected_taskStep_user"
+// 长按弹出删除步骤用户
 #define longPress_delete_index  @"longPress_delete_index"
 // 选择任务等级
 #define selected_task_priority  @"selected_task_priority"
+// 改变任务名称
+#define change_task_title       @"change_task_title"
+// 改变任务内容
+#define change_task_content       @"change_task_content"
+
 // 选择日历
 #define select_caldenar_view    @"select_caldenar_view"
 // 保存任务

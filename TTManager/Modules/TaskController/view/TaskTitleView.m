@@ -55,24 +55,23 @@
     self.taskTypeTagView.backgroundColor = lineColor;
 }
 #pragma mark - setting and getter
+- (void)setTools:(OperabilityTools *)tools{
+    _tools = tools;
+    self.taskTitle.text = _tools.task.name;
+    self.taskTitle.editable = _tools.operabilityTitle;
+}
 - (UIView *)taskTypeTagView{
     if (_taskTypeTagView == nil) {
         _taskTypeTagView = [[UIView alloc] init];
     }
     return _taskTypeTagView;
 }
-- (void)setTools:(OperabilityTools *)tools{
-    if (_tools != tools) {
-        _tools = tools;
-        self.taskTitle.editable = _tools.operabilityTitle;
-    }
-}
+
 - (UITextView *)taskTitle{
     if (_taskTitle == nil) {
         _taskTitle = [[UITextView alloc] init];
         _taskTitle.textColor = RGB_COLOR(51, 51, 51);
         _taskTitle.font = [UIFont systemFontOfSize:20.0f];
-        _taskTitle.text = @"任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事任务名称9月计划图开发计划图-任务处理,我就是一个测试人，测试一下自适应高度怎么回事";
         _taskTitle.delegate = self;
         [self setTextViewPlaceholder:_taskTitle];
         _taskTitle.textContainerInset = UIEdgeInsetsMake(-2, 0, 0, 0);
@@ -107,6 +106,10 @@
         make.height.equalTo(height);
     }];
 }
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [self routerEventWithName:change_task_title userInfo:@{@"taskTitle":textView.text}];
+}
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
