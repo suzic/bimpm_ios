@@ -36,6 +36,8 @@
 @property (nonatomic, strong) TaskParams *taskParams;
 
 @property (nonatomic, strong) ZHUser *selectUser;
+
+@property (nonatomic, assign) BOOL lastStepUser;
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
 @property (nonatomic, strong) APITaskEditManager *taskEditManager;
@@ -141,11 +143,15 @@
             self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
             if ([addType isEqualToString:@"0"])
             {
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
-            }else if([addType isEqualToString:@"1"]){
+                if (self.taskType != task_type_new_polling) {
+                    self.lastStepUser = YES;
+                }else{
+                    self.lastStepUser = NO;
+                }
                 [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams]];
+            }else if([addType isEqualToString:@"1"]){
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
             }
-            
         };
         [self.navigationController pushViewController:team animated:YES];
     }else if([eventName isEqualToString:choose_adjunct_file]){
@@ -172,7 +178,7 @@
         [self.taskEditManager loadData];
     }
     else if([eventName isEqualToString:longPress_delete_index]){
-        [self deleteCurrentSelectedStepUser:[userInfo[@"index"] integerValue]];
+        [self deleteCurrentSelectedStepUser:[userInfo[@"indexPath"] integerValue]];
         NSLog(@"长按删除");
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
@@ -219,9 +225,9 @@
     }else if(manager == self.taskOperationsManager){
         NSDictionary *params = manager.response.requestParams[@"data"];
         if ([params[@"code"] isEqualToString:@"TO"]) {
-            self.operabilityTools.finishUser = self.selectUser;
+            [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
         }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
-            [self.operabilityTools.stepArray addObject:self.selectUser];
+            [self.operabilityTools changCurrentStepArray:self.selectUser to:YES];
         }
         self.stepView.tools = self.operabilityTools;
     }else if(manager == self.taskProcessManager){
@@ -319,6 +325,7 @@
         _taskParams = [[TaskParams alloc] init];
         _taskParams.id_flow_template = self.taskType;
         _taskParams.uid_task = self.id_task;
+        _taskParams.type = self.taskType;
     }
     return _taskParams;
 }

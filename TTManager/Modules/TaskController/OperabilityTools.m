@@ -16,6 +16,13 @@
     }
     return self;
 }
+- (void)changCurrentStepArray:(ZHUser *)user to:(BOOL)add{
+    if (add == YES) {
+        [self.stepArray addObject:user];
+    }else{
+        self.finishUser = user;
+    }
+}
 // 默认任务详情哪些课操作
 - (void)initOperabilityTools:(TaskType)type{
     // 默认操作属性全是NO
@@ -66,13 +73,10 @@
     }
 }
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
-//    [self.stepArray addObject:task.startUser];
     NSMutableArray *middleStepArray = [NSMutableArray array];
     middleStepArray = [self getNextStepInfo:task.belongFlow.stepFirst resultArray:middleStepArray];
     [self.stepArray addObjectsFromArray:middleStepArray];
-//    if (task.endUser != nil) {
-//        [self.stepArray addObject:task.endUser];
-//    }
+    
     return self.stepArray;
 }
 - (NSMutableArray *)getNextStepInfo:(ZHStep *)step resultArray:(NSMutableArray *)result{
@@ -89,4 +93,5 @@
         return result;
     }
 }
+
 @end

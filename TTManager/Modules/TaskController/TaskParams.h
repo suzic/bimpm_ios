@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskParams : NSObject
 
+@property (nonatomic, assign)TaskType type;
+
 // 新建任务的id_flow_template
 @property (nonatomic, assign) NSInteger id_flow_template;
 @property (nonatomic, copy) NSString *uid_task;

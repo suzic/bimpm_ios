@@ -69,9 +69,13 @@
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getAssignUserParams{
+    NSString *string = @"";
+    if (self.type == task_type_new_noti || self.type == task_type_new_joint) {
+        string = [self createUuid];
+    }
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"ASSIGN",
-                          @"param":[SZUtil getUUID],
+                          @"param":string,
                           @"info":self.id_user};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
@@ -95,5 +99,10 @@
                           @"param":@"",
                           @"info":@""};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
+}
+- (NSString *)createUuid{
+   char data[32];
+   for (int x = 0; x<32 ;data[x++] = (char)('A' + (arc4random_uniform(26))));
+   return [[NSString alloc] initWithBytes:data length:32 encoding:NSUTF8StringEncoding];
 }
 @end

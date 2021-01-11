@@ -43,22 +43,8 @@ static NSString *headerIdentifier = @"headerIdentifier";
 }
 
 #pragma mark - private method
-//- (void)updateCollectionViewConstraints{
-//    CGFloat collectionW = (self.middleStepArray.count+1)*itemWidth;
-//    CGFloat maxCollectionW = kScreenWidth - 15 - itemWidth*2;
-//    if (collectionW > maxCollectionW) {
-//        collectionW = maxCollectionW;
-//    }
-//    [self.collectionView updateConstraints:^(MASConstraintMaker *make) {
-//        make.width.equalTo(collectionW);
-//    }];
-//
-//    if (self.middleStepArray.count >3) {
-//        [self scrollToOffside];
-//    }
-//}
 - (void)scrollToOffside{
-    CGPoint rightOffset = CGPointMake((self.collectionView.contentSize.width -     self.collectionView.bounds.size.width) + itemWidth, 0);
+    CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width+itemWidth*2, 0);
     if (rightOffset.x > 0) {
         [self.collectionView setContentOffset:rightOffset animated:NO];
     }
@@ -70,17 +56,22 @@ static NSString *headerIdentifier = @"headerIdentifier";
         return;
     }
     if(longPress.state==UIGestureRecognizerStateBegan){
-        NSInteger row = longPress.view.tag;
-        [self routerEventWithName:longPress_delete_index userInfo:@{@"index":[NSString stringWithFormat:@"%ld",row]}];
+        CGPoint point = [longPress locationInView:self.collectionView];
+        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
+        [self routerEventWithName:longPress_delete_index userInfo:@{@"indexPath":indexPath}];
     }
 }
 // 添加中间步骤负责人
 - (void)addUserToStep:(UITapGestureRecognizer *)tap{
-    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
+    if (self.tools.type == task_type_new_noti || self.tools.type == task_type_new_joint) {
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"1"}];
+    }else{
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
+    }
 }
 // 添加结束步骤负责人
 - (void)addFinishUserToStep:(UITapGestureRecognizer *)tap{
-    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"1"}];
+    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -96,9 +87,11 @@ static NSString *headerIdentifier = @"headerIdentifier";
         if (section == 0) {
             return self.tools.twoStep == YES ? 1:self.stepArray.count;
         }
+        return self.finishUser != nil ? 1 : 0;
     }
     return 0;
 }
+
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *supplementaryView = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
@@ -125,6 +118,8 @@ static NSString *headerIdentifier = @"headerIdentifier";
         if (self.stepArray.count >0) {
             cell.currentStep = self.stepArray[indexPath.row];
         }
+    }else{
+        cell.currentStep = self.finishUser;
     }
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
     [cell addGestureRecognizer:longPress];
@@ -155,19 +150,34 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
     if (self.tools.isDetails == YES) {
         return CGSizeZero;
-    }else{
-        if (section == 0) {
+    }
+    else
+    {
+        if (section == 0)
+        {
             return CGSizeZero;
-        }else{
-            return CGSizeMake(itemWidth, itemHeight);
+        }
+        else if(section == 1)
+        {
+            if (self.tools.type == task_type_new_polling || self.finishUser != nil) {
+                return CGSizeZero;
+            }else{
+                return CGSizeMake(itemWidth, itemHeight);
+            }
         }
     }
+    return CGSizeZero;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     CGRect cellInCollection = [collectionView convertRect:cell.frame toView:[collectionView superview]];
-    id data = self.stepArray[indexPath.row];
+    id data;
+    if (indexPath.section == 0) {
+        data = self.stepArray[indexPath.row];
+    }else{
+        data = self.finishUser;
+    }
     NSString *name = @"";
     if ([data isKindOfClass:[ZHUser class]]) {
         name = ((ZHUser *)data).name;
@@ -175,10 +185,11 @@ static NSString *headerIdentifier = @"headerIdentifier";
         name = ((ZHStep *)data).responseUser.name;
     }
     [self.supernatantView showframe:cellInCollection text:name];
-    
-//    [self routerEventWithName:selected_taskStep_user userInfo:@{}];
 }
-
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    self.supernatantView.hidden = YES;
+    NSLog(@"当前的滚动量%f",scrollView.contentOffset.x);
+}
 #pragma mark - setting and getter
 
 - (void)setTools:(OperabilityTools *)tools{
@@ -188,13 +199,6 @@ static NSString *headerIdentifier = @"headerIdentifier";
     [self.collectionView reloadData];
     [self scrollToOffside];
 }
-
-//- (NSMutableArray *)middleStepArray{
-//    if (_middleStepArray == nil) {
-//        _middleStepArray = [NSMutableArray array];
-//    }
-//    return _middleStepArray;
-//}
 
 - (UICollectionView *)collectionView{
     if (_collectionView == nil) {
@@ -206,7 +210,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
         _collectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.dataSource = self;
         _collectionView.delegate = self;
-        _collectionView.pagingEnabled = YES;
+//        _collectionView.pagingEnabled = YES;
         _collectionView.showsHorizontalScrollIndicator = NO;
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.bounces = NO;
