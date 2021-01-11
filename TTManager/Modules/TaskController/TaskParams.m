@@ -61,10 +61,10 @@
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 // 指派一个目标人
-- (NSMutableDictionary *)getToUserParams{
+- (NSMutableDictionary *)getToUserParams:(BOOL)to{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"TO",
-                          @"param":@"1",
+                          @"param":to == YES ?@"1":@"0",
                           @"info":self.id_user};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }

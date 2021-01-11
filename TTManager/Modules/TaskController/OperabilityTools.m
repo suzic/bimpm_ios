@@ -23,6 +23,13 @@
         self.finishUser = user;
     }
 }
+- (void)deleteStepAttayByIndexPath:(NSIndexPath *)indexPath{
+    if (indexPath.section == 1) {
+        self.finishUser = nil;
+    }else{
+        [self.stepArray removeObjectAtIndex:indexPath.row];
+    }
+}
 // 默认任务详情哪些课操作
 - (void)initOperabilityTools:(TaskType)type{
     // 默认操作属性全是NO

@@ -21,10 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray *stepArray;
 
-@property (nonatomic, strong) ZHUser *finishUser;
+@property (nonatomic, strong) ZHUser * __nullable finishUser;
 
 - (void)changCurrentStepArray:(ZHUser *)user to:(BOOL)add;
-
+- (void)deleteStepAttayByIndexPath:(NSIndexPath *)indexPath;
 // yes 两步 首-尾 没有中间步骤，no 首-中间-尾
 @property (nonatomic, assign) BOOL twoStep;
 

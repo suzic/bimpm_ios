@@ -38,6 +38,8 @@
 @property (nonatomic, strong) ZHUser *selectUser;
 
 @property (nonatomic, assign) BOOL lastStepUser;
+
+@property (nonatomic, strong) NSIndexPath *deleteStepIndex;
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
 @property (nonatomic, strong) APITaskEditManager *taskEditManager;
@@ -109,17 +111,23 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
-- (void)deleteCurrentSelectedStepUser:(NSInteger)index{
-    NSString *string = @"";
-//    id data = self.stepArray[index];
-//    if ([data isKindOfClass:[ZHUser class]]) {
-//        string = ((ZHUser *)data).name;
-//    }else if([data isKindOfClass:[ZHStep class]]){
-//        string = ((ZHStep *)data).responseUser.name;
-//    }
+- (void)deleteCurrentSelectedStepUser:(NSIndexPath *)indexPath{
+    
+    ZHUser *user;
+    if (indexPath.section == 1) {
+        user = self.operabilityTools.finishUser;
+    }else{
+        user = self.operabilityTools.stepArray[indexPath.row];
+    }
+    self.deleteStepIndex = indexPath;
+    
+    NSString *string = user.name;
+    
     string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:NO]];
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         
@@ -148,7 +156,7 @@
                 }else{
                     self.lastStepUser = NO;
                 }
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams]];
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
             }else if([addType isEqualToString:@"1"]){
                 [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
             }
@@ -178,7 +186,7 @@
         [self.taskEditManager loadData];
     }
     else if([eventName isEqualToString:longPress_delete_index]){
-        [self deleteCurrentSelectedStepUser:[userInfo[@"indexPath"] integerValue]];
+        [self deleteCurrentSelectedStepUser:userInfo[@"indexPath"]];
         NSLog(@"长按删除");
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
@@ -225,7 +233,11 @@
     }else if(manager == self.taskOperationsManager){
         NSDictionary *params = manager.response.requestParams[@"data"];
         if ([params[@"code"] isEqualToString:@"TO"]) {
-            [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
+            if ([params[@"param"] isEqualToString:@"1"]) {
+                [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
+            }else if([params[@"param"] isEqualToString:@"0"]){
+                [self.operabilityTools deleteStepAttayByIndexPath:self.deleteStepIndex];
+            }
         }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
             [self.operabilityTools changCurrentStepArray:self.selectUser to:YES];
         }

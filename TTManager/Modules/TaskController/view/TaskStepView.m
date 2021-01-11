@@ -44,13 +44,13 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 #pragma mark - private method
 - (void)scrollToOffside{
-    CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width+itemWidth*2, 0);
+    CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width - self.collectionView.frame.size.width + itemWidth, 0);
     if (rightOffset.x > 0) {
         [self.collectionView setContentOffset:rightOffset animated:NO];
     }
 }
 - (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
-    if (self.stepArray.count == 1)
+    if (self.stepArray.count == 1 && self.finishUser == nil)
         return;
     if (self.tools.operabilityStep == NO) {
         return;
