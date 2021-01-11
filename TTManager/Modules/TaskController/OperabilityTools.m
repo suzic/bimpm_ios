@@ -12,6 +12,7 @@
     self = [super init];
     if (self) {
         [self initOperabilityTools:type];
+        self.type = type;
     }
     return self;
 }
@@ -19,7 +20,9 @@
 - (void)initOperabilityTools:(TaskType)type{
     // 默认操作属性全是NO
     [self initProperty];
-    
+    if (type != task_type_new_task && type != task_type_new_apply) {
+        self.twoStep = NO;
+    }
     // 发起任务和起草中的任务可操作所有选项
     if (type == task_type_new_task || type == task_type_new_apply || type == task_type_new_noti || type == task_type_new_joint || type == task_type_new_polling || type == task_type_detail_draft) {
         self.operabilityStep = YES;
@@ -53,6 +56,7 @@
     self.operabilityPriority = NO;
     self.showStepAdd = YES;
     self.isDetails = NO;
+    self.twoStep = YES;
 }
 #pragma mark - setter and getter
 - (void)setTask:(ZHTask *)task{
@@ -64,7 +68,7 @@
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
 //    [self.stepArray addObject:task.startUser];
     NSMutableArray *middleStepArray = [NSMutableArray array];
-    middleStepArray = [self getNextStepInfo:task.assignStep resultArray:middleStepArray];
+    middleStepArray = [self getNextStepInfo:task.belongFlow.stepFirst resultArray:middleStepArray];
     [self.stepArray addObjectsFromArray:middleStepArray];
 //    if (task.endUser != nil) {
 //        [self.stepArray addObject:task.endUser];
@@ -73,7 +77,9 @@
 }
 - (NSMutableArray *)getNextStepInfo:(ZHStep *)step resultArray:(NSMutableArray *)result{
     // 添加当前步骤
-    [result addObject:step];
+    if (step.responseUser != nil) {
+        [result addObject:step];
+    }
     if (step.hasNext.count <= 0) {
         return  result;
     }else{

@@ -15,9 +15,15 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithType:(TaskType)type;
 
+@property (nonatomic, assign) TaskType type;
+
 @property (nonatomic, strong) ZHTask *task;
 
 @property (nonatomic, strong) NSMutableArray *stepArray;
+@property (nonatomic, strong) ZHUser *finishUser;
+
+// yes 两步 首-尾 没有中间步骤，no 首-中间-尾
+@property (nonatomic, assign) BOOL twoStep;
 
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤

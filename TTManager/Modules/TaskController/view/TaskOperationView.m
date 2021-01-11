@@ -14,12 +14,15 @@
 @property (nonatomic, strong) UIButton *predictTimeBtn;
 // 预计完成时间
 @property (nonatomic, strong) UILabel *predictTimeLabel;
+
 // 灰色同意 暂时不知啥操作
 @property (nonatomic, strong) UIButton *grayAgreeBtn;
 // 同意
 @property (nonatomic, strong) UIButton *agreeBtn;
 // 拒绝
 @property (nonatomic, strong) UIButton *rejectBtn;
+
+@property (nonatomic, strong) UIButton *sendTask;
 
 @end
 
@@ -38,6 +41,9 @@
 - (void)saveTask:(UIButton *)button{
     [self routerEventWithName:selected_save_task userInfo:@{}];
 }
+- (void)sendTask:(UIButton *)button{
+    [self routerEventWithName:task_send_toUser userInfo:@{}];
+}
 #pragma mark - UI
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
@@ -54,6 +60,9 @@
     lineView.backgroundColor = RGB_COLOR(238, 238, 238);
     [view addSubview:lineView];
     [self addSubview:view];
+    
+    [view addSubview:self.sendTask];
+    
     [lineView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
         make.height.equalTo(0.5);
@@ -96,6 +105,12 @@
         make.width.equalTo(self.rejectBtn.mas_width);
         make.height.equalTo(self.rejectBtn.mas_height);
     }];
+    [self.sendTask makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-10);
+        make.width.equalTo(100);
+        make.bottom.top.equalTo(0);
+    }];
+    
 }
 #pragma mark - setting and getter
 - (void)setTools:(OperabilityTools *)tools{
@@ -103,8 +118,21 @@
         _tools = tools;
         self.saveBtn.enabled = _tools.operabilitySave;
         self.predictTimeBtn.enabled = _tools.operabilityTime;
+        self.sendTask.hidden = _tools.isDetails;
+        if (_tools.isDetails == YES) {
+            self.sendTask.hidden = YES;
+            self.agreeBtn.hidden = NO;
+            self.grayAgreeBtn.hidden = NO;
+            self.rejectBtn.hidden = NO;
+        }else{
+            self.sendTask.hidden = NO;
+            self.agreeBtn.hidden = YES;
+            self.grayAgreeBtn.hidden = YES;
+            self.rejectBtn.hidden = YES;
+        }
     }
 }
+
 - (UIButton *)saveBtn{
     if (_saveBtn == nil) {
         _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -166,6 +194,17 @@
         [_rejectBtn setBackgroundColor:RGB_COLOR(239, 89, 95)];
     }
     return _rejectBtn;
+}
+- (UIButton *)sendTask{
+    if (_sendTask == nil) {
+        _sendTask = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_sendTask setTitle:@"发起任务" forState:UIControlStateNormal];
+        [_sendTask setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _sendTask.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_sendTask setBackgroundColor:RGB_COLOR(247, 181, 0)];
+        [_sendTask addTarget:self action:@selector(sendTask:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _sendTask;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

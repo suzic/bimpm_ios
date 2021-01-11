@@ -34,6 +34,7 @@
 }
 // 改变当前选择的任务优先级状态
 - (void)changePriorityStatus:(PriorityType)type{
+    
     for (UIButton *button in self.prioritybtnArray) {
         button.selected = (type == button.tag);
     };
@@ -45,26 +46,36 @@
     [self addPriorityViewSubViews];
     
     [self addSubview:self.contentView];
+    UIView *bgView = [[UIView alloc] init];
+    [self addSubview:bgView];
+    [bgView addSubview:self.contentView];
+    [bgView addSubview:self.adjunctFileBtn];
     
-    [self addSubview:self.adjunctFileBtn];
-    
+//    [self addSubview:self.adjunctFileBtn];
     [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(6);
         make.left.equalTo(16);
         make.right.equalTo(-16);
         make.height.equalTo(20);
     }];
-    [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-26);
-        make.bottom.equalTo(-20);
-        make.width.equalTo(self.contentView).multipliedBy(0.5);
-    }];
-    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
+    [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.priorityView.mas_bottom).offset(10);
         make.left.equalTo(16);
         make.right.equalTo(-16);
         make.bottom.equalTo(self).offset(-10);
     }];
+    
+    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+    }];
+    
+    [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-10);
+        make.bottom.equalTo(-10);
+        make.top.equalTo(self.contentView.mas_bottom);
+        make.width.equalTo(self.contentView).multipliedBy(0.5);
+    }];
+    [bgView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
 }
 - (void)addPriorityViewSubViews{
     UILabel *label = [[UILabel alloc] init];
@@ -108,7 +119,7 @@
 }
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
-    self.adjunctFileBtn.enabled = !_tools.operabilityAdjunct;
+    self.adjunctFileBtn.enabled = _tools.operabilityAdjunct;
     self.contentView.editable = _tools.operabilityContent;
     self.contentView.text = _tools.task.info;
     [self changePriorityStatus:_tools.task.priority];
@@ -124,7 +135,6 @@
         _contentView = [[UITextView alloc] init];
         _contentView.textColor = RGB_COLOR(51, 51, 51);
         _contentView.font = [UIFont systemFontOfSize:13.0f];
-        [_contentView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
         _contentView.delegate = self;
         [self setTextViewPlaceholder:_contentView];
     }

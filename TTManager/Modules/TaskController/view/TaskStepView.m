@@ -8,17 +8,18 @@
 #import "TaskStepView.h"
 #import "TaskStepCell.h"
 #import "StepUserView.h"
-#import "TaskStepFooterView.h"
 #import "SupernatantView.h"
 
 static NSString *reuseIdentifier = @"StepCell";
 static NSString *footerIdentifier = @"FooterIdentifier";
+static NSString *headerIdentifier = @"headerIdentifier";
 
 @interface TaskStepView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 // 中间步骤
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) SupernatantView  *supernatantView;
 @property (nonatomic, strong) NSMutableArray *stepArray;
+@property (nonatomic, strong) ZHUser *finishUser;
 
 // 发起人
 //@property (nonatomic, strong) StepUserView *initiatorStepView;
@@ -34,6 +35,7 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.finishUser = nil;
         self.stepArray = [NSMutableArray array];
         [self addUI];
     }
@@ -72,30 +74,58 @@ static NSString *footerIdentifier = @"FooterIdentifier";
         [self routerEventWithName:longPress_delete_index userInfo:@{@"index":[NSString stringWithFormat:@"%ld",row]}];
     }
 }
+// 添加中间步骤负责人
+- (void)addUserToStep:(UITapGestureRecognizer *)tap{
+    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
+}
+// 添加结束步骤负责人
+- (void)addFinishUserToStep:(UITapGestureRecognizer *)tap{
+    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"1"}];
+}
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    return 1;
+    if (self.tools.isDetails == YES) {
+        return 1;
+    }
+    return 2;
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.stepArray.count;
+    if (self.tools.isDetails == YES) {
+        return self.stepArray.count;
+    }else{
+        if (section == 0) {
+            return self.tools.twoStep == YES ? 1:self.stepArray.count;
+        }
+    }
+    return 0;
 }
 - (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
     UICollectionReusableView *supplementaryView = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        TaskStepFooterView *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier forIndexPath:indexPath];
+        TaskStepCell *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier forIndexPath:indexPath];
+        footerView.currentStep = nil;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addUserToStep:)];
+        [self addGestureRecognizer:tap];
+        [footerView addGestureRecognizer:tap];
         supplementaryView = footerView;
+    }else{
+        TaskStepCell *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier forIndexPath:indexPath];
+        headerView.currentStep = self.finishUser;
+        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addFinishUserToStep:)];
+        [self addGestureRecognizer:tap];
+        [headerView addGestureRecognizer:tap];
+        supplementaryView = headerView;
     }
     return supplementaryView;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-//    if (self.taskType == TaskType_newTask) {
-//        cell.user = self.stepArray[indexPath.row];
-//    }else if(self.taskType == TaskType_details){
-//        cell.currentStep = self.stepArray[indexPath.row];
-//    }
-    cell.currentStep = self.stepArray[indexPath.row];
+    if (indexPath.section == 0) {
+        if (self.stepArray.count >0) {
+            cell.currentStep = self.stepArray[indexPath.row];
+        }
+    }
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
     [cell addGestureRecognizer:longPress];
     longPress.minimumPressDuration = 1.0;
@@ -108,13 +138,30 @@ static NSString *footerIdentifier = @"FooterIdentifier";
     return CGSizeMake(itemWidth, itemHeight);
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    if (self.tools.operabilityStep == YES && self.tools.showStepAdd == YES){
-        if (self.stepArray.count < 2){
-            return CGSizeMake(itemWidth, itemHeight);
-        }
+    if (self.tools.isDetails == YES) {
         return CGSizeZero;
     }
-    return CGSizeMake(itemWidth, itemHeight);
+    if (section == 1) {
+        return CGSizeZero;
+    }else{
+        if (self.tools.twoStep == YES){
+            return CGSizeZero;
+        }else{
+            return CGSizeMake(itemWidth, itemHeight);
+        }
+    }
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
+    if (self.tools.isDetails == YES) {
+        return CGSizeZero;
+    }else{
+        if (section == 0) {
+            return CGSizeZero;
+        }else{
+            return CGSizeMake(itemWidth, itemHeight);
+        }
+    }
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -137,6 +184,7 @@ static NSString *footerIdentifier = @"FooterIdentifier";
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
     self.stepArray = _tools.stepArray;
+    self.finishUser = _tools.finishUser;
     [self.collectionView reloadData];
     [self scrollToOffside];
 }
@@ -163,7 +211,8 @@ static NSString *footerIdentifier = @"FooterIdentifier";
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.bounces = NO;
         [_collectionView registerClass:[TaskStepCell class] forCellWithReuseIdentifier:reuseIdentifier];
-        [_collectionView registerClass:[TaskStepFooterView class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier];
+        [_collectionView registerClass:[TaskStepCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier];
+        [_collectionView registerClass:[TaskStepCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier];
     }
     return _collectionView;
 }

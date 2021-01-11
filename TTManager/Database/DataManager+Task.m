@@ -105,7 +105,7 @@
             [task addCurrentUsersObject:current_user_info];
         }
     }
-    if (![info[@"first_memo_target"] isEqualToString:@""]) {
+    if ([info[@"first_memo_target"] isKindOfClass:[NSDictionary class]]) {
         //first_memo_target
         for (NSDictionary *target in info[@"first_memo_target"]) {
             ZHTarget *first_memo_target = [self syncTargetWithInfoItem:target];
@@ -125,6 +125,7 @@
     task.startUser = startUser;
     task.responseUser = responseUser;
     task.endUser = endUser;
+    task.belongFlow = flow;
     return task;
     
 }
@@ -207,7 +208,7 @@
         step.interrupt_date = [dateFormatter dateFromString:stepDic[@"interrupt_date"]];
     }
     // memo_target_list
-    if (![stepDic[@"memo_target_list"] isEqualToString:@""]) {
+    if ([stepDic[@"memo_target_list"] isKindOfClass:[NSArray class]]) {
         for (NSDictionary *targetDic in stepDic[@"memo_target_list"]) {
             ZHTarget *target = [self syncTargetWithInfoItem:targetDic];
             [step addMemoDocsObject:target];

@@ -20,8 +20,6 @@
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic,strong) UIButton *rightButtonItem;
-
-@property (nonatomic, strong) NSMutableArray *stepArray;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
 // 日历
@@ -34,8 +32,10 @@
 @property (nonatomic, strong) TaskOperationView *taskOperationView;
 
 @property (nonatomic, strong) OperabilityTools *operabilityTools;
+
 @property (nonatomic, strong) TaskParams *taskParams;
 
+@property (nonatomic, strong) ZHUser *selectUser;
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
 @property (nonatomic, strong) APITaskEditManager *taskEditManager;
@@ -64,7 +64,6 @@
         [self.taskDetailManager loadData];
     }else{
         [self.taskNewManager loadData];
-        [self newTaskStepArray];
     }
 }
 
@@ -95,17 +94,7 @@
     menuView.popoverPresentationController.sourceRect = CGRectMake(rightBarItem.frame.origin.x, rightBarItem.frame.origin.y+20, 0, 0);
     [self presentViewController:menuView animated:YES completion:nil];
 }
-// 新任务时步骤初始化
-- (void)newTaskStepArray{
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    [self.stepArray addObject:user];
-}
-- (void)addStepUserToCurrentStepArray:(ZHUser *)user{
-    [self.stepArray addObject:user];
-}
-- (void)taskDetailStepArray{
-    
-}
+
 // 设置组件的tools
 - (void)setModuleViewOperabilityTools{
     self.stepView.tools = self.operabilityTools;
@@ -116,15 +105,16 @@
 - (void)setRequestParams:(ZHTask *)task{
     self.taskParams.name = task.name;
     self.taskParams.info = task.info;
+    self.taskParams.uid_task = task.uid_task;
 }
 - (void)deleteCurrentSelectedStepUser:(NSInteger)index{
     NSString *string = @"";
-    id data = self.stepArray[index];
-    if ([data isKindOfClass:[ZHUser class]]) {
-        string = ((ZHUser *)data).name;
-    }else if([data isKindOfClass:[ZHStep class]]){
-        string = ((ZHStep *)data).responseUser.name;
-    }
+//    id data = self.stepArray[index];
+//    if ([data isKindOfClass:[ZHUser class]]) {
+//        string = ((ZHUser *)data).name;
+//    }else if([data isKindOfClass:[ZHStep class]]){
+//        string = ((ZHStep *)data).responseUser.name;
+//    }
     string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -140,12 +130,22 @@
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:selected_taskStep_user]){
+        // 0 中间用户 ，1尾步骤
+        NSString *addType = userInfo[@"addType"];
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
         team.selectedUserType = YES;
         team.selectUserBlock = ^(ZHUser * _Nonnull user) {
             NSLog(@"当前选择的用户==%@",user.name);
-            [self addStepUserToCurrentStepArray:user];
+            self.selectUser = user;
+            self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
+            if ([addType isEqualToString:@"0"])
+            {
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
+            }else if([addType isEqualToString:@"1"]){
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams]];
+            }
+            
         };
         [self.navigationController pushViewController:team animated:YES];
     }else if([eventName isEqualToString:choose_adjunct_file]){
@@ -181,6 +181,9 @@
         [self.navigationController pushViewController:vc animated:YES];
     }else if([eventName isEqualToString:selected_save_task]){
         NSLog(@"保存任务");
+    }else if([eventName isEqualToString:task_send_toUser]){
+        NSLog(@"发送当前任务");
+        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
     }
 }
 
@@ -214,7 +217,19 @@
         [self setRequestParams:self.operabilityTools.task];
     }else if(manager == self.taskEditManager){
     }else if(manager == self.taskOperationsManager){
+        NSDictionary *params = manager.response.requestParams[@"data"];
+        if ([params[@"code"] isEqualToString:@"TO"]) {
+            self.operabilityTools.finishUser = self.selectUser;
+        }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
+            [self.operabilityTools.stepArray addObject:self.selectUser];
+        }
+        self.stepView.tools = self.operabilityTools;
     }else if(manager == self.taskProcessManager){
+        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+        NSDictionary *result = dic[@"data"][@"results"][0];
+        if (![result[@"sub_code"] isEqualToNumber:@0]) {
+            [SZAlert showInfo:result[@"msg"] underTitle:@"众和空间"];
+        }
     }
 }
 
@@ -251,7 +266,11 @@
     return YES;
 }
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
-    NSLog(@"当前点击的item下标 %ld",indexPath.row);
+    if (indexPath.row == 0) {
+        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+    }else{
+        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessTerminateParams]];
+    }
 }
 #pragma mark - setting and getter
 - (void)setTaskType:(TaskType)taskType{
@@ -267,12 +286,7 @@
     }
     return _stepView;
 }
-- (NSMutableArray *)stepArray{
-    if (_stepArray == nil) {
-        _stepArray = [NSMutableArray array];
-    }
-    return _stepArray;
-}
+
 - (TaskOperationView *)taskOperationView{
     if (_taskOperationView == nil) {
         _taskOperationView = [[TaskOperationView alloc] init];

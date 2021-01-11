@@ -48,6 +48,6 @@
 }
 // 本地数据库
 - (id)taskProcessCoreData:(LCURLResponse *)response{
-    return nil;
+    return response.responseData;
 }
 @end

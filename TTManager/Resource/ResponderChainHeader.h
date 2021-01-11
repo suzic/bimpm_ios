@@ -33,11 +33,12 @@
 #define change_task_title       @"change_task_title"
 // 改变任务内容
 #define change_task_content       @"change_task_content"
-
 // 选择日历
 #define select_caldenar_view    @"select_caldenar_view"
 // 保存任务
 #define selected_save_task      @"selected_save_task"
 // 选择附件
 #define choose_adjunct_file     @"choose_adjunct_file"
+
+#define task_send_toUser        @"task_send_toUser"
 #endif /* ResponderChainHeader_h */

@@ -17,8 +17,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *info;
 @property (nonatomic, assign) NSInteger priority;
-
+@property (nonatomic, strong) NSString *id_user;
 @property (nonatomic, strong) NSString *datePlan;
+@property (nonatomic, strong) NSString *memo;
 
 // 获取新建任务的请求参数
 - (NSMutableDictionary *)getNewTaskParams;
@@ -28,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 - (NSMutableDictionary *)getTaskEditParams;
 // 获取设置任务优先级
 - (NSMutableDictionary *)getTaskPriorityParams;
+// 获取memo参数
+- (NSMutableArray *)getMemoParams;
 // 获取任务预计完成时间
 - (NSMutableDictionary *)getTaskDatePlanParams;
 // 获取附件的的参数

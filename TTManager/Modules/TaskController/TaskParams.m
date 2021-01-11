@@ -32,6 +32,13 @@
                           @"info":self.info};
     return [NSMutableDictionary dictionaryWithDictionary:@{@"task_info":dic}];
 }
+- (NSMutableDictionary *)getMemoParams{
+    NSDictionary *dic = @{@"id_task":self.uid_task,
+                          @"code":@"MEMO",
+                          @"param":@"",
+                          @"info":self.memo};
+    return [NSMutableDictionary dictionaryWithDictionary:dic];
+}
 - (NSMutableDictionary *)getTaskPriorityParams{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"PRIORITY",
@@ -57,21 +64,21 @@
 - (NSMutableDictionary *)getToUserParams{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"TO",
-                          @"param":@"2",
-                          @"info":@"id_user"};
+                          @"param":@"1",
+                          @"info":self.id_user};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getAssignUserParams{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"ASSIGN",
-                          @"param":@"2",
-                          @"info":@"id_user"};
+                          @"param":[SZUtil getUUID],
+                          @"info":self.id_user};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getProcessSubmitParams{
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"SUBMIT",
-                          @"param":@"",
+                          @"param":@"1",
                           @"info":@""};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
