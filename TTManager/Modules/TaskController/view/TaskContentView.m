@@ -121,7 +121,7 @@
     _tools = tools;
     self.adjunctFileBtn.enabled = _tools.operabilityAdjunct;
     self.contentView.editable = _tools.operabilityContent;
-    self.contentView.text = _tools.task.info;
+    self.contentView.text = _tools.task.memo;
     [self changePriorityStatus:_tools.task.priority];
 }
 - (UIView *)priorityView{

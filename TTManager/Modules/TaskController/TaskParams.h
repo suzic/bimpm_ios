@@ -32,7 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 获取设置任务优先级
 - (NSMutableDictionary *)getTaskPriorityParams;
 // 获取memo参数
-- (NSMutableArray *)getMemoParams;
+- (NSMutableDictionary *)getMemoParams;
 // 获取任务预计完成时间
 - (NSMutableDictionary *)getTaskDatePlanParams;
 // 获取附件的的参数

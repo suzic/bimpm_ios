@@ -182,8 +182,8 @@
         [self.taskEditManager loadData];
     }else if([eventName isEqualToString:change_task_content]){
         NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
-        self.taskParams.info = userInfo[@"taskContent"];
-        [self.taskEditManager loadData];
+        self.taskParams.memo = userInfo[@"taskContent"];
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
     }
     else if([eventName isEqualToString:longPress_delete_index]){
         [self deleteCurrentSelectedStepUser:userInfo[@"indexPath"]];

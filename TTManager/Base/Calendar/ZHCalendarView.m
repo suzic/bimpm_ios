@@ -13,6 +13,7 @@
 #import "CalendarMonthCollectionViewLayout.h"
 #import "ZHCalendarHeaderView.h"
 #import "NSDate+WQCalendarLogic.h"
+#import "PickerView.h"
 
 static NSString *MonthHeader = @"MonthHeaderView";
 static NSString *DayCell = @"DayCell";
@@ -27,6 +28,8 @@ static NSString *DayCell = @"DayCell";
 @property (nonatomic ,strong) CalendarLogic *Logic;
 @property (nonatomic, strong) NSIndexPath *lastSelecteIndexPath;
 @property (nonatomic, strong) CalendarDayModel *defaultDayModel;
+
+@property (nonatomic, strong) PickerView *pickerView;
 
 @end
 
@@ -75,6 +78,12 @@ static NSString *DayCell = @"DayCell";
     }
     return _collectionView;
 }
+- (PickerView *)pickerView{
+    if (_pickerView == nil) {
+        _pickerView = [[PickerView alloc] init];
+    }
+    return _pickerView;
+}
 - (void)setDefaultSelectedDate:(NSString *)defaultSelectedDate{
     if (_defaultSelectedDate != defaultSelectedDate) {
         _defaultSelectedDate = defaultSelectedDate;
@@ -119,6 +128,12 @@ static NSString *DayCell = @"DayCell";
         }
         [strongSelf showCalendarView:NO];
     };
+    [self addSubview:self.pickerView];
+    [self.pickerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.mas_bottom);
+        make.left.right.equalTo(0);
+        make.height.equalTo(self.mas_height);
+    }];
 }
 #pragma mark - CollectionView代理方法
 
@@ -173,9 +188,7 @@ static NSString *DayCell = @"DayCell";
         && model.style != CellDayTypePast && model.style != CellDayTypeWeek){
         self.lastSelecteIndexPath = indexPath;
         [self.collectionView reloadData];
-//        if (self.delegate && [self.delegate respondsToSelector:@selector(ZHCalendarViewDidSelectedDate:end:totalDays:)]) {
-//            [self.delegate ZHCalendarViewDidSelectedDate:model end:model totalDays:3];
-//        }
+        [self showPickerView:YES];
     }
 }
 
@@ -212,6 +225,16 @@ static NSString *DayCell = @"DayCell";
     [UIView animateWithDuration:0.3 animations:^{
         self.frame = show == YES ? showFrame : hideFrame;
     }];
+}
+- (void)showPickerView:(BOOL)show{
+    [self.pickerView updateConstraints:^(MASConstraintMaker *make) {
+        if (show == YES) {
+            make.top.equalTo(0);
+        }else{
+            make.top.equalTo(self.mas_bottom);
+        }
+    }];
+    [self layoutIfNeeded];
 }
 /*
 // Only override drawRect: if you perform custom drawing.
