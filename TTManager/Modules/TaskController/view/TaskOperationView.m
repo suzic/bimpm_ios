@@ -24,6 +24,8 @@
 
 @property (nonatomic, strong) UIButton *sendTask;
 
+@property (nonatomic, strong) BRDatePickerView *datePickerView;
+
 @end
 
 @implementation TaskOperationView
@@ -36,7 +38,8 @@
 }
 #pragma mark - Action
 - (void)selectTime:(UIButton *)button{
-    [self routerEventWithName:select_caldenar_view userInfo:@{}];
+    [self.datePickerView show];
+//    [self routerEventWithName:select_caldenar_view userInfo:@{}];
 }
 - (void)saveTask:(UIButton *)button{
     [self routerEventWithName:selected_save_task userInfo:@{}];
@@ -205,6 +208,25 @@
         [_sendTask addTarget:self action:@selector(sendTask:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _sendTask;
+}
+- (BRDatePickerView *)datePickerView{
+    if (_datePickerView == nil) {
+        _datePickerView = [[BRDatePickerView alloc] init];
+        _datePickerView.pickerMode = BRDatePickerModeYMDHM;
+        _datePickerView.title = @"请选择预计完成时间";
+        _datePickerView.minDate = [NSDate dateWithTimeIntervalSinceNow:60*60];
+        _datePickerView.maxDate = [[NSDate date] br_getNewDate:[NSDate date] addDays:365*3];
+        _datePickerView.isAutoSelect = YES;
+        _datePickerView.minuteInterval = 5;
+        _datePickerView.numberFullName = YES;
+        __weak typeof(self) weakSelf = self;
+        _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
+            __strong typeof(self) strongSelf = weakSelf;
+            NSLog(@"当前选择的时间 %@",selectDate);
+            strongSelf.predictTimeLabel.text = [NSDate br_stringFromDate:selectDate dateFormat:@"yyyy-MM-dd HH:mm"];
+        };
+    }
+    return _datePickerView;
 }
 /*
 // Only override drawRect: if you perform custom drawing.

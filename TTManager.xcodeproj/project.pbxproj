@@ -94,7 +94,6 @@
 		402AA2042599E02100A9DABA /* Task.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402AA2032599E02100A9DABA /* Task.storyboard */; };
 		402AA2082599E05400A9DABA /* TaskListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA2072599E05400A9DABA /* TaskListController.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
-		403C287425AC40AA006B5CB1 /* PickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403C287325AC40AA006B5CB1 /* PickerView.m */; };
 		406FCA42259E066300636079 /* ConversationListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA41259E066300636079 /* ConversationListController.m */; };
 		406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA4C259E2D9C00636079 /* UserSettingController.m */; };
 		406FCA51259E360700636079 /* SettingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCA50259E360700636079 /* SettingCell.m */; };
@@ -138,14 +137,6 @@
 		40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA2259B5CD7008C3518 /* TaskListCell.m */; };
 		40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA6259C16CE008C3518 /* TaskStepView.m */; };
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
-		40E3349C25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3348C25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.m */; };
-		40E3349D25A6F5F9008DBDAB /* CalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3348E25A6F5F9008DBDAB /* CalendarLogic.m */; };
-		40E3349E25A6F5F9008DBDAB /* NSDate+WQCalendarLogic.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3349125A6F5F9008DBDAB /* NSDate+WQCalendarLogic.m */; };
-		40E3349F25A6F5F9008DBDAB /* CalendarDayCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3349225A6F5F9008DBDAB /* CalendarDayCell.m */; };
-		40E334A025A6F5F9008DBDAB /* CalendarMonthHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3349425A6F5F9008DBDAB /* CalendarMonthHeaderView.m */; };
-		40E334A325A6F5F9008DBDAB /* CalendarDayModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E3349A25A6F5F9008DBDAB /* CalendarDayModel.m */; };
-		40E334AB25A6F758008DBDAB /* ZHCalendarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334AA25A6F758008DBDAB /* ZHCalendarView.m */; };
-		40E334B525A70C92008DBDAB /* ZHCalendarHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
 		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
 		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
@@ -320,8 +311,6 @@
 		402AA2072599E05400A9DABA /* TaskListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListController.m; sourceTree = "<group>"; };
 		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
-		403C287225AC40AA006B5CB1 /* PickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PickerView.h; sourceTree = "<group>"; };
-		403C287325AC40AA006B5CB1 /* PickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PickerView.m; sourceTree = "<group>"; };
 		406FCA40259E066300636079 /* ConversationListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ConversationListController.h; sourceTree = "<group>"; };
 		406FCA41259E066300636079 /* ConversationListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ConversationListController.m; sourceTree = "<group>"; };
 		406FCA4B259E2D9C00636079 /* UserSettingController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserSettingController.h; sourceTree = "<group>"; };
@@ -410,22 +399,6 @@
 		40931CA6259C16CE008C3518 /* TaskStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepView.m; sourceTree = "<group>"; };
 		40931CA9259C27DC008C3518 /* TaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskController.h; sourceTree = "<group>"; };
 		40931CAA259C27DC008C3518 /* TaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskController.m; sourceTree = "<group>"; };
-		40E3348C25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMonthCollectionViewLayout.m; sourceTree = "<group>"; };
-		40E3348D25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMonthCollectionViewLayout.h; sourceTree = "<group>"; };
-		40E3348E25A6F5F9008DBDAB /* CalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarLogic.m; sourceTree = "<group>"; };
-		40E3349025A6F5F9008DBDAB /* CalendarDayCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayCell.h; sourceTree = "<group>"; };
-		40E3349125A6F5F9008DBDAB /* NSDate+WQCalendarLogic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+WQCalendarLogic.m"; sourceTree = "<group>"; };
-		40E3349225A6F5F9008DBDAB /* CalendarDayCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayCell.m; sourceTree = "<group>"; };
-		40E3349325A6F5F9008DBDAB /* CalendarMonthHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarMonthHeaderView.h; sourceTree = "<group>"; };
-		40E3349425A6F5F9008DBDAB /* CalendarMonthHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarMonthHeaderView.m; sourceTree = "<group>"; };
-		40E3349525A6F5F9008DBDAB /* CalendarLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarLogic.h; sourceTree = "<group>"; };
-		40E3349825A6F5F9008DBDAB /* CalendarDayModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CalendarDayModel.h; sourceTree = "<group>"; };
-		40E3349A25A6F5F9008DBDAB /* CalendarDayModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CalendarDayModel.m; sourceTree = "<group>"; };
-		40E3349B25A6F5F9008DBDAB /* NSDate+WQCalendarLogic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+WQCalendarLogic.h"; sourceTree = "<group>"; };
-		40E334A925A6F758008DBDAB /* ZHCalendarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHCalendarView.h; sourceTree = "<group>"; };
-		40E334AA25A6F758008DBDAB /* ZHCalendarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCalendarView.m; sourceTree = "<group>"; };
-		40E334B325A70C92008DBDAB /* ZHCalendarHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZHCalendarHeaderView.h; sourceTree = "<group>"; };
-		40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZHCalendarHeaderView.m; sourceTree = "<group>"; };
 		40E334BC25A8AAAE008DBDAB /* SupernatantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupernatantView.h; sourceTree = "<group>"; };
 		40E334BD25A8AAAE008DBDAB /* SupernatantView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupernatantView.m; sourceTree = "<group>"; };
 		40E334C025A978A0008DBDAB /* TaskParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskParams.h; sourceTree = "<group>"; };
@@ -546,7 +519,6 @@
 			isa = PBXGroup;
 			children = (
 				40E334BB25A8AA91008DBDAB /* SupernatantView */,
-				40E3348B25A6F59C008DBDAB /* Calendar */,
 				40931C9F259B33C9008C3518 /* DragButton */,
 				402AA1F425998E4A00A9DABA /* ResponderChain */,
 				402A9F882595C65900A9DABA /* PopView */,
@@ -1201,47 +1173,6 @@
 			path = DragButton;
 			sourceTree = "<group>";
 		};
-		40E3348B25A6F59C008DBDAB /* Calendar */ = {
-			isa = PBXGroup;
-			children = (
-				40E334A825A6F641008DBDAB /* Tools */,
-				40E334A525A6F601008DBDAB /* View */,
-				40E3348D25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.h */,
-				40E3348C25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.m */,
-				40E334A925A6F758008DBDAB /* ZHCalendarView.h */,
-				40E334AA25A6F758008DBDAB /* ZHCalendarView.m */,
-				403C287225AC40AA006B5CB1 /* PickerView.h */,
-				403C287325AC40AA006B5CB1 /* PickerView.m */,
-			);
-			path = Calendar;
-			sourceTree = "<group>";
-		};
-		40E334A525A6F601008DBDAB /* View */ = {
-			isa = PBXGroup;
-			children = (
-				40E3349325A6F5F9008DBDAB /* CalendarMonthHeaderView.h */,
-				40E3349425A6F5F9008DBDAB /* CalendarMonthHeaderView.m */,
-				40E3349025A6F5F9008DBDAB /* CalendarDayCell.h */,
-				40E3349225A6F5F9008DBDAB /* CalendarDayCell.m */,
-				40E334B325A70C92008DBDAB /* ZHCalendarHeaderView.h */,
-				40E334B425A70C92008DBDAB /* ZHCalendarHeaderView.m */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		40E334A825A6F641008DBDAB /* Tools */ = {
-			isa = PBXGroup;
-			children = (
-				40E3349825A6F5F9008DBDAB /* CalendarDayModel.h */,
-				40E3349A25A6F5F9008DBDAB /* CalendarDayModel.m */,
-				40E3349525A6F5F9008DBDAB /* CalendarLogic.h */,
-				40E3348E25A6F5F9008DBDAB /* CalendarLogic.m */,
-				40E3349B25A6F5F9008DBDAB /* NSDate+WQCalendarLogic.h */,
-				40E3349125A6F5F9008DBDAB /* NSDate+WQCalendarLogic.m */,
-			);
-			path = Tools;
-			sourceTree = "<group>";
-		};
 		40E334BB25A8AA91008DBDAB /* SupernatantView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1368,7 +1299,6 @@
 			files = (
 				402AA1D82598B02600A9DABA /* HeaderCell.m in Sources */,
 				402AA09E2595D6EF00A9DABA /* DataManager+User.m in Sources */,
-				40E334A325A6F5F9008DBDAB /* CalendarDayModel.m in Sources */,
 				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
@@ -1385,15 +1315,12 @@
 				402A9F082595769C00A9DABA /* main.m in Sources */,
 				406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */,
 				402AA0E12595D8A300A9DABA /* ZHProject+CoreDataProperties.m in Sources */,
-				40E334A025A6F5F9008DBDAB /* CalendarMonthHeaderView.m in Sources */,
 				406FCA51259E360700636079 /* SettingCell.m in Sources */,
 				402AA1F725998E4A00A9DABA /* UIResponder+Router.m in Sources */,
-				40E3349D25A6F5F9008DBDAB /* CalendarLogic.m in Sources */,
 				406FCAEB25A31E7A00636079 /* ZHTarget+CoreDataClass.m in Sources */,
 				402AA10F2595D92E00A9DABA /* ZHForm+CoreDataProperties.m in Sources */,
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
 				402AA1012595D90400A9DABA /* ZHFlow+CoreDataClass.m in Sources */,
-				40E334B525A70C92008DBDAB /* ZHCalendarHeaderView.m in Sources */,
 				402A9F762595B5BF00A9DABA /* NSDictionary+Dlog.m in Sources */,
 				402A9F642595B12A00A9DABA /* UIAlertAction+ButtonIndex.m in Sources */,
 				406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */,
@@ -1433,7 +1360,6 @@
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
-				403C287425AC40AA006B5CB1 /* PickerView.m in Sources */,
 				406FCB0925A4CC2100636079 /* ZHUserProject+CoreDataClass.m in Sources */,
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
@@ -1447,18 +1373,15 @@
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
 				406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */,
-				40E3349E25A6F5F9008DBDAB /* NSDate+WQCalendarLogic.m in Sources */,
 				402A9F912595CC9F00A9DABA /* UIViewExt.m in Sources */,
 				402AA182259726D700A9DABA /* BaseApiManager.m in Sources */,
 				402AA0DE2595D8A300A9DABA /* ZHRole+CoreDataProperties.m in Sources */,
-				40E334AB25A6F758008DBDAB /* ZHCalendarView.m in Sources */,
 				402AA187259726D700A9DABA /* ApiProxy.m in Sources */,
 				402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
 				402AA0B62595D87100A9DABA /* ZHUser+CoreDataClass.m in Sources */,
-				40E3349F25A6F5F9008DBDAB /* CalendarDayCell.m in Sources */,
 				402AA1172595D9AC00A9DABA /* bimpm.xcdatamodeld in Sources */,
 				402A9F952595CDDC00A9DABA /* ProjectSelectController.m in Sources */,
 				40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */,
@@ -1489,7 +1412,6 @@
 				406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */,
 				402AA184259726D700A9DABA /* RequestHeaders.m in Sources */,
 				406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
-				40E3349C25A6F5F9008DBDAB /* CalendarMonthCollectionViewLayout.m in Sources */,
 				40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */,
 				402AA185259726D700A9DABA /* ServiceIdentifer.m in Sources */,
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,

@@ -28,6 +28,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <RongIMKit/RongIMKit.h>
 #import <Aspects/Aspects.h>
+#import <BRPickerView/BRPickerView.h>
 #import "SZUtil.h"
 #import "UIViewExt.h"
 #import "SZModalAlert.h"

@@ -9,6 +9,7 @@ pod 'Masonry'
 pod 'RongCloudIM/IMKit'
 pod 'RongCloudIM/IMLib'
 pod 'Aspects'
+pod 'BRPickerView'
 # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
   # use_frameworks!
 

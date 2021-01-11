@@ -11,19 +11,15 @@
 #import "TaskTitleView.h"
 #import "TaskContentView.h"
 #import "TeamController.h"
-#import "ZHCalendarView.h"
-#import "CalendarDayModel.h"
 #import "TaskParams.h"
 #import "OperabilityTools.h"
 #import "PopViewController.h"
 
-@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,ZHCalendarViewDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
+@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
 
 @property (nonatomic,strong) UIButton *rightButtonItem;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
-// 日历
-@property (nonatomic, strong) ZHCalendarView *calendarView;
 // 任务名称
 @property (nonatomic, strong) TaskTitleView *taskTitleView;
 // 任务内容
@@ -168,8 +164,8 @@
         }];
     }else if([eventName isEqualToString:select_caldenar_view]){
         NSLog(@"选择日期");
-        [self.calendarView showCalendarView:YES];
-        self.calendarView.defaultSelectedDate = @"2021-01-29";
+//        [self.calendarView showCalendarView:YES];
+//        self.calendarView.defaultSelectedDate = @"2021-01-29";
     }else if([eventName isEqualToString:selected_task_priority]){
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
@@ -265,16 +261,6 @@
     }
 }
 
-#pragma mark - ZHCalendarViewDelegate
-- (void)ZHCalendarViewDidSelectedDate:(CalendarDayModel *)selectedDate{
-    NSLog(@"当前选择的日历时间====%@",[selectedDate date]);
-    NSDate *selectDate = [selectedDate date];
-    
-    NSTimeInterval timeInterval = [selectDate timeIntervalSince1970];
-    self.taskParams.datePlan = [NSString stringWithFormat:@"%.0f",timeInterval];
-    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
-}
-
 #pragma mark - PopViewSelectedIndexDelegate
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
 {
@@ -323,15 +309,7 @@
     }
     return _taskContentView;
 }
-- (ZHCalendarView *)calendarView{
-    if (_calendarView == nil) {
-        _calendarView = [[ZHCalendarView alloc] initWithFrame:CGRectMake(0, kScreenHeight, kScreenWidth, kScreenHeight)];
-        _calendarView.delegate = self;
-        [_calendarView needMonth:12];
-        [[AppDelegate sharedDelegate].window addSubview:_calendarView];
-    }
-    return _calendarView;
-}
+
 - (TaskParams *)taskParams{
     if (_taskParams == nil) {
         _taskParams = [[TaskParams alloc] init];
