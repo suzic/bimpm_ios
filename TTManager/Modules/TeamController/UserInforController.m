@@ -6,6 +6,7 @@
 //
 
 #import "UserInforController.h"
+#import "ConversationController.h"
 
 @interface UserInforController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 @property (weak, nonatomic) IBOutlet UIImageView *userImage;
@@ -120,7 +121,11 @@
     }
 }
 - (void)goConversationView{
-    RCConversationViewController *conversationVC = [[RCConversationViewController alloc] initWithConversationType:ConversationType_PRIVATE targetId:self.user.uid_chat];
+    NSString *targetId = self.user.uid_chat;
+    NSArray *resultArray = [targetId componentsSeparatedByString:@"@"];
+    targetId = resultArray[0];
+    ConversationController *conversationVC = [[ConversationController alloc] initWithConversationType:ConversationType_PRIVATE targetId:targetId];
+    conversationVC.title = self.user.name;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
 - (IBAction)goTaskAction:(id)sender {

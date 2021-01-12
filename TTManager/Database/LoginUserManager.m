@@ -49,4 +49,15 @@ NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
     [[NSUserDefaults standardUserDefaults] setObject:id_project forKey:CurrentSelectedProject];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+- (ZHUser *)getUserByRongIMId:(NSString *)uid_chat{
+    ZHUser *user = nil;
+    NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"ZHUser" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
+    for (ZHUser *userItem in result) {
+        if ([userItem.uid_chat containsString:uid_chat]) {
+            user = userItem;
+            break;
+        }
+    }
+    return user;
+}
 @end

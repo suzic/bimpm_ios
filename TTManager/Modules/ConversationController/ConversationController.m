@@ -1,36 +1,23 @@
 //
-//  ConversationListController.m
+//  ConversationController.m
 //  TTManager
 //
-//  Created by chao liu on 2020/12/31.
+//  Created by chao liu on 2021/1/12.
 //
 
-#import "ConversationListController.h"
 #import "ConversationController.h"
 
-@interface ConversationListController ()<RCIMUserInfoDataSource>
+@interface ConversationController ()<RCIMUserInfoDataSource>
 
 @end
 
-@implementation ConversationListController
+@implementation ConversationController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)]];
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
 }
-
-#pragma mark - 
-- (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
-         conversationModel:(RCConversationModel *)model
-               atIndexPath:(NSIndexPath *)indexPath{
-    ConversationController *conversationVC = [[ConversationController alloc] initWithConversationType:ConversationType_PRIVATE targetId:model.targetId];
-    conversationVC.title = model.conversationTitle;
-    conversationVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:conversationVC animated:YES];
-}
-
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
     ZHUser *user = [[LoginUserManager defaultInstance] getUserByRongIMId:userId];
     if (user != nil) {

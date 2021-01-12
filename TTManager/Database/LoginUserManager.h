@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,copy)NSString *currentSelectedProjectId;
 
+- (ZHUser *)getUserByRongIMId:(NSString *)uid_chat;
+
 /// 在本地存储当前登录账号，以便于查找当前用户表(用户登录之后再操作存储)
 /// @param phone 当前登录用户账号
 - (void)saveCurrentLoginUserPhone:(NSString *)phone;
