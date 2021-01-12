@@ -47,10 +47,11 @@
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getTaskDatePlanParams{
+    NSTimeInterval timeInterval = [self.planDate timeIntervalSince1970];
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"DATEPLAN",
                           @"param":@"1",
-                          @"info":self.datePlan};
+                          @"info":[NSString stringWithFormat:@"%ld",(long)timeInterval]};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getTaskFileParams{

@@ -166,6 +166,9 @@
         NSLog(@"选择日期");
 //        [self.calendarView showCalendarView:YES];
 //        self.calendarView.defaultSelectedDate = @"2021-01-29";
+        self.taskParams.planDate = userInfo[@"planDate"];
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
+    
     }else if([eventName isEqualToString:selected_task_priority]){
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
@@ -226,6 +229,7 @@
         [self setModuleViewOperabilityTools];
         [self setRequestParams:self.operabilityTools.task];
     }else if(manager == self.taskEditManager){
+        
     }else if(manager == self.taskOperationsManager){
         NSDictionary *params = manager.response.requestParams[@"data"];
         if ([params[@"code"] isEqualToString:@"TO"]) {
@@ -238,11 +242,19 @@
             [self.operabilityTools changCurrentStepArray:self.selectUser to:YES];
         }
         self.stepView.tools = self.operabilityTools;
+        self.taskOperationView.tools = self.operabilityTools;
     }else if(manager == self.taskProcessManager){
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         NSDictionary *result = dic[@"data"][@"results"][0];
         if (![result[@"sub_code"] isEqualToNumber:@0]) {
             [SZAlert showInfo:result[@"msg"] underTitle:@"众和空间"];
+        }else{
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送任务成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self back];
+            }];
+            [alert addAction:sure];
+            [self presentViewController:alert animated:YES completion:nil];
         }
     }
 }

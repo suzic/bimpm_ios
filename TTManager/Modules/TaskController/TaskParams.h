@@ -20,7 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *info;
 @property (nonatomic, assign) NSInteger priority;
 @property (nonatomic, strong) NSString *id_user;
-@property (nonatomic, strong) NSString *datePlan;
+@property (nonatomic, strong) NSDate *planDate;
 @property (nonatomic, strong) NSString *memo;
 
 // 获取新建任务的请求参数
