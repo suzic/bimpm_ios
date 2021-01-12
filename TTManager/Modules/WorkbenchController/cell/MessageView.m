@@ -47,8 +47,19 @@
     return 0.01;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 30;
+    NSString *name = @"";
+    id data = self.messageArray[indexPath.row];
+    if ([data isKindOfClass:[NSString class]])
+    {
+        name = (NSString *)name;
+    }else if([data isKindOfClass:[ZHProjectMemo class]]){
+        ZHProjectMemo *memo = (ZHProjectMemo *)data;
+        name = memo.line;
+    }
+    CGRect frame = [name boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 30) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14.0f],NSFontAttributeName, nil] context:nil];
+    return frame.size.height < 30 ? 30:frame.size.height;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"messageCell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];

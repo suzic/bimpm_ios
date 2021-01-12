@@ -52,15 +52,16 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FileCatalogCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"titleCell" forIndexPath:indexPath];
     UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
-    NSString *titleName = [NSString stringWithFormat:@"目录%@",vc.title];
-    cell.fileName.text = titleName;
+//    NSString *titleName = [NSString stringWithFormat:@"目录%@",vc.title];
+    cell.fileName.text = vc.title;
     cell.arrow.hidden = self.fileView.navigationController.viewControllers.count == (indexPath.row + 1);
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSString *titleName = [NSString stringWithFormat:@"目录%lu",indexPath.row];
+    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    NSString *titleName = vc.title;
     CGRect frame = [titleName boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 30) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:16.0f],NSFontAttributeName, nil] context:nil];
     return CGSizeMake(frame.size.width + 15 + 5, 64);
 }
@@ -78,6 +79,7 @@
     if ([segue.identifier isEqualToString:@"showFileList"]) {
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         self.fileView = (FileListView *)nav.topViewController;
+        self.fileView.title = @"目录";
         self.fileView.containerVC = self;
         self.fileView.uid_parent = @"NULL";
     }

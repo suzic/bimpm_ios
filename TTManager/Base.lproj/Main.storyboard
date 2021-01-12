@@ -567,13 +567,13 @@
         <scene sceneID="1ua-Jr-vxF">
             <objects>
                 <tableViewController id="wSg-UZ-6bv" userLabel="File List View" customClass="FileListView" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="ht2-JY-G2x">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" id="ht2-JY-G2x">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="689"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="documentLibCell" rowHeight="67" id="dTs-Kc-zDt" customClass="DocumentLibCell">
-                                <rect key="frame" x="0.0" y="28" width="428" height="67"/>
+                                <rect key="frame" x="0.0" y="55.333332061767578" width="428" height="67"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTs-Kc-zDt" id="CUi-Vo-zvu">
                                     <rect key="frame" x="0.0" y="0.0" width="428" height="67"/>

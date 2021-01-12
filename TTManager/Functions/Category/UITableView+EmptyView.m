@@ -24,8 +24,9 @@
     showImageView.image = [UIImage imageNamed:@"empty_image"];
  
     [showImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.mas_equalTo(backgroundView.mas_centerX);
-        make.centerY.mas_equalTo(backgroundView.mas_centerY).mas_offset(-20);
+        make.centerX.equalTo(backgroundView);
+        make.centerY.equalTo(backgroundView);
+        make.width.height.equalTo(200);
     }];
    
     self.backgroundView = backgroundView;
