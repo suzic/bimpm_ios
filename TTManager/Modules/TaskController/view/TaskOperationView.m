@@ -125,7 +125,16 @@
     self.predictTimeBtn.enabled = _tools.operabilityTime;
     self.sendTask.hidden = _tools.isDetails;
     if (_tools.isDetails == YES) {
-        self.sendTask.hidden = YES;
+        if (_tools.type == task_type_detail_initiate) {
+            self.sendTask.enabled = NO;
+            [self.sendTask setTitle:@"已发起" forState:UIControlStateNormal];
+            self.predictTimeBtn.enabled = NO;
+        }else{
+            self.predictTimeBtn.enabled = YES;
+            self.sendTask.enabled = YES;
+            [self.sendTask setTitle:@"发起任务" forState:UIControlStateNormal];
+        }
+        self.sendTask.hidden = NO;
         self.agreeBtn.hidden = NO;
         self.grayAgreeBtn.hidden = NO;
         self.rejectBtn.hidden = NO;

@@ -31,11 +31,6 @@
 
 @property (nonatomic, strong) TaskParams *taskParams;
 
-@property (nonatomic, strong) ZHUser *selectUser;
-
-@property (nonatomic, assign) BOOL lastStepUser;
-
-@property (nonatomic, strong) NSIndexPath *deleteStepIndex;
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
 @property (nonatomic, strong) APITaskEditManager *taskEditManager;
@@ -71,8 +66,10 @@
 - (void)setNavbackItemAndTitle{
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.title = (self.operabilityTools.isDetails ? @"任务详情":@"新任务");
-    UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButtonItem];
-    self.navigationItem.rightBarButtonItem = rightItem;
+    if (self.taskType == task_type_detail_initiate) {
+        UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButtonItem];
+        self.navigationItem.rightBarButtonItem = rightItem;
+    }
 }
 
 - (void)back{
@@ -107,15 +104,7 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
-- (void)deleteCurrentSelectedStepUser:(NSIndexPath *)indexPath{
-    
-    ZHStep *step;
-    if (indexPath.section == 1) {
-        step = self.operabilityTools.finishStep;
-    }else{
-        step = self.operabilityTools.stepArray[indexPath.row];
-    }
-    self.deleteStepIndex = indexPath;
+- (void)deleteCurrentSelectedStepUser:(ZHStep *)step{
     
     NSString *string = step.responseUser.name;
     
@@ -180,7 +169,7 @@
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
     }
     else if([eventName isEqualToString:longPress_delete_index]){
-        [self deleteCurrentSelectedStepUser:userInfo[@"indexPath"]];
+        [self deleteCurrentSelectedStepUser:userInfo[@"delete"]];
         NSLog(@"长按删除");
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
@@ -232,19 +221,7 @@
     else if(manager == self.taskEditManager){
         
     }else if(manager == self.taskOperationsManager){
-//        NSDictionary *params = manager.response.requestParams[@"data"];
         [self.taskDetailManager loadData];
-//        if ([params[@"code"] isEqualToString:@"TO"]) {
-//            if ([params[@"param"] isEqualToString:@"1"]) {
-//                [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
-//            }else if([params[@"param"] isEqualToString:@"0"]){
-//                [self.operabilityTools deleteStepAttayByIndexPath:self.deleteStepIndex];
-//            }
-//        }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
-//            [self.operabilityTools changCurrentStepArray:self.selectUser to:NO];
-//        }
-//        self.stepView.tools = self.operabilityTools;
-//        self.taskOperationView.tools = self.operabilityTools;
     }else if(manager == self.taskProcessManager){
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         NSDictionary *result = dic[@"data"][@"results"][0];

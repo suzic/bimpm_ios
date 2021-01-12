@@ -277,7 +277,7 @@
         <element name="ZHAllow" positionX="1200" positionY="842" width="160" height="103"/>
         <element name="ZHDepartment" positionX="900" positionY="863" width="160" height="133"/>
         <element name="ZHDepartmentUser" positionX="600" positionY="893" width="160" height="103"/>
-        <element name="ZHFlow" positionX="0" positionY="76" width="160" height="238"/>
+        <element name="ZHFlow" positionX="0" positionY="76" width="160" height="224"/>
         <element name="ZHForm" positionX="1200" positionY="15" width="160" height="298"/>
         <element name="ZHFormItem" positionX="1500" positionY="60" width="160" height="238"/>
         <element name="ZHMessage" positionX="300" positionY="897" width="160" height="194"/>
@@ -285,7 +285,7 @@
         <element name="ZHProject" positionX="900" positionY="234" width="160" height="463"/>
         <element name="ZHProjectMemo" positionX="900" positionY="0" width="160" height="148"/>
         <element name="ZHRole" positionX="600" positionY="0" width="160" height="193"/>
-        <element name="ZHStep" positionX="0" positionY="339" width="160" height="418"/>
+        <element name="ZHStep" positionX="0" positionY="339" width="160" height="404"/>
         <element name="ZHTarget" positionX="1200" positionY="399" width="160" height="463"/>
         <element name="ZHTask" positionX="0" positionY="814" width="160" height="344"/>
         <element name="ZHUser" positionX="300" positionY="294" width="160" height="494"/>

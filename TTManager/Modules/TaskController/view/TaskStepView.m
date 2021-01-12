@@ -45,7 +45,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
 }
 - (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
-    if (self.tools.stepArray.count == 1 && self.tools.finishStep == nil)
+    if (_tools.stepArray.count == 1 && _tools.finishStep == nil)
         return;
     if (self.tools.operabilityStep == NO) {
         return;
@@ -53,21 +53,11 @@ static NSString *headerIdentifier = @"headerIdentifier";
     if(longPress.state==UIGestureRecognizerStateBegan){
         CGPoint point = [longPress locationInView:self.collectionView];
         NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
-        [self routerEventWithName:longPress_delete_index userInfo:@{@"indexPath":indexPath}];
+        ZHStep *step = _tools.stepArray[indexPath.row];
+        [self routerEventWithName:longPress_delete_index userInfo:@{@"delete":step}];
     }
 }
-// 添加中间步骤负责人
-- (void)addUserToStep:(UITapGestureRecognizer *)tap{
-    if (self.tools.type == task_type_new_noti || self.tools.type == task_type_new_joint || self.tools.type == task_type_new_polling) {
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"1"}];
-    }else{
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
-    }
-}
-// 添加结束步骤负责人
-- (void)addFinishUserToStep:(UITapGestureRecognizer *)tap{
-    [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
-}
+
 // 检查当前步骤中是否有空步骤
 - (void)checkCurrentStepHasEmptyUserStep{
     int emptyCount = 0;
@@ -117,6 +107,9 @@ static NSString *headerIdentifier = @"headerIdentifier";
     ZHStep *step = _tools.stepArray[indexPath.row];
     NSString *name = step.responseUser.name;
     if (step.responseUser == nil) {
+        if (_tools.type == task_type_detail_initiate) {
+            return;
+        }
         if (indexPath.row == _tools.stepArray.count-1)
         {
             [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];

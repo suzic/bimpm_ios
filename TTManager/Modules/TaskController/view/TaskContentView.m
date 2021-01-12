@@ -26,10 +26,16 @@
 
 #pragma mark - Actions
 - (void)chooseAdjunctFile:(UIButton *)button{
+    if (_tools.type == task_type_detail_initiate) {
+        return;
+    }
     [self routerEventWithName:choose_adjunct_file userInfo:@{}];
 }
 
 - (void)priorityAction:(UIButton *)button{
+    if (_tools.type == task_type_detail_initiate) {
+        return;
+    }
     self.priorityType = button.tag;
 }
 // 改变当前选择的任务优先级状态
@@ -123,7 +129,11 @@
     self.contentView.editable = _tools.operabilityContent;
     self.contentView.text = _tools.task.memo;
     [self changePriorityStatus:_tools.task.priority];
+    if (_tools.type == task_type_detail_initiate) {
+        self.contentView.editable = NO;
+    }
 }
+
 - (UIView *)priorityView{
     if (_priorityView == nil) {
         _priorityView = [[UIView alloc] init];

@@ -57,6 +57,7 @@
     
     ZHTask *task = [self getTaskFromCoredataByID:[info[@"uid_task"] intValue]];
     [self cleanTaskRelation:task];
+    NSLog(@"%@",task.belongFlow.stepFirst);
     task.uid_task = info[@"uid_task"];
     task.fid_project = [info[@"fid_project"] intValue];
     task.uid_task = info[@"uid_task"];
@@ -157,7 +158,10 @@
     //creator_rule
 //    flow.creator_rule = flowDic[@"creator_rule"];
     // first_step
+    [self deleteFromCoreData:flow.stepFirst];
+    
     flow.stepFirst = [self syncStep:nil withStepDic:flowDic[@"first_step"]];
+    [self deleteFromCoreData:flow.stepLast];
     //last_step
     flow.stepLast = [self syncStep:nil withStepDic:flowDic[@"last_step"]];
     // current_step
@@ -172,6 +176,9 @@
 - (ZHStep *)syncStep:(ZHStep *)prevsStep withStepDic:(NSDictionary *)stepDic{
     
     ZHStep *step = [self getStepFromCoredataByID:stepDic[@"uid_step"]];
+    if (step.responseUser != nil) {
+        step.responseUser = nil;
+    }
     // 如果prevsStep上一步存在
     if (prevsStep != nil) {
         [step addHasPrevsObject:prevsStep];
@@ -229,6 +236,9 @@
         if (step_toArray.count >0) {
             for (NSDictionary *stepItemDic in step_toArray) {
                 ZHStep *stepItem = [self syncStep:step withStepDic:stepItemDic];
+                if (stepItem.responseUser != nil) {
+                    stepItem.responseUser = nil;
+                }
                 [step addHasNextObject:stepItem];
             }
         }
@@ -238,7 +248,14 @@
 - (void)cleanTaskRelation:(ZHTask *)task{
     [self deleteFromCoreData:task.assignStep];
     task.assignStep = nil;
+    
+    for (ZHStep *step in task.belongFlow.stepFirst.hasNext) {
+        [self deleteFromCoreData:step];
+    }
+    [self deleteFromCoreData:task.belongFlow.stepFirst];
+    [self deleteFromCoreData:task.belongFlow.stepLast];
     [self deleteFromCoreData:task.belongFlow];
+    
     task.belongFlow = nil;
     [self deleteFromCoreData:task.endUser];
     task.endUser = nil;
@@ -255,7 +272,5 @@
     }
     task.currentUsers = nil;
 }
-- (void)deleteFlowRelation{
-    
-}
+
 @end

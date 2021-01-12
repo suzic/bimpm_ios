@@ -75,7 +75,7 @@
     self.stepArray = [self getCurrentTaskStep:_task];
 }
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
-
+    NSLog(@"%@",task.belongFlow.stepFirst);
     NSMutableArray *middleStepArray = [self allObjects:task.belongFlow.stepFirst];
     return middleStepArray;
 }
