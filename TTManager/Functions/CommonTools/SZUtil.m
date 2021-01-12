@@ -13,6 +13,17 @@
 
 @implementation SZUtil
 
++ (NSString*)getGUID {
+    CFUUIDRef uuid_ref = CFUUIDCreate(NULL);
+    CFStringRef uuid_string_ref= CFUUIDCreateString(NULL, uuid_ref);
+    CFRelease(uuid_ref);
+    NSString *uuid = [NSString stringWithString:(__bridge NSString*)uuid_string_ref];
+    uuid = [uuid stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    uuid = [uuid lowercaseString];
+    CFRelease(uuid_string_ref);
+    return uuid;
+}
+
 + (NSString *)getUUID
 {
     NSString *identifierStr = [[[UIDevice currentDevice] identifierForVendor] UUIDString];

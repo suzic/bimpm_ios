@@ -6,6 +6,12 @@
 //
 
 #import <UIKit/UIKit.h>
+
+// 添加结束人
+#define TO      @"TO"
+// 添加中间人
+#define ASSIGN  @"ASSIGN"
+
 /*
  1:页面显示，页面详情、新建任务
  2:任务详情，任务步骤不能修改，状态：发起，终止，反对，同意等状态

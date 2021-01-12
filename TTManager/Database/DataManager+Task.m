@@ -35,8 +35,8 @@
     }
     return flow;
 }
-- (ZHStep *)getStepFromCoredataByID:(int)uid_step{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_step = %d", uid_step];
+- (ZHStep *)getStepFromCoredataByID:(NSString *)uid_step{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_step = %@", uid_step];
     NSArray *result = [self arrayFromCoreData:@"ZHStep" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHStep *step = nil;
     if (result != nil && result.count > 0)
@@ -44,7 +44,7 @@
     else
     {
         step = (ZHStep *)[self insertIntoCoreData:@"ZHStep"];
-        step.uid_step = INT_32_TO_STRING(uid_step);
+        step.uid_step = uid_step;
     }
     return step;
 }
@@ -61,11 +61,11 @@
     task.fid_project = [info[@"fid_project"] intValue];
     task.uid_task = info[@"uid_task"];
 
-//    task.flow_state = info[@"flow_state"];
-//    task.flow_name = info[@"flow_name"];
     task.name = info[@"name"];
     task.info = info[@"info"];
     task.memo = info[@"memo"];
+//    task.flow_state = info[@"flow_state"];
+//    task.flow_name = info[@"flow_name"];
 //    task.first_memo = info[@"first_memo"];
     task.priority = [info[@"priority"] intValue];
     if (![SZUtil isEmptyOrNull:info[@"start_date"]]) {
@@ -101,7 +101,7 @@
     // current_user_info
     if ([info[@"current_user_info"] isKindOfClass:[NSArray class]]) {
         for (NSDictionary *dic in info[@"current_user_info"]) {
-            ZHUser *current_user_info = [self syncTaskUserWithUserInfo:dic[@"last_user_info"]];
+            ZHUser *current_user_info = [self syncTaskUserWithUserInfo:dic];
             [task addCurrentUsersObject:current_user_info];
         }
     }
@@ -139,6 +139,7 @@
 // 同步flow
 - (ZHFlow *)syncFlowWithFlowDic:(NSDictionary *)flowDic{
     ZHFlow *flow = [self getFlowStepFromCoredataByID:[flowDic[@"uid_flow"] intValue]];
+    
     ZHProject *project = [self getProjectFromCoredataById:[flowDic[@"fid_project"] intValue]];
     flow.belongProject = project;
     flow.name = flowDic[@"name"];
@@ -170,7 +171,7 @@
 // 同步flow_step
 - (ZHStep *)syncStep:(ZHStep *)prevsStep withStepDic:(NSDictionary *)stepDic{
     
-    ZHStep *step = [self getStepFromCoredataByID:[stepDic[@"uid_step"] intValue]];
+    ZHStep *step = [self getStepFromCoredataByID:stepDic[@"uid_step"]];
     // 如果prevsStep上一步存在
     if (prevsStep != nil) {
         [step addHasPrevsObject:prevsStep];
@@ -236,13 +237,25 @@
 }
 - (void)cleanTaskRelation:(ZHTask *)task{
     [self deleteFromCoreData:task.assignStep];
+    task.assignStep = nil;
     [self deleteFromCoreData:task.belongFlow];
+    task.belongFlow = nil;
     [self deleteFromCoreData:task.endUser];
+    task.endUser = nil;
+
     [self deleteFromCoreData:task.firstTarget];
+    task.firstTarget = nil;
+
     [self deleteFromCoreData:task.responseUser];
+    task.responseUser = nil;
+
     [self deleteFromCoreData:task.startUser];
     for (ZHUser *user in task.currentUsers) {
         [self deleteFromCoreData:user];
     }
+    task.currentUsers = nil;
+}
+- (void)deleteFlowRelation{
+    
 }
 @end

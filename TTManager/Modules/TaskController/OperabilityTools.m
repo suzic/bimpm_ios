@@ -16,27 +16,25 @@
     }
     return self;
 }
-- (void)changCurrentStepArray:(ZHUser *)user to:(BOOL)add{
-    if (add == YES) {
-        [self.stepArray addObject:user];
-    }else{
-        self.finishUser = user;
-    }
-}
-- (void)deleteStepAttayByIndexPath:(NSIndexPath *)indexPath{
-    if (indexPath.section == 1) {
-        self.finishUser = nil;
-    }else{
-        [self.stepArray removeObjectAtIndex:indexPath.row];
-    }
-}
+//- (void)changCurrentStepArray:(ZHUser *)user to:(BOOL)add{
+//    if (add == YES) {
+//        [self.stepArray addObject:user];
+//    }else{
+//        self.finishUser = user;
+//    }
+//}
+//- (void)deleteStepAttayByIndexPath:(NSIndexPath *)indexPath{
+//    if (indexPath.section == 1) {
+//        self.finishUser = nil;
+//    }else{
+//        [self.stepArray removeObjectAtIndex:indexPath.row];
+//    }
+//}
 // 默认任务详情哪些课操作
 - (void)initOperabilityTools:(TaskType)type{
     // 默认操作属性全是NO
     [self initProperty];
-    if (type != task_type_new_task && type != task_type_new_apply) {
-        self.twoStep = NO;
-    }
+    
     // 发起任务和起草中的任务可操作所有选项
     if (type == task_type_new_task || type == task_type_new_apply || type == task_type_new_noti || type == task_type_new_joint || type == task_type_new_polling || type == task_type_detail_draft) {
         self.operabilityStep = YES;
@@ -70,35 +68,33 @@
     self.operabilityPriority = NO;
     self.showStepAdd = YES;
     self.isDetails = NO;
-    self.twoStep = YES;
 }
 #pragma mark - setter and getter
 - (void)setTask:(ZHTask *)task{
-    if (_task != task) {
-        _task = task;
-        self.stepArray = [self getCurrentTaskStep:_task];
-    }
+    _task = task;
+    self.stepArray = [self getCurrentTaskStep:_task];
 }
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
-    NSMutableArray *middleStepArray = [NSMutableArray array];
-    middleStepArray = [self getNextStepInfo:task.belongFlow.stepFirst resultArray:middleStepArray];
-    [self.stepArray addObjectsFromArray:middleStepArray];
-    
-    return self.stepArray;
-}
-- (NSMutableArray *)getNextStepInfo:(ZHStep *)step resultArray:(NSMutableArray *)result{
-    // 添加当前步骤
-    if (step.responseUser != nil) {
-        [result addObject:step];
-    }
-    if (step.hasNext.count <= 0) {
-        return  result;
-    }else{
-        for (ZHStep *nextStep in step.hasNext) {
-            [self getNextStepInfo:nextStep resultArray:result];
-        }
-        return result;
-    }
-}
 
+    NSMutableArray *middleStepArray = [self allObjects:task.belongFlow.stepFirst];
+    return middleStepArray;
+}
+- (NSMutableArray *)allObjects:(ZHStep *)step {
+    NSMutableArray *result = [NSMutableArray array];
+    [self fillArray:step into:result];
+    return result;
+}
+- (void)fillArray:(ZHStep *)step into:(NSMutableArray *)result {
+    [result addObject:step];
+    if (step.hasNext.count >1) {
+        NSArray *itemArray = [step.hasNext allObjects];
+        ZHStep *lastStep = itemArray[0];
+        [result addObjectsFromArray:itemArray];
+        [result addObject:[lastStep.hasNext allObjects][0]];
+    }else{
+        for (ZHStep *stepItem in step.hasNext) {
+            [self fillArray:stepItem into:result];
+        }
+    }
+}
 @end

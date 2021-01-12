@@ -18,6 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *uid_task;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *info;
+@property (nonatomic, strong) NSString *uid_step;
 @property (nonatomic, assign) NSInteger priority;
 @property (nonatomic, strong) NSString *id_user;
 @property (nonatomic, strong) NSDate *planDate;

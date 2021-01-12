@@ -16,7 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param uid_task <#uid_task description#>
 - (ZHTask *)getTaskFromCoredataByID:(int)uid_task;
 - (ZHFlow *)getFlowStepFromCoredataByID:(int)uid_flow;
-- (ZHStep *)getStepFromCoredataByID:(int)uid_step;
+- (ZHStep *)getStepFromCoredataByID:(NSString *)uid_step;
 /// 同步任务
 /// @param info 当前任务信息
 - (ZHTask *)syncTaskWithTaskInfo:(NSDictionary *)info;

@@ -50,6 +50,8 @@
     // 初始化
     self.inShowLogin = NO;
     self.bFirst = YES;
+    
+    NSLog(@"获取的随机的guid === %@",[SZUtil getGUID]);
 }
 
 - (void)viewDidAppear:(BOOL)animated{

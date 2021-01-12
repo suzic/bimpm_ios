@@ -17,6 +17,7 @@
 
 @interface SZUtil : NSObject
 
++ (NSString *)getGUID;
 /**
  * @abstract 获取uuid
  */

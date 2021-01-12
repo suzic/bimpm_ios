@@ -25,21 +25,15 @@
     }
     return self;
 }
-- (void)setCurrentStep:(id)currentStep{
-    if (_currentStep != currentStep) {
-        _currentStep = currentStep;
-        if ([_currentStep isKindOfClass:[ZHStep class]]) {
-            self.stepView.step = (ZHStep *)_currentStep;
-        }else if([_currentStep isKindOfClass:[ZHUser class]]){
-            self.stepView.user = (ZHUser *)_currentStep;
-        }
-        if (_currentStep != nil) {
-            self.stepView.hidden = NO;
-            self.addImageView.hidden = YES;
-        }else{
-            self.stepView.hidden = YES;
-            self.addImageView.hidden = NO;
-        }
+- (void)setCurrentStep:(ZHStep *)currentStep{
+    _currentStep = currentStep;
+    self.stepView.step = _currentStep;
+    if (_currentStep.responseUser != nil) {
+        self.stepView.hidden = NO;
+        self.addImageView.hidden = YES;
+    }else{
+        self.stepView.hidden = YES;
+        self.addImageView.hidden = NO;
     }
 }
 

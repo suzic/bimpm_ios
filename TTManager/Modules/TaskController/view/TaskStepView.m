@@ -18,9 +18,6 @@ static NSString *headerIdentifier = @"headerIdentifier";
 // 中间步骤
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) SupernatantView  *supernatantView;
-@property (nonatomic, strong) NSMutableArray *stepArray;
-@property (nonatomic, strong) ZHUser *finishUser;
-
 // 发起人
 //@property (nonatomic, strong) StepUserView *initiatorStepView;
 // 结束人
@@ -35,8 +32,6 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (instancetype)init{
     self = [super init];
     if (self) {
-        self.finishUser = nil;
-        self.stepArray = [NSMutableArray array];
         [self addUI];
     }
     return self;
@@ -50,7 +45,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
 }
 - (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
-    if (self.stepArray.count == 1 && self.finishUser == nil)
+    if (self.tools.stepArray.count == 1 && self.tools.finishStep == nil)
         return;
     if (self.tools.operabilityStep == NO) {
         return;
@@ -63,7 +58,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 }
 // 添加中间步骤负责人
 - (void)addUserToStep:(UITapGestureRecognizer *)tap{
-    if (self.tools.type == task_type_new_noti || self.tools.type == task_type_new_joint) {
+    if (self.tools.type == task_type_new_noti || self.tools.type == task_type_new_joint || self.tools.type == task_type_new_polling) {
         [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"1"}];
     }else{
         [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
@@ -73,54 +68,37 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (void)addFinishUserToStep:(UITapGestureRecognizer *)tap{
     [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":@"0"}];
 }
-#pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
-- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
-    if (self.tools.isDetails == YES) {
-        return 1;
-    }
-    return 2;
-}
-- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    if (self.tools.isDetails == YES) {
-        return self.stepArray.count;
-    }else{
-        if (section == 0) {
-            return self.tools.twoStep == YES ? 1:self.stepArray.count;
+// 检查当前步骤中是否有空步骤
+- (void)checkCurrentStepHasEmptyUserStep{
+    int emptyCount = 0;
+    for (ZHStep *step in _tools.stepArray) {
+        if (step.responseUser == nil) {
+            emptyCount++;
         }
-        return self.finishUser != nil ? 1 : 0;
     }
-    return 0;
+    if (_tools.stepArray.count>= 3 && emptyCount == 0) {
+        [self insertEmptyStepToCurrentStep];
+    }
+}
+// 插入一条空的步骤数据
+- (void)insertEmptyStepToCurrentStep{
+    ZHStep *step = (ZHStep *)[[DataManager defaultInstance] getStepFromCoredataByID:[SZUtil getGUID]];
+    NSLog(@"当前步骤的个数%ld",_tools.stepArray.count);
+    [_tools.stepArray insertObject:step atIndex:_tools.stepArray.count-1];
 }
 
-- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
-    UICollectionReusableView *supplementaryView = nil;
-    if ([kind isEqualToString:UICollectionElementKindSectionFooter]) {
-        TaskStepCell *footerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier forIndexPath:indexPath];
-        footerView.currentStep = nil;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addUserToStep:)];
-        [self addGestureRecognizer:tap];
-        [footerView addGestureRecognizer:tap];
-        supplementaryView = footerView;
-    }else{
-        TaskStepCell *headerView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier forIndexPath:indexPath];
-        headerView.currentStep = self.finishUser;
-        UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(addFinishUserToStep:)];
-        [self addGestureRecognizer:tap];
-        [headerView addGestureRecognizer:tap];
-        supplementaryView = headerView;
-    }
-    return supplementaryView;
+#pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
+- (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
+    return 1;
+}
+
+- (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    return _tools.stepArray.count;
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    if (indexPath.section == 0) {
-        if (self.stepArray.count >0) {
-            cell.currentStep = self.stepArray[indexPath.row];
-        }
-    }else{
-        cell.currentStep = self.finishUser;
-    }
+    cell.currentStep = _tools.stepArray[indexPath.row];
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
     [cell addGestureRecognizer:longPress];
     longPress.minimumPressDuration = 1.0;
@@ -132,70 +110,32 @@ static NSString *headerIdentifier = @"headerIdentifier";
 {
     return CGSizeMake(itemWidth, itemHeight);
 }
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForFooterInSection:(NSInteger)section{
-    if (self.tools.isDetails == YES) {
-        return CGSizeZero;
-    }
-    if (section == 1) {
-        return CGSizeZero;
-    }else{
-        if (self.tools.twoStep == YES){
-            return CGSizeZero;
-        }else{
-            return CGSizeMake(itemWidth, itemHeight);
-        }
-    }
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section{
-    if (self.tools.isDetails == YES) {
-        return CGSizeZero;
-    }
-    else
-    {
-        if (section == 0)
-        {
-            return CGSizeZero;
-        }
-        else if(section == 1)
-        {
-            if (self.tools.type == task_type_new_polling || self.finishUser != nil) {
-                return CGSizeZero;
-            }else{
-                return CGSizeMake(itemWidth, itemHeight);
-            }
-        }
-    }
-    return CGSizeZero;
-}
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
     CGRect cellInCollection = [collectionView convertRect:cell.frame toView:[collectionView superview]];
-    id data;
-    if (indexPath.section == 0) {
-        data = self.stepArray[indexPath.row];
+    ZHStep *step = _tools.stepArray[indexPath.row];
+    NSString *name = step.responseUser.name;
+    if (step.responseUser == nil) {
+        if (indexPath.row == _tools.stepArray.count-1)
+        {
+            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];
+        }else{
+            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
+        }
     }else{
-        data = self.finishUser;
+        [self.supernatantView showframe:cellInCollection text:name];
     }
-    NSString *name = @"";
-    if ([data isKindOfClass:[ZHUser class]]) {
-        name = ((ZHUser *)data).name;
-    }else if([data isKindOfClass:[ZHStep class]]){
-        name = ((ZHStep *)data).responseUser.name;
-    }
-    [self.supernatantView showframe:cellInCollection text:name];
 }
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     self.supernatantView.hidden = YES;
-    NSLog(@"当前的滚动量%f",scrollView.contentOffset.x);
 }
 #pragma mark - setting and getter
 
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
-    self.stepArray = _tools.stepArray;
-    self.finishUser = _tools.finishUser;
+    [self checkCurrentStepHasEmptyUserStep];
     [self.collectionView reloadData];
     [self scrollToOffside];
 }

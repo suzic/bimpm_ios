@@ -109,20 +109,20 @@
 }
 - (void)deleteCurrentSelectedStepUser:(NSIndexPath *)indexPath{
     
-    ZHUser *user;
+    ZHStep *step;
     if (indexPath.section == 1) {
-        user = self.operabilityTools.finishUser;
+        step = self.operabilityTools.finishStep;
     }else{
-        user = self.operabilityTools.stepArray[indexPath.row];
+        step = self.operabilityTools.stepArray[indexPath.row];
     }
     self.deleteStepIndex = indexPath;
     
-    NSString *string = user.name;
+    NSString *string = step.responseUser.name;
     
     string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
     UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
+        self.taskParams.id_user = INT_32_TO_STRING(step.responseUser.id_user);
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:NO]];
     }];
     UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -136,24 +136,19 @@
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:selected_taskStep_user]){
-        // 0 中间用户 ，1尾步骤
+        // 1 中间用户 ，0尾步骤
         NSString *addType = userInfo[@"addType"];
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
         team.selectedUserType = YES;
         team.selectUserBlock = ^(ZHUser * _Nonnull user) {
             NSLog(@"当前选择的用户==%@",user.name);
-            self.selectUser = user;
             self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
-            if ([addType isEqualToString:@"0"])
+            if ([addType isEqualToString:TO])
             {
-                if (self.taskType != task_type_new_polling) {
-                    self.lastStepUser = YES;
-                }else{
-                    self.lastStepUser = NO;
-                }
                 [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
-            }else if([addType isEqualToString:@"1"]){
+            }else if([addType isEqualToString:ASSIGN]){
+                self.taskParams.uid_step = userInfo[@"uid_step"];
                 [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
             }
         };
@@ -224,25 +219,32 @@
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.taskNewManager || manager == self.taskDetailManager) {
-        self.operabilityTools.task = (ZHTask *)manager.response.responseData;
+    if (manager == self.taskNewManager) {
+        ZHTask *task = (ZHTask *)manager.response.responseData;
+        self.taskParams.uid_task = task.uid_task;
+        [self.taskDetailManager loadData];
+    }else if(manager == self.taskDetailManager){
+        ZHTask *task = (ZHTask *)manager.response.responseData;
+        self.operabilityTools.task = task;
         [self setModuleViewOperabilityTools];
         [self setRequestParams:self.operabilityTools.task];
-    }else if(manager == self.taskEditManager){
+    }
+    else if(manager == self.taskEditManager){
         
     }else if(manager == self.taskOperationsManager){
-        NSDictionary *params = manager.response.requestParams[@"data"];
-        if ([params[@"code"] isEqualToString:@"TO"]) {
-            if ([params[@"param"] isEqualToString:@"1"]) {
-                [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
-            }else if([params[@"param"] isEqualToString:@"0"]){
-                [self.operabilityTools deleteStepAttayByIndexPath:self.deleteStepIndex];
-            }
-        }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
-            [self.operabilityTools changCurrentStepArray:self.selectUser to:YES];
-        }
-        self.stepView.tools = self.operabilityTools;
-        self.taskOperationView.tools = self.operabilityTools;
+//        NSDictionary *params = manager.response.requestParams[@"data"];
+        [self.taskDetailManager loadData];
+//        if ([params[@"code"] isEqualToString:@"TO"]) {
+//            if ([params[@"param"] isEqualToString:@"1"]) {
+//                [self.operabilityTools changCurrentStepArray:self.selectUser to:!self.lastStepUser];
+//            }else if([params[@"param"] isEqualToString:@"0"]){
+//                [self.operabilityTools deleteStepAttayByIndexPath:self.deleteStepIndex];
+//            }
+//        }else if([params[@"code"] isEqualToString:@"ASSIGN"]){
+//            [self.operabilityTools changCurrentStepArray:self.selectUser to:NO];
+//        }
+//        self.stepView.tools = self.operabilityTools;
+//        self.taskOperationView.tools = self.operabilityTools;
     }else if(manager == self.taskProcessManager){
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         NSDictionary *result = dic[@"data"][@"results"][0];
