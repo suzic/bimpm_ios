@@ -104,23 +104,22 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
-- (void)deleteCurrentSelectedStepUser:(ZHStep *)step{
-    
-    NSString *string = step.responseUser.name;
-    
-    string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        self.taskParams.id_user = INT_32_TO_STRING(step.responseUser.id_user);
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:NO]];
-    }];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        
-    }];
-    [alert addAction:cancel];
-    [alert addAction:sure];
-    [self presentViewController:alert animated:YES completion:nil];
-}
+//- (void)deleteCurrentSelectedStepUser:(ZHStep *)step{
+//
+//    NSString *string = step.responseUser.name;
+//
+//    string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
+//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
+//    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//        [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
+//    }];
+//    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//
+//    }];
+//    [alert addAction:cancel];
+//    [alert addAction:sure];
+//    [self presentViewController:alert animated:YES completion:nil];
+//}
 
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
@@ -148,8 +147,6 @@
         }];
     }else if([eventName isEqualToString:select_caldenar_view]){
         NSLog(@"选择日期");
-//        [self.calendarView showCalendarView:YES];
-//        self.calendarView.defaultSelectedDate = @"2021-01-29";
         self.taskParams.planDate = userInfo[@"planDate"];
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
     
@@ -167,10 +164,6 @@
         NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
         self.taskParams.memo = userInfo[@"taskContent"];
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
-    }
-    else if([eventName isEqualToString:longPress_delete_index]){
-        [self deleteCurrentSelectedStepUser:userInfo[@"delete"]];
-        NSLog(@"长按删除");
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];

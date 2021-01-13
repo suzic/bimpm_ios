@@ -17,7 +17,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 @interface TaskStepView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 // 中间步骤
 @property (nonatomic, strong) UICollectionView *collectionView;
-@property (nonatomic, strong) SupernatantView  *supernatantView;
+//@property (nonatomic, strong) SupernatantView  *supernatantView;
 // 发起人
 //@property (nonatomic, strong) StepUserView *initiatorStepView;
 // 结束人
@@ -44,21 +44,21 @@ static NSString *headerIdentifier = @"headerIdentifier";
         [self.collectionView setContentOffset:rightOffset animated:NO];
     }
 }
-- (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
-    if (_tools.stepArray.count == 1 && _tools.finishStep == nil)
-        return;
-    if (self.tools.operabilityStep == NO) {
-        return;
-    }
-    if(longPress.state==UIGestureRecognizerStateBegan){
-        CGPoint point = [longPress locationInView:self.collectionView];
-        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
-        ZHStep *step = _tools.stepArray[indexPath.row];
-        [self routerEventWithName:longPress_delete_index userInfo:@{@"delete":step}];
-    }
-}
+//- (void)deleteSelecteItem:(UILongPressGestureRecognizer *)longPress{
+//    if (_tools.stepArray.count == 1 && _tools.finishStep == nil)
+//        return;
+//    if (self.tools.operabilityStep == NO) {
+//        return;
+//    }
+//    if(longPress.state==UIGestureRecognizerStateBegan){
+//        CGPoint point = [longPress locationInView:self.collectionView];
+//        NSIndexPath *indexPath = [self.collectionView indexPathForItemAtPoint:point];
+//        ZHStep *step = _tools.stepArray[indexPath.row];
+//        [self routerEventWithName:longPress_delete_index userInfo:@{@"delete":step}];
+//    }
+//}
 
-// 检查当前步骤中是否有空步骤
+//// 检查当前步骤中是否有空步骤
 - (void)checkCurrentStepHasEmptyUserStep{
     int emptyCount = 0;
     for (ZHStep *step in _tools.stepArray) {
@@ -66,8 +66,10 @@ static NSString *headerIdentifier = @"headerIdentifier";
             emptyCount++;
         }
     }
-    if (_tools.stepArray.count>= 3 && emptyCount == 0) {
-        [self insertEmptyStepToCurrentStep];
+    if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
+        if (_tools.type != task_type_new_polling) {
+            [self insertEmptyStepToCurrentStep];
+        }
     }
 }
 // 插入一条空的步骤数据
@@ -89,10 +91,10 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.currentStep = _tools.stepArray[indexPath.row];
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
-    [cell addGestureRecognizer:longPress];
-    longPress.minimumPressDuration = 1.0;
-    longPress.view.tag = indexPath.row;
+//    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(deleteSelecteItem:)];
+//    [cell addGestureRecognizer:longPress];
+//    longPress.minimumPressDuration = 1.0;
+//    longPress.view.tag = indexPath.row;
     return cell;
 }
 
@@ -102,27 +104,28 @@ static NSString *headerIdentifier = @"headerIdentifier";
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
-    CGRect cellInCollection = [collectionView convertRect:cell.frame toView:[collectionView superview]];
+//    UICollectionViewCell *cell = [self.collectionView cellForItemAtIndexPath:indexPath];
+//    CGRect cellInCollection = [collectionView convertRect:cell.frame toView:[collectionView superview]];
     ZHStep *step = _tools.stepArray[indexPath.row];
-    NSString *name = step.responseUser.name;
-    if (step.responseUser == nil) {
-        if (_tools.type == task_type_detail_initiate) {
-            return;
-        }
-        if (indexPath.row == _tools.stepArray.count-1)
-        {
-            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];
-        }else{
-            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
-        }
-    }else{
-        [self.supernatantView showframe:cellInCollection text:name];
+//    NSString *name = step.responseUser.name;
+    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
+        return;
     }
+    if (indexPath.row == _tools.stepArray.count-1)
+    {
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];
+    }else{
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
+    }
+//    if (step.responseUser == nil) {
+//
+//    }else{
+//        [self.supernatantView showframe:cellInCollection text:name];
+//    }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
-    self.supernatantView.hidden = YES;
+//    self.supernatantView.hidden = YES;
 }
 #pragma mark - setting and getter
 
@@ -153,12 +156,12 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
     return _collectionView;
 }
-- (SupernatantView *)supernatantView{
-    if (_supernatantView == nil) {
-        _supernatantView = [SupernatantView initSupernatantViewInView:[self.collectionView superview]];
-    }
-    return _supernatantView;
-}
+//- (SupernatantView *)supernatantView{
+//    if (_supernatantView == nil) {
+//        _supernatantView = [SupernatantView initSupernatantViewInView:[self.collectionView superview]];
+//    }
+//    return _supernatantView;
+//}
 //- (StepUserView *)initiatorStepView{
 //    if (_initiatorStepView == nil) {
 //        _initiatorStepView = [[StepUserView alloc] init];

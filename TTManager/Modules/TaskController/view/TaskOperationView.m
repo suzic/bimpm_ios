@@ -39,10 +39,10 @@
 - (void)selectTime:(UIButton *)button{
     [self.datePickerView show];
 }
-- (void)saveTask:(UIButton *)button{
+- (void)agreeAction:(UIButton *)button{
     [self routerEventWithName:selected_save_task userInfo:@{}];
 }
-- (void)sendTask:(UIButton *)button{
+- (void)rejectBtnAction:(UIButton *)button{
     [self routerEventWithName:task_send_toUser userInfo:@{}];
 }
 // 获取当前的状态
@@ -86,28 +86,35 @@
         self.rejectBtn.hidden = NO;
         self.agreeBtn.hidden = YES;
         [self.rejectBtn setTitle:[self getDecisionText:step] forState:UIControlStateNormal];
-    }else{
-        self.rejectBtn.hidden = NO;
-        self.agreeBtn.hidden = NO;
-        if(step.process_type == 1){
-            [self.rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
-            [self.agreeBtn setTitle:@"同意" forState:UIControlStateNormal];
-         }else if(step.process_type == 2){
-             [self.rejectBtn setTitle:@"通过" forState:UIControlStateNormal];
-             self.agreeBtn.hidden = YES;
-         }else if(step.process_type == 3 && step.decision == 1){
-             [self.rejectBtn setTitle:@"反对" forState:UIControlStateNormal];
-             [self.agreeBtn setTitle:@"赞同" forState:UIControlStateNormal];
-         }else if(step.process_type == 4){
-             [self.rejectBtn setTitle:@"驳回" forState:UIControlStateNormal];
-             [self.agreeBtn setTitle:@"通过" forState:UIControlStateNormal];
-         }else if(step.process_type == 5){
-             [self.rejectBtn setTitle:@"确认" forState:UIControlStateNormal];
-             self.agreeBtn.hidden = YES;
-         }else if(step.process_type == 6){
-             [self.rejectBtn setTitle:@"完成" forState:UIControlStateNormal];
-             self.agreeBtn.hidden = YES;
-         }
+    }
+    else{
+        if (tools.isDetails == NO) {
+            self.rejectBtn.hidden = NO;
+            [self.rejectBtn setTitle:@"发送任务" forState:UIControlStateNormal];
+            self.agreeBtn.hidden = YES;
+        }else{
+            self.rejectBtn.hidden = NO;
+            self.agreeBtn.hidden = NO;
+            if(step.process_type == 1){
+                [self.rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
+                [self.agreeBtn setTitle:@"同意" forState:UIControlStateNormal];
+             }else if(step.process_type == 2){
+                 [self.rejectBtn setTitle:@"通过" forState:UIControlStateNormal];
+                 self.agreeBtn.hidden = YES;
+             }else if(step.process_type == 3 && step.decision == 1){
+                 [self.rejectBtn setTitle:@"反对" forState:UIControlStateNormal];
+                 [self.agreeBtn setTitle:@"赞同" forState:UIControlStateNormal];
+             }else if(step.process_type == 4){
+                 [self.rejectBtn setTitle:@"驳回" forState:UIControlStateNormal];
+                 [self.agreeBtn setTitle:@"通过" forState:UIControlStateNormal];
+             }else if(step.process_type == 5){
+                 [self.rejectBtn setTitle:@"确认" forState:UIControlStateNormal];
+                 self.agreeBtn.hidden = YES;
+             }else if(step.process_type == 6){
+                 [self.rejectBtn setTitle:@"完成" forState:UIControlStateNormal];
+                 self.agreeBtn.hidden = YES;
+             }
+        }
     }
 }
 #pragma mark - UI
@@ -171,16 +178,16 @@
     self.predictTimeLabel.text = [NSDate br_stringFromDate:self.selectDate dateFormat:@"yyyy-MM-dd HH:mm"];
 }
 
-- (UIButton *)saveBtn{
-    if (_saveBtn == nil) {
-        _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-        [_saveBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
-        _saveBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-        [_saveBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _saveBtn;
-}
+//- (UIButton *)saveBtn{
+//    if (_saveBtn == nil) {
+//        _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+//        [_saveBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
+//        _saveBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+//        [_saveBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
+//    }
+//    return _saveBtn;
+//}
 - (UIButton *)predictTimeBtn{
     if (_predictTimeBtn == nil) {
         _predictTimeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -210,6 +217,7 @@
         [_agreeBtn setTitle:@"同意" forState:UIControlStateNormal];
         [_agreeBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _agreeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_agreeBtn addTarget:self action:@selector(agreeAction:) forControlEvents:UIControlEventTouchUpInside];
         [_agreeBtn setBackgroundColor:RGB_COLOR(0, 203, 105)];
     }
     return _agreeBtn;
@@ -220,6 +228,7 @@
         [_rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
         [_rejectBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _rejectBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_rejectBtn addTarget:self action:@selector(rejectBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         [_rejectBtn setBackgroundColor:RGB_COLOR(239, 89, 95)];
     }
     return _rejectBtn;

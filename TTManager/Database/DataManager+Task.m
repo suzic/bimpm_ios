@@ -176,9 +176,10 @@
 - (ZHStep *)syncStep:(ZHStep *)prevsStep withStepDic:(NSDictionary *)stepDic{
     
     ZHStep *step = [self getStepFromCoredataByID:stepDic[@"uid_step"]];
-    if (step.responseUser != nil) {
-        step.responseUser = nil;
-    }
+//    [step removeHasNext:step.hasNext];
+//    if (step.responseUser != nil) {
+//        step.responseUser = nil;
+//    }
     // 如果prevsStep上一步存在
     if (prevsStep != nil) {
         [step addHasPrevsObject:prevsStep];
@@ -227,8 +228,9 @@
     if ([stepDic[@"response_user"] isKindOfClass:[NSDictionary class]]) {
         ZHUser *user = [self getUserFromCoredataByID:[stepDic[@"response_user"][@"id_user"] intValue]];
         step.responseUser = [self syncUser:user withUserInfo:stepDic[@"response_user"]];
+    }else{
+        step.responseUser = nil;
     }
-    
     
     // step_to
     NSArray *step_toArray = stepDic[@"step_to"];
@@ -236,9 +238,9 @@
         if (step_toArray.count >0) {
             for (NSDictionary *stepItemDic in step_toArray) {
                 ZHStep *stepItem = [self syncStep:step withStepDic:stepItemDic];
-                if (stepItem.responseUser != nil) {
-                    stepItem.responseUser = nil;
-                }
+//                if (stepItem.responseUser != nil) {
+//                    stepItem.responseUser = nil;
+//                }
                 [step addHasNextObject:stepItem];
             }
         }

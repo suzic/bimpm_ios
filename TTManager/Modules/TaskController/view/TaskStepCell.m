@@ -28,6 +28,7 @@
 - (void)setCurrentStep:(ZHStep *)currentStep{
     _currentStep = currentStep;
     self.stepView.step = _currentStep;
+    NSLog(@"当前步骤的用户 %@",_currentStep.responseUser.name);
     if (_currentStep.responseUser != nil) {
         self.stepView.hidden = NO;
         self.addImageView.hidden = YES;

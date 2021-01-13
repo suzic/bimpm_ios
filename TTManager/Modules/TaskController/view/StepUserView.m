@@ -81,11 +81,9 @@
 }
 #pragma mark - setting and getter
 - (void)setStep:(ZHStep *)step{
-    if (_step != step) {
-        _step = step;
-        [self setUserInfo:_step.responseUser];
-        [self setStepInfo:_step];
-    }
+    _step = step;
+    [self setUserInfo:_step.responseUser];
+    [self setStepInfo:_step];
 }
 
 // 获取当前人对任务的决策
@@ -124,15 +122,15 @@
             decision = @"进行中";
         }
     }
-    if (step.state == 0) {
-        decision = @"未开始";
-    }else if(step.state == 1){
-        decision = @"已完成";
-    }else if(step.state == 2){
-        decision = @"进行中";
-    }else if(step.state == 3){
-        decision = @"中断";
-    }
+//    if (step.state == 0) {
+//        decision = @"未开始";
+//    }else if(step.state == 1){
+//        decision = @"已完成";
+//    }else if(step.state == 2){
+//        decision = @"进行中";
+//    }else if(step.state == 3){
+//        decision = @"中断";
+//    }
     return decision;
 }
 - (UILabel *)stepStatus{
