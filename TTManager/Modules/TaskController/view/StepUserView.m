@@ -77,6 +77,7 @@
 }
 - (void)setStepInfo:(ZHStep *)step{
     self.stepStatus.text = [self getDecisionText:step];
+    NSLog(@"当前用户状态%@",self.stepStatus.text);
 }
 #pragma mark - setting and getter
 - (void)setStep:(ZHStep *)step{
@@ -90,11 +91,11 @@
 // 获取当前人对任务的决策
 - (NSString *)getDecisionText:(ZHStep *)step{
     NSString *decision = @"";
+    self.stepStatus.backgroundColor = [SZUtil colorWithHex:@"#F3913F"];
+    self.stepStatus.textColor = [UIColor whiteColor];
     // 发起人
     if (step.process_type == 0 && step.decision == 1) {
-        decision = @"发起人";
-        self.stepStatus.backgroundColor = [SZUtil colorWithHex:@"#F3913F"];
-        self.stepStatus.textColor = [UIColor whiteColor];
+        decision = @"发起";
     }else if(step.process_type == 1 && step.decision == 1){
         decision = @"同意";
     }else if(step.process_type == 1 && step.decision == 2){
@@ -115,6 +116,22 @@
         decision = @"确认";
     }else if(step.process_type == 6 && step.decision == 1){
         decision = @"完成";
+    }else{
+        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+        if (currentUser.id_user == step.responseUser.id_user) {
+            decision = @"我";
+        }else{
+            decision = @"进行中";
+        }
+    }
+    if (step.state == 0) {
+        decision = @"未开始";
+    }else if(step.state == 1){
+        decision = @"已完成";
+    }else if(step.state == 2){
+        decision = @"进行中";
+    }else if(step.state == 3){
+        decision = @"中断";
     }
     return decision;
 }
