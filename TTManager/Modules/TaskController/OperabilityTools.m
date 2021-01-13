@@ -11,8 +11,8 @@
 - (instancetype)initWithType:(TaskType)type{
     self = [super init];
     if (self) {
-        [self initOperabilityTools:type];
         self.type = type;
+        [self initOperabilityTools:type];
     }
     return self;
 }
@@ -39,7 +39,6 @@
         self.operabilityPriority = YES;
     }
     if (type == task_type_detail_finished ||type == task_type_detail_initiate || type == task_type_detail_draft ||type == task_type_detail_proceeding) {
-        self.showStepAdd = NO;
         self.isDetails = YES;
     }
 }
@@ -53,8 +52,6 @@
     self.operabilityTime = NO;
     self.operabilityAdjunct = NO;
     self.operabilityPriority = NO;
-    self.showStepAdd = YES;
-    self.isDetails = NO;
 }
 #pragma mark - setter and getter
 - (void)setCurrentSelectedStep:(ZHStep *)currentSelectedStep{

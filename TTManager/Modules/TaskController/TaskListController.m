@@ -81,11 +81,11 @@
 }
 
 - (void)pushTaskDetailsViewController:(NSDictionary *)dict{
-    ZHTask *task = dict[@"task"];
+    NSString *uid_task = dict[@"uid_task"];
     NSInteger taskStatus = [dict[@"taskStatus"] integerValue];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
     TaskController *taskVC = (TaskController *)[sb instantiateViewControllerWithIdentifier:@"taskController"];
-    taskVC.id_task = task.uid_task;
+    taskVC.id_task = uid_task;
     taskVC.taskType = (taskStatus +6);
     self.taskStatus = taskStatus;
     [self.navigationController pushViewController:taskVC animated:YES];

@@ -27,8 +27,6 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤
 @property (nonatomic,assign) BOOL operabilityStep;
-// 是否显示步骤添加操作
-@property (nonatomic,assign) BOOL showStepAdd;
 // 修改任务名称
 @property (nonatomic,assign) BOOL operabilityTitle;
 // 修改优先级

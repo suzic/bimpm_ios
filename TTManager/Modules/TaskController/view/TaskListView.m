@@ -92,7 +92,8 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZHTask *task = self.taskArray[indexPath.row];
-    [self routerEventWithName:Task_list_selected userInfo:@{@"task":task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
+    NSLog(@"%@",task.uid_task);
+    [self routerEventWithName:Task_list_selected userInfo:@{@"uid_task":task.uid_task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
 }
 - (void)reloadDataFromNetwork{
     if (self.needReloadData == YES) {

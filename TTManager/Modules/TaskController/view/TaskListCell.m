@@ -49,9 +49,9 @@
     if (task.priority <= 4) {
         color = RGB_COLOR(0, 183, 147);
     }else if(task.priority > 5 && task.priority <=9){
-        color = RGB_COLOR(244, 216, 2);
-    }else{
         color = RGB_COLOR(255, 77, 77);
+    }else{
+        color = RGB_COLOR(244, 216, 2);
     }
     return color;
 }

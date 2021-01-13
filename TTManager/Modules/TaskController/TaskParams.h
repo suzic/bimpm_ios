@@ -23,6 +23,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *id_user;
 @property (nonatomic, strong) NSDate *planDate;
 @property (nonatomic, strong) NSString *memo;
+@property (nonatomic, strong) NSString *submitParams;
 
 // 获取新建任务的请求参数
 - (NSMutableDictionary *)getNewTaskParams;

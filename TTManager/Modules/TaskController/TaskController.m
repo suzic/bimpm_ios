@@ -150,13 +150,23 @@
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"documentLibController"];
         [self.navigationController pushViewController:vc animated:YES];
-    }else if([eventName isEqualToString:selected_save_task]){
-        NSLog(@"保存任务");
+    }else if([eventName isEqualToString:task_process_submit]){
+        NSString *operation = userInfo[@"operation"];
+        if ([operation isEqualToString:@"0"]) {
+            NSLog(@"发送任务");
+            self.taskParams.submitParams = @"1";
+        }else{
+            self.taskParams.submitParams = operation;
+            NSLog(@"处理任务进度");
+        }
+        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
     }else if([eventName isEqualToString:task_send_toUser]){
         NSLog(@"发送当前任务");
+        self.taskParams.submitParams = @"1";
         [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
     }else if([eventName isEqualToString:current_selected_step]){
         NSLog(@"改变当前选中的步骤");
+        self.operabilityTools.currentSelectedStep = userInfo[@"step"];
         self.taskContentView.tools = self.operabilityTools;
         self.taskOperationView.tools = self.operabilityTools;
     }
@@ -193,8 +203,8 @@
     }else if(manager == self.taskDetailManager){
         ZHTask *task = (ZHTask *)manager.response.responseData;
         self.operabilityTools.task = task;
-        [self setModuleViewOperabilityTools];
         [self setRequestParams:self.operabilityTools.task];
+        [self setModuleViewOperabilityTools];
     }
     else if(manager == self.taskEditManager){
         
@@ -206,7 +216,7 @@
         if (![result[@"sub_code"] isEqualToNumber:@0]) {
             [SZAlert showInfo:result[@"msg"] underTitle:@"众和空间"];
         }else{
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"发送任务成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"操作成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                 [self back];
             }];

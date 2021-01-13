@@ -157,11 +157,8 @@
      
     //creator_rule
 //    flow.creator_rule = flowDic[@"creator_rule"];
-    // first_step
-    [self deleteFromCoreData:flow.stepFirst];
-    
+    // first_step    
     flow.stepFirst = [self syncStep:nil withStepDic:flowDic[@"first_step"]];
-    [self deleteFromCoreData:flow.stepLast];
     //last_step
     flow.stepLast = [self syncStep:nil withStepDic:flowDic[@"last_step"]];
     // current_step
@@ -186,9 +183,14 @@
     }
     step.fid_clone_step = stepDic[@"fid_clone_step"];
     step.name = stepDic[@"name"];
-    step.info = stepDic[@"info"];
+    if (![SZUtil isEmptyOrNull:stepDic[@"info"]]) {
+        step.info = stepDic[@"info"];
+    }
     step.memo_uid_doc_fixed = stepDic[@"memo_target_list_fixed"];
-    step.memo = stepDic[@"memo"];
+    // 存在覆盖的情况 step_to设置了内容，lastStep覆盖了
+    if (![SZUtil isEmptyOrNull:stepDic[@"memo"]]) {
+        step.memo = stepDic[@"memo"];
+    }
     step.process_type = [stepDic[@"process_type"] intValue];
     step.response_user_fixed = [stepDic[@"response_user_fixed"] boolValue];
     step.decision = [stepDic[@"decision"] intValue];

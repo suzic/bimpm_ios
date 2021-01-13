@@ -41,16 +41,14 @@
         make.bottom.equalTo(-10);
     }];
 }
-- (void)setTaskTitleStatusColor:(PriorityType)type{
+- (void)setTaskTitleStatusColor:(NSInteger)index{
     UIColor *lineColor = nil;
-    if (type == priority_type_low) {
+    if (index <= 4) {
         lineColor = RGB_COLOR(0, 183, 147);
-    }else if(type == priority_type_middle){
-        lineColor = RGB_COLOR(244, 216, 2);
-    }else if(type == priority_type_highGrade){
+    }else if(index > 5 && index<= 9){
         lineColor = RGB_COLOR(255, 77, 77);
     }else{
-        lineColor = [UIColor grayColor];
+        lineColor = RGB_COLOR(244, 216, 2);
     }
     self.taskTypeTagView.backgroundColor = lineColor;
 }

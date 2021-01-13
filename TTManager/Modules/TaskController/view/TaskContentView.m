@@ -39,10 +39,17 @@
     self.priorityType = button.tag;
 }
 // 改变当前选择的任务优先级状态
-- (void)changePriorityStatus:(PriorityType)type{
-    
+- (void)changePriorityStatus:(NSInteger)index{
+    NSInteger actualIndex = 999;
+    if (index <= 4) {
+        actualIndex = 1;
+    }else if( index > 5 && index<=9){
+        actualIndex = 7;
+    }else{
+        actualIndex = 5;
+    }
     for (UIButton *button in self.prioritybtnArray) {
-        button.selected = (type == button.tag);
+        button.selected = (actualIndex == button.tag);
     };
 }
 #pragma mark - UI
@@ -95,7 +102,6 @@
     UIButton *lastBtn = nil;
     for (int i = 0; i < self.prioritybtnArray.count; i++) {
         UIButton *btn = self.prioritybtnArray[i];
-        btn.tag = i;
         [self.priorityView addSubview:btn];
         [btn makeConstraints:^(MASConstraintMaker *make) {
             make.width.height.equalTo(16);
@@ -123,7 +129,7 @@
         if (_priorityType == priority_type_low) {
             priority = @"1";
         }else if(_priorityType == priority_type_middle){
-            priority = @"4";
+            priority = @"5";
         }else if(_priorityType == priority_type_highGrade){
             priority = @"7";
         }
@@ -135,10 +141,8 @@
     self.adjunctFileBtn.enabled = _tools.operabilityAdjunct;
     self.contentView.editable = _tools.operabilityContent;
     self.contentView.text = _tools.currentSelectedStep.memo;
+    NSLog(@"当前的任务内容 %@",_tools.currentSelectedStep.memo);
     [self changePriorityStatus:_tools.task.priority];
-//    if (_tools.type == task_type_detail_initiate) {
-//        self.contentView.editable = NO;
-//    }
 }
 
 - (UIView *)priorityView{
@@ -175,16 +179,18 @@
         NSMutableArray *result = [NSMutableArray array];
         for (int i = 0; i < 3; i++) {
             UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            button.tag = i +10000;
             UIColor *normalColor = nil;
             UIColor *selectColor = nil;
             if (i == 0) {
+                button.tag = 1;
                 normalColor = RGBA_COLOR(0, 183, 147, 0.3);
                 selectColor = RGB_COLOR(0, 183, 147);
             }else if(i == 1){
+                button.tag = 5;
                 normalColor = RGBA_COLOR(244, 216, 2, 0.3);
                 selectColor = RGB_COLOR(244, 216, 2);
             }else{
+                button.tag = 7;
                 normalColor = RGBA_COLOR(255, 77, 77, 0.3);
                 selectColor = RGB_COLOR(255, 77, 77);
             }

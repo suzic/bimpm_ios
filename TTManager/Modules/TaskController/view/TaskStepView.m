@@ -67,11 +67,12 @@ static NSString *headerIdentifier = @"headerIdentifier";
     for (int i = 0; i < _tools.stepArray.count; i++) {
         ZHStep *step = _tools.stepArray[i];
         // 发起人不算
-        if (i >1 && step.responseUser.id_user == currentUser.id_user) {
+        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
             self.currentSelectedStep = i;
             self.selfStepIndex = i;
+            NSLog(@"当前任务的备注信息%@",step.memo);
             _tools.currentSelectedStep = step;
-            [self routerEventWithName:current_selected_step userInfo:nil];
+            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
             break;
         }
     }
@@ -102,15 +103,21 @@ static NSString *headerIdentifier = @"headerIdentifier";
     if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
         return;
     }
-    if (_tools.type == task_type_detail_proceeding) {
-        self.currentSelectedStep =  indexPath.row;
-        _tools.currentSelectedStep = step;
-        [self routerEventWithName:current_selected_step userInfo:nil];
-        [self.collectionView reloadData];
+    if (_tools.type == task_type_detail_proceeding || _tools.type == task_type_detail_finished) {
+        if (step.state == 1 || indexPath.row == self.selfStepIndex) {
+            self.currentSelectedStep =  indexPath.row;
+            _tools.currentSelectedStep = step;
+            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
+            [self.collectionView reloadData];
+        }
         return;
     }
     if (indexPath.row == _tools.stepArray.count-1)
     {
+        if (step.response_user_fixed == 1) {
+            NSLog(@"来自模版,不可修改");
+            return;
+        }
         [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];
     }else{
         [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
@@ -121,7 +128,11 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
-    [self checkCurrentStepHasEmptyUserStep];
+    if (_tools.isDetails == NO) {
+        [self checkCurrentStepHasEmptyUserStep];
+        return;
+    }
+    
     [self getCurrentDefaultSelectIndex:_tools];
     [self.collectionView reloadData];
     [self scrollToOffside];

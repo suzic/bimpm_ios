@@ -35,8 +35,8 @@
 #define change_task_content       @"change_task_content"
 // 选择日历
 #define select_caldenar_view    @"select_caldenar_view"
-// 保存任务
-#define selected_save_task      @"selected_save_task"
+// 任务操作
+#define task_process_submit      @"task_process_submit"
 // 选择附件
 #define choose_adjunct_file     @"choose_adjunct_file"
 

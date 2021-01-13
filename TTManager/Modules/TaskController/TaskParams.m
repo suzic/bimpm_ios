@@ -79,7 +79,7 @@
 - (NSMutableDictionary *)getProcessSubmitParams{
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"SUBMIT",
-                          @"param":@"1",
+                          @"param":self.submitParams,
                           @"info":@""};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
