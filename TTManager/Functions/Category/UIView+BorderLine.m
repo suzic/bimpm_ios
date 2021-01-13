@@ -43,7 +43,6 @@
 }
 
 - (CAShapeLayer *)addLineOriginPoint:(CGPoint)p0 toPoint:(CGPoint)p1 color:(UIColor *)color borderWidth:(CGFloat)borderWidth {
-  
     /// 线的路径
     UIBezierPath * bezierPath = [UIBezierPath bezierPath];
     [bezierPath moveToPoint:p0];

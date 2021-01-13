@@ -49,8 +49,6 @@
     
     [self addUI];
     
-    [self setModuleViewOperabilityTools];
-    
     [self loadData];
 }
 
@@ -104,23 +102,6 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
-//- (void)deleteCurrentSelectedStepUser:(ZHStep *)step{
-//
-//    NSString *string = step.responseUser.name;
-//
-//    string  = [NSString stringWithFormat:@"确认删除 %@ ",string];
-//    UIAlertController *alert = [UIAlertController alertControllerWithTitle:string message:nil preferredStyle:UIAlertControllerStyleAlert];
-//    UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//        [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
-//    }];
-//    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//
-//    }];
-//    [alert addAction:cancel];
-//    [alert addAction:sure];
-//    [self presentViewController:alert animated:YES completion:nil];
-//}
-
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:selected_taskStep_user]){
@@ -174,6 +155,10 @@
     }else if([eventName isEqualToString:task_send_toUser]){
         NSLog(@"发送当前任务");
         [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+    }else if([eventName isEqualToString:current_selected_step]){
+        NSLog(@"改变当前选中的步骤");
+        self.taskContentView.tools = self.operabilityTools;
+        self.taskOperationView.tools = self.operabilityTools;
     }
 }
 

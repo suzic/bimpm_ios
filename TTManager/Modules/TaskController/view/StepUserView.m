@@ -35,13 +35,12 @@
     [bgView addSubview:self.stepUserImage];
     [bgView addSubview:self.stepStatus];
     [self addSubview:bgView];
-    
     [self addSubview:self.stepUserDispose];
     [self addSubview:self.stepUserName];
     [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(5);
-        make.right.equalTo(-10);
-        make.left.equalTo(0);
+        make.right.equalTo(-5);
+        make.left.equalTo(5);
         make.height.equalTo(bgView.mas_width);
     }];
     [self.stepUserImage makeConstraints:^(MASConstraintMaker *make) {

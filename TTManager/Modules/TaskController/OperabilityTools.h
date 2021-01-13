@@ -21,7 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray *stepArray;
 
-@property (nonatomic, strong) ZHStep * __nullable finishStep;
+// 当前选中的步骤(包含默认步骤)
+@property (nonatomic, strong) ZHStep *currentSelectedStep;
 
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤

@@ -42,4 +42,6 @@
 
 #define task_send_toUser        @"task_send_toUser"
 
+#define current_selected_step  @"current_selected_step"
+
 #endif /* ResponderChainHeader_h */

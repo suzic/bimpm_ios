@@ -73,7 +73,8 @@
     return decision;
 }
 - (void)setOperationToolsButton:(OperabilityTools *)tools{
-    ZHStep *step = tools.task.assignStep;
+    ZHStep *step = tools.currentSelectedStep;
+    NSLog(@"当前选中的步骤用户名称%@",step.responseUser.name);
     if (tools.type == task_type_detail_initiate) {
         self.rejectBtn.hidden = NO;
         [self.rejectBtn setTitle:@"已发送" forState:UIControlStateNormal];
@@ -175,19 +176,9 @@
     self.saveBtn.enabled = _tools.operabilitySave;
     self.predictTimeBtn.enabled = _tools.operabilityTime;
     [self setOperationToolsButton:_tools];
-    self.predictTimeLabel.text = [NSDate br_stringFromDate:self.selectDate dateFormat:@"yyyy-MM-dd HH:mm"];
+    self.predictTimeLabel.text = [NSDate br_stringFromDate:_tools.currentSelectedStep.plan_end dateFormat:@"yyyy-MM-dd HH:mm"];
 }
 
-//- (UIButton *)saveBtn{
-//    if (_saveBtn == nil) {
-//        _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
-//        [_saveBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
-//        _saveBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-//        [_saveBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
-//    }
-//    return _saveBtn;
-//}
 - (UIButton *)predictTimeBtn{
     if (_predictTimeBtn == nil) {
         _predictTimeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
