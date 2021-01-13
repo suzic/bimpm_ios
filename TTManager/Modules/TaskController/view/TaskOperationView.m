@@ -15,14 +15,10 @@
 // 预计完成时间
 @property (nonatomic, strong) UILabel *predictTimeLabel;
 
-// 灰色同意 暂时不知啥操作
-@property (nonatomic, strong) UIButton *grayAgreeBtn;
 // 同意
 @property (nonatomic, strong) UIButton *agreeBtn;
 // 拒绝
 @property (nonatomic, strong) UIButton *rejectBtn;
-
-@property (nonatomic, strong) UIButton *sendTask;
 
 @property (nonatomic, strong) BRDatePickerView *datePickerView;
 
@@ -42,13 +38,77 @@
 #pragma mark - Action
 - (void)selectTime:(UIButton *)button{
     [self.datePickerView show];
-//    [self routerEventWithName:select_caldenar_view userInfo:@{}];
 }
 - (void)saveTask:(UIButton *)button{
     [self routerEventWithName:selected_save_task userInfo:@{}];
 }
 - (void)sendTask:(UIButton *)button{
     [self routerEventWithName:task_send_toUser userInfo:@{}];
+}
+// 获取当前的状态
+- (NSString *)getDecisionText:(ZHStep *)step{
+    NSString *decision = @"";
+    // 发起人
+    if(step.process_type == 1 && step.decision == 1){
+        decision = @"同意";
+    }else if(step.process_type == 1 && step.decision == 2){
+        decision = @"拒绝";
+    }else if(step.process_type == 2 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 2 && step.decision == 2){
+        decision = @"通过";
+    }else if(step.process_type == 3 && step.decision == 1){
+        decision = @"赞同";
+    }else if(step.process_type == 3 && step.decision == 2){
+        decision = @"反对";
+    }else if(step.process_type == 4 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 4 && step.decision == 2){
+        decision = @"驳回";
+    }else if(step.process_type == 5 && step.decision == 1){
+        decision = @"确认";
+    }else if(step.process_type == 6 && step.decision == 1){
+        decision = @"完成";
+    }
+    return decision;
+}
+- (void)setOperationToolsButton:(OperabilityTools *)tools{
+    ZHStep *step = tools.task.assignStep;
+    if (tools.type == task_type_detail_initiate) {
+        self.rejectBtn.hidden = NO;
+        [self.rejectBtn setTitle:@"已发送" forState:UIControlStateNormal];
+        self.agreeBtn.hidden = YES;
+    }else if(tools.type == task_type_detail_draft){
+        self.rejectBtn.hidden = NO;
+        [self.rejectBtn setTitle:@"发送任务" forState:UIControlStateNormal];
+        self.agreeBtn.hidden = YES;
+    }else if(tools.type == task_type_detail_finished){
+        self.rejectBtn.hidden = NO;
+        self.agreeBtn.hidden = YES;
+        [self.rejectBtn setTitle:[self getDecisionText:step] forState:UIControlStateNormal];
+    }else{
+        self.rejectBtn.hidden = NO;
+        self.agreeBtn.hidden = NO;
+        if(step.process_type == 1){
+            [self.rejectBtn setTitle:@"拒绝" forState:UIControlStateNormal];
+            [self.agreeBtn setTitle:@"同意" forState:UIControlStateNormal];
+         }else if(step.process_type == 2){
+             [self.rejectBtn setTitle:@"通过" forState:UIControlStateNormal];
+             self.agreeBtn.hidden = YES;
+         }else if(step.process_type == 3 && step.decision == 1){
+             [self.rejectBtn setTitle:@"反对" forState:UIControlStateNormal];
+             [self.agreeBtn setTitle:@"赞同" forState:UIControlStateNormal];
+         }else if(step.process_type == 4){
+             [self.rejectBtn setTitle:@"驳回" forState:UIControlStateNormal];
+             [self.agreeBtn setTitle:@"通过" forState:UIControlStateNormal];
+         }else if(step.process_type == 5){
+             [self.rejectBtn setTitle:@"确认" forState:UIControlStateNormal];
+             self.agreeBtn.hidden = YES;
+         }else if(step.process_type == 6){
+             [self.rejectBtn setTitle:@"完成" forState:UIControlStateNormal];
+             self.agreeBtn.hidden = YES;
+         }
+    }
 }
 #pragma mark - UI
 - (void)addUI{
@@ -59,16 +119,13 @@
     
     UIView *view = [[UIView alloc] init];
     [view addSubview:self.predictTimeLabel];
-    [view addSubview:self.grayAgreeBtn];
     [view addSubview:self.agreeBtn];
     [view addSubview:self.rejectBtn];
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = RGB_COLOR(238, 238, 238);
     [view addSubview:lineView];
     [self addSubview:view];
-    
-    [view addSubview:self.sendTask];
-    
+        
     [lineView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
         make.height.equalTo(0.5);
@@ -97,53 +154,20 @@
     }];
     [self.rejectBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.top.bottom.equalTo(0);
-        make.width.equalTo(70);
+        make.width.equalTo(100);
     }];
     [self.agreeBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.grayAgreeBtn.mas_right);
         make.right.equalTo(self.rejectBtn.mas_left);
         make.width.equalTo(self.rejectBtn.mas_width);
         make.height.equalTo(self.rejectBtn.mas_height);
     }];
-    [self.grayAgreeBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.predictTimeLabel.mas_right);
-        make.right.equalTo(self.agreeBtn.mas_left);
-        make.width.equalTo(self.rejectBtn.mas_width);
-        make.height.equalTo(self.rejectBtn.mas_height);
-    }];
-    [self.sendTask makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-10);
-        make.width.equalTo(100);
-        make.bottom.top.equalTo(0);
-    }];
-    
 }
 #pragma mark - setting and getter
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
     self.saveBtn.enabled = _tools.operabilitySave;
     self.predictTimeBtn.enabled = _tools.operabilityTime;
-    self.sendTask.hidden = _tools.isDetails;
-    if (_tools.isDetails == YES) {
-        if (_tools.type == task_type_detail_initiate) {
-            self.sendTask.enabled = NO;
-            [self.sendTask setTitle:@"已发起" forState:UIControlStateNormal];
-            self.predictTimeBtn.enabled = NO;
-        }else{
-            self.predictTimeBtn.enabled = YES;
-            self.sendTask.enabled = YES;
-            [self.sendTask setTitle:@"发起任务" forState:UIControlStateNormal];
-        }
-        self.sendTask.hidden = NO;
-        self.agreeBtn.hidden = NO;
-        self.grayAgreeBtn.hidden = NO;
-        self.rejectBtn.hidden = NO;
-    }else{
-        self.sendTask.hidden = NO;
-        self.agreeBtn.hidden = YES;
-        self.grayAgreeBtn.hidden = YES;
-        self.rejectBtn.hidden = YES;
-    }
+    [self setOperationToolsButton:_tools];
     self.predictTimeLabel.text = [NSDate br_stringFromDate:self.selectDate dateFormat:@"yyyy-MM-dd HH:mm"];
 }
 
@@ -179,16 +203,7 @@
     }
     return _predictTimeLabel;
 }
-- (UIButton *)grayAgreeBtn{
-    if (_grayAgreeBtn == nil) {
-        _grayAgreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_grayAgreeBtn setTitle:@"同意" forState:UIControlStateNormal];
-        [_grayAgreeBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
-        _grayAgreeBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-        [_grayAgreeBtn setBackgroundColor:RGB_COLOR(244, 244, 244)];
-    }
-    return _grayAgreeBtn;
-}
+
 - (UIButton *)agreeBtn{
     if (_agreeBtn == nil) {
         _agreeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -208,17 +223,6 @@
         [_rejectBtn setBackgroundColor:RGB_COLOR(239, 89, 95)];
     }
     return _rejectBtn;
-}
-- (UIButton *)sendTask{
-    if (_sendTask == nil) {
-        _sendTask = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_sendTask setTitle:@"发起任务" forState:UIControlStateNormal];
-        [_sendTask setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _sendTask.titleLabel.font = [UIFont systemFontOfSize:13];
-        [_sendTask setBackgroundColor:RGB_COLOR(247, 181, 0)];
-        [_sendTask addTarget:self action:@selector(sendTask:) forControlEvents:UIControlEventTouchUpInside];
-    }
-    return _sendTask;
 }
 - (BRDatePickerView *)datePickerView{
     if (_datePickerView == nil) {

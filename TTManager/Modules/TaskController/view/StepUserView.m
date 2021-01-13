@@ -29,6 +29,7 @@
     }
     return self;
 }
+
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
     [bgView addSubview:self.stepUserImage];
@@ -47,9 +48,10 @@
         make.top.left.bottom.right.equalTo(0);
     }];
     [self.stepStatus makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(5);
+        make.top.equalTo(0);
         make.left.equalTo(2);
-        make.right.equalTo(5);
+        make.width.equalTo(30);
+        make.height.equalTo(12);
     }];
 //    [self.stepUserDispose makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(bgView.mas_bottom).offset(5);
@@ -64,6 +66,8 @@
     [super layoutSublayersOfLayer:layer];
     self.stepUserImage.clipsToBounds = YES;
     self.stepUserImage.layer.cornerRadius = _stepUserImage.frame.size.height/2;
+    self.stepStatus.clipsToBounds = YES;
+    self.stepStatus.layer.cornerRadius = 6.0f;
 }
 
 #pragma mark - private method
@@ -72,8 +76,7 @@
 //    self.stepUserName.text = user.name;
 }
 - (void)setStepInfo:(ZHStep *)step{
-//    self.stepUserDispose.text = [self getDecisionText:step];
-    
+    self.stepStatus.text = [self getDecisionText:step];
 }
 #pragma mark - setting and getter
 - (void)setStep:(ZHStep *)step{
@@ -83,20 +86,15 @@
         [self setStepInfo:_step];
     }
 }
-- (void)setUser:(ZHUser *)user{
-    if (![user isKindOfClass:[ZHUser class]])
-        return;
-    if (_user != user) {
-        _user = user;
-        [self setUserInfo:_user];
-    }
-}
+
 // 获取当前人对任务的决策
 - (NSString *)getDecisionText:(ZHStep *)step{
     NSString *decision = @"";
     // 发起人
     if (step.process_type == 0 && step.decision == 1) {
         decision = @"发起人";
+        self.stepStatus.backgroundColor = [SZUtil colorWithHex:@"#F3913F"];
+        self.stepStatus.textColor = [UIColor whiteColor];
     }else if(step.process_type == 1 && step.decision == 1){
         decision = @"同意";
     }else if(step.process_type == 1 && step.decision == 2){
@@ -124,6 +122,7 @@
     if (_stepStatus == nil) {
         _stepStatus = [[UILabel alloc] init];
         _stepStatus.font = [UIFont systemFontOfSize:8.0f];
+        _stepStatus.textAlignment = NSTextAlignmentCenter;
     }
     return _stepStatus;
 }
