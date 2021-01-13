@@ -25,23 +25,23 @@
 
 // 选择任务步骤对应的用户
 #define selected_taskStep_user  @"selected_taskStep_user"
-// 长按弹出删除步骤用户
-//#define longPress_delete_index  @"longPress_delete_index"
+// 点击保存
+#define task_click_save         @"task_click_save"
 // 选择任务等级
 #define selected_task_priority  @"selected_task_priority"
 // 改变任务名称
 #define change_task_title       @"change_task_title"
 // 改变任务内容
-#define change_task_content       @"change_task_content"
+#define change_task_content     @"change_task_content"
 // 选择日历
 #define select_caldenar_view    @"select_caldenar_view"
 // 任务操作
-#define task_process_submit      @"task_process_submit"
+#define task_process_submit     @"task_process_submit"
 // 选择附件
 #define choose_adjunct_file     @"choose_adjunct_file"
 
 #define task_send_toUser        @"task_send_toUser"
 
-#define current_selected_step  @"current_selected_step"
+#define current_selected_step   @"current_selected_step"
 
 #endif /* ResponderChainHeader_h */

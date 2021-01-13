@@ -33,50 +33,6 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
     return self;
 }
-
-#pragma mark - private method
-- (void)scrollToOffside{
-    CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width - self.collectionView.frame.size.width + itemWidth, 0);
-    if (rightOffset.x > 0) {
-        [self.collectionView setContentOffset:rightOffset animated:NO];
-    }
-}
-//// 检查当前步骤中是否有空步骤
-- (void)checkCurrentStepHasEmptyUserStep{
-    int emptyCount = 0;
-    for (ZHStep *step in _tools.stepArray) {
-        if (step.responseUser == nil) {
-            emptyCount++;
-        }
-    }
-    if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
-        if (_tools.type != task_type_new_polling) {
-            [self insertEmptyStepToCurrentStep];
-        }
-    }
-}
-// 插入一条空的步骤数据
-- (void)insertEmptyStepToCurrentStep{
-    ZHStep *step = (ZHStep *)[[DataManager defaultInstance] getStepFromCoredataByID:[SZUtil getGUID]];
-    NSLog(@"当前步骤的个数%ld",_tools.stepArray.count);
-    [_tools.stepArray insertObject:step atIndex:_tools.stepArray.count-1];
-}
-
-- (void)getCurrentDefaultSelectIndex:(OperabilityTools *)tools{
-    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-    for (int i = 0; i < _tools.stepArray.count; i++) {
-        ZHStep *step = _tools.stepArray[i];
-        // 发起人不算
-        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
-            self.currentSelectedStep = i;
-            self.selfStepIndex = i;
-            NSLog(@"当前任务的备注信息%@",step.memo);
-            _tools.currentSelectedStep = step;
-            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
-            break;
-        }
-    }
-}
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -123,17 +79,90 @@ static NSString *headerIdentifier = @"headerIdentifier";
         [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
     }
 }
+#pragma mark - 页面操作
+- (void)setStepViewOperations:(OperabilityTools *)tools{
+    switch (tools.type) {
+        case task_type_new_task:
+//            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_new_apply:
+//            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_new_noti:
+            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_new_joint:
+            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_new_polling:
+//            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_detail_proceeding:
+            [self getCurrentDefaultSelectIndex:_tools];
+            break;
+        case task_type_detail_finished:
+//            [self taskFinishOperations];
+            [self getCurrentDefaultSelectIndex:_tools];
+            break;
+        case task_type_detail_draft:
+//            [self newTaskOperations];
+            [self checkCurrentStepHasEmptyUserStep];
+            break;
+        case task_type_detail_initiate:
+//            [self taskInitiateOperations];
+            break;
+        default:
+            break;
+    }
+}
+#pragma mark - private method
+- (void)scrollToOffside{
+    CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width - self.collectionView.frame.size.width + itemWidth, 0);
+    if (rightOffset.x > 0) {
+        [self.collectionView setContentOffset:rightOffset animated:NO];
+    }
+}
+//// 检查当前步骤中是否有空步骤
+- (void)checkCurrentStepHasEmptyUserStep{
+    int emptyCount = 0;
+    for (ZHStep *step in _tools.stepArray) {
+        if (step.responseUser == nil) {
+            emptyCount++;
+        }
+    }
+    if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
+        if (_tools.type != task_type_new_polling) {
+            [self insertEmptyStepToCurrentStep];
+        }
+    }
+}
+// 插入一条空的步骤数据
+- (void)insertEmptyStepToCurrentStep{
+    ZHStep *step = (ZHStep *)[[DataManager defaultInstance] getStepFromCoredataByID:[SZUtil getGUID]];
+    NSLog(@"当前步骤的个数%ld",_tools.stepArray.count);
+    [_tools.stepArray insertObject:step atIndex:_tools.stepArray.count-1];
+}
 
+- (void)getCurrentDefaultSelectIndex:(OperabilityTools *)tools{
+    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+    for (int i = 0; i < _tools.stepArray.count; i++) {
+        ZHStep *step = _tools.stepArray[i];
+        // 发起人不算
+        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
+            self.currentSelectedStep = i;
+            self.selfStepIndex = i;
+            NSLog(@"当前任务的备注信息%@",step.memo);
+            _tools.currentSelectedStep = step;
+            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
+            break;
+        }
+    }
+}
 #pragma mark - setting and getter
 
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
-    if (_tools.isDetails == NO) {
-        [self checkCurrentStepHasEmptyUserStep];
-        return;
-    }
-    
-    [self getCurrentDefaultSelectIndex:_tools];
+    [self setStepViewOperations:_tools];
     [self.collectionView reloadData];
     [self scrollToOffside];
 }

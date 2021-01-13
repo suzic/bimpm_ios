@@ -24,23 +24,7 @@
     }
     return self;
 }
-- (void)addUI{
-    [self addSubview:self.taskTypeTagView];
-    [self addSubview:self.taskTitle];
-    [self.taskTypeTagView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(0);
-        make.width.equalTo(4);
-        make.height.equalTo(self.mas_height).multipliedBy(0.5);
-    }];
-    [self.taskTitle makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(0);
-        make.left.equalTo(self.taskTypeTagView.mas_right).offset(14);
-        make.right.equalTo(-12);
-        make.height.greaterThanOrEqualTo(30);
-        make.height.lessThanOrEqualTo(90);
-        make.bottom.equalTo(-10);
-    }];
-}
+
 - (void)setTaskTitleStatusColor:(NSInteger)index{
     UIColor *lineColor = nil;
     if (index <= 4) {
@@ -52,11 +36,44 @@
     }
     self.taskTypeTagView.backgroundColor = lineColor;
 }
+#pragma mark - 页面操作
+- (void)setStepTitleOperations:(OperabilityTools *)tools{
+    switch (tools.type) {
+        case task_type_new_task:
+        case task_type_new_apply:
+        case task_type_new_noti:
+        case task_type_new_joint:
+        case task_type_new_polling:
+        case task_type_detail_initiate:
+            self.taskTitle.editable = YES;
+            break;
+        case task_type_detail_proceeding:
+            self.taskTitle.editable = YES;
+            break;
+        case task_type_detail_finished:
+            self.taskTitle.editable = NO;
+            break;
+        case task_type_detail_draft:
+            self.taskTitle.editable = YES;
+            break;
+        default:
+            break;
+    }
+}
+- (void)editTitle{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (_tools.currentSelectedStep.responseUser.id_user == user.id_user) {
+        self.taskTitle.editable = YES;
+    }else{
+        self.taskTitle.editable = NO;
+    }
+}
+
 #pragma mark - setting and getter
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
     self.taskTitle.text = _tools.task.name;
-    self.taskTitle.editable = _tools.operabilityTitle;
+    [self setStepTitleOperations:_tools];
     [self textViewDidChange:self.taskTitle];
     [self setTaskTitleStatusColor:_tools.task.priority];
 }
@@ -109,7 +126,24 @@
 - (void)textViewDidEndEditing:(UITextView *)textView{
     [self routerEventWithName:change_task_title userInfo:@{@"taskTitle":textView.text}];
 }
-
+#pragma mark - UI
+- (void)addUI{
+    [self addSubview:self.taskTypeTagView];
+    [self addSubview:self.taskTitle];
+    [self.taskTypeTagView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(0);
+        make.width.equalTo(4);
+        make.height.equalTo(self.mas_height).multipliedBy(0.5);
+    }];
+    [self.taskTitle makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.left.equalTo(self.taskTypeTagView.mas_right).offset(14);
+        make.right.equalTo(-12);
+        make.height.greaterThanOrEqualTo(30);
+        make.height.lessThanOrEqualTo(90);
+        make.bottom.equalTo(-10);
+    }];
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -169,6 +169,8 @@
         self.operabilityTools.currentSelectedStep = userInfo[@"step"];
         self.taskContentView.tools = self.operabilityTools;
         self.taskOperationView.tools = self.operabilityTools;
+    }else if([eventName isEqualToString:task_click_save]){
+        NSLog(@"点击了保存操作");
     }
 }
 
