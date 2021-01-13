@@ -11,7 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 #define itemWidth   60.0f
-#define itemHeight  70.0f
+#define itemHeight  120.0f
 
 @interface TaskStepView : UIView
 
