@@ -119,7 +119,14 @@
     if (_priorityType != priorityType) {
         _priorityType = priorityType;
         [self changePriorityStatus:_priorityType];
-        NSString *priority = [NSString stringWithFormat:@"%ld",_priorityType];
+        NSString *priority = @"1";
+        if (_priorityType == priority_type_low) {
+            priority = @"1";
+        }else if(_priorityType == priority_type_middle){
+            priority = @"4";
+        }else if(_priorityType == priority_type_highGrade){
+            priority = @"7";
+        }
         [self routerEventWithName:selected_task_priority userInfo:@{@"priority":priority}];
     }
 }

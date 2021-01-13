@@ -39,9 +39,21 @@
     if (_currenttask != currenttask) {
         _currenttask = currenttask;
         self.taskName.text =  _currenttask.name;
-        self.predictTime.text = [SZUtil getDateString:_currenttask.start_date];
+        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
         [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+        self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
     }
+}
+- (UIColor *)setLineViewColor:(ZHTask *)task{
+    UIColor *color = nil;
+    if (task.priority <= 4) {
+        color = RGB_COLOR(0, 183, 147);
+    }else if(task.priority > 5 && task.priority <=9){
+        color = RGB_COLOR(244, 216, 2);
+    }else{
+        color = RGB_COLOR(255, 77, 77);
+    }
+    return color;
 }
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];
