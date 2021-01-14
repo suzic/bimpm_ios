@@ -13,14 +13,18 @@
 @property (nonatomic, strong) NSArray *prioritybtnArray;
 @property (nonatomic, strong) UITextView *contentView;
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
-
+@property (nonatomic, strong) UIButton *deleteFileBtn;
+@property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic,assign) BOOL editPriority;
+// 附件调整类型 1 添加附件 2 查看附件 3没有附件 4 删除附件
+@property (nonatomic, assign) NSInteger adjunctType;
 
 @end
 @implementation TaskContentView
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.adjunctType = NSNotFound;
         self.editPriority = NO;
         [self addUI];
     }
@@ -33,45 +37,53 @@
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_new_apply:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_new_noti:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_new_joint:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_new_polling:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_detail_proceeding:
             self.editPriority = YES;
             [self editContentText];
+            [self proceedingAdjuctdFile];
             break;
         case task_type_detail_finished:
-            self.adjunctFileBtn.enabled = NO;
             self.editPriority = NO;
             self.contentView.editable = NO;
+            [self finisheAdjuctdFile];
             break;
         case task_type_detail_draft:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         case task_type_detail_initiate:
             self.adjunctFileBtn.enabled = YES;
             self.editPriority = YES;
             self.contentView.editable = YES;
+            [self newTaskAdjuctFile];
             break;
         default:
             break;
@@ -87,11 +99,87 @@
         self.adjunctFileBtn.enabled = NO;
     }
 }
-#pragma mark - Actions
-- (void)chooseAdjunctFile:(UIButton *)button{
-    [self routerEventWithName:choose_adjunct_file userInfo:@{}];
+- (void)newTaskAdjuctFile{
+    NSString *fileName = @"";
+    // 有附件 显示删除按钮 文件名称 查看附件
+    if (![SZUtil isEmptyOrNull:_tools.task.firstTarget.uid_target]) {
+        fileName = _tools.task.firstTarget.name;
+        [self hideDelete:NO];
+        self.adjunctType = 2;
+    }else{
+        fileName = @"添加附件";
+        self.adjunctType = 1;
+        [self hideDelete:YES];
+    }
+    [self.adjunctFileBtn setTitle:fileName forState:UIControlStateNormal];
+}
+- (void)finisheAdjuctdFile{
+    NSString *fileName = @"";
+    [self hideDelete:YES];
+    if(_tools.currentSelectedStep.memoDocs != nil && _tools.currentSelectedStep.memoDocs.count >0){
+        ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
+        fileName = target.name;
+        self.uid_target = target.uid_target;
+        self.adjunctFileBtn.enabled = YES;
+        self.adjunctType = 2;
+    }else{
+        self.adjunctFileBtn.enabled = NO;
+        fileName = @"当前步骤未添加附件";
+        self.adjunctType = 3;
+    }
+    [self.adjunctFileBtn setTitle:fileName forState:UIControlStateNormal];
+}
+- (void)proceedingAdjuctdFile{
+    NSString *fileName = @"";
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (_tools.currentSelectedStep.responseUser.id_user == user.id_user) {
+        if(_tools.currentSelectedStep.memoDocs != nil && _tools.currentSelectedStep.memoDocs.count >0){
+            ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
+            fileName = target.name;
+            self.uid_target = target.uid_target;
+            self.adjunctType = 2;
+            [self hideDelete:NO];
+        }else{
+            fileName = @"添加附件";
+            self.adjunctType = 1;
+            [self hideDelete:YES];
+        }
+        self.adjunctFileBtn.enabled = YES;
+    }else{
+        if(_tools.currentSelectedStep.memoDocs != nil && _tools.currentSelectedStep.memoDocs.count >0){
+            ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
+            fileName = target.name;
+            self.uid_target = target.uid_target;
+            self.adjunctType = 2;
+            [self hideDelete:YES];
+            self.adjunctFileBtn.enabled = YES;
+        }else{
+            fileName = @"当前步骤未添加附件";
+            self.adjunctType = 3;
+            [self hideDelete:YES];
+            self.adjunctFileBtn.enabled = NO;
+        }
+    }
+    [self.adjunctFileBtn setTitle:fileName forState:UIControlStateNormal];
+}
+- (void)hideDelete:(BOOL)hide{
+    self.deleteFileBtn.hidden = hide;
+    [self.deleteFileBtn updateConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(hide == YES ? 15 :-10);
+    }];
 }
 
+#pragma mark - Actions
+- (void)chooseAdjunctFile:(UIButton *)button{
+    if (self.adjunctType == 3) {
+        return;
+    }
+    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":[NSString stringWithFormat:@"%ld",self.adjunctType],@"uid_target":self.uid_target}];
+}
+- (void)deleteAdjunctFile:(UIButton *)button{
+    NSLog(@"删除当前文档");
+    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":@"4",@"uid_target":self.uid_target}];
+}
 - (void)priorityAction:(UIButton *)button{
     if (self.editPriority == NO) {
         return;
@@ -177,6 +265,14 @@
     }
     return _adjunctFileBtn;
 }
+- (UIButton *)deleteFileBtn{
+    if (_deleteFileBtn == nil) {
+        _deleteFileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_deleteFileBtn setBackgroundImage:[UIImage imageNamed:@"delete_file"] forState:UIControlStateNormal];
+        [_deleteFileBtn addTarget:self action:@selector(deleteAdjunctFile:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _deleteFileBtn;
+}
 - (NSArray *)prioritybtnArray{
     if (_prioritybtnArray == nil) {
         NSMutableArray *result = [NSMutableArray array];
@@ -220,7 +316,8 @@
     [bgView addSubview:self.contentView];
     [bgView addSubview:self.adjunctFileBtn];
     
-//    [self addSubview:self.adjunctFileBtn];
+    [bgView addSubview:self.deleteFileBtn];
+    
     [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(6);
         make.left.equalTo(16);
@@ -237,14 +334,20 @@
     [self.contentView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
     }];
-    
-    [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-10);
+    [self.deleteFileBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(15);
         make.bottom.equalTo(-10);
         make.top.equalTo(self.contentView.mas_bottom);
+        make.width.height.equalTo(15);
+    }];
+    
+    [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(self.deleteFileBtn.mas_left).offset(-5);
+        make.centerY.equalTo(self.deleteFileBtn);
         make.width.equalTo(self.contentView).multipliedBy(0.5);
     }];
     [bgView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+    [self hideDelete:YES];
 }
 - (void)addPriorityViewSubViews{
     UILabel *label = [[UILabel alloc] init];

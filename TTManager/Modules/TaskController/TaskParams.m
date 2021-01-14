@@ -54,11 +54,11 @@
                           @"info":[NSString stringWithFormat:@"%ld",(long)timeInterval]};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
-- (NSMutableDictionary *)getTaskFileParams{
+- (NSMutableDictionary *)getTaskFileParams:(BOOL)add{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"FILE",
-                          @"param":@"2",
-                          @"info":@"uid_target"};
+                          @"param":add == YES ?@"0":@"2",
+                          @"info":self.uid_target};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 // 指派一个目标人

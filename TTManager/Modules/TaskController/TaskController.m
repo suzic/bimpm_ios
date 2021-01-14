@@ -123,9 +123,22 @@
         };
         [self.navigationController pushViewController:team animated:YES];
     }else if([eventName isEqualToString:choose_adjunct_file]){
-        [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
-            NSLog(@"当前选择的图片");
-        }];
+        NSString *type = userInfo[@"adjunctType"];
+        NSString *uid_target = userInfo[@"uid_target"];
+        self.taskParams.uid_target = uid_target;
+        if ([type isEqualToString:@"1"]) {
+            NSLog(@"添加附加");
+            [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
+                NSLog(@"当前选择的图片");
+                //  需要现fileUpload之后再 提交
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+            }];
+        }else if([type isEqualToString:@"2"]){
+            NSLog(@"查看附加");
+        }else if([type isEqualToString:@"4"]){
+            NSLog(@"删除附件");
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+        }
     }else if([eventName isEqualToString:select_caldenar_view]){
         NSLog(@"选择日期");
         self.taskParams.planDate = userInfo[@"planDate"];

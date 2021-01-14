@@ -24,6 +24,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSDate *planDate;
 @property (nonatomic, strong) NSString *memo;
 @property (nonatomic, strong) NSString *submitParams;
+@property (nonatomic, copy) NSString *uid_target;
 
 // 获取新建任务的请求参数
 - (NSMutableDictionary *)getNewTaskParams;
@@ -38,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 获取任务预计完成时间
 - (NSMutableDictionary *)getTaskDatePlanParams;
 // 获取附件的的参数
-- (NSMutableDictionary *)getTaskFileParams;
+- (NSMutableDictionary *)getTaskFileParams:(BOOL)add;
 // 获取目标人参数
 - (NSMutableDictionary *)getToUserParams:(BOOL)to;
 // 获取中间人参数
