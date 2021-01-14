@@ -19,10 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface StepUserView : UIView
 
+// 当前步骤用户状态
+@property (nonatomic, strong) UILabel *stepStatus;
+// 当前用户处理情况
+@property (nonatomic, strong) UILabel *stepUserDispose;
 /// 获取详情得到的是step
 @property (nonatomic, strong) ZHStep *step;
-/// 创建任务获取到的是自选的user
-@property (nonatomic, strong) ZHUser *user;
+
 @end
 
 NS_ASSUME_NONNULL_END

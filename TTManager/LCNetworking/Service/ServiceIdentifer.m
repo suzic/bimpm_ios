@@ -17,7 +17,7 @@ static NSString * const HTTPS = @"https://";
 + (NSString *)initServiceIdentifer:(NSString *)service apiName:(NSString *)apiName{
     NSString *url = @"";
     if (apiName){
-        url = [NSString stringWithFormat:@"%@%@%@",HTTP,service,apiName];
+        url = [NSString stringWithFormat:@"%@%@",service,apiName];
     }
     return url;
 }

@@ -15,7 +15,8 @@ typedef NS_ENUM(NSInteger,RequestType){
     REQUEST_TYPE_GET    = 0,// get
     REQUEST_TYPE_POST   = 1,// post
     REQUEST_TYPE_PUT    = 2,// put
-    REQUEST_TYPE_DELETE = 3 // delete
+    REQUEST_TYPE_DELETE = 3,// delete
+    REQUEST_TYPE_UPLOAD = 4 // 上传
 };
 
 typedef void (^APICallback)(LCURLResponse *response);
@@ -50,6 +51,7 @@ typedef void (^APICallback)(LCURLResponse *response);
               apiName:(NSString *)apiName
                  success:(APICallback)success
                      fail:(APICallback)fail;
+
 
 /// 根据ID取消单个请求
 /// @param requestID 请求id

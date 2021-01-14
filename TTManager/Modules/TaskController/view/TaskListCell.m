@@ -13,7 +13,7 @@
 @property (nonatomic, strong)UIImageView *userImage;
 
 @property (nonatomic, strong) UILabel *taskName;
-@property (nonatomic, strong) UILabel *predictTime;
+//@property (nonatomic, strong) UILabel *predictTime;
 
 @end
 
@@ -39,7 +39,7 @@
     if (_currenttask != currenttask) {
         _currenttask = currenttask;
         self.taskName.text =  _currenttask.name;
-        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
+//        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
         [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
         self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
     }
@@ -61,7 +61,7 @@
     [self.contentView addSubview:bgView];
     [self.contentView addSubview:self.lineView];
     [self.contentView addSubview:self.taskName];
-    [self.contentView addSubview:self.predictTime];
+//    [self.contentView addSubview:self.predictTime];
     [self.contentView addSubview:self.userImage];
 //    self.userImage.image = [UIImage imageNamed:@"test-1"];
     self.lineView.backgroundColor = [SZUtil colorWithHex:@"#04BA90"];
@@ -80,15 +80,15 @@
     [self.taskName makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView.mas_top);
         make.left.equalTo(self.lineView.mas_right).offset(15);
-        make.height.equalTo(self.lineView.mas_height).multipliedBy(0.5);
+        make.height.equalTo(self.lineView.mas_height).multipliedBy(1);
     }];
     
-    [self.predictTime makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskName.mas_bottom);
-        make.left.equalTo(self.lineView.mas_right).offset(15);
-        make.height.equalTo(self.taskName.mas_height);
-        make.bottom.equalTo(self.lineView.mas_bottom);
-    }];
+//    [self.predictTime makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.taskName.mas_bottom);
+//        make.left.equalTo(self.lineView.mas_right).offset(15);
+//        make.height.equalTo(self.taskName.mas_height);
+//        make.bottom.equalTo(self.lineView.mas_bottom);
+//    }];
     
     [self.userImage makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.taskName.mas_right).offset(15);
@@ -122,14 +122,14 @@
     }
     return _taskName;;
 }
-- (UILabel *)predictTime{
-    if (_predictTime == nil) {
-        _predictTime = [[UILabel alloc] init];
-        _predictTime.textColor = [SZUtil colorWithHex:@"#666666"];
-        _predictTime.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:13.0f];
-    }
-    return _predictTime;;
-}
+//- (UILabel *)predictTime{
+//    if (_predictTime == nil) {
+//        _predictTime = [[UILabel alloc] init];
+//        _predictTime.textColor = [SZUtil colorWithHex:@"#666666"];
+//        _predictTime.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:13.0f];
+//    }
+//    return _predictTime;;
+//}
 - (UIImageView *)userImage{
     if (_userImage == nil) {
         _userImage = [[UIImageView alloc] init];

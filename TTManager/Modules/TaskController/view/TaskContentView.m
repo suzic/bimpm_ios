@@ -25,6 +25,7 @@
     self = [super init];
     if (self) {
         self.adjunctType = NSNotFound;
+        self.uid_target = @"";
         self.editPriority = NO;
         [self addUI];
     }

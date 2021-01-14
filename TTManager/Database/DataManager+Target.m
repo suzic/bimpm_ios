@@ -35,7 +35,7 @@
     ZHTarget *childrenTarget = [self getTargetFromCoreDataById:targetItem[@"uid_target"]];
     childrenTarget.uid_target = targetItem[@"uid_target"];
     childrenTarget.fid_parent = targetItem[@"fid_parent"];
-    childrenTarget.fid_project = targetItem[@"fid_project"];
+    childrenTarget.fid_project = [NSString stringWithFormat:@"%@",targetItem[@"fid_project"]];
     childrenTarget.id_module = [targetItem[@"id_module"] intValue];
     childrenTarget.is_file = [targetItem[@"is_file"] boolValue];
     childrenTarget.access_mode = [targetItem[@"access_mode"] intValue];

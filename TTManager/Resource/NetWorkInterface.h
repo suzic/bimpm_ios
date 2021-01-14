@@ -7,7 +7,9 @@
 
 #ifndef NetWorkInterface_h
 #define NetWorkInterface_h
-#define SERVICEADDRESS @"www.suzic.cn:8010"
+
+#define SERVICEADDRESS     @"http://www.suzic.cn:8010"
+#define FILESERVICEADDRESS @"https://www.suzic.cn"
 
 // 用户登录相关接口
 #define URI_SIGN_IN                             @"/login/signIn"
@@ -39,5 +41,9 @@
 #define URL_TASK_EDIT                            @"/task/TaskEdit"
 #define URL_TASK_OPERATIONS                      @"/task/TaskOperations"
 #define URL_TASK_PROCESS                         @"/task/TaskProcess"
+
+// 文件
+#define URL_UPLOAD_FILE  @"/fileviewservice/file/FileUpload"
+#define URL_TARGET_NEW   @"/file/TargetNew"
 
 #endif /* NetWorkInterface_h */

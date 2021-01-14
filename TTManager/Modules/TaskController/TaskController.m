@@ -37,6 +37,8 @@
 @property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
 @property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
 @property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
+@property (nonatomic, strong) APIUploadFileManager *uploadFileManager;
+@property (nonatomic, strong) APITargetNewManager *targetNewManager;
 
 @end
 
@@ -104,7 +106,8 @@
 }
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if([eventName isEqualToString:selected_taskStep_user]){
+    if([eventName isEqualToString:selected_taskStep_user])
+    {
         // 1 中间用户 ，0尾步骤
         NSString *addType = userInfo[@"addType"];
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -122,7 +125,9 @@
             }
         };
         [self.navigationController pushViewController:team animated:YES];
-    }else if([eventName isEqualToString:choose_adjunct_file]){
+    }
+    else if([eventName isEqualToString:choose_adjunct_file])
+    {
         NSString *type = userInfo[@"adjunctType"];
         NSString *uid_target = userInfo[@"uid_target"];
         self.taskParams.uid_target = uid_target;
@@ -130,8 +135,11 @@
             NSLog(@"添加附加");
             [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
                 NSLog(@"当前选择的图片");
+                [self.uploadFileManager.uploadArray removeAllObjects];
+                [self.uploadFileManager.uploadArray addObject:imageData];
+                [self.uploadFileManager loadData];
                 //  需要现fileUpload之后再 提交
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+//                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
             }];
         }else if([type isEqualToString:@"2"]){
             NSLog(@"查看附加");
@@ -139,25 +147,33 @@
             NSLog(@"删除附件");
             [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
         }
-    }else if([eventName isEqualToString:select_caldenar_view]){
+    }
+    else if([eventName isEqualToString:select_caldenar_view])
+    {
         NSLog(@"选择日期");
         self.taskParams.planDate = userInfo[@"planDate"];
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
     
-    }else if([eventName isEqualToString:selected_task_priority]){
+    }
+    else if([eventName isEqualToString:selected_task_priority])
+    {
         NSString *priority = userInfo[@"priority"];
         NSLog(@"当前选择的任务等级 %@",priority);
         [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
         self.taskParams.priority = [priority integerValue];
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
-    }else if([eventName isEqualToString:change_task_title]){
+    }else if([eventName isEqualToString:change_task_title])
+    {
         NSLog(@"修改当前的任务名称 == %@",userInfo[@"taskTitle"]);
         self.taskParams.name = userInfo[@"taskTitle"];
         [self.taskEditManager loadData];
-    }else if([eventName isEqualToString:change_task_content]){
+    }else if([eventName isEqualToString:change_task_content])
+    {
         NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
         self.taskParams.memo = userInfo[@"taskContent"];
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
+        if (self.taskType != task_type_detail_initiate) {
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
+        }
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -206,6 +222,14 @@
                    @"code":@"",
                    @"param":@"",
                    @"info":@""};
+    }else if(manager == self.uploadFileManager){
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        params = @{@"id_project":INT_32_TO_STRING(project.id_project)};
+    }else if(manager == self.targetNewManager){
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        params =@{@"target_info":@{@"uid_target":@"8ec57e4f03ca4df2b26e9f9653e6ce46",@"id_module":@"0",@"is_file":@"1",
+                                   @"access_mode":@"0",@"name":@"测试图片",@"fid_project":INT_32_TO_STRING(project.id_project)}
+        };
     }
     return params;
 }
@@ -238,6 +262,19 @@
             [alert addAction:sure];
             [self presentViewController:alert animated:YES completion:nil];
         }
+    }else if(manager == self.uploadFileManager){
+        NSLog(@"上传结果%@",manager.response.responseData);
+        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+        
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        
+        NSString *uid_target = dic[@"data"][@"uid_target"];
+        self.taskParams.uid_target = uid_target;
+        NSDictionary *params =@{@"target_info":@{@"uid_target":uid_target,@"id_module":@"0",@"is_file":@"1",
+                                                 @"access_mode":@"0",@"name":[SZUtil getGUID],@"fid_project":INT_32_TO_STRING(project.id_project)}};
+        [self.targetNewManager loadDataWithParams:params];
+    }else if(manager == self.targetNewManager){
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
     }
 }
 
@@ -251,6 +288,10 @@
     }else if(manager == self.taskOperationsManager){
         
     }else if(manager == self.taskProcessManager){
+        
+    }else if(manager == self.uploadFileManager){
+        NSLog(@"上传结果%@",manager.response.responseData);
+    }else if(manager == self.targetNewManager){
         
     }
 }
@@ -363,7 +404,22 @@
     }
     return _taskDetailManager;
 }
-
+- (APIUploadFileManager *)uploadFileManager{
+    if (_uploadFileManager == nil) {
+        _uploadFileManager = [[APIUploadFileManager alloc] init];
+        _uploadFileManager.delegate = self;
+        _uploadFileManager.paramSource = self;
+    }
+    return _uploadFileManager;
+}
+- (APITargetNewManager *)targetNewManager{
+    if (_targetNewManager == nil) {
+        _targetNewManager = [[APITargetNewManager alloc] init];
+        _targetNewManager.delegate = self;
+        _targetNewManager.paramSource = self;
+    }
+    return _targetNewManager;
+}
 #pragma mark - UI
 - (void)addUI{
     // 步骤

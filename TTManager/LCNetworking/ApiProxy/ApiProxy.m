@@ -54,6 +54,9 @@
         case REQUEST_TYPE_DELETE:
             requestID =[self requestDELETEWithParams:params service:service apiName:apiName success:success fail:fail];
             break;
+        case REQUEST_TYPE_UPLOAD:
+            requestID = [self requestUploadWithParams:params service:service apiName:apiName success:success fail:fail];
+            break;
         default:
             break;
     }
@@ -124,6 +127,35 @@
     [dataTask resume];
     return requestId;
 }
+- (NSNumber *)requestUploadWithParams:(NSDictionary *)params
+                  service:(NSString *)service
+              apiName:(NSString *)apiName
+                 success:(APICallback)success
+                                 fail:(APICallback)fail{
+    NSString *url = [ServiceIdentifer initServiceIdentifer:service apiName:apiName];
+    NSDictionary *dic = params[@"params"];
+    NSArray *imageArray = params[@"upload"];
+    NSURLSessionDataTask * uploadtask =  [self.sessionManager POST:url parameters:dic headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
+        for (NSData * image in imageArray)
+        {
+            NSString * leadingString = [SZUtil getGUID];
+            [formData appendPartWithFileData:image name:@"file" fileName:[NSString stringWithFormat:@"%@.png",leadingString] mimeType:@"image/png"];
+        }
+      } progress:^(NSProgress * _Nonnull uploadProgress)
+      {
+      } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject)
+      {
+        [self requestSuccessTask:task params:params responseObject:responseObject success:success];
+
+      } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error)
+      {
+        [self requestFailureTask:task params:params error:error failure:fail];
+
+      }];
+    NSNumber *requestId = [self saveRequestId:uploadtask];
+//    [uploadtask resume];
+    return requestId;
+}
 
 // 取消单个请求
 - (void)cancelRequestWithRequestID:(NSNumber *)requestID
@@ -178,11 +210,16 @@
 
 - (AFHTTPSessionManager *)sessionManager
 {
-    if (_sessionManager == nil) {
         _sessionManager = [AFHTTPSessionManager manager];
         _sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
         _sessionManager.requestSerializer.timeoutInterval = 15.0;
         _sessionManager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
+    
+    for (NSString *key in self.headers)
+    {
+         [_sessionManager.requestSerializer setValue:_headers[key] forHTTPHeaderField:key];
+    }
+    
         _sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
         _sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",
                                                                                    @"text/html",
@@ -191,7 +228,6 @@
                                                                                    @"text/javascript",
                                                                                    @"text/xml",
                                                                                    @"image/*"]];
-    }
     return _sessionManager;
 }
 - (NSDictionary *)headers{

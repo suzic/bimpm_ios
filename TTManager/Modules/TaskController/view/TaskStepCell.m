@@ -51,6 +51,70 @@
         }
     }
 }
+- (void)setType:(TaskType)type{
+    _type = type;
+    if (_type == task_type_detail_proceeding) {
+        self.stepView.stepStatus.text = [self getDecisionText:self.currentStep];
+    }
+    switch (_type) {
+        case task_type_new_task:
+        case task_type_new_apply:
+        case task_type_new_noti:
+        case task_type_new_joint:
+        case task_type_new_polling:
+            break;
+        case task_type_detail_proceeding:
+            break;
+        case task_type_detail_finished:
+            break;
+        case task_type_detail_draft:
+            break;
+        case task_type_detail_initiate:
+            break;
+        default:
+            break;
+    }
+}
+#pragma mark - 页面显示
+// 获取当前人对任务的决策
+- (NSString *)getDecisionText:(ZHStep *)step{
+    NSString *decision = @"";
+    self.stepView.stepStatus.backgroundColor = [SZUtil colorWithHex:@"#F3913F"];
+    self.stepView.stepStatus.textColor = [UIColor whiteColor];
+    // 发起人
+    if (step.process_type == 0 && step.decision == 1) {
+        decision = @"发起";
+    }else if(step.process_type == 1 && step.decision == 1){
+        decision = @"同意";
+    }else if(step.process_type == 1 && step.decision == 2){
+        decision = @"拒绝";
+    }else if(step.process_type == 2 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 2 && step.decision == 2){
+        decision = @"通过";
+    }else if(step.process_type == 3 && step.decision == 1){
+        decision = @"赞同";
+    }else if(step.process_type == 3 && step.decision == 2){
+        decision = @"反对";
+    }else if(step.process_type == 4 && step.decision == 1){
+        decision = @"通过";
+    }else if(step.process_type == 4 && step.decision == 2){
+        decision = @"驳回";
+    }else if(step.process_type == 5 && step.decision == 1){
+        decision = @"确认";
+    }else if(step.process_type == 6 && step.decision == 1){
+        decision = @"完成";
+    }else{
+        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+        if (currentUser.id_user == step.responseUser.id_user) {
+            decision = @"我";
+        }else{
+            decision = @"进行中";
+        }
+    }
+    return decision;
+}
+#pragma mark - UI
 - (void)addUI{
     
     [self.contentView addSubview:self.stepView];

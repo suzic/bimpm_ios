@@ -70,7 +70,6 @@
 		402AA182259726D700A9DABA /* BaseApiManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA170259726D700A9DABA /* BaseApiManager.m */; };
 		402AA183259726D700A9DABA /* LCURLResponse.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA173259726D700A9DABA /* LCURLResponse.m */; };
 		402AA184259726D700A9DABA /* RequestHeaders.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA175259726D700A9DABA /* RequestHeaders.m */; };
-		402AA185259726D700A9DABA /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA178259726D700A9DABA /* ServiceIdentifer.m */; };
 		402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA17B259726D700A9DABA /* NSURLSessionTask+RequestParams.m */; };
 		402AA187259726D700A9DABA /* ApiProxy.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA17E259726D700A9DABA /* ApiProxy.m */; };
 		402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA18E259727CA00A9DABA /* APICaptchManager.m */; };
@@ -93,6 +92,9 @@
 		402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA1FF2599ACCE00A9DABA /* FuncatioCollectionCell.m */; };
 		402AA2042599E02100A9DABA /* Task.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402AA2032599E02100A9DABA /* Task.storyboard */; };
 		402AA2082599E05400A9DABA /* TaskListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 402AA2072599E05400A9DABA /* TaskListController.m */; };
+		402DA0EC25B001A60030E68D /* APIUploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0EB25B001A60030E68D /* APIUploadFileManager.m */; };
+		402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F225B002F60030E68D /* APITargetNewManager.m */; };
+		402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F725B03CB90030E68D /* ServiceIdentifer.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
@@ -282,8 +284,6 @@
 		402AA173259726D700A9DABA /* LCURLResponse.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LCURLResponse.m; sourceTree = "<group>"; };
 		402AA175259726D700A9DABA /* RequestHeaders.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RequestHeaders.m; sourceTree = "<group>"; };
 		402AA176259726D700A9DABA /* RequestHeaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RequestHeaders.h; sourceTree = "<group>"; };
-		402AA178259726D700A9DABA /* ServiceIdentifer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceIdentifer.m; sourceTree = "<group>"; };
-		402AA179259726D700A9DABA /* ServiceIdentifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceIdentifer.h; sourceTree = "<group>"; };
 		402AA17B259726D700A9DABA /* NSURLSessionTask+RequestParams.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSURLSessionTask+RequestParams.m"; sourceTree = "<group>"; };
 		402AA17C259726D700A9DABA /* NSURLSessionTask+RequestParams.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSURLSessionTask+RequestParams.h"; sourceTree = "<group>"; };
 		402AA17E259726D700A9DABA /* ApiProxy.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ApiProxy.m; sourceTree = "<group>"; };
@@ -327,6 +327,12 @@
 		402AA2032599E02100A9DABA /* Task.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Task.storyboard; sourceTree = "<group>"; };
 		402AA2062599E05400A9DABA /* TaskListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListController.h; sourceTree = "<group>"; };
 		402AA2072599E05400A9DABA /* TaskListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListController.m; sourceTree = "<group>"; };
+		402DA0EA25B001A60030E68D /* APIUploadFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUploadFileManager.h; sourceTree = "<group>"; };
+		402DA0EB25B001A60030E68D /* APIUploadFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIUploadFileManager.m; sourceTree = "<group>"; };
+		402DA0F125B002F60030E68D /* APITargetNewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APITargetNewManager.h; sourceTree = "<group>"; };
+		402DA0F225B002F60030E68D /* APITargetNewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetNewManager.m; sourceTree = "<group>"; };
+		402DA0F725B03CB90030E68D /* ServiceIdentifer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceIdentifer.m; sourceTree = "<group>"; };
+		402DA0F825B03CB90030E68D /* ServiceIdentifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceIdentifer.h; sourceTree = "<group>"; };
 		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
@@ -907,6 +913,8 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				402DA0F025B002D30030E68D /* APITargetNewManager */,
+				402DA0EE25B001B10030E68D /* APIUploadFileManager */,
 				406FCB1325A556F600636079 /* APIIMTokenManager */,
 				406FCAB225A1A71D00636079 /* APITaskProcessManager */,
 				406FCAAC25A1A6B200636079 /* APITaskOperationsManager */,
@@ -929,12 +937,12 @@
 		402AA168259726D700A9DABA /* LCNetworking */ = {
 			isa = PBXGroup;
 			children = (
+				402DA0F625B03CB90030E68D /* Service */,
 				406FCAC125A1F74900636079 /* PageSize */,
 				402AA169259726D700A9DABA /* ApiErrIntercept */,
 				402AA16C259726D700A9DABA /* BaseApiManager */,
 				402AA171259726D700A9DABA /* LCURLResponse */,
 				402AA174259726D700A9DABA /* RequestHeaders */,
-				402AA177259726D700A9DABA /* Service */,
 				402AA17A259726D700A9DABA /* Categories */,
 				402AA17D259726D700A9DABA /* ApiProxy */,
 			);
@@ -975,15 +983,6 @@
 				402AA176259726D700A9DABA /* RequestHeaders.h */,
 			);
 			path = RequestHeaders;
-			sourceTree = "<group>";
-		};
-		402AA177259726D700A9DABA /* Service */ = {
-			isa = PBXGroup;
-			children = (
-				402AA178259726D700A9DABA /* ServiceIdentifer.m */,
-				402AA179259726D700A9DABA /* ServiceIdentifer.h */,
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		402AA17A259726D700A9DABA /* Categories */ = {
@@ -1084,6 +1083,33 @@
 				40E334C125A978A0008DBDAB /* TaskParams.m */,
 			);
 			path = TaskController;
+			sourceTree = "<group>";
+		};
+		402DA0EE25B001B10030E68D /* APIUploadFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				402DA0EA25B001A60030E68D /* APIUploadFileManager.h */,
+				402DA0EB25B001A60030E68D /* APIUploadFileManager.m */,
+			);
+			path = APIUploadFileManager;
+			sourceTree = "<group>";
+		};
+		402DA0F025B002D30030E68D /* APITargetNewManager */ = {
+			isa = PBXGroup;
+			children = (
+				402DA0F125B002F60030E68D /* APITargetNewManager.h */,
+				402DA0F225B002F60030E68D /* APITargetNewManager.m */,
+			);
+			path = APITargetNewManager;
+			sourceTree = "<group>";
+		};
+		402DA0F625B03CB90030E68D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				402DA0F725B03CB90030E68D /* ServiceIdentifer.m */,
+				402DA0F825B03CB90030E68D /* ServiceIdentifer.h */,
+			);
+			path = Service;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1417,7 +1443,9 @@
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
 				402AA09F2595D6EF00A9DABA /* DataManager.m in Sources */,
+				402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */,
 				406FCAA425A1A62400636079 /* APITaskEditManager.m in Sources */,
+				402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */,
 				402AA1EE2599815700A9DABA /* MessageView.m in Sources */,
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
@@ -1439,6 +1467,7 @@
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,
+				402DA0EC25B001A60030E68D /* APIUploadFileManager.m in Sources */,
 				406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */,
 				402AA0E02595D8A300A9DABA /* ZHModule+CoreDataClass.m in Sources */,
 				402AA1D42598AD1700A9DABA /* TaskInforCell.m in Sources */,
@@ -1489,7 +1518,6 @@
 				402AA184259726D700A9DABA /* RequestHeaders.m in Sources */,
 				406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */,
-				402AA185259726D700A9DABA /* ServiceIdentifer.m in Sources */,
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,

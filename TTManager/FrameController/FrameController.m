@@ -50,8 +50,6 @@
     // 初始化
     self.inShowLogin = NO;
     self.bFirst = YES;
-    
-    NSLog(@"获取的随机的guid === %@",[SZUtil getGUID]);
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -268,8 +266,9 @@
 - (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
     self.projectView.hidden = YES;
     NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
-    [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
     [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
+    [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
+    NSLog(@"当前选择的项目id%d",[DataManager defaultInstance].currentProject.id_project);
     [self updateFrame];
 }
 #pragma mark - ApiManagerCallBackDelegate

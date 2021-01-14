@@ -28,10 +28,8 @@ NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
     return _currentLoginUserPhone;
 }
 - (NSString *)currentSelectedProjectId{
-    if (_currentSelectedProjectId == nil) {
-        NSString *id_project = [[NSUserDefaults standardUserDefaults] objectForKey:CurrentSelectedProject];
-        _currentSelectedProjectId = id_project;
-    }
+    NSString *id_project = [[NSUserDefaults standardUserDefaults] objectForKey:CurrentSelectedProject];
+    _currentSelectedProjectId = id_project;
     return _currentSelectedProjectId;
 }
 - (void)saveCurrentLoginUserPhone:(NSString *)phone

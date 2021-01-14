@@ -9,12 +9,8 @@
 
 @interface StepUserView ()
 
-// 当前步骤用户状态
-@property (nonatomic, strong) UILabel *stepStatus;
 // 步骤头像
 @property (nonatomic, strong) UIImageView *stepUserImage;
-// 当前用户处理情况
-@property (nonatomic, strong) UILabel *stepUserDispose;
 // 当前步骤用户名称
 @property (nonatomic, strong) UILabel *stepUserName;
 
@@ -82,64 +78,13 @@
     [self.stepUserImage sd_setImageWithURL:[NSURL URLWithString:user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
     self.stepUserName.text = user.name;
 }
-- (void)setStepInfo:(ZHStep *)step{
-    self.stepStatus.text = [self getDecisionText:step];
-    NSLog(@"当前用户状态%@",self.stepStatus.text);
-}
+
 #pragma mark - setting and getter
 - (void)setStep:(ZHStep *)step{
     _step = step;
     [self setUserInfo:_step.responseUser];
-    [self setStepInfo:_step];
 }
 
-// 获取当前人对任务的决策
-- (NSString *)getDecisionText:(ZHStep *)step{
-    NSString *decision = @"";
-    self.stepStatus.backgroundColor = [SZUtil colorWithHex:@"#F3913F"];
-    self.stepStatus.textColor = [UIColor whiteColor];
-    // 发起人
-    if (step.process_type == 0 && step.decision == 1) {
-        decision = @"发起";
-    }else if(step.process_type == 1 && step.decision == 1){
-        decision = @"同意";
-    }else if(step.process_type == 1 && step.decision == 2){
-        decision = @"拒绝";
-    }else if(step.process_type == 2 && step.decision == 1){
-        decision = @"通过";
-    }else if(step.process_type == 2 && step.decision == 2){
-        decision = @"通过";
-    }else if(step.process_type == 3 && step.decision == 1){
-        decision = @"赞同";
-    }else if(step.process_type == 3 && step.decision == 2){
-        decision = @"反对";
-    }else if(step.process_type == 4 && step.decision == 1){
-        decision = @"通过";
-    }else if(step.process_type == 4 && step.decision == 2){
-        decision = @"驳回";
-    }else if(step.process_type == 5 && step.decision == 1){
-        decision = @"确认";
-    }else if(step.process_type == 6 && step.decision == 1){
-        decision = @"完成";
-    }else{
-        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-        if (currentUser.id_user == step.responseUser.id_user) {
-            decision = @"我";
-        }else{
-            decision = @"进行中";
-        }
-    }
-//    if (step.state == 0) {
-//        decision = @"未开始";
-//    }else if(step.state == 1){
-//        decision = @"已完成";
-//    }else if(step.state == 2){
-//        decision = @"进行中";
-//    }else if(step.state == 3){
-//        decision = @"中断";
-//    }
-    return decision;
-}
 - (UILabel *)stepStatus{
     if (_stepStatus == nil) {
         _stepStatus = [[UILabel alloc] init];

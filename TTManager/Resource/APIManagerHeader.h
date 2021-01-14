@@ -26,6 +26,8 @@
 
 // 文件
 #import "APITargetListManager.h"
+#import "APITargetNewManager.h"
+#import "APIUploadFileManager.h"
 
 // 用户对项目操作
 #import "APIUTPListManager.h"

@@ -12,6 +12,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface TaskStepCell : UICollectionViewCell
 
 @property (nonatomic, strong) ZHStep *currentStep;
+@property (nonatomic, assign) NSInteger index;
+@property (nonatomic, assign) TaskType type;
 @property (nonatomic, assign) BOOL isSelected;
 
 @end

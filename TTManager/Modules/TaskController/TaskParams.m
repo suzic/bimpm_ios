@@ -57,7 +57,7 @@
 - (NSMutableDictionary *)getTaskFileParams:(BOOL)add{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"FILE",
-                          @"param":add == YES ?@"0":@"2",
+                          @"param":add == YES ?@"1":@"0",
                           @"info":self.uid_target};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
@@ -87,14 +87,14 @@
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"RECALL",
                           @"param":@"",
-                          @"info":@""};
+                          @"info":self.memo};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getProcessTerminateParams{
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"TERMINATE",
-                          @"param":@"",
-                          @"info":@""};
+                          @"param":@"1",
+                          @"info":self.memo};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 

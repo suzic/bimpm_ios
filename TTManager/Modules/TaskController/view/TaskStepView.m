@@ -46,6 +46,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.currentStep = _tools.stepArray[indexPath.row];
     cell.isSelected = self.currentSelectedStep == indexPath.row;
+    cell.type = _tools.type;
     return cell;
 }
 
