@@ -29,6 +29,7 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
     [self reoladNetwork];
 
 }
@@ -97,6 +98,7 @@
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.targetListManager) {
+        [self.tableView.mj_header endRefreshing];
         [self.tableView showDataCount:self.fileListArray.count];
         [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
         self.title = @"";
@@ -106,6 +108,7 @@
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.targetListManager) {
+        [self.tableView.mj_header endRefreshing];
         self.title = @"";
         [self.tableView showDataCount:0];
         [self.containerVC loadFileCatalogCollectionView];

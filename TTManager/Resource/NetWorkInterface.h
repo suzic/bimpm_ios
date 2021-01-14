@@ -32,7 +32,7 @@
 
 // 团队成员
 #define URL_DEPARTMENT_LIST                      @"/department/DepartmentList"
-#define URL_DEPARTMENT_DETAIL                    @"/department/DepartmentDetail"
+#define URL_PROJECTTOUSER_DETAIL                 @"/project/ProjectToUserDetail"
 
 // 任务
 #define URL_TASK_LIST                            @"/task/TaskList"

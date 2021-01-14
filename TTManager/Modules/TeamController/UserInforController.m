@@ -65,7 +65,8 @@
     self.userEmali.text = email;
     self.userPhone.text = phone;
     self.userSex.text = sex;
-    [self.dmDetailsManager loadData];
+    [self assemblyData];
+//    [self.dmDetailsManager loadData];
 }
 // 改变字体颜色
 - (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
@@ -107,8 +108,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
     ZHUserProject *userProject = self.infoArray[indexPath.row];
-    NSString *titleText = [NSString stringWithFormat:@"项目名称: %@",userProject.belongProject.name];
-    cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"项目名称:"]];
+    NSString *titleText = [NSString stringWithFormat:@"%@ 中我是 %@",userProject.belongProject.name,userProject.assignRole.name];
+    cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"中我是"]];
     return cell;
 }
 #pragma mark - Action
@@ -151,7 +152,7 @@
     ZHProject *project = [DataManager defaultInstance].currentProject;
     if (manager == self.dmDetailsManager) {
         dic=@{@"id_project":INT_32_TO_STRING(project.id_project),
-              @"id_department":INT_32_TO_STRING(self.id_department)};
+              @"id_user":INT_32_TO_STRING(self.user.id_user)};
     }else if(manager == self.IMTokenManager){
         dic = @{@"id_user":INT_32_TO_STRING(self.user.id_user)};
     }
@@ -181,16 +182,7 @@
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
     self.infoArray = [department sortedArrayUsingDescriptors:sortDescriptors];
 }
-- (BOOL)isleader:(ZHDepartment *)department{
-    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-    for (ZHDepartmentUser *user in department.hasUsers) {
-        if (user.assignUser.belongUser.id_user == currentUser.id_user && user.is_leader == YES) {
-            return YES;
-            break;;
-        }
-    }
-    return NO;
-}
+
 #pragma mark - setter and getter
 - (APIDMDetailManager *)dmDetailsManager{
     if (_dmDetailsManager == nil) {

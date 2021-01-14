@@ -34,6 +34,7 @@
     // Do any additional setup after loading the view.
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
     [self reoladNetwork];
 
 }
@@ -161,12 +162,14 @@
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    [self.tableView.mj_header endRefreshing];
     if(manager == self.UTPGanttManager){
         self.ganttInfoArray = manager.response.responseData;
         [self.tableView reloadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    [self.tableView.mj_header endRefreshing];
     if(manager == self.UTPGanttManager){
         
     }

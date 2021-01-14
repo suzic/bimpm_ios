@@ -128,7 +128,10 @@
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    
+    if (manager == self.taskListManager) {
+        [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+    }
 }
 #pragma mark - setter and getter
 - (APITaskListManager *)taskListManager{

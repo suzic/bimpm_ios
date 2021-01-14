@@ -31,7 +31,9 @@
     return YES;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSDictionary *dic = @{@"data":params,
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
+    dict[@"pager"] = [self.pageSize currentPage];
+    NSDictionary *dic = @{@"data":dict,
                           @"module":@"",
                           @"priority":@"5"};
     return dic;
@@ -48,6 +50,12 @@
 }
 // 本地数据库
 - (id)userToProjectListCoreData:(LCURLResponse *)response{
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    NSArray *to_user = dict[@"to_user"];
+    for (NSDictionary *userDic in to_user) {
+        ZHUserProject *currentUP = [[DataManager defaultInstance] getUserProjectFromCoredataById:[userDic[@"id_user_project"] intValue]];
+        [[DataManager defaultInstance] syncUserProject:currentUP withUDInfo:userDic];
+    }
     return nil;
 }
 @end

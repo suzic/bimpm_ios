@@ -18,7 +18,7 @@
 }
 #pragma mark - APIManager
 - (NSString *)apiName{
-    return URL_DEPARTMENT_DETAIL;
+    return URL_PROJECTTOUSER_DETAIL;
 }
 - (NSString *)service{
     return SERVICEADDRESS;

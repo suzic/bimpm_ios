@@ -87,7 +87,6 @@
         ZHUserProject *currentUP = [[DataManager defaultInstance] getUserProjectFromCoredataById:[UPDic[@"id_user_project"] intValue]];
         [[DataManager defaultInstance] syncUserProject:currentUP withUDInfo:UPDic];
     }
-
     return response;
 }
 @end

@@ -25,9 +25,13 @@
         self.projectCollectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
     else
         self.automaticallyAdjustsScrollViewInsets = NO;
-
+    
+    self.projectCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadData)];
+    [self reloadData];
 }
 - (void)reloadData{
+    self.UTPlistManager.pageSize.pageIndex = 0;
+    [self.UTPlistManager loadData];
     [self.projectCollectionView reloadData];
 }
 #pragma mark - setter and getter
@@ -63,20 +67,22 @@
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
+    ZHUser *user = [DataManager defaultInstance].currentUser;
     if (manager == self.UTPlistManager) {
-        
+        dic = @{@"id_user":INT_32_TO_STRING(user.id_user),@"belong_state":@"0"};
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.UTPlistManager) {
-        
+        [self.projectCollectionView.mj_header endRefreshing];
+        [self.projectCollectionView reloadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.UTPlistManager) {
-        
+        [self.projectCollectionView.mj_header endRefreshing];
     }
 }
 #pragma mark - setter and getter

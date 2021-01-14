@@ -33,6 +33,7 @@
     [self.teamNameBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
     self.teamNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     self.currentSelected = 0;
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
     [self reoladNetwork];
 }
 - (void)viewWillAppear:(BOOL)animated{
@@ -142,6 +143,7 @@
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.departmentListManager) {
+        [self.tableView.mj_header endRefreshing];
         self.departmentListManager.response = manager.response;
         self.currentSelected = 0;
         [self.tableView showDataCount:self.teamArray.count];
@@ -149,8 +151,11 @@
         [self.tableView reloadData];
     }
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    
+    if (manager == self.departmentListManager) {
+        [self.tableView.mj_header endRefreshing];
+    }
 }
 #pragma mark - setter and getter
 - (APIDepartmentManager *)departmentListManager{

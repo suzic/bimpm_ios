@@ -266,8 +266,8 @@
 - (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
     self.projectView.hidden = YES;
     NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
-    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
     [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
+    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
     NSLog(@"当前选择的项目id%d",[DataManager defaultInstance].currentProject.id_project);
     [self updateFrame];
 }
