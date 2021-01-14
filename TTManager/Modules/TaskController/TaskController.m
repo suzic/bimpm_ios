@@ -14,6 +14,7 @@
 #import "TaskParams.h"
 #import "OperabilityTools.h"
 #import "PopViewController.h"
+#import "DocumentLibController.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
 
@@ -177,7 +178,12 @@
     }else if([eventName isEqualToString:open_document_library]){
         NSLog(@"打开文件库");
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"documentLibController"];
+        DocumentLibController *vc = (DocumentLibController *)[sb instantiateViewControllerWithIdentifier:@"documentLibController"];
+        vc.chooseTargetFile = YES;
+        vc.targetBlock = ^(ZHTarget * _Nonnull target) {
+            self.taskParams.uid_task = target.uid_target;
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+        };
         [self.navigationController pushViewController:vc animated:YES];
     }else if([eventName isEqualToString:task_process_submit]){
         NSString *operation = userInfo[@"operation"];

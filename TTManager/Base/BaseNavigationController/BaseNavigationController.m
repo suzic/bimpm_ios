@@ -7,6 +7,7 @@
 //
 
 #import "BaseNavigationController.h"
+#import "DocumentLibController.h"
 
 @interface BaseNavigationController ()<UINavigationControllerDelegate>
 
@@ -50,7 +51,17 @@
                       NSClassFromString(@"ConversationListController"),
                       NSClassFromString(@"TeamController")];
     if ([array containsObject:[viewController class]]) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
+        BOOL hide = YES;
+        if ([viewController isKindOfClass:[DocumentLibController class]])
+        {
+            DocumentLibController *vc = (DocumentLibController *)viewController;
+            if (vc.chooseTargetFile == YES) {
+                hide = NO;
+            }
+        }else{
+            
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(hide)];
     }else{
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
     }

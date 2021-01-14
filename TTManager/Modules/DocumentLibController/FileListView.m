@@ -78,10 +78,16 @@
         VC.uid_parent = target.fid_parent;
         [self.navigationController pushViewController:VC animated:YES];
     }else if(target.is_file == 1){
-        WebController *webVC = [[WebController alloc] init];
-        webVC.loadUrl = target.link;
-        webVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:webVC animated:YES];
+        if (self.containerVC.chooseTargetFile == YES) {
+            if (self.containerVC.targetBlock) {
+                self.containerVC.targetBlock(target);
+            }
+        }else{
+            WebController *webVC = [[WebController alloc] init];
+            webVC.loadUrl = target.link;
+            webVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:webVC animated:YES];
+        }
     }
 }
 #pragma mark - APIManagerParamSource

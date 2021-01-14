@@ -22,15 +22,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"文件库";
 }
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
-//}
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-//}
 
 - (void)loadFileCatalogCollectionView{
     [self.fileCatalogCollectionView reloadData];
@@ -39,7 +32,6 @@
     if (self.fileView.navigationController.viewControllers.count <=1)
         self.fileCatalogCollectionView.hidden = empty;
 }
-//#pragma mark - UICollectionViewDelegate UICollectionViewDataSource
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
