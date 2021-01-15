@@ -41,7 +41,10 @@
 #define choose_adjunct_file     @"choose_adjunct_file"
 
 #define task_send_toUser        @"task_send_toUser"
-
+// 当前选中的步骤
 #define current_selected_step   @"current_selected_step"
+// 新建文件夹
+#define target_new_file_group   @"target_new_file_group"
+
 
 #endif /* ResponderChainHeader_h */

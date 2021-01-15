@@ -24,6 +24,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    // 初始化相机，要不会有两秒延迟
+    [self initializeImagePicker];
+    self.actionSheetType = 1;
     // Do any additional setup after loading the view.
     self.title = @"任务列表";
     self.automaticallyAdjustsScrollViewInsets = NO;

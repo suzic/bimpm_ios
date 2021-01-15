@@ -467,7 +467,7 @@
             <objects>
                 <viewController storyboardIdentifier="documentLibController" id="Pvf-4O-76c" customClass="DocumentLibController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="l1e-ME-PUN">
-                        <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
+                        <rect key="frame" x="0.0" y="0.0" width="428" height="843"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cK3-OG-qo8" userLabel="Catalogue View">
@@ -553,6 +553,7 @@
                             <constraint firstItem="cK3-OG-qo8" firstAttribute="top" secondItem="x4D-Y2-9zg" secondAttribute="top" constant="2" id="k6Z-B9-f6z"/>
                         </constraints>
                     </view>
+                    <extendedEdge key="edgesForExtendedLayout" top="YES"/>
                     <navigationItem key="navigationItem" id="660-wD-wrx"/>
                     <connections>
                         <outlet property="fileCatalogCollectionView" destination="4Wa-R1-nwA" id="s9d-UI-53o"/>

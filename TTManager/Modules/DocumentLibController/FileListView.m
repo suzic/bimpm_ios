@@ -38,11 +38,14 @@
     self.targetListManager.pageSize.pageSize = 20;
     [self.targetListManager loadData];
 }
+
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //隐藏导航栏造成的返回手势失效
     self.navigationController.interactivePopGestureRecognizer.delegate = self;
+    [self.containerVC loadFileCatalogCollectionView];
 }
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

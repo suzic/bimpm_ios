@@ -49,7 +49,8 @@
                       NSClassFromString(@"WorkbenchController"),
                       NSClassFromString(@"DocumentLibController"),
                       NSClassFromString(@"ConversationListController"),
-                      NSClassFromString(@"TeamController")];
+                      NSClassFromString(@"TeamController"),
+                      NSClassFromString(@"FileListView")];
     if ([array containsObject:[viewController class]]) {
         BOOL hide = YES;
         if ([viewController isKindOfClass:[DocumentLibController class]])

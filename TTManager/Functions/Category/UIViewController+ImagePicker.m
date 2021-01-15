@@ -17,6 +17,7 @@ static void *kCameraPickerKey = @"kCameraPickerKey";
 static void *kPhotoLibraryPickerKey = @"kPhotoLibraryPickerKey";
 static void *kImageSizeKey = @"kimageSizeKey";
 static void *isCut =  @"isCut"; //截取
+static void *sheetType = @"actionSheetType";
 
 @interface UIViewController ()<UIActionSheetDelegate, UIImagePickerControllerDelegate, UINavigationControllerDelegate>
 
@@ -30,6 +31,16 @@ static void *isCut =  @"isCut"; //截取
 @end
 
 @implementation UIViewController (ImagePicker)
+
+- (void)initializeImagePicker{
+    //先创建好 不然调用的时候 第一次创建很慢 有2秒的延迟
+    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
+    {
+        //判断相机可用
+        [self setUpCameraPickControllerIsEdit:self.isCutImageBool];
+    }
+    [self setUpPhotoPickControllerIsEdit:self.isCutImageBool];
+}
 
 - (void)pickImageWithCompletionHandler:(ImagePickerCompletionHandler)completionHandler {
     self.completionHandler = completionHandler;
@@ -57,13 +68,6 @@ static void *isCut =  @"isCut"; //截取
     self.photoLibraryPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
 }
 - (void)presentChoseActionSheet {
-    //先创建好 不然调用的时候 第一次创建很慢 有2秒的延迟
-    if([UIImagePickerController isSourceTypeAvailable:UIImagePickerControllerSourceTypeCamera])
-    {
-        //判断相机可用
-        [self setUpCameraPickControllerIsEdit:self.isCutImageBool];
-    }
-    [self setUpPhotoPickControllerIsEdit:self.isCutImageBool];
     
     UIAlertController * actionController = [UIAlertController alertControllerWithTitle:nil message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
@@ -123,10 +127,13 @@ static void *isCut =  @"isCut"; //截取
         }];
     }];
     
-    UIAlertAction * fileAction = [UIAlertAction actionWithTitle:@"文件库" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        [self routerEventWithName:open_document_library userInfo:@{}];
+    UIAlertAction * fileAction = [UIAlertAction actionWithTitle: self.actionSheetType == 1 ? @"文件库":@"新建文件夹" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        if (self.actionSheetType == 1) {
+            [self routerEventWithName:open_document_library userInfo:@{}];
+        }else if(self.actionSheetType == 2){
+            [self routerEventWithName:target_new_file_group userInfo:@{}];
+        }
     }];
-    
     [actionController addAction:cancelAction];
     [actionController addAction:takePhotoAction];
     [actionController addAction:choseFromAlbumAction];
@@ -207,7 +214,12 @@ static void *isCut =  @"isCut"; //截取
 - (BOOL)isCutImageBool {
     return [objc_getAssociatedObject(self, isCut) boolValue];
 }
-
+- (void)setActionSheetType:(NSInteger)actionSheetType{
+    return objc_setAssociatedObject(self, sheetType, @(actionSheetType), OBJC_ASSOCIATION_RETAIN);
+}
+- (NSInteger)actionSheetType{
+    return [objc_getAssociatedObject(self, sheetType) integerValue];
+}
 - (void)setImageSize:(CGSize)imageSize {
     return objc_setAssociatedObject(self, kImageSizeKey, [NSValue valueWithCGSize:imageSize], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
