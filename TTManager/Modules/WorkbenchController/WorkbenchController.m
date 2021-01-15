@@ -14,6 +14,7 @@
 #import "TaskListController.h"
 #import "MessageCell.h"
 #import "TaskInforCell.h"
+#import "TaskController.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
@@ -119,7 +120,17 @@
     }
     else if([eventName isEqualToString:function_selected])
     {
-        NSLog(@"当前点击的常用功能=====%@",userInfo[@"index"]);
+        NSInteger index = [userInfo[@"index"] integerValue];
+        if (index == 0) {
+            NSLog(@"点击了打卡");
+        }else{
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
+            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
+            nav.modalPresentationStyle = UIModalPresentationFullScreen;
+            TaskController *taskVC = (TaskController *)nav.topViewController;
+            taskVC.taskType = index == 1 ? 1:(index == 3 ? 5:3);
+            [self presentViewController:nav animated:YES completion:nil];
+        }
     }
     else if([eventName isEqualToString:push_to_taskList])
     {

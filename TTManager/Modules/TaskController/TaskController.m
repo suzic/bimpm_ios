@@ -244,7 +244,12 @@
     if (manager == self.taskNewManager) {
         ZHTask *task = (ZHTask *)manager.response.responseData;
         self.taskParams.uid_task = task.uid_task;
-        [self.taskDetailManager loadData];
+        if (![SZUtil isEmptyOrNull:self.to_uid_user]) {
+            self.taskParams.id_user = self.to_uid_user;
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
+        }else{
+            [self.taskDetailManager loadData];
+        }
     }else if(manager == self.taskDetailManager){
         ZHTask *task = (ZHTask *)manager.response.responseData;
         self.operabilityTools.task = task;

@@ -51,11 +51,27 @@
 // 本地数据库
 - (id)userToProjectListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    NSArray *basic = dict[@"basic"];
     NSArray *to_user = dict[@"to_user"];
-    for (NSDictionary *userDic in to_user) {
-        ZHUserProject *currentUP = [[DataManager defaultInstance] getUserProjectFromCoredataById:[userDic[@"id_user_project"] intValue]];
-        [[DataManager defaultInstance] syncUserProject:currentUP withUDInfo:userDic];
+    NSMutableArray *basicArray = [NSMutableArray array];
+    NSMutableArray *to_userArray = [NSMutableArray array];
+    if ([basic isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *projectDict in basic)
+        {
+            ZHProject *currentProject = [[DataManager defaultInstance] getProjectFromCoredataById:[projectDict[@"id_project"] intValue]];
+            [[DataManager defaultInstance] syncProject:currentProject withProjectInfo:projectDict];
+            [basicArray addObject:currentProject];
+        }
     }
-    return nil;
+    [[DataManager defaultInstance] saveContext];
+    if ([to_user isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *userDic in to_user) {
+            ZHUserProject *currentUP = [[DataManager defaultInstance] getUserProjectFromCoredataById:[userDic[@"id_user_project"] intValue]];
+            [[DataManager defaultInstance] syncUserProject:currentUP withUDInfo:userDic];
+            [to_userArray addObject:currentUP];
+        }
+    }
+    NSDictionary *dic = @{@"basic":basicArray,@"to_user":to_userArray};
+    return dic;
 }
 @end

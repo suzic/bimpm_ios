@@ -19,15 +19,17 @@
 @property (weak, nonatomic) IBOutlet UIView *bottomView;
 
 // api
-@property (nonatomic, strong) APIDMDetailManager* dmDetailsManager;
+@property (nonatomic, strong) APIUTPListManager *UTPlistManager;
 @property (nonatomic, strong) APIIMTokenManager *IMTokenManager;
-@property (nonatomic, strong) NSArray *infoArray;
+@property (nonatomic, strong) NSMutableArray *infoArray;
 @end
 
 @implementation UserInforController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    self.title = [NSString stringWithFormat:@"%@的信息",self.user.name];
     
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -65,8 +67,7 @@
     self.userEmali.text = email;
     self.userPhone.text = phone;
     self.userSex.text = sex;
-    [self assemblyData];
-//    [self.dmDetailsManager loadData];
+    [self.UTPlistManager loadData];
 }
 // 改变字体颜色
 - (NSMutableAttributedString *)changTextColor:(NSString *)text changText:(NSArray *)changeText{
@@ -107,8 +108,13 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
-    ZHUserProject *userProject = self.infoArray[indexPath.row];
-    NSString *titleText = [NSString stringWithFormat:@"%@ 中我是 %@",userProject.belongProject.name,userProject.assignRole.name];
+    NSDictionary *userInfo = self.infoArray[indexPath.row];
+    ZHProject *project = userInfo[@"project"];
+    NSString *roleName = userInfo[@"roleName"];
+    NSString *titleText = project.name;
+    if (![roleName isEqualToString:@""]) {
+        titleText = [NSString stringWithFormat:@"%@ 中我是 %@",titleText,roleName];
+    }
     cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"中我是"]];
     return cell;
 }
@@ -131,13 +137,18 @@
 }
 - (IBAction)goTaskAction:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    int i = 1;
     for (NSString *newTaskType in self.newTasTypeklist) {
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
             UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
             nav.modalPresentationStyle = UIModalPresentationFullScreen;
+            TaskController *vc = (TaskController *)nav.topViewController;
+            vc.taskType = action.taskType;
+            vc.to_uid_user = INT_32_TO_STRING(self.user.id_user);
             [self presentViewController:nav animated:YES completion:nil];
         }];
+        action.taskType = i;
         [alert addAction:action];
     }
     UIAlertAction *action = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
@@ -149,10 +160,9 @@
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
-    ZHProject *project = [DataManager defaultInstance].currentProject;
-    if (manager == self.dmDetailsManager) {
-        dic=@{@"id_project":INT_32_TO_STRING(project.id_project),
-              @"id_user":INT_32_TO_STRING(self.user.id_user)};
+    if (manager == self.UTPlistManager) {
+        dic = @{@"id_user":INT_32_TO_STRING(self.user.id_user),@"belong_state":@"0"};
+
     }else if(manager == self.IMTokenManager){
         dic = @{@"id_user":INT_32_TO_STRING(self.user.id_user)};
     }
@@ -160,9 +170,9 @@
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.dmDetailsManager) {
+    if (manager == self.UTPlistManager) {
         NSLog(@"获取数据成功");
-        [self assemblyData];
+        [self assemblyData:(NSDictionary *)manager.response.responseData];
         [self.tableView showDataCount:self.infoArray.count];
         [self.tableView reloadData];
     }else if(manager == self.IMTokenManager){
@@ -174,23 +184,32 @@
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     
 }
-- (void)assemblyData{
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    NSSet *department = user.hasProjects;
+- (void)assemblyData:(NSDictionary *)userProjectDic{
+    NSMutableArray *basicArray = userProjectDic[@"basic"];
+    NSMutableArray *to_userArray = userProjectDic[@"to_user"];
     
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_user_project" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    self.infoArray = [department sortedArrayUsingDescriptors:sortDescriptors];
+    for (int i = 0; i < basicArray.count; i++) {
+        ZHProject *project = basicArray[i];
+        ZHRole *role = nil;
+        if (to_userArray.count > i) {
+            ZHUserProject *userProject = to_userArray[i];
+            role = userProject.assignRole;
+        }
+        NSDictionary *userInfo = @{@"project":project,@"roleName":role == nil ? @"":role.name};
+        [self.infoArray addObject:userInfo];
+    }
+    
+    NSLog(@"当前的数据个数 %ld",self.infoArray.count);
 }
 
 #pragma mark - setter and getter
-- (APIDMDetailManager *)dmDetailsManager{
-    if (_dmDetailsManager == nil) {
-        _dmDetailsManager = [[APIDMDetailManager alloc] init];
-        _dmDetailsManager.delegate = self;
-        _dmDetailsManager.paramSource = self;
+- (APIUTPListManager *)UTPlistManager{
+    if (_UTPlistManager == nil) {
+        _UTPlistManager = [[APIUTPListManager alloc] init];
+        _UTPlistManager.delegate = self;
+        _UTPlistManager.paramSource = self;
     }
-    return _dmDetailsManager;
+    return _UTPlistManager;
 }
 - (APIIMTokenManager *)IMTokenManager{
     if (_IMTokenManager == nil) {
@@ -206,9 +225,9 @@
     }
     return _newTasTypeklist;
 }
-- (NSArray *)infoArray{
+- (NSMutableArray *)infoArray{
     if (_infoArray == nil) {
-        _infoArray = [NSArray array];
+        _infoArray = [NSMutableArray array];
     }
     return _infoArray;
 }

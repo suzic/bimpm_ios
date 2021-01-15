@@ -36,6 +36,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) TaskType taskType;
 // 当前任务id_task
 @property (nonatomic, copy) NSString *id_task;
+// 用户中心直接发送任务时，指定结束人
+@property (nonatomic, copy) NSString *to_uid_user;
+
 @end
 
 NS_ASSUME_NONNULL_END
