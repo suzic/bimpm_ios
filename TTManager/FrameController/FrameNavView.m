@@ -86,10 +86,18 @@
     }
     return _changeProjectBtn;
 }
-- (NSMutableArray *)projectList{
-    if (_projectList == nil || _projectList.count <= 0) {
-        _projectList = [DataManager defaultInstance].currentProjectList;
+- (void)changeTabProjectStyle:(BOOL)selectable{
+    if (selectable == YES) {
+        [self.changeProjectBtn setImage:nil forState:UIControlStateNormal];
+        self.changeProjectBtn.enabled = NO;
+        
+    }else{
+        [self.changeProjectBtn setImage:[UIImage imageNamed:@"button_ down"] forState:UIControlStateNormal];
+        self.changeProjectBtn.enabled = YES;
     }
+}
+- (NSMutableArray *)projectList{
+    _projectList = [DataManager defaultInstance].currentProjectList;
     return _projectList;
 }
 #pragma mark -setter and getter

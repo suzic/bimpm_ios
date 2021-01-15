@@ -23,6 +23,8 @@
 // 拖动距离
 @property (nonatomic, assign) CGPoint lastPoint;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *projectTopLayoutConstraint;
+
 // 主页面VC
 @property (nonatomic, strong) UIViewController *homeVC;
 // 导航栏
@@ -71,6 +73,7 @@
 {
     [self.view insertSubview:self.headerView belowSubview:self.userView];
     self.projectView.hidden = YES;
+    [self showProjectListView:NO];
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.shadowView addGestureRecognizer:tapGesture];
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
@@ -146,7 +149,7 @@
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:selectedProject]) {
         NSLog(@"选择项目");
-        self.projectView.hidden = YES;
+        [self showProjectListView:NO];
         [DataManager defaultInstance].currentProject = userInfo[@"currentProject"];
         [self.headerView reloadData];
         [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
@@ -253,7 +256,17 @@
     self.userView.layer.shadowRadius = show ? 3.0f : 0.0f;
     self.userView.layer.shadowOpacity = show ? 0.5 : 0.0f;
 }
-
+- (void)showProjectListView:(BOOL)show{
+    if (show == YES) {
+        self.projectView.hidden = NO;
+    }
+    [UIView animateWithDuration:0.5 animations:^{
+        self.projectTopLayoutConstraint.constant = show ? 0 : kScreenHeight;
+        [self.view layoutIfNeeded];
+    } completion:^(BOOL finished) {
+    }];
+    [self.headerView changeTabProjectStyle:show];
+}
 // 处理页面
 - (void)updateFrame
 {
@@ -261,10 +274,10 @@
 }
 #pragma mark - FrameNavViewDelegate
 - (void)clickShowProjectListView{
-    self.projectView.hidden = NO;
+    [self showProjectListView:YES];
 }
 - (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
-    self.projectView.hidden = YES;
+    [self showProjectListView:NO];
     NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
     [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
     [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
@@ -282,9 +295,11 @@
         [self.settingVC reloadData];
         NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
         if ([SZUtil isEmptyOrNull:id_project]) {
-            self.projectView.hidden = NO;
+//            self.projectView.hidden = NO;
+            [self showProjectListView:YES];
         }else{
-            self.projectView.hidden = YES;
+//            self.projectView.hidden = YES;
+            [self showProjectListView:NO];
         }
         [self.projectVC reloadData];
         [self updateFrame];

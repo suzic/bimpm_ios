@@ -27,6 +27,7 @@
         self.automaticallyAdjustsScrollViewInsets = NO;
     
     self.projectCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadData)];
+    _projectList = [NSMutableArray array];
     [self reloadData];
 }
 - (void)reloadData{

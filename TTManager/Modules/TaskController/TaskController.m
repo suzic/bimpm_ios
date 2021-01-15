@@ -169,6 +169,7 @@
     self.taskParams.priority = [priority integerValue];
     [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
 }
+// 修改任务名称
 - (void)alterTaskTitleToTask:(NSDictionary *)taskTitleDic{
     NSLog(@"修改当前的任务名称 == %@",taskTitleDic[@"taskTitle"]);
     self.taskParams.name = taskTitleDic[@"taskTitle"];

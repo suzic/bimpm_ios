@@ -47,6 +47,7 @@
                             <constraint firstItem="Jyk-20-m19" firstAttribute="centerY" secondItem="rB9-Va-x4b" secondAttribute="centerY" id="1NL-Zp-6Bb"/>
                             <constraint firstItem="Jyk-20-m19" firstAttribute="leading" secondItem="dVN-XS-5RQ" secondAttribute="trailing" id="2zw-FC-xwp"/>
                             <constraint firstItem="dVN-XS-5RQ" firstAttribute="width" secondItem="rB9-Va-x4b" secondAttribute="width" multiplier="4:5" id="5cx-qS-dtL"/>
+                            <constraint firstAttribute="top" secondItem="twk-Ky-pHJ" secondAttribute="top" id="AQN-yJ-C3G"/>
                             <constraint firstItem="dVN-XS-5RQ" firstAttribute="bottom" secondItem="rB9-Va-x4b" secondAttribute="bottom" id="D9I-ua-OyM"/>
                             <constraint firstItem="Nfj-6z-9bZ" firstAttribute="width" secondItem="rB9-Va-x4b" secondAttribute="width" id="DD7-LG-dRm"/>
                             <constraint firstItem="Nfj-6z-9bZ" firstAttribute="centerX" secondItem="5bG-KP-gZa" secondAttribute="centerX" id="Fsf-1t-HdV"/>
@@ -56,8 +57,6 @@
                             <constraint firstItem="twk-Ky-pHJ" firstAttribute="centerX" secondItem="rB9-Va-x4b" secondAttribute="centerX" id="QiP-as-DJr"/>
                             <constraint firstItem="Jyk-20-m19" firstAttribute="trailing" secondItem="rB9-Va-x4b" secondAttribute="trailing" id="T9d-cs-bzJ"/>
                             <constraint firstAttribute="top" secondItem="Nfj-6z-9bZ" secondAttribute="top" id="Xor-Mw-ZVw"/>
-                            <constraint firstItem="twk-Ky-pHJ" firstAttribute="centerY" secondItem="rB9-Va-x4b" secondAttribute="centerY" id="Yq8-5e-93J"/>
-                            <constraint firstItem="twk-Ky-pHJ" firstAttribute="width" secondItem="rB9-Va-x4b" secondAttribute="width" id="ajA-QC-dEb"/>
                             <constraint firstItem="twk-Ky-pHJ" firstAttribute="height" secondItem="rB9-Va-x4b" secondAttribute="height" id="b6r-db-07C"/>
                             <constraint firstItem="dVN-XS-5RQ" firstAttribute="centerY" secondItem="rB9-Va-x4b" secondAttribute="centerY" id="gnM-ij-Y9x"/>
                             <constraint firstItem="twk-Ky-pHJ" firstAttribute="width" secondItem="rB9-Va-x4b" secondAttribute="width" id="rvL-lN-x85"/>
@@ -66,6 +65,7 @@
                     </view>
                     <connections>
                         <outlet property="homeView" destination="Nfj-6z-9bZ" id="mJ3-ul-N2G"/>
+                        <outlet property="projectTopLayoutConstraint" destination="AQN-yJ-C3G" id="LjB-Wr-V81"/>
                         <outlet property="projectView" destination="twk-Ky-pHJ" id="iMT-bm-T13"/>
                         <outlet property="shadowView" destination="Jyk-20-m19" id="NXv-0Q-yLL"/>
                         <outlet property="userView" destination="dVN-XS-5RQ" id="lPf-B1-Bfq"/>

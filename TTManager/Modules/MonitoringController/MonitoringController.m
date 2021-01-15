@@ -23,9 +23,11 @@
     else
         self.automaticallyAdjustsScrollViewInsets = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
 }
 
 - (void)reoladNetwork{
+    
 }
 //- (void)viewWillAppear:(BOOL)animated{
 //    [super viewWillAppear:animated];

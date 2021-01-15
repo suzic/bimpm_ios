@@ -84,6 +84,10 @@
     if (manager == self.logoutManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
         [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
+        [DataManager defaultInstance].currentUser = nil;
+        [DataManager defaultInstance].currentProject = nil;
+        [[DataManager defaultInstance].currentProjectList removeLastObject];
+        [DataManager defaultInstance].currentProjectList = nil;
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
