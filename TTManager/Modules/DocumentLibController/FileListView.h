@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign)  id uid_parent;
 @property (nonatomic, copy)  NSString *id_module;
 
+- (void)reoladNetwork;
+
 @end
 
 NS_ASSUME_NONNULL_END

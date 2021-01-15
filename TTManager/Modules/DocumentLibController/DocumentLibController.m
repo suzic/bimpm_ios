@@ -10,13 +10,14 @@
 #import "FileCatalogCell.h"
 #import "FileListView.h"
 #import "DragButton.h"
+#import "UploadFileManager.h"
 
 @interface DocumentLibController ()<UICollectionViewDelegate,UICollectionViewDataSource,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *fileCatalogCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
-@property (nonatomic, strong)FileListView *fileView;
-
+@property (nonatomic, strong) UploadFileManager *uploadManager;
+@property (nonatomic, strong) FileListView *rootFileView;
 @end
 
 @implementation DocumentLibController
@@ -39,7 +40,7 @@
     [self.fileCatalogCollectionView reloadData];
 }
 - (void)fileViewListEmpty:(BOOL)empty{
-    if (self.fileView.navigationController.viewControllers.count <=1)
+    if (self.rootFileView.navigationController.viewControllers.count <=1)
         self.fileCatalogCollectionView.hidden = empty;
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
@@ -49,34 +50,35 @@
 }
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-    return self.fileView.navigationController.viewControllers.count;
+    return self.rootFileView.navigationController.viewControllers.count;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FileCatalogCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"titleCell" forIndexPath:indexPath];
-    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    UIViewController *vc = self.rootFileView.navigationController.viewControllers[indexPath.row];
 //    NSString *titleName = [NSString stringWithFormat:@"目录%@",vc.title];
     cell.fileName.text = vc.title;
-    cell.arrow.hidden = self.fileView.navigationController.viewControllers.count == (indexPath.row + 1);
+    cell.arrow.hidden = self.rootFileView.navigationController.viewControllers.count == (indexPath.row + 1);
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    UIViewController *vc = self.rootFileView.navigationController.viewControllers[indexPath.row];
     NSString *titleName = vc.title;
     CGRect frame = [titleName boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 30) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:16.0f],NSFontAttributeName, nil] context:nil];
     return CGSizeMake(frame.size.width + 15 + 5, 64);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
-    [self.fileView.containerVC loadFileCatalogCollectionView];
-    [self.fileView.navigationController popToViewController:vc animated:YES];
+    UIViewController *vc = self.rootFileView.navigationController.viewControllers[indexPath.row];
+    [self.rootFileView.containerVC loadFileCatalogCollectionView];
+    [self.rootFileView.navigationController popToViewController:vc animated:YES];
 }
 #pragma mark - responder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:new_task_action]){
         [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
             NSLog(@"打开相册");
+            [self uploadImage:imageData];
         }];
     }else if([eventName isEqualToString:target_new_file_group]){
         [self showNewFileGroupView];
@@ -89,8 +91,7 @@
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
         NSString *fileName = alertController.textFields[0].text;
-        [SZAlert showInfo:fileName underTitle:@"众和空间"];
-
+        [self newFileGroup:fileName];
     }]];
     //定义第一个输入框；
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
@@ -99,7 +100,40 @@
     }];
     [self presentViewController:alertController animated:true completion:nil];
 }
+- (void)newFileGroup:(NSString *)groupName{
+    if ([SZUtil isEmptyOrNull:groupName]) {
+        [SZAlert showInfo:@"请填写文件夹名称" underTitle:@"众和空间"];
+        return;
+    }
+    [self.uploadManager newFileGroupWithGroupName:groupName target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
+    [self uploadSuccess];
+}
 
+- (void)uploadImage:(NSData *)imageData{
+    if (imageData == nil) {
+        [SZAlert showInfo:@"请选择图片后重试" underTitle:@"众和空间"];
+        return;
+    }
+    [self.uploadManager uploadFile:imageData fileName:[SZUtil getGUID] target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
+    [self uploadSuccess];
+    
+}
+- (void)uploadSuccess{
+    __weak typeof(self) weakSelf = self;
+    self.uploadManager.uploadResult = ^(BOOL success, NSString * _Nonnull errMsg, NSString * _Nonnull id_file) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        if (success == YES) {
+            [strongSelf.fileView reoladNetwork];
+        }
+    };
+}
+#pragma mark - setter and getter
+- (UploadFileManager *)uploadManager{
+    if (_uploadManager == nil) {
+        _uploadManager = [[UploadFileManager alloc] init];
+    }
+    return _uploadManager;
+}
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
@@ -113,6 +147,7 @@
         self.fileView.containerVC = self;
         self.fileView.uid_parent = [NSNull null];
         self.fileView.id_module = @"0";
+        self.rootFileView = self.fileView;
     }
 }
 

@@ -98,6 +98,7 @@
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8C725B15E830023FC7F /* APILogoutManager.m */; };
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
+		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -341,6 +342,8 @@
 		4054B8C725B15E830023FC7F /* APILogoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogoutManager.m; sourceTree = "<group>"; };
 		4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPDetailManager.h; sourceTree = "<group>"; };
 		4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIUTPDetailManager.m; sourceTree = "<group>"; };
+		4054B8DA25B207240023FC7F /* UploadFileManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UploadFileManager.h; sourceTree = "<group>"; };
+		4054B8DB25B207240023FC7F /* UploadFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadFileManager.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -919,6 +922,7 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				4054B8D825B206FA0023FC7F /* UploadFileManager */,
 				4054B8CE25B197910023FC7F /* APIUTPDetailManager */,
 				4054B8C525B15E330023FC7F /* APILogoutManager */,
 				402DA0F025B002D30030E68D /* APITargetNewManager */,
@@ -1136,6 +1140,15 @@
 				4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */,
 			);
 			path = APIUTPDetailManager;
+			sourceTree = "<group>";
+		};
+		4054B8D825B206FA0023FC7F /* UploadFileManager */ = {
+			isa = PBXGroup;
+			children = (
+				4054B8DA25B207240023FC7F /* UploadFileManager.h */,
+				4054B8DB25B207240023FC7F /* UploadFileManager.m */,
+			);
+			path = UploadFileManager;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1502,6 +1515,7 @@
 				4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */,
 				406FCB0A25A4CC2100636079 /* ZHUserProject+CoreDataProperties.m in Sources */,
 				402A9EF42595769900A9DABA /* AppDelegate.m in Sources */,
+				4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
 				406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */,

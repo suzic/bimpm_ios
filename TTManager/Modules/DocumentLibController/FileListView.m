@@ -75,12 +75,12 @@
     {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"documentList"];
-        
         FileListView *VC = (FileListView *)[nav topViewController];
         VC.containerVC = self.containerVC;
         VC.uid_parent = [self get_uid_parent:target];
         VC.id_module = INT_32_TO_STRING(target.id_module);
         VC.title = target.name;
+        self.containerVC.fileView = VC;
         [self.navigationController pushViewController:VC animated:YES];
     }else if(target.is_file == 1){
         if (self.containerVC.chooseTargetFile == YES) {
@@ -152,9 +152,7 @@
 }
 - (NSArray *)fileListArray{
      NSArray *result = (NSArray *)self.targetListManager.response.responseData;
-    if (_fileListArray == nil) {
-        _fileListArray = result;
-    }
+    _fileListArray = result;
     return _fileListArray;
 }
 #pragma mark - UIGestureRecognizerDelegate
