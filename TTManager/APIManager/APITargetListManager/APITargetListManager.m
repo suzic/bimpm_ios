@@ -32,7 +32,7 @@
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
-    dict[@"pager"] = [self.pageSize currentPage];
+//    dict[@"pager"] = [self.pageSize currentPage];
     NSDictionary *dic = @{@"data":dict,
                           @"module":@"",
                           @"priority":@"5"};

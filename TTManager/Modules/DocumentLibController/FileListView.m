@@ -97,7 +97,10 @@
         ZHProject *project = [DataManager defaultInstance].currentProject;
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
                 @"id_module":@"0",
-                @"uid_parent":self.uid_parent};
+                @"with_system":@"1",
+                @"uid_parent":@"0",
+                @"category":@""
+        };
     }
     return dic;
 }
@@ -107,7 +110,7 @@
         [self.tableView.mj_header endRefreshing];
         [self.tableView showDataCount:self.fileListArray.count];
         [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
-        self.title = @"";
+//        self.title = @"";
         [self.containerVC loadFileCatalogCollectionView];
         [self.tableView reloadData];
     }

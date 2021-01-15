@@ -71,9 +71,9 @@
     if ([segue.identifier isEqualToString:@"showFileList"]) {
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         self.fileView = (FileListView *)nav.topViewController;
-        self.fileView.title = @"目录";
+        self.fileView.title = @"文档";
         self.fileView.containerVC = self;
-        self.fileView.uid_parent = @"NULL";
+        self.fileView.uid_parent = @"null";
     }
 }
 

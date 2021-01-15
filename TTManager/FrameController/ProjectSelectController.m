@@ -13,7 +13,8 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
 @property (nonatomic, strong) NSMutableArray *projectList;
 // api
-@property (nonatomic, strong)APIUTPListManager *UTPlistManager;
+@property (nonatomic, strong) APIUTPListManager *UTPlistManager;
+
 @end
 
 @implementation ProjectSelectController
@@ -95,6 +96,7 @@
     }
     return _UTPlistManager;
 }
+
 /*
 #pragma mark - Navigation
 

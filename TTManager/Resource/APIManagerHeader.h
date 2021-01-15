@@ -34,5 +34,6 @@
 #import "APIUTPListManager.h"
 #import "APIUTPInfoManager.h"
 #import "APIUTPGanttManager.h"
+#import "APIUTPDetailManager.h"
 
 #endif /* APIManagerHeader_h */

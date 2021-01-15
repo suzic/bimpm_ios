@@ -37,6 +37,8 @@
 // api
 @property (nonatomic, strong)APILoginManager *loginManager;
 @property (nonatomic, strong)APILoginManager *newDeviceCheckManager;
+@property (nonatomic, strong) APIUTPDetailManager *UTPDetailManager;
+
 @property (nonatomic, copy) NSString *verifyCode;
 
 @property (nonatomic,assign) BOOL bFirst;
@@ -279,9 +281,11 @@
 - (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
     [self showProjectListView:NO];
     NSMutableArray *array = [DataManager defaultInstance].currentProjectList;
-    [DataManager defaultInstance].currentProject = array[currentSelectedIndex];
-    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
+    ZHProject *project =  array[currentSelectedIndex];
+    [DataManager defaultInstance].currentProject = project;
+    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING(project.id_project)];
     NSLog(@"当前选择的项目id%d",[DataManager defaultInstance].currentProject.id_project);
+    [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(project.id_project)}];
     [self updateFrame];
 }
 #pragma mark - ApiManagerCallBackDelegate
@@ -349,6 +353,14 @@
         _loginManager.paramSource = self;
     }
     return _loginManager;
+}
+- (APIUTPDetailManager *)UTPDetailManager{
+    if (_UTPDetailManager == nil) {
+        _UTPDetailManager = [[APIUTPDetailManager alloc] init];
+        _UTPDetailManager.delegate = self;
+        _UTPDetailManager.paramSource = self;
+    }
+    return _UTPDetailManager;
 }
 - (APILoginManager *)newDeviceCheckManager{
     if (_newDeviceCheckManager == nil) {
