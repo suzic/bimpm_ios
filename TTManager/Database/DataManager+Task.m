@@ -162,11 +162,12 @@
     //last_step
     flow.stepLast = [self syncStep:nil withStepDic:flowDic[@"last_step"]];
     // current_step
-    for (NSDictionary *stepitem in flowDic[@"current_step"]) {
-        ZHStep *step = [self syncStep:nil withStepDic:stepitem];
-        [flow addStepCurrentObject:step];
+    if ([flowDic[@"current_step"] isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *stepitem in flowDic[@"current_step"]) {
+            ZHStep *step = [self syncStep:nil withStepDic:stepitem];
+            [flow addStepCurrentObject:step];
+        }
     }
-    
     return flow;
 }
 // 同步flow_step

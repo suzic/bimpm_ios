@@ -229,31 +229,6 @@
     NSInvocation *invocation = self.eventStrategy[eventName];
     [invocation setArgument:&userInfo atIndex:2];
     [invocation invoke];
-//    if([eventName isEqualToString:selected_taskStep_user]){
-////        [self addUserToStep:userInfo];
-//    }else if([eventName isEqualToString:choose_adjunct_file]){
-//        [self addFileToCurrentStep:userInfo];
-//    }else if([eventName isEqualToString:select_caldenar_view]){
-//        [self setStepPlanTimeToTask:userInfo];
-//    }else if([eventName isEqualToString:selected_task_priority]){
-//        [self alterFlowPriorityToFlow:userInfo];
-//    }else if([eventName isEqualToString:change_task_title]){
-//        [self alterTaskTitleToTask:userInfo];
-//    }else if([eventName isEqualToString:change_task_content]){
-//        [self alterContentTextToTask:userInfo];
-//    }else if([eventName isEqualToString:open_document_library])
-//    {
-//        [self openDocumentLibView:userInfo];
-//    }else if([eventName isEqualToString:task_process_submit]){
-//        [self bottomToolsOperabilityEvent:userInfo];
-//    }else if([eventName isEqualToString:task_send_toUser]){
-//        [self sengCurrentTask:userInfo];
-//    }else if([eventName isEqualToString:current_selected_step])
-//    {
-//        [self changeCurrentSelectedStepUser:userInfo];
-//    }else if([eventName isEqualToString:task_click_save]){
-//        [self alterContentTexOrTaskTitletSave:userInfo];
-//    }
 }
 
 #pragma mark - APIManagerParamSource
@@ -484,13 +459,13 @@
     }
     return _eventStrategy;
 }
-// 消息转发 NSInvocation中保存了方法所属的对象/方法名称/参数/返回值
+// 消息转发 NSInvocation中保存了方法所属的对象/方法名称/参数/返回值 使用可以传递多个参数
 - (NSInvocation *)createInvocationWithSelector:(SEL)sel{
     NSMethodSignature  *signature = [TaskController instanceMethodSignatureForSelector:sel];
     NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
     invocation.target = self;
     invocation.selector = sel;
-    // target 0 selector 1 参数2 返回值 3
+    // target 0 selector 1 参数2
 //    [invocation setArgument:&way atIndex:2];
     return invocation;
 }
