@@ -75,7 +75,9 @@
         
         FileListView *VC = (FileListView *)[nav topViewController];
         VC.containerVC = self.containerVC;
-        VC.uid_parent = target.fid_parent;
+        VC.uid_parent = [self get_uid_parent:target];
+        VC.id_module = INT_32_TO_STRING(target.id_module);
+        VC.title = target.name;
         [self.navigationController pushViewController:VC animated:YES];
     }else if(target.is_file == 1){
         if (self.containerVC.chooseTargetFile == YES) {
@@ -90,16 +92,29 @@
         }
     }
 }
+- (NSString *)get_uid_parent:(ZHTarget *)target{
+    NSString *uid_parent = @"0";
+    if ([target.name isEqualToString:@"Pub"]) {
+        uid_parent = @"0";
+    }else if([target.name isEqualToString:@"Monitor"]){
+        uid_parent = @"10";
+    }else if([target.name isEqualToString:@"Form"]){
+        uid_parent = @"11";
+    }else if([target.name isEqualToString:@"Task"]){
+        uid_parent = @"12";
+    }else{
+        uid_parent = target.uid_target;
+    }
+    return uid_parent;
+}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     if (manager == self.targetListManager) {
         ZHProject *project = [DataManager defaultInstance].currentProject;
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
-                @"id_module":@"0",
-                @"with_system":@"1",
-                @"uid_parent":@"0",
-                @"category":@""
+                @"id_module":self.id_module,
+                @"uid_parent":self.uid_parent,
         };
     }
     return dic;

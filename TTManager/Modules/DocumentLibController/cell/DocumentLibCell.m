@@ -37,7 +37,7 @@
     }
     // 文件
     else if(target.is_file == 1){
-        name = [NSString stringWithFormat:@"file_group_%d",target.type];
+        name = [NSString stringWithFormat:@"file_Image_%d",target.type];
     }
     return name;
 }

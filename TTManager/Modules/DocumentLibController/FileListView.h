@@ -14,7 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FileListView : UITableViewController
 
 @property (nonatomic, weak) DocumentLibController *containerVC;
-@property (nonatomic, copy) NSString *uid_parent;
+@property (nonatomic, assign)  id uid_parent;
+@property (nonatomic, copy)  NSString *id_module;
+
 @end
 
 NS_ASSUME_NONNULL_END

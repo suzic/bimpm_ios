@@ -59,6 +59,7 @@
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     UIViewController *vc = self.fileView.navigationController.viewControllers[indexPath.row];
+    [self.fileView.containerVC loadFileCatalogCollectionView];
     [self.fileView.navigationController popToViewController:vc animated:YES];
 }
 
@@ -71,9 +72,10 @@
     if ([segue.identifier isEqualToString:@"showFileList"]) {
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         self.fileView = (FileListView *)nav.topViewController;
-        self.fileView.title = @"文档";
+        self.fileView.title = @"目录";
         self.fileView.containerVC = self;
-        self.fileView.uid_parent = @"null";
+        self.fileView.uid_parent = [NSNull null];
+        self.fileView.id_module = @"0";
     }
 }
 
