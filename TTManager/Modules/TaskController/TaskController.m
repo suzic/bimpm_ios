@@ -32,6 +32,9 @@
 
 @property (nonatomic, strong) TaskParams *taskParams;
 
+// Responder Chain事件处理
+@property (nonatomic, strong) NSDictionary<NSString *, NSInvocation *> *eventStrategy;
+
 // api
 @property (nonatomic, strong) APITaskNewManager *taskNewManager;
 @property (nonatomic, strong) APITaskEditManager *taskEditManager;
@@ -47,14 +50,12 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
     [self setNavbackItemAndTitle];
-    
     [self addUI];
-    
     [self loadData];
 }
 
+#pragma mark - api
 - (void)loadData{
     if (self.operabilityTools.isDetails) {
         [self.taskDetailManager loadData];
@@ -62,7 +63,6 @@
         [self.taskNewManager loadData];
     }
 }
-
 #pragma mark - private method
 - (void)setNavbackItemAndTitle{
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
@@ -72,7 +72,6 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
-
 - (void)back{
     if (self.operabilityTools.isDetails == YES) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -92,142 +91,179 @@
     menuView.popoverPresentationController.sourceRect = CGRectMake(rightBarItem.frame.origin.x, rightBarItem.frame.origin.y+20, 0, 0);
     [self presentViewController:menuView animated:YES completion:nil];
 }
-
-// 设置组件的tools
+// 设置view的tools
 - (void)setModuleViewOperabilityTools{
     self.stepView.tools = self.operabilityTools;
     self.taskTitleView.tools = self.operabilityTools;
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
 }
+// 设置请求参数
 - (void)setRequestParams:(ZHTask *)task{
     self.taskParams.name = task.name;
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
+
+- (IBAction)closeVCAction:(id)sender {
+    if (self.presentingViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+}
+// 添加或者取消步骤负责人
+- (void)addUserToStep:(NSDictionary *)addStepDic{
+    // 0尾步骤 ,1中间用户
+    NSString *stepUserLoc = addStepDic[@"addType"];
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
+    team.selectedUserType = YES;
+    team.selectUserBlock = ^(ZHUser * _Nonnull user) {
+        NSLog(@"当前选择的用户==%@",user.name);
+        self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
+        
+        if ([stepUserLoc isEqualToString:TO]){
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
+        }else if([stepUserLoc isEqualToString:ASSIGN]){
+            self.taskParams.uid_step = addStepDic[@"uid_step"];
+            [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
+        }
+    };
+    
+    [self.navigationController pushViewController:team animated:YES];
+}
+// 添加附件到当前步骤
+- (void)addFileToCurrentStep:(NSDictionary *)addFileDic{
+    NSString *type = addFileDic[@"adjunctType"];
+    NSString *uid_target = addFileDic[@"uid_target"];
+    self.taskParams.uid_target = uid_target;
+    // 1添加附件（相册和文件库），2删除附件 ，4查看附件
+    if ([type isEqualToString:@"1"]) {
+        NSLog(@"添加附加");
+        [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
+            NSLog(@"当前选择的图片");
+            [self.uploadFileManager.uploadArray removeAllObjects];
+            [self.uploadFileManager.uploadArray addObject:imageData];
+            [self.uploadFileManager loadData];
+        }];
+    }
+    else if([type isEqualToString:@"2"]){
+        NSLog(@"查看附加");
+    }
+    else if([type isEqualToString:@"4"]){
+        NSLog(@"删除附件");
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+    }
+}
+// 设置当前步骤或者任务预计完成时间
+- (void)setStepPlanTimeToTask:(NSDictionary *)planTimeDic{
+    self.taskParams.planDate = planTimeDic[@"planDate"];
+    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
+}
+// 修改任务优先级
+- (void)alterFlowPriorityToFlow:(NSDictionary *)priorityDic{
+    NSString *priority = priorityDic[@"priority"];
+    NSLog(@"当前选择的任务等级 %@",priority);
+    [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
+    self.taskParams.priority = [priority integerValue];
+    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
+}
+- (void)alterTaskTitleToTask:(NSDictionary *)taskTitleDic{
+    NSLog(@"修改当前的任务名称 == %@",taskTitleDic[@"taskTitle"]);
+    self.taskParams.name = taskTitleDic[@"taskTitle"];
+    [self.taskEditManager loadData];
+}
+// 修改文本内容（步骤、任务、终止、召回填写的的信息）
+- (void)alterContentTextToTask:(NSDictionary *)contentDic{
+    NSLog(@"修改当前任务的任务内容 == %@",contentDic[@"taskContent"]);
+    self.taskParams.memo = contentDic[@"taskContent"];
+    if (self.taskType != task_type_detail_initiate) {
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
+    }
+}
+// 打开文件库
+- (void)openDocumentLibView:(NSDictionary *)documentDic{
+    NSLog(@"打开文件库");
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    DocumentLibController *vc = (DocumentLibController *)[sb instantiateViewControllerWithIdentifier:@"documentLibController"];
+    vc.chooseTargetFile = YES;
+    vc.targetBlock = ^(ZHTarget * _Nonnull target) {
+        self.taskParams.uid_task = target.uid_target;
+        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+    };
+    [self.navigationController pushViewController:vc animated:YES];
+}
+// 底部栏按钮操作事件
+- (void)bottomToolsOperabilityEvent:(NSDictionary *)eventDic{
+    NSString *operation = eventDic[@"operation"];
+    if ([operation isEqualToString:@"0"]) {
+        NSLog(@"发送任务");
+        self.taskParams.submitParams = @"1";
+    }else{
+        self.taskParams.submitParams = operation;
+        NSLog(@"处理任务进度");
+    }
+    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+}
+// 发送当前任务
+- (void)sengCurrentTask:(NSDictionary *)taskDic{
+    NSLog(@"发送当前任务");
+    self.taskParams.submitParams = @"1";
+    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+}
+// 改变当前选中的步骤
+- (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
+    NSLog(@"改变当前选中的步骤");
+    self.operabilityTools.currentSelectedStep = stepUserDic[@"step"];
+    self.taskContentView.tools = self.operabilityTools;
+    self.taskOperationView.tools = self.operabilityTools;
+}
+// 修改内容后点击保存
+- (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
+    NSLog(@"点击了保存操作");
+}
+
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if([eventName isEqualToString:selected_taskStep_user])
-    {
-        // 1 中间用户 ，0尾步骤
-        NSString *addType = userInfo[@"addType"];
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
-        team.selectedUserType = YES;
-        team.selectUserBlock = ^(ZHUser * _Nonnull user) {
-            NSLog(@"当前选择的用户==%@",user.name);
-            self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
-            if ([addType isEqualToString:TO])
-            {
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
-            }else if([addType isEqualToString:ASSIGN]){
-                self.taskParams.uid_step = userInfo[@"uid_step"];
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
-            }
-        };
-        [self.navigationController pushViewController:team animated:YES];
-    }
-    else if([eventName isEqualToString:choose_adjunct_file])
-    {
-        NSString *type = userInfo[@"adjunctType"];
-        NSString *uid_target = userInfo[@"uid_target"];
-        self.taskParams.uid_target = uid_target;
-        if ([type isEqualToString:@"1"]) {
-            NSLog(@"添加附加");
-            [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
-                NSLog(@"当前选择的图片");
-                [self.uploadFileManager.uploadArray removeAllObjects];
-                [self.uploadFileManager.uploadArray addObject:imageData];
-                [self.uploadFileManager loadData];
-                //  需要现fileUpload之后再 提交
-//                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
-            }];
-        }else if([type isEqualToString:@"2"]){
-            NSLog(@"查看附加");
-        }else if([type isEqualToString:@"4"]){
-            NSLog(@"删除附件");
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
-        }
-    }
-    else if([eventName isEqualToString:select_caldenar_view])
-    {
-        NSLog(@"选择日期");
-        self.taskParams.planDate = userInfo[@"planDate"];
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
-    
-    }
-    else if([eventName isEqualToString:selected_task_priority])
-    {
-        NSString *priority = userInfo[@"priority"];
-        NSLog(@"当前选择的任务等级 %@",priority);
-        [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
-        self.taskParams.priority = [priority integerValue];
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
-    }else if([eventName isEqualToString:change_task_title])
-    {
-        NSLog(@"修改当前的任务名称 == %@",userInfo[@"taskTitle"]);
-        self.taskParams.name = userInfo[@"taskTitle"];
-        [self.taskEditManager loadData];
-    }else if([eventName isEqualToString:change_task_content])
-    {
-        NSLog(@"修改当前任务的任务内容 == %@",userInfo[@"taskContent"]);
-        self.taskParams.memo = userInfo[@"taskContent"];
-        if (self.taskType != task_type_detail_initiate) {
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
-        }
-    }else if([eventName isEqualToString:open_document_library]){
-        NSLog(@"打开文件库");
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        DocumentLibController *vc = (DocumentLibController *)[sb instantiateViewControllerWithIdentifier:@"documentLibController"];
-        vc.chooseTargetFile = YES;
-        vc.targetBlock = ^(ZHTarget * _Nonnull target) {
-            self.taskParams.uid_task = target.uid_target;
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
-        };
-        [self.navigationController pushViewController:vc animated:YES];
-    }else if([eventName isEqualToString:task_process_submit]){
-        NSString *operation = userInfo[@"operation"];
-        if ([operation isEqualToString:@"0"]) {
-            NSLog(@"发送任务");
-            self.taskParams.submitParams = @"1";
-        }else{
-            self.taskParams.submitParams = operation;
-            NSLog(@"处理任务进度");
-        }
-        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
-    }else if([eventName isEqualToString:task_send_toUser]){
-        NSLog(@"发送当前任务");
-        self.taskParams.submitParams = @"1";
-        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
-    }else if([eventName isEqualToString:current_selected_step]){
-        NSLog(@"改变当前选中的步骤");
-        self.operabilityTools.currentSelectedStep = userInfo[@"step"];
-        self.taskContentView.tools = self.operabilityTools;
-        self.taskOperationView.tools = self.operabilityTools;
-    }else if([eventName isEqualToString:task_click_save]){
-        NSLog(@"点击了保存操作");
-    }
+    NSInvocation *invocation = self.eventStrategy[eventName];
+    [invocation setArgument:&userInfo atIndex:2];
+    [invocation invoke];
+//    if([eventName isEqualToString:selected_taskStep_user]){
+////        [self addUserToStep:userInfo];
+//    }else if([eventName isEqualToString:choose_adjunct_file]){
+//        [self addFileToCurrentStep:userInfo];
+//    }else if([eventName isEqualToString:select_caldenar_view]){
+//        [self setStepPlanTimeToTask:userInfo];
+//    }else if([eventName isEqualToString:selected_task_priority]){
+//        [self alterFlowPriorityToFlow:userInfo];
+//    }else if([eventName isEqualToString:change_task_title]){
+//        [self alterTaskTitleToTask:userInfo];
+//    }else if([eventName isEqualToString:change_task_content]){
+//        [self alterContentTextToTask:userInfo];
+//    }else if([eventName isEqualToString:open_document_library])
+//    {
+//        [self openDocumentLibView:userInfo];
+//    }else if([eventName isEqualToString:task_process_submit]){
+//        [self bottomToolsOperabilityEvent:userInfo];
+//    }else if([eventName isEqualToString:task_send_toUser]){
+//        [self sengCurrentTask:userInfo];
+//    }else if([eventName isEqualToString:current_selected_step])
+//    {
+//        [self changeCurrentSelectedStepUser:userInfo];
+//    }else if([eventName isEqualToString:task_click_save]){
+//        [self alterContentTexOrTaskTitletSave:userInfo];
+//    }
 }
 
 #pragma mark - APIManagerParamSource
+
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.taskNewManager) {
         params = [self.taskParams getNewTaskParams];
     }else if(manager == self.taskDetailManager){
         params = [self.taskParams getTaskDetailsParams];
-    }else if(manager == self.taskEditManager){
-        params = [self.taskParams getTaskEditParams];
-    }else if(manager == self.taskOperationsManager){
-        params = @{@"id_task":self.id_task,
-                   @"code":@"",
-                   @"param":@"",
-                   @"info":@""};
-    }else if(manager == self.taskProcessManager){
-        params = @{@"task_list":@[self.id_task],
-                   @"code":@"",
-                   @"param":@"",
-                   @"info":@""};
     }else if(manager == self.uploadFileManager){
         ZHProject *project = [DataManager defaultInstance].currentProject;
         params = @{@"id_project":INT_32_TO_STRING(project.id_project)};
@@ -240,6 +276,7 @@
     return params;
 }
 #pragma mark - ApiManagerCallBackDelegate
+
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.taskNewManager) {
         ZHTask *task = (ZHTask *)manager.response.responseData;
@@ -250,7 +287,8 @@
         }else{
             [self.taskDetailManager loadData];
         }
-    }else if(manager == self.taskDetailManager){
+    }
+    else if(manager == self.taskDetailManager){
         ZHTask *task = (ZHTask *)manager.response.responseData;
         self.operabilityTools.task = task;
         [self setRequestParams:self.operabilityTools.task];
@@ -258,9 +296,11 @@
     }
     else if(manager == self.taskEditManager){
         
-    }else if(manager == self.taskOperationsManager){
+    }
+    else if(manager == self.taskOperationsManager){
         [self.taskDetailManager loadData];
-    }else if(manager == self.taskProcessManager){
+    }
+    else if(manager == self.taskProcessManager){
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         NSDictionary *result = dic[@"data"][@"results"][0];
         if (![result[@"sub_code"] isEqualToNumber:@0]) {
@@ -273,7 +313,8 @@
             [alert addAction:sure];
             [self presentViewController:alert animated:YES completion:nil];
         }
-    }else if(manager == self.uploadFileManager){
+    }
+    else if(manager == self.uploadFileManager){
         NSLog(@"上传结果%@",manager.response.responseData);
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         
@@ -284,26 +325,20 @@
         NSDictionary *params =@{@"target_info":@{@"uid_target":uid_target,@"id_module":@"0",@"is_file":@"1",
                                                  @"access_mode":@"0",@"name":[SZUtil getGUID],@"fid_project":INT_32_TO_STRING(project.id_project)}};
         [self.targetNewManager loadDataWithParams:params];
-    }else if(manager == self.targetNewManager){
+    }
+    else if(manager == self.targetNewManager){
         [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
     }
 }
 
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.taskNewManager) {
-        
     }else if(manager == self.taskDetailManager){
-        
     }else if(manager == self.taskEditManager){
-        
     }else if(manager == self.taskOperationsManager){
-        
     }else if(manager == self.taskProcessManager){
-        
     }else if(manager == self.uploadFileManager){
-        NSLog(@"上传结果%@",manager.response.responseData);
     }else if(manager == self.targetNewManager){
-        
     }
 }
 
@@ -431,6 +466,34 @@
     }
     return _targetNewManager;
 }
+- (NSDictionary<NSString *,NSInvocation *> *)eventStrategy{
+    if (_eventStrategy == nil) {
+        _eventStrategy = @{
+            selected_taskStep_user:[self createInvocationWithSelector:@selector(addUserToStep:)],
+            choose_adjunct_file:[self createInvocationWithSelector:@selector(addFileToCurrentStep:)],
+            select_caldenar_view:[self createInvocationWithSelector:@selector(setStepPlanTimeToTask:)],
+            selected_task_priority:[self createInvocationWithSelector:@selector(alterFlowPriorityToFlow:)],
+            change_task_title:[self createInvocationWithSelector:@selector(alterTaskTitleToTask:)],
+            change_task_content:[self createInvocationWithSelector:@selector(alterContentTextToTask:)],
+            open_document_library:[self createInvocationWithSelector:@selector(openDocumentLibView:)],
+            task_process_submit:[self createInvocationWithSelector:@selector(bottomToolsOperabilityEvent:)],
+            task_send_toUser:[self createInvocationWithSelector:@selector(sengCurrentTask:)],
+            current_selected_step:[self createInvocationWithSelector:@selector(changeCurrentSelectedStepUser:)],
+            task_click_save:[self createInvocationWithSelector:@selector(alterContentTexOrTaskTitletSave:)]
+        };
+    }
+    return _eventStrategy;
+}
+// 消息转发 NSInvocation中保存了方法所属的对象/方法名称/参数/返回值
+- (NSInvocation *)createInvocationWithSelector:(SEL)sel{
+    NSMethodSignature  *signature = [TaskController instanceMethodSignatureForSelector:sel];
+    NSInvocation *invocation = [NSInvocation invocationWithMethodSignature:signature];
+    invocation.target = self;
+    invocation.selector = sel;
+    // target 0 selector 1 参数2 返回值 3
+//    [invocation setArgument:&way atIndex:2];
+    return invocation;
+}
 #pragma mark - UI
 - (void)addUI{
     // 步骤
@@ -461,17 +524,6 @@
         make.bottom.equalTo(-SafeAreaBottomHeight);
         make.height.equalTo(88);
     }];
-    
-//    self.stepView.stepArray = self.stepArray;
-
-//    self.taskContentView.priorityType = priority_type_highGrade;
-}
-- (IBAction)closeVCAction:(id)sender {
-    if (self.presentingViewController) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    }else{
-        [self.navigationController popViewControllerAnimated:YES];
-    }
 }
 
 /*

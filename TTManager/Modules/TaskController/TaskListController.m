@@ -34,7 +34,6 @@
     [super viewDidAppear:animated];
     self.taskTabView.selectedTaskIndex = self.taskStatus;
 }
-
 #pragma mark - private method
 // 选择任务类型
 - (void)showSelectNewTaskType{
@@ -42,7 +41,6 @@
     int i = 1;
     for (NSString *newTaskType in self.newTasTypeklist) {
         UIAlertAction *action = [UIAlertAction actionWithTitle:newTaskType style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            self.taskType = TaskType_newTask;
             self.taskType = action.taskType;
             [self performSegueWithIdentifier:@"newTask" sender:nil];
         }];
@@ -57,7 +55,6 @@
     [alert addAction:action];
     [self presentViewController:alert animated:YES completion:nil];
 }
-
 // 当前list的title
 - (NSString *)getListTitleWithStatus:(TaskStatus)status{
     NSString *listTitle = @"";
@@ -79,7 +76,6 @@
     }
     return listTitle;
 }
-
 - (void)pushTaskDetailsViewController:(NSDictionary *)dict{
     NSString *uid_task = dict[@"uid_task"];
     NSInteger taskStatus = [dict[@"taskStatus"] integerValue];
@@ -90,8 +86,8 @@
     self.taskStatus = taskStatus;
     [self.navigationController pushViewController:taskVC animated:YES];
 }
-#pragma mark - setter getter
 
+#pragma mark - setter getter
 - (TaskTabView *)taskTabView{
     if (_taskTabView == nil) {
         _taskTabView = [[TaskTabView alloc] init];
