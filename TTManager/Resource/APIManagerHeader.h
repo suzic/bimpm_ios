@@ -11,6 +11,7 @@
 #import "APICaptchManager.h"
 #import "APILoginManager.h"
 #import "APIIMTokenManager.h"
+#import "APILogoutManager.h"
 
 // 团队
 #import "APIDepartmentManager.h"

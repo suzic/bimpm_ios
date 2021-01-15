@@ -12,8 +12,10 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *userImage;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
-
 @property (nonatomic, strong) NSArray *settingArray;
+
+@property (nonatomic, strong)APILogoutManager *logoutManager;
+
 @end
 
 @implementation UserSettingController
@@ -35,9 +37,17 @@
         @{@"icon":@"erweima",@"title":@"二维码"},
         @{@"icon":@"share",@"title":@"分享项目"},
         @{@"icon":@"setting",@"title":@"设置"},
-        @{@"icon":@"about",@"title":@"关于"}];
+        @{@"icon":@"about",@"title":@"关于"},
+        @{@"icon":@"about",@"title":@"退出登录"}];
     }
     return _settingArray;
+}
+- (APILogoutManager *)logoutManager{
+    if (_logoutManager == nil) {
+        _logoutManager = [[APILogoutManager alloc] init];
+        _logoutManager.delegate = self;
+    }
+    return _logoutManager;
 }
 #pragma mark - UITableViewDelegate  and UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -64,6 +74,22 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击用户设置中心的内容");
+    if (indexPath.row == self.settingArray.count -1) {
+        [self.logoutManager loadDataWithParams:@{}];
+    }
+}
+
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.logoutManager) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
+        [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.logoutManager) {
+        [SZAlert showInfo:@"退出登录失败" underTitle:@"众和空间"];
+    }
 }
 /*
 #pragma mark - Navigation
