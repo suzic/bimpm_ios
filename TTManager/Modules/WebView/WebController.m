@@ -75,26 +75,31 @@
 
 - (UIBarButtonItem *)close{
     if (_close == nil) {
-        _close = [[UIBarButtonItem alloc] initWithTitle:@"关闭" style:UIBarButtonItemStyleDone target:self action:@selector(closeView)];
+        _close = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"close"] style:UIBarButtonItemStylePlain target:self action:@selector(closeView)];
     }
     return _close;
 }
 - (UIBarButtonItem *)goBack{
     if (_goBack == nil) {
-        _goBack = [[UIBarButtonItem alloc] initWithTitle:@"后退" style:UIBarButtonItemStyleDone target:self action:@selector(bottomToolItemBack)];
+        _goBack = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStylePlain target:self action:@selector(bottomToolItemBack)];
     }
     return _goBack;
 }
 - (UIBarButtonItem *)refresh{
     if (_refresh == nil) {
-        _refresh = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStyleDone target:self action:@selector(bottomToolItemRefresh)];
+//        _refresh = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"close"] style:UIBarButtonItemStylePlain target:self action:@selector(bottomToolItemRefresh)];
+        _refresh = [[UIBarButtonItem alloc] initWithTitle:@"刷新" style:UIBarButtonItemStylePlain target:self action:@selector(bottomToolItemRefresh)];
     }
     return _refresh;
 }
 
 #pragma mark - Action
 - (void)closeView{
-    [self.navigationController popViewControllerAnimated:YES];
+    if (self.presentedViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
 }
 #pragma mark - UI
 
@@ -109,7 +114,7 @@
 
     [self requestUrl:loadUrl];
     
-    self.navigationItem.leftBarButtonItems = @[self.close,self.refresh,self.goBack];
+    self.navigationItem.leftBarButtonItems = @[self.close,self.goBack,self.refresh];
 }
 - (void)addViewCustomLaytou{
     [self.loadingProgressView makeConstraints:^(MASConstraintMaker *make) {
