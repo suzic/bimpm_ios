@@ -62,7 +62,7 @@
     task.fid_project = [info[@"fid_project"] intValue];
     task.uid_task = info[@"uid_task"];
 
-    task.name = info[@"name"];
+    task.name = info[@"flow_name"];
     task.info = info[@"info"];
     task.memo = info[@"memo"];
 //    task.flow_state = info[@"flow_state"];

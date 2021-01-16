@@ -16,6 +16,7 @@
 #import "PopViewController.h"
 #import "DocumentLibController.h"
 #import "UploadFileManager.h"
+#import "WebController.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
 
@@ -156,14 +157,20 @@
             [strongSelf.uploadManager uploadFile:imageData fileName:[SZUtil getTimeNow] target:@{@"id_module":@"10",@"fid_parent":[NSNull null]}];
             strongSelf.uploadManager.uploadResult = ^(BOOL success, NSString * _Nonnull errMsg, NSString * _Nonnull id_file) {
                 if (success == YES) {
-                    strongSelf.taskParams.uid_target = id_file;
-                    [strongSelf.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+                    weakSelf.taskParams.uid_target = id_file;
+                    [weakSelf.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
                 }
             };
         }];
     }
     else if([type isEqualToString:@"2"]){
         NSLog(@"查看附加");
+        ZHUser *user = [DataManager defaultInstance].currentUser;
+        WebController *webVC = [[WebController alloc] init];
+//            webVC.loadUrl = target.link;
+        [webVC fileView:@{@"uid_target":addFileDic[@"uid_target"],@"t":user.token,@"m":@"1",@"f":@"0"}];
+        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:webVC];
+        [self presentViewController:nav animated:YES completion:nil];
     }
     else if([type isEqualToString:@"4"]){
         NSLog(@"删除附件");

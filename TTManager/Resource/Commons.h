@@ -40,6 +40,7 @@
 #import "UITableView+EmptyView.h"
 #import "UIViewController+ImagePicker.h"
 #import "UIAlertAction+Extend.h"
+#import "NSString+Extend.h"
 
 // 获取屏幕的尺寸
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)

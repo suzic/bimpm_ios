@@ -92,10 +92,17 @@
     }
     return _refresh;
 }
+- (void)fileView:(NSDictionary *)fileViewDic{
+    NSString *url = [NSString stringWithFormat:@"%@%@%@?",FILESERVICEADDRESS,@"/fileviewservice/FileView/",fileViewDic[@"uid_target"]];
+    for (id key in [fileViewDic allKeys]) {
+        url = [url urlAddCompnentForValue:fileViewDic[key] key:key];
+    }
+    self.loadUrl = url;
+}
 
 #pragma mark - Action
 - (void)closeView{
-    if (self.presentedViewController) {
+    if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
         [self.navigationController popViewControllerAnimated:YES];

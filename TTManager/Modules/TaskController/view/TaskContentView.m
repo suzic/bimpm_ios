@@ -150,7 +150,8 @@
             [self hideDelete:YES];
         }
         self.adjunctFileBtn.enabled = YES;
-    }else{
+    }
+    else{
         if(_tools.currentSelectedStep.memoDocs != nil && _tools.currentSelectedStep.memoDocs.count >0){
             ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
             fileName = target.name;
@@ -169,6 +170,11 @@
 }
 - (void)hideDelete:(BOOL)hide{
     self.deleteFileBtn.hidden = hide;
+    if (hide == YES) {
+        [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
+    }else{
+        [_adjunctFileBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+    }
     [self.deleteFileBtn updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(hide == YES ? 15 :-10);
     }];

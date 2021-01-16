@@ -57,7 +57,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ZHStep *step = _tools.stepArray[indexPath.row];
-    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
+    if (_tools.type == task_type_detail_initiate) {
         return;
     }
     if (_tools.type == task_type_detail_proceeding || _tools.type == task_type_detail_finished) {
