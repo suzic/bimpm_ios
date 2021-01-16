@@ -191,13 +191,20 @@ static NSString *headerIdentifier = @"headerIdentifier";
 #pragma mark - UI
 - (void)addUI{
     
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = RGB_COLOR(153, 153, 153);
+    [self addSubview:lineView];
+    
     // 中间人
     [self addSubview:self.collectionView];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     
-    UIView *lineView = [[UIView alloc] init];
-    lineView.backgroundColor = RGB_COLOR(153, 153, 153);
-    
+//    [self addSubview:lineView];
+    [lineView makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(0);
+        make.height.equalTo(1);
+    }];
     [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(0);
         make.left.equalTo(10);

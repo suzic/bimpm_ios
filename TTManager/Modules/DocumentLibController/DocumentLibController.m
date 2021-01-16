@@ -114,7 +114,7 @@
         [SZAlert showInfo:@"请选择图片后重试" underTitle:@"众和空间"];
         return;
     }
-    [self.uploadManager uploadFile:imageData fileName:[SZUtil getGUID] target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
+    [self.uploadManager uploadFile:imageData fileName:[SZUtil getGUID] target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent}];
     [self uploadSuccess];
     
 }

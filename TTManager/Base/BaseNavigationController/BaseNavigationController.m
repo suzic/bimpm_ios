@@ -8,6 +8,7 @@
 
 #import "BaseNavigationController.h"
 #import "DocumentLibController.h"
+#import "TeamController.h"
 
 @interface BaseNavigationController ()<UINavigationControllerDelegate>
 
@@ -59,8 +60,15 @@
             if (vc.chooseTargetFile == YES) {
                 hide = NO;
             }
-        }else{
-            
+        }
+        if ([viewController isKindOfClass:[TeamController class]])
+        {
+            TeamController *vc = (TeamController *)viewController;
+            if (vc.selectedUserType == YES) {
+                hide = NO;
+            }
+        }
+        else{
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(hide)];
     }else{

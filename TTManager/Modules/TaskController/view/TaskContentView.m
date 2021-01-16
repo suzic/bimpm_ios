@@ -16,6 +16,8 @@
 @property (nonatomic, strong) UIButton *deleteFileBtn;
 @property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic,assign) BOOL editPriority;
+@property (nonatomic, copy) NSString *taskContent;
+
 // 附件调整类型 1 添加附件 2 查看附件 3没有附件 4 删除附件
 @property (nonatomic, assign) NSInteger adjunctType;
 
@@ -24,6 +26,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.taskContent = @"";
         self.adjunctType = NSNotFound;
         self.uid_target = @"";
         self.editPriority = NO;
@@ -105,6 +108,7 @@
     // 有附件 显示删除按钮 文件名称 查看附件
     if (![SZUtil isEmptyOrNull:_tools.task.firstTarget.uid_target]) {
         fileName = _tools.task.firstTarget.name;
+        self.uid_target = _tools.task.firstTarget.uid_target;
         [self hideDelete:NO];
         self.adjunctType = 2;
     }else{
@@ -232,7 +236,12 @@
 }
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
-    self.contentView.text = _tools.currentSelectedStep.memo;
+    if (_tools.currentSelectedStep != nil) {
+        self.contentView.text = _tools.currentSelectedStep.memo;
+    }else{
+        self.contentView.text = _tools.task.memo;
+    }
+    
     [self changePriorityStatus:_tools.task.priority];
     [self setContentViewOperations:_tools];
 }

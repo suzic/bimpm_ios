@@ -27,8 +27,13 @@
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getTaskEditParams{
+    ZHProject *project = [DataManager defaultInstance].currentProject;
     NSDictionary *dic = @{@"uid_task":self.uid_task,
+                          @"fid_project":INT_32_TO_STRING(project.id_project),
+                          @"user_info":[self getUserInfo],
                           @"name":self.name,
+                          @"category":@"1",
+                          @"type":@"0",
                           @"info":self.info};
     return [NSMutableDictionary dictionaryWithDictionary:@{@"task_info":dic}];
 }
@@ -97,5 +102,14 @@
                           @"info":self.memo};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
-
+- (NSDictionary *)getUserInfo{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    NSDictionary *dic = @{@"id_user":INT_32_TO_STRING(user.id_user),
+                          @"phone":user.phone,
+                          @"name":user.name,
+                          @"avatar":user.avatar,
+                          @"gender":INT_32_TO_STRING(user.gender),
+                          @"signature":user.signature == nil ? @"":user.signature};
+    return dic;
+}
 @end

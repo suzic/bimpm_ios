@@ -106,7 +106,7 @@
             [task addCurrentUsersObject:current_user_info];
         }
     }
-    if ([info[@"first_memo_target"] isKindOfClass:[NSDictionary class]]) {
+    if ([info[@"first_memo_target"] isKindOfClass:[NSArray class]]) {
         //first_memo_target
         for (NSDictionary *target in info[@"first_memo_target"]) {
             ZHTarget *first_memo_target = [self syncTargetWithInfoItem:target];

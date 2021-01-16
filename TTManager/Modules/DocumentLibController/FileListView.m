@@ -87,6 +87,7 @@
             if (self.containerVC.targetBlock) {
                 self.containerVC.targetBlock(target);
             }
+            [self.containerVC.navigationController popViewControllerAnimated:YES];
         }else{
             WebController *webVC = [[WebController alloc] init];
             webVC.loadUrl = target.link;

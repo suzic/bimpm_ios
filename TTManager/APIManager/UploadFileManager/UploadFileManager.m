@@ -40,7 +40,7 @@
     self.uploadFileName = fileName;
     self.is_file = @"1";
     self.id_module = target[@"id_module"];
-    self.fid_project = target[@"fid_project"];
+    self.fid_project = target[@"fid_parent"];
     self.uploadData = imageData;
     if (![SZUtil isMobileNumber:fileName]) {
         self.uploadFileName = fileName;
@@ -61,7 +61,7 @@
     self.uploadFileName = fileName;
     self.is_file = @"0";
     self.id_module = target[@"id_module"];
-    self.fid_project = target[@"fid_project"];
+    self.fid_project = target[@"fid_parent"];
     [self.targetNewManager loadData];
 }
 
@@ -94,7 +94,8 @@
         }
     }else if(manager == self.targetNewManager){
         if (self.uploadResult) {
-            self.uploadResult(YES, @"", self.uid_target);
+            NSDictionary *dic = manager.response.responseData[@"data"];
+            self.uploadResult(YES, dic[@"target_info"][@"uid_target"], self.uid_target);
         }
     }
 }
