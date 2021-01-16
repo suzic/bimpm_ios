@@ -72,7 +72,10 @@
     if (manager == self.uploadFileManager) {
         params = @{@"id_project":INT_32_TO_STRING(project.id_project)};
     }else if(manager == self.targetNewManager){
-        params = @{@"target_info":@{@"uid_target":self.uid_target,@"id_module":self.id_module,@"is_file":self.is_file,
+        params = @{@"target_info":@{@"uid_target":self.uid_target,
+                                    @"id_module":self.id_module,
+                                    @"fid_parent":self.fid_project,
+                                    @"is_file":self.is_file,
                                                  @"access_mode":@"0",@"name":self.uploadFileName,@"fid_project":INT_32_TO_STRING(project.id_project)}};
     }
     return params;

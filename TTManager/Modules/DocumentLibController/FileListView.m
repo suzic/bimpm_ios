@@ -100,11 +100,11 @@
     if ([target.name isEqualToString:@"Pub"]) {
         uid_parent = @"0";
     }else if([target.name isEqualToString:@"Monitor"]){
-        uid_parent = @"10";
+        uid_parent = @"0";
     }else if([target.name isEqualToString:@"Form"]){
-        uid_parent = @"11";
+        uid_parent = @"0";
     }else if([target.name isEqualToString:@"Task"]){
-        uid_parent = @"12";
+        uid_parent = @"0";
     }else{
         uid_parent = target.uid_target;
     }
