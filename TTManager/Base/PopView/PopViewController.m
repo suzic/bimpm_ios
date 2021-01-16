@@ -56,14 +56,14 @@
     for (UIView *view in cell.contentView.subviews)
          [view removeFromSuperview];
     id dataItem = self.dataList[indexPath.row];
-    if ([dataItem isKindOfClass:[ZHProject class]]) {
+    if ([dataItem isKindOfClass:[ZHUserProject class]]) {
         
         if (indexPath.row == self.dataList.count)
         {
             cell.textLabel.text = self.dataList[indexPath.row];
         }else{
-            ZHProject *project = (ZHProject *)dataItem;
-            cell.textLabel.text = project.name;
+            ZHUserProject *userProject = (ZHUserProject *)dataItem;
+            cell.textLabel.text = userProject.belongProject.name;
         }
     }else{
         cell.textLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];

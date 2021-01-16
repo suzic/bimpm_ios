@@ -8,11 +8,14 @@
 #import "FrameNavView.h"
 #import "PopViewController.h"
 
-@interface FrameNavView ()<PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
+@interface FrameNavView ()<PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong)  UIButton *userAvatar;
 @property (nonatomic, strong)  UIButton *changeProjectBtn;
-@property (nonatomic, strong) NSMutableArray *projectList;
+@property (nonatomic, assign) NSInteger selectedIndex;
+
+@property (nonatomic, strong) APIUTPDetailManager *UTPDetailManager;
+@property (nonatomic, strong) APIUTPListManager *UTPlistManager;
 
 @end
 
@@ -50,7 +53,6 @@
     [self layoutIfNeeded];
     self.userAvatar.clipsToBounds = YES;
     self.userAvatar.layer.cornerRadius = 16.0f;
-    
     [self reloadData];
     
 }
@@ -67,7 +69,27 @@
     }
     [self.changeProjectBtn setTitle:projectTitle forState:UIControlStateNormal];
 }
+- (void)reloadUserProjectList{
+    self.UTPlistManager.pageSize.pageIndex = 0;
+    [self.UTPlistManager loadData];
+}
 #pragma mark - setter and getter
+- (APIUTPDetailManager *)UTPDetailManager{
+    if (_UTPDetailManager == nil) {
+        _UTPDetailManager = [[APIUTPDetailManager alloc] init];
+        _UTPDetailManager.delegate = self;
+        _UTPDetailManager.paramSource = self;
+    }
+    return _UTPDetailManager;
+}
+- (APIUTPListManager *)UTPlistManager{
+    if (_UTPlistManager == nil) {
+        _UTPlistManager = [[APIUTPListManager alloc] init];
+        _UTPlistManager.delegate = self;
+        _UTPlistManager.paramSource = self;
+    }
+    return _UTPlistManager;
+}
 - (UIButton *)userAvatar{
     if (_userAvatar == nil) {
         _userAvatar = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -97,12 +119,14 @@
     }
 }
 - (NSMutableArray *)projectList{
-    _projectList = [DataManager defaultInstance].currentProjectList;
+    NSMutableArray *result = [DataManager defaultInstance].currentProjectList;
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"in_apply = 0 and in_manager_invite = 0"];
+    _projectList = [NSMutableArray arrayWithArray:[result filteredArrayUsingPredicate:predicate]];
     return _projectList;
 }
 #pragma mark -setter and getter
 - (void)changeProjectAction:(UIButton *)sender {
-    [self showPopView:self.changeProjectBtn];
+    [self reloadUserProjectList];
 }
 - (void)clickuserAvatarAction:(UIButton *)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowSettings object:nil];
@@ -137,15 +161,35 @@
             [self.delegate clickShowProjectListView];
         }
     }else{
-        
+        self.selectedIndex = indexPath.row;
+        ZHUserProject *userProject = self.projectList[indexPath.row];
+        [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
+    }
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *dic = @{};
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (manager == self.UTPlistManager) {
+        dic = @{@"id_user":INT_32_TO_STRING(user.id_user),@"belong_state":@"10"};
+    }
+    return dic;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.UTPDetailManager) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(frameNavView:selected:)]) {
-            [self.delegate frameNavView:self selected:indexPath.row];
+            [self.delegate frameNavView:self selected:self.selectedIndex];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self reloadData];
+    }else if(manager == self.UTPlistManager){
+        [self showPopView:self.changeProjectBtn];
     }
 }
-
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

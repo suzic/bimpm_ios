@@ -1371,7 +1371,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="MpW-fo-3nb">
-                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="164"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="118" height="178"/>
                                                     <userDefinedRuntimeAttributes>
                                                         <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                                             <integer key="value" value="4"/>
@@ -1379,14 +1379,22 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RX6-mX-b3V">
-                                                    <rect key="frame" x="42.666666666666664" y="164" width="32.999999999999993" height="44"/>
+                                                    <rect key="frame" x="42.666666666666664" y="178" width="32.999999999999993" height="30"/>
                                                     <constraints>
-                                                        <constraint firstAttribute="height" constant="44" id="iVG-aj-m0F"/>
+                                                        <constraint firstAttribute="height" constant="30" id="iVG-aj-m0F"/>
                                                     </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                     <color key="textColor" red="0.019607843137254902" green="0.49019607843137253" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <button hidden="YES" opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dKl-wm-NiY">
+                                                    <rect key="frame" x="0.0" y="149" width="118" height="29"/>
+                                                    <color key="backgroundColor" red="0.28235294117647058" green="0.57647058823529407" blue="0.94509803921568625" alpha="0.87736117129294289" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                    <state key="normal" title="暂未加入项目组">
+                                                        <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                    </state>
+                                                </button>
                                             </subviews>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
@@ -1394,11 +1402,15 @@
                                                 <constraint firstAttribute="trailing" secondItem="MpW-fo-3nb" secondAttribute="trailing" constant="10" id="DsM-5t-D3x"/>
                                                 <constraint firstItem="MpW-fo-3nb" firstAttribute="leading" secondItem="VOq-Wt-uSp" secondAttribute="leading" id="Ea1-PG-Ap1"/>
                                                 <constraint firstItem="RX6-mX-b3V" firstAttribute="centerX" secondItem="MpW-fo-3nb" secondAttribute="centerX" id="Lgj-lo-31o"/>
+                                                <constraint firstItem="dKl-wm-NiY" firstAttribute="leading" secondItem="MpW-fo-3nb" secondAttribute="leading" id="OMA-6C-z0r"/>
                                                 <constraint firstItem="MpW-fo-3nb" firstAttribute="top" secondItem="VOq-Wt-uSp" secondAttribute="top" id="jCu-4G-Qdt"/>
                                                 <constraint firstAttribute="bottom" secondItem="RX6-mX-b3V" secondAttribute="bottom" id="l7v-IV-2sc"/>
+                                                <constraint firstItem="dKl-wm-NiY" firstAttribute="trailing" secondItem="MpW-fo-3nb" secondAttribute="trailing" id="pFd-d1-pzE"/>
+                                                <constraint firstItem="RX6-mX-b3V" firstAttribute="top" secondItem="dKl-wm-NiY" secondAttribute="bottom" id="wx9-RE-Wb7"/>
                                             </constraints>
                                         </collectionViewCellContentView>
                                         <connections>
+                                            <outlet property="joinBtn" destination="dKl-wm-NiY" id="0XU-Uv-DP7"/>
                                             <outlet property="projectImage" destination="MpW-fo-3nb" id="Fx8-hE-w5U"/>
                                             <outlet property="projectName" destination="RX6-mX-b3V" id="VO0-xg-TtZ"/>
                                         </connections>

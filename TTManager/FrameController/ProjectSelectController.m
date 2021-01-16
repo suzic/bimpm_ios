@@ -12,8 +12,12 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
 @property (nonatomic, strong) NSMutableArray *projectList;
+@property (nonatomic, assign) NSInteger selectedIndex;
+
 // api
 @property (nonatomic, strong) APIUTPListManager *UTPlistManager;
+
+@property (nonatomic, strong) APIUTPDetailManager *UTPDetailManager;
 
 @end
 
@@ -52,10 +56,8 @@
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ProjectViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectIdentifler" forIndexPath:indexPath];
-    ZHProject *project = self.projectList[indexPath.row];
-    [cell.projectImage sd_setImageWithURL:[NSURL URLWithString:project.snap_image] placeholderImage:[UIImage imageNamed:@"empty_image"]];
-    NSLog(@"参与的项目列表=====%@",project.snap_image);
-    cell.projectName.text = project.name;
+    ZHUserProject *userProject = self.projectList[indexPath.row];
+    cell.userProject = userProject;
     return cell;
 }
 
@@ -64,14 +66,19 @@
     return CGSizeMake((kScreenWidth-15)/2, 300.0f);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    [self routerEventWithName:selectedProject userInfo:@{@"currentProject":self.projectList[indexPath.row]}];
+    self.selectedIndex = indexPath.row;
+    ZHUserProject *userProject = self.projectList[indexPath.row];
+    if (userProject.in_invite == 1 ||userProject.in_manager_invite == 1 || userProject.in_apply == 1) {
+        return;
+    }
+    [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHUser *user = [DataManager defaultInstance].currentUser;
     if (manager == self.UTPlistManager) {
-        dic = @{@"id_user":INT_32_TO_STRING(user.id_user),@"belong_state":@"0"};
+        dic = @{@"id_user":INT_32_TO_STRING(user.id_user),@"belong_state":@"10"};
     }
     return dic;
 }
@@ -80,6 +87,9 @@
     if (manager == self.UTPlistManager) {
         [self.projectCollectionView.mj_header endRefreshing];
         [self.projectCollectionView reloadData];
+    }else if(manager == self.UTPDetailManager){
+        ZHUserProject *userProject = self.projectList[self.selectedIndex];
+        [self routerEventWithName:selectedProject userInfo:@{@"currentProject":userProject.belongProject}];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -96,7 +106,14 @@
     }
     return _UTPlistManager;
 }
-
+- (APIUTPDetailManager *)UTPDetailManager{
+    if (_UTPDetailManager == nil) {
+        _UTPDetailManager = [[APIUTPDetailManager alloc] init];
+        _UTPDetailManager.delegate = self;
+        _UTPDetailManager.paramSource = self;
+    }
+    return _UTPDetailManager;
+}
 /*
 #pragma mark - Navigation
 

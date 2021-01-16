@@ -11,8 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ProjectViewCell : UICollectionViewCell
 
+@property (nonatomic, strong)ZHUserProject *userProject;
+
 @property (weak, nonatomic) IBOutlet UIImageView *projectImage;
 @property (weak, nonatomic) IBOutlet UILabel *projectName;
+@property (weak, nonatomic) IBOutlet UIButton *joinBtn;
 
 @end
 
