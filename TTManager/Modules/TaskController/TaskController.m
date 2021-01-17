@@ -71,7 +71,12 @@
 - (void)setNavbackItemAndTitle{
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.title = (self.operabilityTools.isDetails ? @"任务详情":@"新任务");
-    if (self.taskType == task_type_detail_initiate) {
+    if (self.operabilityTools.isDetails == YES) {
+        if (self.taskType == task_type_detail_draft || self.taskType == task_type_detail_initiate) {
+            UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButtonItem];
+            self.navigationItem.rightBarButtonItem = rightItem;
+        }
+    }else{
         UIBarButtonItem *rightItem = [[UIBarButtonItem alloc] initWithCustomView:self.rightButtonItem];
         self.navigationItem.rightBarButtonItem = rightItem;
     }
@@ -87,7 +92,19 @@
     PopViewController *menuView = [[PopViewController alloc] init];
     menuView.delegate = self;
     menuView.view.alpha = 1.0;
-    menuView.dataList = @[@"召回",@"终止"];
+    NSArray *array = @[];
+    if (self.operabilityTools.isDetails == YES) {
+        if (self.taskType == task_type_detail_draft) {
+            array = @[@"召回"];
+        }else{
+            array = @[@"召回",@"终止"];
+        }
+    }else{
+        if (self.taskType == task_type_detail_initiate) {
+            array = @[@"召回",@"终止"];
+        }
+    }
+    menuView.dataList = array;
     menuView.modalPresentationStyle = UIModalPresentationPopover;
     menuView.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
     menuView.popoverPresentationController.delegate = self;
