@@ -195,6 +195,9 @@
     if (self.editPriority == NO) {
         return;
     }
+    if (_tools.task.belongFlow.state == 1) {
+        return;
+    }
     self.priorityType = button.tag;
 }
 // 改变当前选择的任务优先级状态
@@ -246,6 +249,14 @@
         self.contentView.text = _tools.currentSelectedStep.memo;
     }else{
         self.contentView.text = _tools.task.memo;
+    }
+    
+    if (_tools.task.belongFlow.state == 1) {
+        self.contentView.editable = NO;
+    }
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (_tools.currentSelectedStep != nil && _tools.currentSelectedStep.responseUser.id_user != user.id_user) {
+        self.contentView.editable = NO;
     }
     
     [self changePriorityStatus:_tools.task.priority];

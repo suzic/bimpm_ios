@@ -50,6 +50,8 @@
     }];
     [self.stepUserDispose makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(bgView.mas_bottom).offset(5);
+        make.left.equalTo(5);
+        make.right.equalTo(-5);
         make.centerX.equalTo(bgView);
     }];
     [self.stepUserName makeConstraints:^(MASConstraintMaker *make) {
@@ -104,10 +106,10 @@
 - (UILabel *)stepUserDispose{
     if (_stepUserDispose == nil) {
         _stepUserDispose = [[UILabel alloc] init];
-        _stepUserDispose.text = @"提出情况";
         _stepUserDispose.textColor = [SZUtil colorWithHex:@"#4D8AF3"];
         _stepUserDispose.font = [UIFont systemFontOfSize:9.0f];
         _stepUserDispose.backgroundColor = [UIColor whiteColor];
+        _stepUserDispose.textAlignment = NSTextAlignmentCenter;
     }
     return _stepUserDispose;
 }

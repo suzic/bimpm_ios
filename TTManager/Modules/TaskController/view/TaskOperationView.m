@@ -37,6 +37,13 @@
 }
 #pragma mark - Action
 - (void)selectTime:(UIButton *)button{
+    if (_tools.task.belongFlow.state == 1) {
+        return;
+    }
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (_tools.currentSelectedStep != nil && _tools.currentSelectedStep.responseUser.id_user != user.id_user) {
+        return;
+    }
     [self.datePickerView show];
 }
 // 保存
