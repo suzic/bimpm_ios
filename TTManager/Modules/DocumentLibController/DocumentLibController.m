@@ -18,12 +18,14 @@
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
 @property (nonatomic, strong) UploadFileManager *uploadManager;
 @property (nonatomic, strong) FileListView *rootFileView;
+
 @end
 
 @implementation DocumentLibController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+
     self.title = @"文件库";
     // 初始化相机，要不会有两秒延迟
     [self initializeImagePicker];
@@ -78,43 +80,54 @@
     if([eventName isEqualToString:new_task_action]){
         [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
             NSLog(@"打开相册");
-            [self uploadImage:imageData];
+
+            [self showNewFileView:0 data:imageData];
         }];
     }else if([eventName isEqualToString:target_new_file_group]){
-        [self showNewFileGroupView];
+
+        [self showNewFileView:1 data:nil];
     }
 }
 #pragma mark - private
-- (void)showNewFileGroupView{
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入文件夹名称" preferredStyle:UIAlertControllerStyleAlert];
+- (void)showNewFileView:(NSInteger)type data:(NSData *)data{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入文件名称" preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
     }]];
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
         NSString *fileName = alertController.textFields[0].text;
-        [self newFileGroup:fileName];
+        if ([SZUtil isEmptyOrNull:fileName]) {
+            [self showNewFileView:type data:data];
+            return;
+        }
+        if (type == 1) {
+            [self newFileGroup:fileName];
+        }else if(type == 0){
+            [self uploadImage:data fileName:fileName];
+        }
+        
     }]];
     //定义第一个输入框；
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
-        textField.placeholder = @"请输入新建文件夹名称";
+        textField.placeholder = @"请输入新建文件名称";
         textField.delegate = self;
     }];
     [self presentViewController:alertController animated:true completion:nil];
 }
 - (void)newFileGroup:(NSString *)groupName{
     if ([SZUtil isEmptyOrNull:groupName]) {
-        [SZAlert showInfo:@"请填写文件夹名称" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"请填写文件名称" underTitle:@"众和空间"];
         return;
     }
     [self.uploadManager newFileGroupWithGroupName:groupName target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
     [self uploadSuccess];
 }
 
-- (void)uploadImage:(NSData *)imageData{
+- (void)uploadImage:(NSData *)imageData fileName:(NSString *)fileName{
     if (imageData == nil) {
         [SZAlert showInfo:@"请选择图片后重试" underTitle:@"众和空间"];
         return;
     }
-    [self.uploadManager uploadFile:imageData fileName:[SZUtil getGUID] target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent}];
+    [self.uploadManager uploadFile:imageData fileName:fileName target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent}];
     [self uploadSuccess];
     
 }
