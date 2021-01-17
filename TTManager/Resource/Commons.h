@@ -29,6 +29,9 @@
 #import <RongIMKit/RongIMKit.h>
 #import <Aspects/Aspects.h>
 #import <BRPickerView/BRPickerView.h>
+//#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+//#import <BaiduMapAPI_Map/BMKMapComponent.h>
+//#import <MapKit/MapKit.h>
 #import "SZUtil.h"
 #import "UIViewExt.h"
 #import "SZModalAlert.h"

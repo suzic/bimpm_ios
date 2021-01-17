@@ -12,7 +12,7 @@
 		400B495125A6B653006CBEBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495025A6B653006CBEBB /* AssetsLibrary.framework */; };
 		400B495325A6B660006CBEBB /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495225A6B660006CBEBB /* Photos.framework */; };
 		400B495525A6B66D006CBEBB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495425A6B66D006CBEBB /* AVFoundation.framework */; };
-		402A9EF42595769900A9DABA /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 402A9EF32595769900A9DABA /* AppDelegate.m */; };
+		402A9EF42595769900A9DABA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 402A9EF32595769900A9DABA /* AppDelegate.mm */; };
 		402A9EFD2595769900A9DABA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402A9EFB2595769900A9DABA /* Main.storyboard */; };
 		402A9F022595769C00A9DABA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 402A9F012595769C00A9DABA /* Assets.xcassets */; };
 		402A9F052595769C00A9DABA /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402A9F032595769C00A9DABA /* LaunchScreen.storyboard */; };
@@ -100,6 +100,19 @@
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
 		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
 		4054B8E025B3008C0023FC7F /* NSString+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DF25B3008C0023FC7F /* NSString+Extend.m */; };
+		4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8F225B4071F0023FC7F /* MapViewController.m */; };
+		4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4054B8F525B409BB0023FC7F /* Accelerate.framework */; };
+		4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4054B8F725B409D60023FC7F /* SystemConfiguration.framework */; };
+		4054B91025B40E2F0023FC7F /* ZHDepartmentUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B90A25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.m */; };
+		4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B90B25B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.m */; };
+		4054B91225B40E2F0023FC7F /* ZHDepartmentUser+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B90D25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.m */; };
+		4054B91325B40E2F0023FC7F /* ZHDepartment+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B90F25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.m */; };
+		4054B91925B40E430023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B91525B40E430023FC7F /* ZHUserProject+CoreDataClass.m */; };
+		4054B91A25B40E430023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B91725B40E430023FC7F /* ZHUserProject+CoreDataProperties.m */; };
+		4054B92025B40E560023FC7F /* ZHTarget+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B91C25B40E550023FC7F /* ZHTarget+CoreDataClass.m */; };
+		4054B92125B40E560023FC7F /* ZHTarget+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B91D25B40E550023FC7F /* ZHTarget+CoreDataProperties.m */; };
+		4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92925B40F430023FC7F /* AboutViewController.m */; };
+		4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92D25B40F500023FC7F /* SettingViewController.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -142,16 +155,8 @@
 		406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAD225A2036900636079 /* UIViewController+AOP.m */; };
 		406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAE025A2F09200636079 /* NSDictionary+Extend.m */; };
 		406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAE425A3159B00636079 /* DataManager+Target.m */; };
-		406FCAEB25A31E7A00636079 /* ZHTarget+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAE925A31E7A00636079 /* ZHTarget+CoreDataClass.m */; };
-		406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */; };
 		406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF125A34A8200636079 /* UITableView+EmptyView.m */; };
 		406FCAF725A400C000636079 /* DataManager+Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF625A400C000636079 /* DataManager+Task.m */; };
-		406FCB0925A4CC2100636079 /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */; };
-		406FCB0A25A4CC2100636079 /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */; };
-		406FCB0B25A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */; };
-		406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */; };
-		406FCB0D25A4CC2100636079 /* ZHDepartment+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */; };
-		406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */; };
 		406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB1525A5571C00636079 /* APIIMTokenManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
@@ -175,7 +180,7 @@
 		400B495425A6B66D006CBEBB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		402A9EEF2595769900A9DABA /* TTManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		402A9EF22595769900A9DABA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		402A9EF32595769900A9DABA /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		402A9EF32595769900A9DABA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
 		402A9EFC2595769900A9DABA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		402A9F012595769C00A9DABA /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		402A9F042595769C00A9DABA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -347,6 +352,30 @@
 		4054B8DB25B207240023FC7F /* UploadFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadFileManager.m; sourceTree = "<group>"; };
 		4054B8DE25B3008C0023FC7F /* NSString+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extend.h"; sourceTree = "<group>"; };
 		4054B8DF25B3008C0023FC7F /* NSString+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extend.m"; sourceTree = "<group>"; };
+		4054B8F125B4071F0023FC7F /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		4054B8F225B4071F0023FC7F /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		4054B8F525B409BB0023FC7F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		4054B8F725B409D60023FC7F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		4054B90825B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataClass.h"; sourceTree = "<group>"; };
+		4054B90925B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataProperties.h"; sourceTree = "<group>"; };
+		4054B90A25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataProperties.m"; sourceTree = "<group>"; };
+		4054B90B25B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataProperties.m"; sourceTree = "<group>"; };
+		4054B90C25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataClass.h"; sourceTree = "<group>"; };
+		4054B90D25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataClass.m"; sourceTree = "<group>"; };
+		4054B90E25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataProperties.h"; sourceTree = "<group>"; };
+		4054B90F25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataClass.m"; sourceTree = "<group>"; };
+		4054B91525B40E430023FC7F /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = "<group>"; };
+		4054B91625B40E430023FC7F /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = "<group>"; };
+		4054B91725B40E430023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = "<group>"; };
+		4054B91825B40E430023FC7F /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		4054B91C25B40E550023FC7F /* ZHTarget+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHTarget+CoreDataClass.m"; sourceTree = "<group>"; };
+		4054B91D25B40E550023FC7F /* ZHTarget+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHTarget+CoreDataProperties.m"; sourceTree = "<group>"; };
+		4054B91E25B40E560023FC7F /* ZHTarget+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHTarget+CoreDataClass.h"; sourceTree = "<group>"; };
+		4054B91F25B40E560023FC7F /* ZHTarget+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHTarget+CoreDataProperties.h"; sourceTree = "<group>"; };
+		4054B92825B40F430023FC7F /* AboutViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutViewController.h; sourceTree = "<group>"; };
+		4054B92925B40F430023FC7F /* AboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
+		4054B92C25B40F500023FC7F /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		4054B92D25B40F500023FC7F /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -416,27 +445,11 @@
 		406FCAE025A2F09200636079 /* NSDictionary+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSDictionary+Extend.m"; sourceTree = "<group>"; };
 		406FCAE325A3159B00636079 /* DataManager+Target.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataManager+Target.h"; sourceTree = "<group>"; };
 		406FCAE425A3159B00636079 /* DataManager+Target.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Target.m"; sourceTree = "<group>"; };
-		406FCAE725A31E7A00636079 /* ZHTarget+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHTarget+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		406FCAE825A31E7A00636079 /* ZHTarget+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHTarget+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
-		406FCAE925A31E7A00636079 /* ZHTarget+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHTarget+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
-		406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHTarget+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
 		406FCAF025A34A8200636079 /* UITableView+EmptyView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UITableView+EmptyView.h"; sourceTree = "<group>"; };
 		406FCAF125A34A8200636079 /* UITableView+EmptyView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UITableView+EmptyView.m"; sourceTree = "<group>"; };
 		406FCAF525A400C000636079 /* DataManager+Task.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataManager+Task.h"; sourceTree = "<group>"; };
 		406FCAF625A400C000636079 /* DataManager+Task.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Task.m"; sourceTree = "<group>"; };
 		406FCAFA25A4602200636079 /* TTManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TTManager.entitlements; sourceTree = "<group>"; };
-		406FCAFD25A4CC2100636079 /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		406FCAFE25A4CC2100636079 /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
-		406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
-		406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
-		406FCB0125A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		406FCB0225A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
-		406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
-		406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartmentUser+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
-		406FCB0525A4CC2100636079 /* ZHDepartment+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		406FCB0625A4CC2100636079 /* ZHDepartment+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHDepartment+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
-		406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
-		406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHDepartment+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
 		406FCB1425A5571C00636079 /* APIIMTokenManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIIMTokenManager.h; sourceTree = "<group>"; };
 		406FCB1525A5571C00636079 /* APIIMTokenManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIIMTokenManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
@@ -473,6 +486,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */,
+				4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */,
 				406BF1A525ADD52100A12DC3 /* QuartzCore.framework in Frameworks */,
 				406BF1A325ADD51700A12DC3 /* OpenGLES.framework in Frameworks */,
 				406BF1A125ADD50E00A12DC3 /* MapKit.framework in Frameworks */,
@@ -534,7 +549,7 @@
 			isa = PBXGroup;
 			children = (
 				402A9EF22595769900A9DABA /* AppDelegate.h */,
-				402A9EF32595769900A9DABA /* AppDelegate.m */,
+				402A9EF32595769900A9DABA /* AppDelegate.mm */,
 				402A9F172595778E00A9DABA /* FrameController */,
 				402A9F362595A3B100A9DABA /* Modules */,
 				402AA168259726D700A9DABA /* LCNetworking */,
@@ -564,8 +579,6 @@
 				402AA1AF2598496C00A9DABA /* ProjectViewCell.m */,
 				402A9F802595B7A500A9DABA /* FrameNavView.h */,
 				402A9F812595B7A500A9DABA /* FrameNavView.m */,
-				406FCA4B259E2D9C00636079 /* UserSettingController.h */,
-				406FCA4C259E2D9C00636079 /* UserSettingController.m */,
 				406FCA4F259E360700636079 /* SettingCell.h */,
 				406FCA50259E360700636079 /* SettingCell.m */,
 			);
@@ -603,6 +616,8 @@
 		402A9F362595A3B100A9DABA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				4054B92425B40EB20023FC7F /* UserCenter */,
+				4054B8EF25B407130023FC7F /* MapViewController */,
 				402AA2022599DE8200A9DABA /* TaskController */,
 				402AA1DA2599717900A9DABA /* WebView */,
 				402AA13A2596D06100A9DABA /* Login */,
@@ -707,6 +722,8 @@
 		402A9F672595B1B500A9DABA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4054B8F725B409D60023FC7F /* SystemConfiguration.framework */,
+				4054B8F525B409BB0023FC7F /* Accelerate.framework */,
 				406BF1A425ADD52100A12DC3 /* QuartzCore.framework */,
 				406BF1A225ADD51700A12DC3 /* OpenGLES.framework */,
 				406BF1A025ADD50E00A12DC3 /* MapKit.framework */,
@@ -832,18 +849,18 @@
 		402AA0B82595D87700A9DABA /* ProjectManage */ = {
 			isa = PBXGroup;
 			children = (
-				406FCAFD25A4CC2100636079 /* ZHUserProject+CoreDataProperties.h */,
-				406FCAFE25A4CC2100636079 /* ZHUserProject+CoreDataClass.h */,
-				406FCAFF25A4CC2100636079 /* ZHUserProject+CoreDataClass.m */,
-				406FCB0025A4CC2100636079 /* ZHUserProject+CoreDataProperties.m */,
-				406FCB0125A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.h */,
-				406FCB0225A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.h */,
-				406FCB0325A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m */,
-				406FCB0425A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m */,
-				406FCB0525A4CC2100636079 /* ZHDepartment+CoreDataProperties.h */,
-				406FCB0625A4CC2100636079 /* ZHDepartment+CoreDataClass.h */,
-				406FCB0725A4CC2100636079 /* ZHDepartment+CoreDataClass.m */,
-				406FCB0825A4CC2100636079 /* ZHDepartment+CoreDataProperties.m */,
+				4054B91625B40E430023FC7F /* ZHUserProject+CoreDataClass.h */,
+				4054B91525B40E430023FC7F /* ZHUserProject+CoreDataClass.m */,
+				4054B91825B40E430023FC7F /* ZHUserProject+CoreDataProperties.h */,
+				4054B91725B40E430023FC7F /* ZHUserProject+CoreDataProperties.m */,
+				4054B90C25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.h */,
+				4054B90F25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.m */,
+				4054B90925B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.h */,
+				4054B90B25B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.m */,
+				4054B90825B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.h */,
+				4054B90D25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.m */,
+				4054B90E25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.h */,
+				4054B90A25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.m */,
 				402AA0CE2595D8A300A9DABA /* ZHModule+CoreDataClass.h */,
 				402AA0CF2595D8A300A9DABA /* ZHModule+CoreDataClass.m */,
 				402AA0BD2595D8A200A9DABA /* ZHModule+CoreDataProperties.h */,
@@ -867,10 +884,10 @@
 		402AA0E42595D8B200A9DABA /* FileTarget */ = {
 			isa = PBXGroup;
 			children = (
-				406FCAE825A31E7A00636079 /* ZHTarget+CoreDataClass.h */,
-				406FCAE925A31E7A00636079 /* ZHTarget+CoreDataClass.m */,
-				406FCAE725A31E7A00636079 /* ZHTarget+CoreDataProperties.h */,
-				406FCAEA25A31E7A00636079 /* ZHTarget+CoreDataProperties.m */,
+				4054B91E25B40E560023FC7F /* ZHTarget+CoreDataClass.h */,
+				4054B91F25B40E560023FC7F /* ZHTarget+CoreDataProperties.h */,
+				4054B91C25B40E550023FC7F /* ZHTarget+CoreDataClass.m */,
+				4054B91D25B40E550023FC7F /* ZHTarget+CoreDataProperties.m */,
 				402AA0E72595D8CF00A9DABA /* ZHAllow+CoreDataClass.h */,
 				402AA0E52595D8CF00A9DABA /* ZHAllow+CoreDataClass.m */,
 				402AA0EA2595D8CF00A9DABA /* ZHAllow+CoreDataProperties.h */,
@@ -1154,6 +1171,52 @@
 				4054B8DB25B207240023FC7F /* UploadFileManager.m */,
 			);
 			path = UploadFileManager;
+			sourceTree = "<group>";
+		};
+		4054B8EF25B407130023FC7F /* MapViewController */ = {
+			isa = PBXGroup;
+			children = (
+				4054B8F125B4071F0023FC7F /* MapViewController.h */,
+				4054B8F225B4071F0023FC7F /* MapViewController.m */,
+			);
+			path = MapViewController;
+			sourceTree = "<group>";
+		};
+		4054B92425B40EB20023FC7F /* UserCenter */ = {
+			isa = PBXGroup;
+			children = (
+				4054B92725B40F170023FC7F /* User */,
+				4054B92625B40EF20023FC7F /* About */,
+				4054B92525B40EE80023FC7F /* Setting */,
+			);
+			path = UserCenter;
+			sourceTree = "<group>";
+		};
+		4054B92525B40EE80023FC7F /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				4054B92C25B40F500023FC7F /* SettingViewController.h */,
+				4054B92D25B40F500023FC7F /* SettingViewController.m */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		4054B92625B40EF20023FC7F /* About */ = {
+			isa = PBXGroup;
+			children = (
+				4054B92825B40F430023FC7F /* AboutViewController.h */,
+				4054B92925B40F430023FC7F /* AboutViewController.m */,
+			);
+			path = About;
+			sourceTree = "<group>";
+		};
+		4054B92725B40F170023FC7F /* User */ = {
+			isa = PBXGroup;
+			children = (
+				406FCA4B259E2D9C00636079 /* UserSettingController.h */,
+				406FCA4C259E2D9C00636079 /* UserSettingController.m */,
+			);
+			path = User;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1445,11 +1508,13 @@
 				402AA1D82598B02600A9DABA /* HeaderCell.m in Sources */,
 				402AA09E2595D6EF00A9DABA /* DataManager+User.m in Sources */,
 				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
+				4054B91325B40E2F0023FC7F /* ZHDepartment+CoreDataClass.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
-				406FCB0B25A4CC2100636079 /* ZHDepartmentUser+CoreDataClass.m in Sources */,
+				4054B91A25B40E430023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */,
+				4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
 				40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */,
@@ -1462,7 +1527,8 @@
 				402AA0E12595D8A300A9DABA /* ZHProject+CoreDataProperties.m in Sources */,
 				406FCA51259E360700636079 /* SettingCell.m in Sources */,
 				402AA1F725998E4A00A9DABA /* UIResponder+Router.m in Sources */,
-				406FCAEB25A31E7A00636079 /* ZHTarget+CoreDataClass.m in Sources */,
+				4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */,
+				4054B91225B40E2F0023FC7F /* ZHDepartmentUser+CoreDataClass.m in Sources */,
 				402AA10F2595D92E00A9DABA /* ZHForm+CoreDataProperties.m in Sources */,
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
 				402AA1012595D90400A9DABA /* ZHFlow+CoreDataClass.m in Sources */,
@@ -1471,6 +1537,7 @@
 				406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */,
 				40931C99259ACDA0008C3518 /* TaskTabView.m in Sources */,
 				406FCAB525A1A74900636079 /* APITaskProcessManager.m in Sources */,
+				4054B92125B40E560023FC7F /* ZHTarget+CoreDataProperties.m in Sources */,
 				402A9F7D2595B60900A9DABA /* UIColor+Hex.m in Sources */,
 				406FCA6725A0517400636079 /* TaskContentView.m in Sources */,
 				402AA1AB259791C600A9DABA /* LoginUserManager.m in Sources */,
@@ -1508,7 +1575,6 @@
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
-				406FCB0925A4CC2100636079 /* ZHUserProject+CoreDataClass.m in Sources */,
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,
@@ -1518,18 +1584,18 @@
 				402AA1D42598AD1700A9DABA /* TaskInforCell.m in Sources */,
 				40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */,
 				4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */,
-				406FCB0A25A4CC2100636079 /* ZHUserProject+CoreDataProperties.m in Sources */,
 				4054B8E025B3008C0023FC7F /* NSString+Extend.m in Sources */,
-				402A9EF42595769900A9DABA /* AppDelegate.m in Sources */,
+				402A9EF42595769900A9DABA /* AppDelegate.mm in Sources */,
 				4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
-				406FCB0E25A4CC2100636079 /* ZHDepartment+CoreDataProperties.m in Sources */,
 				402A9F912595CC9F00A9DABA /* UIViewExt.m in Sources */,
 				402AA182259726D700A9DABA /* BaseApiManager.m in Sources */,
 				402AA0DE2595D8A300A9DABA /* ZHRole+CoreDataProperties.m in Sources */,
 				402AA187259726D700A9DABA /* ApiProxy.m in Sources */,
+				4054B91025B40E2F0023FC7F /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */,
+				4054B92025B40E560023FC7F /* ZHTarget+CoreDataClass.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
@@ -1551,24 +1617,24 @@
 				402AA2082599E05400A9DABA /* TaskListController.m in Sources */,
 				402A9F1A259577BC00A9DABA /* FrameController.m in Sources */,
 				402AA0B32595D87100A9DABA /* ZHMessage+CoreDataClass.m in Sources */,
+				4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */,
 				406FCA7925A1953400636079 /* APIDepartmentManager.m in Sources */,
 				402AA0B52595D87100A9DABA /* ZHMessage+CoreDataProperties.m in Sources */,
 				402AA1992597448800A9DABA /* APILoginManager.m in Sources */,
 				402A9F752595B5BF00A9DABA /* NSArray+Dlog.m in Sources */,
 				406FCA6225A0430900636079 /* TaskTitleView.m in Sources */,
-				406FCB0D25A4CC2100636079 /* ZHDepartment+CoreDataClass.m in Sources */,
 				402AA1C72598A64800A9DABA /* UIView+BorderLine.m in Sources */,
+				4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */,
 				406FCA9425A1A51900636079 /* APIUTPGanttManager.m in Sources */,
 				402AA1102595D92E00A9DABA /* ZHFormItem+CoreDataProperties.m in Sources */,
 				406FCA9925A1A58400636079 /* APITaskListManager.m in Sources */,
 				402AA183259726D700A9DABA /* LCURLResponse.m in Sources */,
-				406FCAEC25A31E7A00636079 /* ZHTarget+CoreDataProperties.m in Sources */,
 				402AA184259726D700A9DABA /* RequestHeaders.m in Sources */,
-				406FCB0C25A4CC2100636079 /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */,
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,
+				4054B91925B40E430023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,
 				406FCA8325A1A32700636079 /* APIUTPListManager.m in Sources */,
 			);

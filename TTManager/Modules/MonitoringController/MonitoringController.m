@@ -8,6 +8,8 @@
 #import "MonitoringController.h"
 #import "ProjectViewCell.h"
 #import "WebController.h"
+#import "SettingViewController.h"
+#import "AboutViewController.h"
 
 @interface MonitoringController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -23,20 +25,40 @@
     else
         self.automaticallyAdjustsScrollViewInsets = NO;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backToMain:) name:NotiBackToMain object:nil];
+    
     self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
 }
 
 - (void)reoladNetwork{
     
 }
-//- (void)viewWillAppear:(BOOL)animated{
-//    [super viewWillAppear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(YES)];
-//}
-//- (void)viewWillDisappear:(BOOL)animated{
-//    [super viewWillDisappear:animated];
-//    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
-//}
+- (void)backToMain:(NSNotification *)noti{
+    NSObject* obj = [noti object];
+    if (obj != nil && [obj isKindOfClass:[NSIndexPath class]])
+    {
+        NSIndexPath *indexPath = (NSIndexPath *)obj;
+        switch (indexPath.row) {
+            case 0:
+            {
+                AboutViewController *vc = [[AboutViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+            case 1:
+            {
+                SettingViewController *vc = [[SettingViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+            default:
+                break;
+        }
+    }
+}
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {

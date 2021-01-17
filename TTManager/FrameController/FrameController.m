@@ -83,7 +83,7 @@
 - (void)addNotification{
     // 抽屉通知
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showSettings:) name:NotiShowSettings object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backToMain:) name:@"NotiBackToMain" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(backToMain:) name:NotiBackToMain object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showHeaderView:) name:NotiShowHeaderView object:nil];
     // 登录相关的
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginSucceed:) name:NotiUserLogined object:nil];
@@ -107,7 +107,7 @@
     }
     
     if ([sender isKindOfClass:[UITapGestureRecognizer class]])
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"NotiBackToMain" object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiBackToMain object:self];
     else if ([sender isKindOfClass:[UIPanGestureRecognizer class]])
     {
         UIPanGestureRecognizer *pan = (UIPanGestureRecognizer *)sender;
@@ -135,9 +135,9 @@
             {
                 CGRect frame = self.userView.frame;
                 if (fabs(self.lastPoint.x) > (frame.size.width + 5) / 2)
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotiBackToMain" object:self];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotiBackToMain object:self];
                 else
-                    [[NSNotificationCenter defaultCenter] postNotificationName:@"NotiShowSettings" object:nil];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowSettings object:nil];
             }
                 break;
                 

@@ -34,8 +34,8 @@
 - (NSArray *)settingArray{
     if (_settingArray == nil) {
         _settingArray = @[
-        @{@"icon":@"erweima",@"title":@"二维码"},
-        @{@"icon":@"share",@"title":@"分享项目"},
+//        @{@"icon":@"erweima",@"title":@"二维码"},
+//        @{@"icon":@"share",@"title":@"分享项目"},
         @{@"icon":@"setting",@"title":@"设置"},
         @{@"icon":@"about",@"title":@"关于"},
         @{@"icon":@"about",@"title":@"退出登录"}];
@@ -76,6 +76,8 @@
     NSLog(@"点击用户设置中心的内容");
     if (indexPath.row == self.settingArray.count -1) {
         [self.logoutManager loadDataWithParams:@{}];
+    }else{
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiBackToMain object:indexPath];
     }
 }
 

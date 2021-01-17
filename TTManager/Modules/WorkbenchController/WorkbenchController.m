@@ -15,6 +15,7 @@
 #import "MessageCell.h"
 #import "TaskInforCell.h"
 #import "TaskController.h"
+#import "MapViewController.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
@@ -123,6 +124,7 @@
         NSInteger index = [userInfo[@"index"] integerValue];
         if (index == 0) {
             NSLog(@"点击了打卡");
+            [self goMapView];
         }else{
             UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
             UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
@@ -141,6 +143,11 @@
         VC.taskStatus = [self getCurrentSelectedTaskStatus:userInfo];
         [self.navigationController pushViewController:VC animated:YES];
     }
+}
+- (void)goMapView{
+    MapViewController *map = [[MapViewController alloc] init];
+    map.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:map animated:YES];
 }
 - (TaskStatus)getCurrentSelectedTaskStatus:(NSDictionary *)dic{
     TaskStatus status = Task_list;
