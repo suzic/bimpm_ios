@@ -29,6 +29,8 @@
     if (self) {
         [self addUI];
         self.backgroundColor = [UIColor whiteColor];
+        self.clipsToBounds = NO;
+        self.contentView.clipsToBounds = NO;
     }
     return self;
 }
@@ -233,7 +235,8 @@
     [self.contentView addSubview:self.stepView];
     [self.contentView addSubview:self.addImageView];
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.equalTo(0);
+        make.top.left.right.equalTo(0);
+        make.bottom.equalTo(0);
     }];
     
     [self.addImageView makeConstraints:^(MASConstraintMaker *make) {

@@ -29,6 +29,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     self = [super init];
     if (self) {
         _currentSelectedStep = NSNotFound;
+        self.clipsToBounds = NO;
         [self addUI];
     }
     return self;
@@ -159,6 +160,9 @@ static NSString *headerIdentifier = @"headerIdentifier";
             break;
         }
     }
+    if (_tools.currentSelectedStep == nil) {
+        _tools.currentSelectedStep = _tools.stepArray[0];
+    }
 }
 #pragma mark - setting and getter
 
@@ -192,19 +196,21 @@ static NSString *headerIdentifier = @"headerIdentifier";
 #pragma mark - UI
 - (void)addUI{
     
+//    self.backgroundColor = [UIColor redColor];
+    
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = RGB_COLOR(153, 153, 153);
-    [self addSubview:lineView];
+//    [self addSubview:lineView];
     
     // 中间人
     [self addSubview:self.collectionView];
-    self.collectionView.backgroundColor = [UIColor whiteColor];
+    self.collectionView.backgroundColor = [UIColor clearColor];
     
-//    [self addSubview:lineView];
+    [self insertSubview:lineView atIndex:0];
     [lineView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(0);
         make.bottom.equalTo(0);
-        make.height.equalTo(1);
+        make.height.equalTo(0.5);
     }];
     [self.collectionView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(0);

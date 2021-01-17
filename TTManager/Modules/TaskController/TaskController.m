@@ -519,7 +519,7 @@
     [self.view addSubview:self.taskOperationView];
     
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(25);
+        make.top.equalTo(15);
         make.left.right.equalTo(0);
         make.height.equalTo(itemHeight);
     }];

@@ -64,6 +64,7 @@
 // 获取当前的状态
 - (NSString *)getDecisionText:(ZHStep *)step{
     NSString *decision = @"";
+    
     // 发起人
     if(step.process_type == 1 && step.decision == 1){
         decision = @"同意";
@@ -103,6 +104,8 @@
             decision = @"完成";
         }
         [self setOperationStyle:2 button:self.rejectBtn];
+    }else if(step.process_type == 0 && step.decision == 1){
+        decision = @"发起";
     }
     return decision;
 }
