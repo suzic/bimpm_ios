@@ -113,6 +113,7 @@
 		4054B92125B40E560023FC7F /* ZHTarget+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B91D25B40E550023FC7F /* ZHTarget+CoreDataProperties.m */; };
 		4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92925B40F430023FC7F /* AboutViewController.m */; };
 		4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92D25B40F500023FC7F /* SettingViewController.m */; };
+		4054B93325B42C730023FC7F /* APIVerifyPhoneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -376,6 +377,8 @@
 		4054B92925B40F430023FC7F /* AboutViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AboutViewController.m; sourceTree = "<group>"; };
 		4054B92C25B40F500023FC7F /* SettingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		4054B92D25B40F500023FC7F /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		4054B93125B42C730023FC7F /* APIVerifyPhoneManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIVerifyPhoneManager.h; sourceTree = "<group>"; };
+		4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIVerifyPhoneManager.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -944,6 +947,7 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				4054B93025B42C460023FC7F /* APIVerifyPhoneManager */,
 				4054B8D825B206FA0023FC7F /* UploadFileManager */,
 				4054B8CE25B197910023FC7F /* APIUTPDetailManager */,
 				4054B8C525B15E330023FC7F /* APILogoutManager */,
@@ -1217,6 +1221,15 @@
 				406FCA4C259E2D9C00636079 /* UserSettingController.m */,
 			);
 			path = User;
+			sourceTree = "<group>";
+		};
+		4054B93025B42C460023FC7F /* APIVerifyPhoneManager */ = {
+			isa = PBXGroup;
+			children = (
+				4054B93125B42C730023FC7F /* APIVerifyPhoneManager.h */,
+				4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */,
+			);
+			path = APIVerifyPhoneManager;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1599,6 +1612,7 @@
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
+				4054B93325B42C730023FC7F /* APIVerifyPhoneManager.m in Sources */,
 				402AA0B62595D87100A9DABA /* ZHUser+CoreDataClass.m in Sources */,
 				402AA1172595D9AC00A9DABA /* bimpm.xcdatamodeld in Sources */,
 				402A9F952595CDDC00A9DABA /* ProjectSelectController.m in Sources */,

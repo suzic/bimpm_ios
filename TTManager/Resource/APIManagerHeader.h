@@ -12,6 +12,7 @@
 #import "APILoginManager.h"
 #import "APIIMTokenManager.h"
 #import "APILogoutManager.h"
+#import "APIVerifyPhoneManager.h"
 
 // 团队
 #import "APIDepartmentManager.h"

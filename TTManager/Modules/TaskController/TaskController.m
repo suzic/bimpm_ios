@@ -18,7 +18,7 @@
 #import "UploadFileManager.h"
 #import "WebController.h"
 
-@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate>
+@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,UITextFieldDelegate>
 
 @property (nonatomic,strong) UIButton *rightButtonItem;
 // 任务步骤
@@ -44,7 +44,7 @@
 @property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
 @property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
 @property (nonatomic, strong) UploadFileManager *uploadManager;
-
+@property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
 
 @end
 
@@ -267,7 +267,21 @@
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
     NSLog(@"点击了保存");
 }
-
+- (void)showRecallTaskAlert{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入手机验证码" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSString *code = alertController.textFields[0].text;
+        self.taskParams.memo = code;
+        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+    }]];
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入验证码";
+        textField.delegate = self;
+    }];
+    [self presentViewController:alertController animated:true completion:nil];
+}
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     NSInvocation *invocation = self.eventStrategy[eventName];
@@ -324,6 +338,8 @@
             [alert addAction:sure];
             [self presentViewController:alert animated:YES completion:nil];
         }
+    }else if(manager == self.verifyPhoneManager){
+        [self showRecallTaskAlert];
     }
 }
 
@@ -346,7 +362,12 @@
 }
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
-        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+        if (self.taskType == task_type_detail_draft) {
+            [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+        }else{
+            ZHUser *user = [DataManager defaultInstance].currentUser;
+            [self.verifyPhoneManager loadDataWithParams:@{@"phone":user.phone,@"type":@"RECALL_TASK"}];
+        }
     }else{
         [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessTerminateParams]];
     }
@@ -443,6 +464,14 @@
         _taskDetailManager.paramSource = self;
     }
     return _taskDetailManager;
+}
+- (APIVerifyPhoneManager *)verifyPhoneManager{
+    if (_verifyPhoneManager == nil) {
+        _verifyPhoneManager = [[APIVerifyPhoneManager alloc] init];
+        _verifyPhoneManager.delegate = self;
+        _verifyPhoneManager.paramSource = self;
+    }
+    return _verifyPhoneManager;
 }
 - (UploadFileManager *)uploadManager{
     if (_uploadManager == nil) {
