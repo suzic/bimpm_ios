@@ -60,36 +60,63 @@
     // 发起人
     if(step.process_type == 1 && step.decision == 1){
         decision = @"同意";
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 1 && step.decision == 2){
         decision = @"拒绝";
+        [self setOperationStyle:1 button:self.rejectBtn];
     }else if(step.process_type == 2 && step.decision == 1){
         decision = @"通过";
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 2 && step.decision == 2){
         decision = @"通过";
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 3 && step.decision == 1){
         decision = @"赞同";
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 3 && step.decision == 2){
         decision = @"反对";
+        [self setOperationStyle:1 button:self.rejectBtn];
     }else if(step.process_type == 4 && step.decision == 1){
         decision = @"通过";
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 4 && step.decision == 2){
         decision = @"驳回";
+        [self setOperationStyle:1 button:self.rejectBtn];
     }else if(step.process_type == 5 && step.decision == 1){
         if (step.hasNext.count >0) {
             decision = @"通过";
         }else{
             decision = @"确认";
         }
+        [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 6 && step.decision == 1){
         if (step.hasNext.count >0) {
             decision = @"通过";
         }else{
             decision = @"完成";
         }
+        [self setOperationStyle:2 button:self.rejectBtn];
     }
     return decision;
 }
-
+- (void)setOperationStyle:(NSInteger)statsStyle button:(UIButton *)button{
+    // 发送任务
+    if (statsStyle == 0) {
+        button.backgroundColor = RGB_COLOR(247, 181, 0);
+    }
+    // 拒绝
+    else if(statsStyle == 1){
+        button.backgroundColor = RGB_COLOR(239, 89, 95);
+    }
+    // 同意 赞同
+    else if(statsStyle == 2){
+        button.backgroundColor = RGB_COLOR(0, 203, 105);
+    }
+    // 未开始
+    else if(statsStyle == 3){
+        button.backgroundColor = RGB_COLOR(153, 153, 153);
+    }
+}
 #pragma mark - 页面操作
 - (void)setBottomToolsOperations:(OperabilityTools *)tools{
     switch (tools.type) {
@@ -129,6 +156,7 @@
     self.saveBtn.enabled = YES;
     self.rejectBtn.hidden = NO;
     [self.rejectBtn setTitle:@"发送任务" forState:UIControlStateNormal];
+    [self setOperationStyle:0 button:self.rejectBtn];
     self.agreeBtn.hidden = YES;
     self.predictTimeBtn.enabled = YES;
 }
@@ -138,6 +166,7 @@
     self.rejectBtn.enabled = NO;
     self.rejectBtn.hidden = NO;
     [self.rejectBtn setTitle:@"已发送" forState:UIControlStateNormal];
+    [self setOperationStyle:3 button:self.rejectBtn];
     self.agreeBtn.hidden = YES;
     self.predictTimeBtn.enabled = YES;
 }
