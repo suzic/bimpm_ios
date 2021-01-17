@@ -45,7 +45,7 @@
     [self.stepStatus makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(0);
         make.left.equalTo(2);
-        make.width.equalTo(40);
+        make.width.equalTo(30);
         make.height.equalTo(12);
     }];
     [self.stepUserDispose makeConstraints:^(MASConstraintMaker *make) {
@@ -115,7 +115,7 @@
     if (_stepUserName == nil) {
         _stepUserName = [[UILabel alloc] init];
         _stepUserName.textColor = [SZUtil colorWithHex:@"#999999"];
-        _stepStatus.font = [UIFont systemFontOfSize:11.0f];
+        _stepUserName.font = [UIFont systemFontOfSize:11.0f];
     }
     return _stepUserName;
 }

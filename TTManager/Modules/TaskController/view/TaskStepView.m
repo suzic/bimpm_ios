@@ -44,6 +44,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.index = indexPath.row;
     cell.currentStep = _tools.stepArray[indexPath.row];
     cell.isSelected = self.currentSelectedStep == indexPath.row;
     cell.type = _tools.type;
@@ -57,7 +58,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ZHStep *step = _tools.stepArray[indexPath.row];
-    if (_tools.type == task_type_detail_initiate) {
+    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
         return;
     }
     if (_tools.type == task_type_detail_proceeding || _tools.type == task_type_detail_finished) {

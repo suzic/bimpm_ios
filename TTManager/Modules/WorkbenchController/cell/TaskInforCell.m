@@ -71,16 +71,16 @@
 #pragma mark - private method
 
 - (void)changeTaskInfor:(NSInteger)currentTag{
-    NSString *first = @"未完成";
+    NSString *first = @"进行中";
     UIColor *firstColor = [SZUtil colorWithHex:@"#EEF6FC"];
     NSString *second = @"已完成";
     UIColor *secondColor = [SZUtil colorWithHex:@"#FFF5E4"];
     if (currentTag == 1)
     {
-        first = @"进行中";
+        first = @"起草中";
         firstColor = [SZUtil colorWithHex:@"#FFF5E4"];
         
-        second = @"未开始";
+        second = @"已发起";
         secondColor = [SZUtil colorWithHex:@"#EEF6FC"];
     }
     

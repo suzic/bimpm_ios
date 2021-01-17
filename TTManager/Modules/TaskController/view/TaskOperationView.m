@@ -75,13 +75,13 @@
     }else if(step.process_type == 4 && step.decision == 2){
         decision = @"驳回";
     }else if(step.process_type == 5 && step.decision == 1){
-        if (step.hasPrevs.count >0) {
+        if (step.hasNext.count >0) {
             decision = @"通过";
         }else{
             decision = @"确认";
         }
     }else if(step.process_type == 6 && step.decision == 1){
-        if (step.hasPrevs.count >0) {
+        if (step.hasNext.count >0) {
             decision = @"通过";
         }else{
             decision = @"完成";
