@@ -145,6 +145,27 @@
     }
     return _taskListManager;
 }
+- (void)setCurrentTaskStatus:(TaskStatus)currentTaskStatus{
+    if (_currentTaskStatus != currentTaskStatus) {
+        _currentTaskStatus = currentTaskStatus;
+        switch (_currentTaskStatus) {
+            case Task_list:
+                [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
+                break;
+            case Task_finish:
+                [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
+                break;
+            case Task_sponsoring:
+                [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
+                break;
+            case Task_sponsored:
+                [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
+                break;
+            default:
+                break;
+       }
+    }
+}
 - (NSMutableArray *)taskArray{
     if (_taskArray == nil) {
         _taskArray = [NSMutableArray array];
@@ -180,6 +201,9 @@
     }
     NSDictionary *dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
                           @"is_starter":is_starter,
+                          @"other_user_name":@"",
+                          @"flow_state":@"null",
+                          @"id_user":@"",
                           @"is_finished":is_finished};
     return dic;
 }
