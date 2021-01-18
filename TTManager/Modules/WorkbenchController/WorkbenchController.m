@@ -144,11 +144,14 @@
         [self.navigationController pushViewController:VC animated:YES];
     }
 }
+
 - (void)goMapView{
     MapViewController *map = [[MapViewController alloc] init];
     map.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:map animated:YES];
+    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:map];
+    [self presentViewController:nav animated:YES completion:nil];
 }
+
 - (TaskStatus)getCurrentSelectedTaskStatus:(NSDictionary *)dic{
     TaskStatus status = Task_list;
     if ([dic[@"selectedTaskType"] isEqualToString:@"0"]) {
