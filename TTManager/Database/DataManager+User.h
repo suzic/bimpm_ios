@@ -75,6 +75,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param dicData 数据
 - (void)syncModule:(ZHModule *)module withModuleInfo:(NSDictionary *)dicData;
 
+- (void)removeCurrentUserProjects:(ZHUser *)user;
 @end
 
 NS_ASSUME_NONNULL_END

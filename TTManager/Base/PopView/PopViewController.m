@@ -64,6 +64,7 @@
         }else{
             ZHUserProject *userProject = (ZHUserProject *)dataItem;
             cell.textLabel.text = userProject.belongProject.name;
+            NSLog(@"当前项目的项目id ==%d 当前项目的项目名称 ==%@",userProject.id_project,userProject.belongProject.name);
         }
     }else{
         cell.textLabel.text = [NSString stringWithFormat:@"%@", self.dataList[indexPath.row]];

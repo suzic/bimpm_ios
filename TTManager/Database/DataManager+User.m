@@ -226,6 +226,7 @@
     if (![SZUtil isEmptyOrNull:dicData[@"enter_date"]])
         userProject.enter_date = [dateFormatter dateFromString:dicData[@"enter_date"]];
     
+    userProject.id_project = [dicData[@"id_project"] intValue];
 //    // 同步并关联对应的用户
     ZHUser *assignUser = [[DataManager defaultInstance] getUserFromCoredataByID:[dicData[@"id_user"] intValue]];
 
@@ -234,7 +235,6 @@
     // 同步并关联对应的项目
     ZHProject *assignProject = [[DataManager defaultInstance] getProjectFromCoredataById:[dicData[@"id_project"] intValue]];
     userProject.belongProject = assignProject;
-
     // 同步并关联对应的角色对象
     NSDictionary *roleDic = dicData[@"role"];
     ZHRole *currentRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];
@@ -377,5 +377,10 @@
         }
     }
     return userDic;
+}
+- (void)removeCurrentUserProjects:(ZHUser *)user{
+    for (ZHUserProject *userProject in user.hasProjects) {
+        [self deleteFromCoreData:userProject];
+    }
 }
 @end

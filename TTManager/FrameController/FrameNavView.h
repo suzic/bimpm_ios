@@ -22,7 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic,weak) id<FrameNavViewDelegate>delegate;
 
-@property (nonatomic, strong) NSMutableArray *projectList;
+@property (nonatomic, strong) NSArray *projectList;
 // 显示项目列表时 切换项目不可点击
 - (void)changeTabProjectStyle:(BOOL)selectable;
 

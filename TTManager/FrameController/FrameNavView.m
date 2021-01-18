@@ -118,10 +118,15 @@
         self.changeProjectBtn.enabled = YES;
     }
 }
-- (NSMutableArray *)projectList{
+- (NSArray *)projectList{
+    _projectList = [NSArray array];
     NSMutableArray *result = [DataManager defaultInstance].currentProjectList;
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"in_apply = 0 and in_manager_invite = 0"];
-    _projectList = [NSMutableArray arrayWithArray:[result filteredArrayUsingPredicate:predicate]];
+    result = [NSMutableArray arrayWithArray:[result filteredArrayUsingPredicate:predicate]];
+    
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_project" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    _projectList = [result sortedArrayUsingDescriptors:sortDescriptors];
     return _projectList;
 }
 #pragma mark -setter and getter

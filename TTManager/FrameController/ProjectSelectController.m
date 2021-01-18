@@ -11,7 +11,7 @@
 @interface ProjectSelectController ()<UICollectionViewDelegate,UICollectionViewDataSource,UICollectionViewDelegateFlowLayout,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
-@property (nonatomic, strong) NSMutableArray *projectList;
+@property (nonatomic, strong) NSArray *projectList;
 @property (nonatomic, assign) NSInteger selectedIndex;
 
 // api
@@ -41,8 +41,13 @@
     [self.projectCollectionView reloadData];
 }
 #pragma mark - setter and getter
-- (NSMutableArray *)projectList{
-    _projectList = [DataManager defaultInstance].currentProjectList;
+- (NSArray *)projectList{
+    _projectList = [NSArray array];
+    NSMutableArray *result = [DataManager defaultInstance].currentProjectList;
+    
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_project" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    _projectList = [result sortedArrayUsingDescriptors:sortDescriptors];
     return _projectList;
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource

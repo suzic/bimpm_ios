@@ -54,25 +54,19 @@ static NSString *const CoreDataModelFileName = @"bimpm";
 // 当前用户的项目列表
 - (NSMutableArray *)currentProjectList
 {
-    if (_currentProjectList == nil || _currentProjectList.count <= 0)
-    {
-        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_user_project" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-        _currentProjectList = [NSMutableArray arrayWithArray:[self.currentUser.hasProjects sortedArrayUsingDescriptors:sortDescriptors]];
-    }
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_user_project" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    _currentProjectList = [NSMutableArray arrayWithArray:[self.currentUser.hasProjects sortedArrayUsingDescriptors:sortDescriptors]];
     return _currentProjectList;
 }
 
 // 当前用户限定
 - (ZHUser *)currentUser
 {
-    if (_currentUser == nil)
-    {
-        _currentUser = [self getUserLogin];
-        NSString *identifierStr = [SZUtil getUUID];
-        NSLog(@"Current User has Device ID : %@", identifierStr);
-        _currentUser.device = identifierStr;
-    }
+    _currentUser = [self getUserLogin];
+    NSString *identifierStr = [SZUtil getUUID];
+    NSLog(@"Current User has Device ID : %@", identifierStr);
+    _currentUser.device = identifierStr;
     return _currentUser;
 }
 

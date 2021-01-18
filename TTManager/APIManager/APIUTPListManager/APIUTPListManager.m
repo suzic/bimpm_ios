@@ -51,6 +51,10 @@
 // 本地数据库
 - (id)userToProjectListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    [[DataManager defaultInstance] removeCurrentUserProjects:user];
+    
     NSArray *basic = dict[@"basic"];
     NSArray *to_user = dict[@"to_user"];
     NSMutableArray *basicArray = [NSMutableArray array];

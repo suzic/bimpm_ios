@@ -2,7 +2,7 @@
 //  ZHUserProject+CoreDataProperties.m
 //  TTManager
 //
-//  Created by chao liu on 2021/1/6.
+//  Created by chao liu on 2021/1/18.
 //
 //
 
@@ -25,6 +25,7 @@
 @dynamic is_default;
 @dynamic order_index;
 @dynamic user_task_count;
+@dynamic id_project;
 @dynamic assignRole;
 @dynamic belongProject;
 @dynamic belongUser;

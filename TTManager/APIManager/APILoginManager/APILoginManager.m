@@ -59,7 +59,8 @@
     // 同步保存当前用户
     [[LoginUserManager defaultInstance] saveCurrentLoginUserPhone:userInfoDic[@"phone"]];
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-    
+    [[DataManager defaultInstance] removeCurrentUserProjects:currentUser];
+
     // 同步用户自身信息
     currentUser.token = oneData[@"token"];
     currentUser.pass_md5 = oneData[@"password"];
