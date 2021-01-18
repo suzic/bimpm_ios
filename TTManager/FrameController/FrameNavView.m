@@ -87,6 +87,7 @@
         _UTPlistManager = [[APIUTPListManager alloc] init];
         _UTPlistManager.delegate = self;
         _UTPlistManager.paramSource = self;
+        _UTPlistManager.isNeedCoreData = YES;
     }
     return _UTPlistManager;
 }

@@ -109,9 +109,9 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"inforCell" forIndexPath:indexPath];
     NSDictionary *userInfo = self.infoArray[indexPath.row];
-    ZHProject *project = userInfo[@"project"];
+    NSDictionary *project = userInfo[@"project"];
     NSString *roleName = userInfo[@"roleName"];
-    NSString *titleText = project.name;
+    NSString *titleText = project[@"name"];
     if (![roleName isEqualToString:@""]) {
         titleText = [NSString stringWithFormat:@"%@ 中我是 %@",titleText,roleName];
     }
@@ -185,17 +185,20 @@
     
 }
 - (void)assemblyData:(NSDictionary *)userProjectDic{
-    NSMutableArray *basicArray = userProjectDic[@"basic"];
-    NSMutableArray *to_userArray = userProjectDic[@"to_user"];
+    NSMutableArray *basicArray = userProjectDic[@"data"][@"basic"];
+    NSMutableArray *to_userArray = userProjectDic[@"data"][@"to_user"];
     
     for (int i = 0; i < basicArray.count; i++) {
-        ZHProject *project = basicArray[i];
-        ZHRole *role = nil;
-        if (to_userArray.count > i) {
-            ZHUserProject *userProject = to_userArray[i];
-            role = userProject.assignRole;
+        NSDictionary *project = basicArray[i];
+        NSDictionary *role = nil;
+        if ([to_userArray isKindOfClass:[NSArray class]]) {
+            if (to_userArray.count > i) {
+                role  = to_userArray[i][@"role"];
+    //            role = userProject.assignRole;
+            }
         }
-        NSDictionary *userInfo = @{@"project":project,@"roleName":role == nil ? @"":role.name};
+        
+        NSDictionary *userInfo = @{@"project":project,@"roleName":role == nil ? @"":role[@"name"]};
         [self.infoArray addObject:userInfo];
     }
     
@@ -208,6 +211,7 @@
         _UTPlistManager = [[APIUTPListManager alloc] init];
         _UTPlistManager.delegate = self;
         _UTPlistManager.paramSource = self;
+        _UTPlistManager.isNeedCoreData = NO;
     }
     return _UTPlistManager;
 }

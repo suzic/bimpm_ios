@@ -28,7 +28,7 @@
 }
 
 - (BOOL)isCoreData {
-    return YES;
+    return self.isNeedCoreData;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
@@ -51,14 +51,13 @@
 // 本地数据库
 - (id)userToProjectListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
-    
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    [[DataManager defaultInstance] removeCurrentUserProjects:user];
-    
     NSArray *basic = dict[@"basic"];
     NSArray *to_user = dict[@"to_user"];
     NSMutableArray *basicArray = [NSMutableArray array];
     NSMutableArray *to_userArray = [NSMutableArray array];
+    
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    [[DataManager defaultInstance] removeCurrentUserProjects:user];
     if ([basic isKindOfClass:[NSArray class]]) {
         for (NSDictionary *projectDict in basic)
         {
@@ -75,6 +74,7 @@
             [to_userArray addObject:currentUP];
         }
     }
+    
     NSDictionary *dic = @{@"basic":basicArray,@"to_user":to_userArray};
     return dic;
 }

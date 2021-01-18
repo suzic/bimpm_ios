@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface APIUTPListManager : BaseApiManager<APIManager,APIManagerValidator>
 
+@property (nonatomic, assign) BOOL isNeedCoreData;
+
 @end
 
 NS_ASSUME_NONNULL_END
