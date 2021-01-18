@@ -265,6 +265,9 @@
         self.projectTopLayoutConstraint.constant = show ? 0 : kScreenHeight;
         [self.view layoutIfNeeded];
     } completion:^(BOOL finished) {
+        if (show == YES) {
+            [self.projectVC reloadData];
+        }
     }];
     [self.headerView changeTabProjectStyle:show];
 }
