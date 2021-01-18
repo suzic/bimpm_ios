@@ -112,10 +112,10 @@
 		4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92925B40F430023FC7F /* AboutViewController.m */; };
 		4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B92D25B40F500023FC7F /* SettingViewController.m */; };
 		4054B93325B42C730023FC7F /* APIVerifyPhoneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */; };
-		4054B93925B5603A0023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93725B5603A0023FC7F /* ZHUserProject+CoreDataClass.m */; };
-		4054B93A25B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93825B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m */; };
 		4054B94D25B5C5AA0023FC7F /* APIFromNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B94C25B5C5AA0023FC7F /* APIFromNewManager.m */; };
 		4054B95325B5C5C40023FC7F /* APIFromDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */; };
+		4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */; };
+		4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -377,14 +377,14 @@
 		4054B92D25B40F500023FC7F /* SettingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		4054B93125B42C730023FC7F /* APIVerifyPhoneManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIVerifyPhoneManager.h; sourceTree = "<group>"; };
 		4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIVerifyPhoneManager.m; sourceTree = "<group>"; };
-		4054B93525B5603A0023FC7F /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = SOURCE_ROOT; };
-		4054B93625B5603A0023FC7F /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
-		4054B93725B5603A0023FC7F /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
-		4054B93825B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
 		4054B94B25B5C5AA0023FC7F /* APIFromNewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFromNewManager.h; sourceTree = "<group>"; };
 		4054B94C25B5C5AA0023FC7F /* APIFromNewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFromNewManager.m; sourceTree = "<group>"; };
 		4054B95125B5C5C40023FC7F /* APIFromDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFromDetailManager.h; sourceTree = "<group>"; };
 		4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFromDetailManager.m; sourceTree = "<group>"; };
+		4054B95625B5C7C20023FC7F /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = "<group>"; };
+		4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = "<group>"; };
+		4054B95825B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = "<group>"; };
+		4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -858,10 +858,10 @@
 		402AA0B82595D87700A9DABA /* ProjectManage */ = {
 			isa = PBXGroup;
 			children = (
-				4054B93525B5603A0023FC7F /* ZHUserProject+CoreDataProperties.h */,
-				4054B93625B5603A0023FC7F /* ZHUserProject+CoreDataClass.h */,
-				4054B93725B5603A0023FC7F /* ZHUserProject+CoreDataClass.m */,
-				4054B93825B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m */,
+				4054B95625B5C7C20023FC7F /* ZHUserProject+CoreDataClass.h */,
+				4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */,
+				4054B95825B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.h */,
+				4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */,
 				4054B90C25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.h */,
 				4054B90F25B40E2E0023FC7F /* ZHDepartment+CoreDataClass.m */,
 				4054B90925B40E2E0023FC7F /* ZHDepartment+CoreDataProperties.h */,
@@ -1601,8 +1601,8 @@
 				402AA1EE2599815700A9DABA /* MessageView.m in Sources */,
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
+				4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */,
 				402AA1402596D09800A9DABA /* LoginValidChecker.m in Sources */,
-				4054B93A25B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */,
 				406FCAC425A1F76100636079 /* PageSize.m in Sources */,
 				40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */,
 				402AA1B02598496C00A9DABA /* ProjectViewCell.m in Sources */,
@@ -1677,7 +1677,7 @@
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,
-				4054B93925B5603A0023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
+				4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
 				406FCA8325A1A32700636079 /* APIUTPListManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
