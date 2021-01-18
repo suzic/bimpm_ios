@@ -17,6 +17,7 @@
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
 @property (nonatomic,assign) TaskType taskType;
+@property (nonatomic, strong) NSMutableArray *taskListViewArray;
 
 @end
 
@@ -87,6 +88,8 @@
     taskVC.id_task = uid_task;
     taskVC.taskType = (taskStatus +6);
     self.taskStatus = taskStatus;
+    TaskListView *listView = self.taskListViewArray[self.taskStatus];
+    listView.needReloadData = YES;
     [self.navigationController pushViewController:taskVC animated:YES];
 }
 
@@ -123,15 +126,16 @@
     [self.taskTabView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(self.view);
     }];
-    NSMutableArray *viewArray = [NSMutableArray array];
+    self.taskListViewArray = [NSMutableArray array];
     for (NSNumber *status in self.listSattusArray) {
         TaskListView *view = [[TaskListView alloc] init];
         view.currentTaskStatus = [status integerValue];
         view.listTitle = [self getListTitleWithStatus:[status integerValue]];
-        [viewArray addObject:view];
+        view.needReloadData = YES;
+        [self.taskListViewArray addObject:view];
     }
     [self.view layoutIfNeeded];
-    [self.taskTabView setChildrenViewList:viewArray];
+    [self.taskTabView setChildrenViewList:self.taskListViewArray];
     DragButton *dragBtn = [DragButton initDragButtonVC:self];
     [dragBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(-15);
@@ -150,6 +154,8 @@
         UINavigationController *nav = (UINavigationController *)[segue destinationViewController];
         TaskController *vc = (TaskController *)[nav topViewController];
         vc.taskType = self.taskType;
+        TaskListView *listView = self.taskListViewArray[self.taskStatus];
+        listView.needReloadData = YES;
     }
 }
 

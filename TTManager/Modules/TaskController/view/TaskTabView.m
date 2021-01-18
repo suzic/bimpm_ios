@@ -165,11 +165,9 @@
     if (selectedTaskIndex == NSNotFound) {
         return;
     }
-    if (_selectedTaskIndex != selectedTaskIndex) {
-        _selectedTaskIndex = selectedTaskIndex;
-        [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
-        [self getCurrentdisplayTaskListView:_selectedTaskIndex];
-    }
+    _selectedTaskIndex = selectedTaskIndex;
+    [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    [self getCurrentdisplayTaskListView:_selectedTaskIndex];
 }
 
 - (void)changeTabSelected:(NSInteger)index{

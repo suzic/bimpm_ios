@@ -59,18 +59,17 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     ZHStep *step = _tools.stepArray[indexPath.row];
-    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
+//    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
+//        return;
+//    }
+    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
+        self.currentSelectedStep =  indexPath.row;
+        _tools.currentSelectedStep = step;
+        [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
+        [self.collectionView reloadData];
         return;
     }
-    if (_tools.type == task_type_detail_proceeding || _tools.type == task_type_detail_finished) {
-        if (step.state == 1 || indexPath.row == self.selfStepIndex) {
-            self.currentSelectedStep =  indexPath.row;
-            _tools.currentSelectedStep = step;
-            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
-            [self.collectionView reloadData];
-        }
-        return;
-    }
+    NSLog(@"当前选择的步骤类型 %d",step.state);
     if (indexPath.row == _tools.stepArray.count-1)
     {
         if (step.response_user_fixed == 1) {
@@ -162,6 +161,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
     if (_tools.currentSelectedStep == nil) {
         _tools.currentSelectedStep = _tools.stepArray[0];
+        self.selfStepIndex = 0;
     }
 }
 #pragma mark - setting and getter

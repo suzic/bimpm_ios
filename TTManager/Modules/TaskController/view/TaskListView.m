@@ -14,7 +14,6 @@
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) APITaskListManager *taskListManager;
 @property (nonatomic, strong) NSMutableArray *taskArray;
-@property (nonatomic, assign) BOOL needReloadData;
 
 @end
 
@@ -97,6 +96,8 @@
 }
 - (void)reloadDataFromNetwork{
     if (self.needReloadData == YES) {
+        self.taskListManager.pageSize.pageIndex = 1;
+        [self.tableView.mj_footer resetNoMoreData];
         [self.taskListManager loadData];
     }
 }

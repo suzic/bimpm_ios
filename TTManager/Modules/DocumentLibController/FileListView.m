@@ -154,7 +154,12 @@
     return _targetListManager;
 }
 - (NSArray *)fileListArray{
-     NSArray *result = (NSArray *)self.targetListManager.response.responseData;
+    NSArray *result = (NSArray *)self.targetListManager.response.responseData;
+    if (self.navigationController.viewControllers.count >1) {
+        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+        result = [result sortedArrayUsingDescriptors:sortDescriptors];
+    }
     _fileListArray = result;
     return _fileListArray;
 }
