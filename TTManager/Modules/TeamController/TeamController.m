@@ -128,7 +128,7 @@
     self.currentSelected = indexPath.row;
     ZHDepartment *department = self.teamArray[self.currentSelected];
     NSArray *array = [self currentUserList:department.hasUsers];
-    [self.tableView showDataCount:array.count];
+    [self.tableView showDataCount:array.count type:0];
     [self.tableView reloadData];
 }
 #pragma mark - APIManagerParamSource
@@ -149,7 +149,7 @@
         [self.tableView.mj_header endRefreshing];
         self.departmentListManager.response = manager.response;
         self.currentSelected = 0;
-        [self.tableView showDataCount:self.teamArray.count];
+        [self.tableView showDataCount:self.teamArray.count type:0];
         self.teamNameBtn.hidden = !(self.teamArray.count > 0);
         [self.tableView reloadData];
     }

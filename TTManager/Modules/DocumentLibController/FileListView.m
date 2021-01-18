@@ -129,7 +129,7 @@
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.targetListManager) {
         [self.tableView.mj_header endRefreshing];
-        [self.tableView showDataCount:self.fileListArray.count];
+        [self.tableView showDataCount:self.fileListArray.count type:0];
         [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
 //        self.title = @"";
         [self.containerVC loadFileCatalogCollectionView];
@@ -140,7 +140,7 @@
     if (manager == self.targetListManager) {
         [self.tableView.mj_header endRefreshing];
         self.title = @"";
-        [self.tableView showDataCount:0];
+        [self.tableView showDataCount:0 type:0];
         [self.containerVC loadFileCatalogCollectionView];
     }
 }

@@ -121,7 +121,7 @@
 
     [self requestUrl:loadUrl];
     
-    self.navigationItem.leftBarButtonItems = @[self.close,self.goBack,self.refresh];
+    self.navigationItem.leftBarButtonItems = @[self.close,self.goBack];
 }
 - (void)addViewCustomLaytou{
     [self.loadingProgressView makeConstraints:^(MASConstraintMaker *make) {

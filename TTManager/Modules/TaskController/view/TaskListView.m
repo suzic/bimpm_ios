@@ -33,7 +33,7 @@
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(self);
     }];
-    [self.tableView showDataCount:self.taskArray.count];
+//    [self.tableView showDataCount:self.taskArray.count type:0];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(refresData)];
     self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(refresMoreData)];
 }
@@ -123,7 +123,13 @@
             [self.taskArray removeAllObjects];
         }
         [self.taskArray addObjectsFromArray:(NSArray *)manager.response.responseData];
-        [self.tableView showDataCount:self.taskArray.count];
+        NSInteger type = 0;
+        if (self.currentTaskStatus == Task_list) {
+            type = 1;
+        }else if(self.currentTaskStatus == Task_sponsoring){
+            type = 2;
+        }
+        [self.tableView showDataCount:self.taskArray.count type:type];
         [self.tableView reloadData];
         
     }

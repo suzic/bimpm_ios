@@ -9,7 +9,7 @@
 
 @implementation UITableView (EmptyView)
 
-- (void)showDataCount:(NSInteger)count{
+- (void)showDataCount:(NSInteger)count type:(NSInteger)type{
     if (count > 0) {
         self.backgroundView = nil;
         return;
@@ -21,7 +21,7 @@
     showImageView.contentMode = UIViewContentModeScaleAspectFill;
     [backgroundView addSubview:showImageView];
     
-    showImageView.image = [UIImage imageNamed:@"empty_image"];
+    showImageView.image = [UIImage imageNamed:[self emptyImageName:type]];
  
     [showImageView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.centerX.equalTo(backgroundView);
@@ -30,5 +30,22 @@
     }];
    
     self.backgroundView = backgroundView;
+}
+- (NSString *)emptyImageName:(NSInteger)type{
+    NSString *empty_image = @"empty_image";
+    switch (type) {
+        case 0:
+            empty_image = @"empty_image";
+            break;
+        case 1:
+            empty_image = @"my_task_empty";
+            break;
+        case 2:
+            empty_image = @"my_draft_empty";
+            break;
+        default:
+            break;
+    }
+    return empty_image;
 }
 @end

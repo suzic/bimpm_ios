@@ -38,7 +38,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     [self.bottomView borderForColor:RGB_COLOR(238, 238, 238) borderWidth:0.5 borderType:UIBorderSideTypeTop];
     [self loadData];
-    [self.tableView showDataCount:self.infoArray.count];
+    [self.tableView showDataCount:self.infoArray.count type:0];
 }
 - (void)loadData{
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:self.user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
@@ -173,7 +173,7 @@
     if (manager == self.UTPlistManager) {
         NSLog(@"获取数据成功");
         [self assemblyData:(NSDictionary *)manager.response.responseData];
-        [self.tableView showDataCount:self.infoArray.count];
+        [self.tableView showDataCount:self.infoArray.count type:0];
         [self.tableView reloadData];
     }else if(manager == self.IMTokenManager){
         self.user.uid_chat = manager.response.responseData[@"data"][@"uid_chat"];
