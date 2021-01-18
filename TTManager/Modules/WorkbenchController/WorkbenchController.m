@@ -148,7 +148,8 @@
 - (void)goMapView{
     MapViewController *map = [[MapViewController alloc] init];
     map.hidesBottomBarWhenPushed = YES;
-    BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:map];
+    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:map];
+//    nav.modalPresentationStyle = UIModalPresentationFullScreen;
     [self presentViewController:nav animated:YES completion:nil];
 }
 

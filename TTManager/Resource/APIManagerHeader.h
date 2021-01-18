@@ -37,4 +37,9 @@
 #import "APIUTPGanttManager.h"
 #import "APIUTPDetailManager.h"
 
+// 表单
+#import "APIFromNewManager.h"
+#import "APIFromDetailManager.h"
+
+
 #endif /* APIManagerHeader_h */

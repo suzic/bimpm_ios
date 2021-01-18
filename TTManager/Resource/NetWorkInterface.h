@@ -47,4 +47,8 @@
 #define URL_UPLOAD_FILE  @"/fileviewservice/file/FileUpload"
 #define URL_TARGET_NEW   @"/file/TargetNew"
 
+// 表单
+#define URL_FROM_NEW       @"/form/FormNew"
+#define URL_FROM_DETAIL    @"/form/FormDetail"
+
 #endif /* NetWorkInterface_h */

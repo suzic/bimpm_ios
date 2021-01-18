@@ -114,6 +114,8 @@
 		4054B93325B42C730023FC7F /* APIVerifyPhoneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */; };
 		4054B93925B5603A0023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93725B5603A0023FC7F /* ZHUserProject+CoreDataClass.m */; };
 		4054B93A25B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B93825B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m */; };
+		4054B94D25B5C5AA0023FC7F /* APIFromNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B94C25B5C5AA0023FC7F /* APIFromNewManager.m */; };
+		4054B95325B5C5C40023FC7F /* APIFromDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -379,6 +381,10 @@
 		4054B93625B5603A0023FC7F /* ZHUserProject+CoreDataClass.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataClass.h"; sourceTree = SOURCE_ROOT; };
 		4054B93725B5603A0023FC7F /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = SOURCE_ROOT; };
 		4054B93825B5603A0023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = SOURCE_ROOT; };
+		4054B94B25B5C5AA0023FC7F /* APIFromNewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFromNewManager.h; sourceTree = "<group>"; };
+		4054B94C25B5C5AA0023FC7F /* APIFromNewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFromNewManager.m; sourceTree = "<group>"; };
+		4054B95125B5C5C40023FC7F /* APIFromDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFromDetailManager.h; sourceTree = "<group>"; };
+		4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFromDetailManager.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -947,6 +953,8 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				4054B95025B5C5AF0023FC7F /* APIFromDetailManager */,
+				4054B94A25B5C5950023FC7F /* APIFromNewManager */,
 				4054B93025B42C460023FC7F /* APIVerifyPhoneManager */,
 				4054B8D825B206FA0023FC7F /* UploadFileManager */,
 				4054B8CE25B197910023FC7F /* APIUTPDetailManager */,
@@ -1230,6 +1238,24 @@
 				4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */,
 			);
 			path = APIVerifyPhoneManager;
+			sourceTree = "<group>";
+		};
+		4054B94A25B5C5950023FC7F /* APIFromNewManager */ = {
+			isa = PBXGroup;
+			children = (
+				4054B94B25B5C5AA0023FC7F /* APIFromNewManager.h */,
+				4054B94C25B5C5AA0023FC7F /* APIFromNewManager.m */,
+			);
+			path = APIFromNewManager;
+			sourceTree = "<group>";
+		};
+		4054B95025B5C5AF0023FC7F /* APIFromDetailManager */ = {
+			isa = PBXGroup;
+			children = (
+				4054B95125B5C5C40023FC7F /* APIFromDetailManager.h */,
+				4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */,
+			);
+			path = APIFromDetailManager;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1533,6 +1559,7 @@
 				40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */,
 				402AA0D82595D8A300A9DABA /* ZHRole+CoreDataClass.m in Sources */,
 				406FCA7E25A195B600636079 /* APIDMDetailManager.m in Sources */,
+				4054B94D25B5C5AA0023FC7F /* APIFromNewManager.m in Sources */,
 				402A9F822595B7A500A9DABA /* FrameNavView.m in Sources */,
 				402A9F082595769C00A9DABA /* main.m in Sources */,
 				406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */,
@@ -1541,6 +1568,7 @@
 				402AA1F725998E4A00A9DABA /* UIResponder+Router.m in Sources */,
 				4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */,
 				4054B91225B40E2F0023FC7F /* ZHDepartmentUser+CoreDataClass.m in Sources */,
+				4054B95325B5C5C40023FC7F /* APIFromDetailManager.m in Sources */,
 				402AA10F2595D92E00A9DABA /* ZHForm+CoreDataProperties.m in Sources */,
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
 				402AA1012595D90400A9DABA /* ZHFlow+CoreDataClass.m in Sources */,

@@ -45,30 +45,37 @@
 #pragma mark - BMKLocationAuthDelegate
 - (void)onCheckPermissionState:(BMKLocationAuthErrorCode)iError{
     if (iError == BMKLocationAuthErrorSuccess) {
+        [self.locationManager setLocatingWithReGeocode:YES];
         [self.locationManager startUpdatingLocation];
     }
 }
 #pragma mark - BMKLocationManagerDelegate
-- (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager doRequestAlwaysAuthorization:(CLLocationManager * _Nonnull)locationManager{
-    NSLog(@"定位成功");
-    [self distance];
+
+- (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateLocation:(BMKLocation *)location orError:(NSError *)error{
+    if (error) {
+        [SZAlert showInfo:error.localizedDescription underTitle:@"众和空间"];
+    }else{
+        NSLog(@"定位成功");
+        [self distanceCurrentLocation:location];
+    }
 }
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
     NSLog(@"定位错误");
+    [SZAlert showInfo:error.localizedDescription underTitle:@"众和空间"];
 }
 #pragma mark - private method
 - (void)addTimer{
-    //定时器 反复执行
     if (self.timer == nil) {
         self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
 }
-- (void)distance{
-    BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(39.915,116.404));
-    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(38.915,115.404));
+- (void)distanceCurrentLocation:(BMKLocation *)location{
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(location.location.coordinate.latitude,location.location.coordinate.longitude));
+    BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(project.location_lat,project.location_long));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-    self.clockInfo.text = [NSString stringWithFormat:@"当前距离项目组%lf米",distance];
+    self.clockInfo.text = [NSString stringWithFormat:@"当前距离项目组%.2lf米",distance];
 }
 - (void)stopTimer{
     if (self.timer && self.timer.isValid) {
@@ -167,11 +174,11 @@
         //设置是否自动停止位置更新
         _locationManager.pausesLocationUpdatesAutomatically = NO;
         //设置是否允许后台定位
-        //_locationManager.allowsBackgroundLocationUpdates = YES;
+//        _locationManager.allowsBackgroundLocationUpdates = YES;
         //设置位置获取超时时间
-        _locationManager.locationTimeout = 10;
+        _locationManager.locationTimeout = 8;
         //设置获取地址信息超时时间
-        _locationManager.reGeocodeTimeout = 10;
+        _locationManager.reGeocodeTimeout = 8;
     }
     return _locationManager;
 }
