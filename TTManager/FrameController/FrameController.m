@@ -63,13 +63,7 @@
     {
         self.bFirst = NO;
         ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-        BOOL is_login = NO;
-        if (currentUser != nil){
-            is_login = currentUser.is_login;
-            [self updateFrame];
-        }else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(is_login)}];
-        }
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(currentUser.is_login)}];
     }
 }
 
@@ -229,6 +223,7 @@
     // 2:不带params 直接通知需要登录，此时请求参数paramsForApi:获取参数
     NSDictionary *notiData = (NSDictionary *)notification.object;
     BOOL silenceLogin = notiData[@"silenceLogin"] == nil ? YES : [((NSNumber *)notiData[@"silenceLogin"]) boolValue];
+    
     if (notiData[@"params"] != nil){
         [self.loginManager loadDataWithParams:notiData[@"params"]];
     }else{
