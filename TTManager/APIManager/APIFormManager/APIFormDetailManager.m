@@ -1,13 +1,14 @@
 //
-//  APIFromNewManager.m
+//  APIFormDetailManager.m
 //  TTManager
 //
-//  Created by chao liu on 2021/1/18.
+//  Created by chao liu on 2021/1/19.
 //
 
-#import "APIFromNewManager.h"
+#import "APIFormDetailManager.h"
 
-@implementation APIFromNewManager
+@implementation APIFormDetailManager
+
 - (instancetype)init{
     self = [super init];
     if (self) {
@@ -17,7 +18,7 @@
 }
 #pragma mark - APIManager
 - (NSString *)apiName{
-    return URL_FROM_NEW;
+    return URL_FORM_DETAIL;
 }
 - (NSString *)service{
     return SERVICEADDRESS;

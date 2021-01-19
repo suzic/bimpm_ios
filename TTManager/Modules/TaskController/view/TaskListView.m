@@ -8,12 +8,14 @@
 #import "TaskListView.h"
 #import "TaskListCell.h"
 #import "TaskListController.h"
+#import "FormViewCell.h"
 
 @interface TaskListView ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) APITaskListManager *taskListManager;
-@property (nonatomic, strong) NSMutableArray *taskArray;
+@property (nonatomic, strong) APIFormListManager *formListManager;
+@property (nonatomic, strong) NSMutableArray *listArray;
 
 @end
 
@@ -39,13 +41,25 @@
 }
 #pragma mark - 下拉更新数据 上拉加载更多
 - (void)refresData{
-    self.taskListManager.pageSize.pageIndex = 1;
-    [self.tableView.mj_footer resetNoMoreData];
-    [self.taskListManager loadData];
+    if (self.listType == 1) {
+        self.taskListManager.pageSize.pageIndex = 1;
+        [self.tableView.mj_footer resetNoMoreData];
+        [self.taskListManager loadData];
+    }else if(self.listType == 2){
+        self.formListManager.pageSize.pageIndex = 1;
+        [self.tableView.mj_footer resetNoMoreData];
+        [self.formListManager loadData];
+    }
+    
 }
 - (void)refresMoreData{
-    self.taskListManager.pageSize.pageIndex++;
-    [self.taskListManager loadData];
+    if (self.listType == 1) {
+        self.taskListManager.pageSize.pageIndex++;
+        [self.taskListManager loadData];
+    }else if(self.listType == 2){
+        self.formListManager.pageSize.pageIndex++;
+        [self.formListManager loadData];
+    }
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -64,7 +78,7 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.taskArray.count;
+    return self.listArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 64;
@@ -80,25 +94,46 @@
     return nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *indentifier = @"taskCell";
-    TaskListCell *cell = (TaskListCell *)[tableView dequeueReusableCellWithIdentifier:indentifier];
-    if (!cell) {
-        cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
+    static NSString *indentifier = @"listCell";
+    UITableViewCell *itemCell = nil;
+    if (self.listType == 1) {
+        TaskListCell *cell = (TaskListCell *)[tableView dequeueReusableCellWithIdentifier:indentifier];
+        if (!cell) {
+            cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
+        }
+        cell.currenttask = self.listArray[indexPath.row];
+        itemCell = cell;
+    }else if(self.listType == 2){
+        FormViewCell *cell = (FormViewCell *)[tableView dequeueReusableCellWithIdentifier:indentifier];
+        if (!cell) {
+            cell =[[FormViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
+        }
+        cell.currentForm = self.listArray[indexPath.row];
+        itemCell = cell;
     }
-    cell.currenttask = self.taskArray[indexPath.row];
-    return cell;
+    
+    return itemCell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ZHTask *task = self.taskArray[indexPath.row];
-    NSLog(@"%@",task.uid_task);
-    [self routerEventWithName:Task_list_selected userInfo:@{@"uid_task":task.uid_task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
+    if (self.listType == 1) {
+        ZHTask *task = self.listArray[indexPath.row];
+        [self routerEventWithName:Task_list_selected userInfo:@{@"uid_task":task.uid_task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
+    }else if(self.listType == 2){
+        
+    }
 }
 - (void)reloadDataFromNetwork{
     if (self.needReloadData == YES) {
-        self.taskListManager.pageSize.pageIndex = 1;
-        [self.tableView.mj_footer resetNoMoreData];
-        [self.taskListManager loadData];
+        if (self.listType == 1) {
+            self.taskListManager.pageSize.pageIndex = 1;
+            [self.tableView.mj_footer resetNoMoreData];
+            [self.taskListManager loadData];
+        }else if(self.listType == 2){
+            self.formListManager.pageSize.pageIndex = 1;
+            [self.tableView.mj_footer resetNoMoreData];
+            [self.formListManager loadData];
+        }
     }
 }
 #pragma mark - APIManagerParamSource
@@ -106,36 +141,40 @@
     NSDictionary *dic = @{};
     if (manager == self.taskListManager) {
         dic = [self getCurrentParamSource:self.currentTaskStatus];
+    }else if(manager == self.formListManager){
+        dic = [self getCurrentFormParam:self.formType];
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    self.needReloadData = NO;
+    [self.tableView.mj_header endRefreshing];
+    [self.tableView.mj_footer endRefreshing];
+    if (manager.responsePageSize.currentCount < self.taskListManager.pageSize.pageSize) {
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+        self.tableView.mj_footer.hidden = YES;
+    }
+    if (self.taskListManager.pageSize.pageIndex == 1) {
+        [self.listArray removeAllObjects];
+    }
+    [self.listArray addObjectsFromArray:(NSArray *)manager.response.responseData];
     if (manager == self.taskListManager) {
-        self.needReloadData = NO;
-        [self.tableView.mj_header endRefreshing];
-        [self.tableView.mj_footer endRefreshing];
-        if (manager.responsePageSize.currentCount < self.taskListManager.pageSize.pageSize) {
-            [self.tableView.mj_footer endRefreshingWithNoMoreData];
-            self.tableView.mj_footer.hidden = YES;
-        }
-        if (self.taskListManager.pageSize.pageIndex == 1) {
-            [self.taskArray removeAllObjects];
-        }
-        [self.taskArray addObjectsFromArray:(NSArray *)manager.response.responseData];
         NSInteger type = 0;
         if (self.currentTaskStatus == Task_list) {
             type = 1;
         }else if(self.currentTaskStatus == Task_sponsoring){
             type = 2;
         }
-        [self.tableView showDataCount:self.taskArray.count type:type];
-        [self.tableView reloadData];
+        [self.tableView showDataCount:self.listArray.count type:type];
         
+    }else if(manager == self.formListManager){
+        [self.tableView showDataCount:self.listArray.count type:0];
     }
+    [self.tableView reloadData];
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.taskListManager) {
+    if (manager == self.taskListManager || manager == self.formListManager) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }
@@ -151,6 +190,14 @@
         _taskListManager.dataType = taskListDataType_default;
     }
     return _taskListManager;
+}
+- (APIFormListManager *)formListManager{
+    if (_formListManager == nil) {
+        _formListManager = [[APIFormListManager alloc] init];
+        _formListManager.delegate = self;
+        _formListManager.paramSource = self;
+    }
+    return _formListManager;
 }
 - (void)setCurrentTaskStatus:(TaskStatus)currentTaskStatus{
     if (_currentTaskStatus != currentTaskStatus) {
@@ -173,14 +220,32 @@
        }
     }
 }
-- (NSMutableArray *)taskArray{
-    if (_taskArray == nil) {
-        _taskArray = [NSMutableArray array];
+-(void)setFormType:(NSInteger)formType{
+    if (_formType != formType) {
+        _formType = formType;
+        [self.formListManager.pageSize.orders addObject:@{@"key":@"create_date",@"ascending":@"desc"}];
     }
-    if (_taskArray.count <= 0) {
-        
+}
+- (NSDictionary *)getCurrentFormParam:(NSInteger)type{
+    NSDictionary *params = @{};
+    switch (type) {
+        case 1:
+            params = @{@"id_project":[NSNull null],@"template":@"1"};
+            break;
+        case 2:{
+            ZHProject *project = [DataManager defaultInstance].currentProject;
+            params = @{@"id_project":INT_32_TO_STRING(project.id_project),@"template":@"1"};
+        }
+        default:
+            break;
     }
-    return _taskArray;
+    return params;
+}
+- (NSMutableArray *)listArray{
+    if (_listArray == nil) {
+        _listArray = [NSMutableArray array];
+    }
+    return _listArray;
 }
 - (NSDictionary *)getCurrentParamSource:(TaskStatus)taskStatus{
     ZHProject *project = [DataManager defaultInstance].currentProject;

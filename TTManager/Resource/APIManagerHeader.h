@@ -38,8 +38,9 @@
 #import "APIUTPDetailManager.h"
 
 // 表单
-#import "APIFromNewManager.h"
-#import "APIFromDetailManager.h"
-
+#import "APIFormNewManager.h"
+#import "APIFormDetailManager.h"
+#import "APIFormEditManager.h"
+#import "APIFormListManager.h"
 
 #endif /* APIManagerHeader_h */

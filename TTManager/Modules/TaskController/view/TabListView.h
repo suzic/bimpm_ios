@@ -1,5 +1,5 @@
 //
-//  TaskTabView.h
+//  TabListView.h
 //  TTManager
 //
 //  Created by chao liu on 2020/12/29.
@@ -9,10 +9,10 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface TaskTabView : UIView
+@interface TabListView : UIView
 
 @property(nonatomic, assign) NSInteger selectedTaskIndex;
-
+@property(nonatomic, assign) NSInteger listType;
 - (void)setChildrenViewList:(NSArray *)listView;
 
 @end

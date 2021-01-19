@@ -1,15 +1,15 @@
 //
-//  TaskTabView.m
+//  TabListView.m
 //  TTManager
 //
 //  Created by chao liu on 2020/12/29.
 //
 
-#import "TaskTabView.h"
+#import "TabListView.h"
 #import "TaskListView.h"
 #import "TaskSearchView.h"
 
-@interface TaskTabView ()<UIScrollViewDelegate>
+@interface TabListView ()<UIScrollViewDelegate>
 
 @property (nonatomic, strong) UIView *tabToolView;
 @property (nonatomic, strong) TaskSearchView *searchView;
@@ -22,7 +22,7 @@
 @property (nonatomic, strong) NSMutableArray *tabButtonArray;
 @end
 
-@implementation TaskTabView
+@implementation TabListView
 
 - (instancetype)init{
     self = [super init];
@@ -38,7 +38,7 @@
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView{
     CGFloat offsetX = scrollView.contentOffset.x;
     CGFloat w = CGRectGetWidth(self.frame);
-    CGFloat x = w/4/w*offsetX;
+    CGFloat x = w/self.tabButtonArray.count/w*offsetX;
     [self.lineView updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(x);
     }];
@@ -63,7 +63,7 @@
         make.top.equalTo(self.tabToolView.mas_bottom);
         make.left.equalTo(15);
         make.right.equalTo(-15);
-        make.height.equalTo(64);
+        make.height.equalTo(self.listType == 1 ? 64:0.01);
     }];
     [self addSubview:self.scrollView];
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
@@ -111,7 +111,7 @@
                 make.left.equalTo(tabButton.mas_right);
             }
             make.top.bottom.equalTo(self.tabToolView);
-            make.width.equalTo(kScreenWidth/4);
+            make.width.equalTo(kScreenWidth/listView.count);
             if (i == listView.count) {
                 make.right.equalTo(self.tabToolView);
             }
@@ -141,7 +141,7 @@
         make.left.equalTo(0);
         make.bottom.equalTo(self.tabToolView);
         make.height.equalTo(2);
-        make.width.equalTo(kScreenWidth/4);
+        make.width.equalTo(kScreenWidth/listView.count);
     }];
     UIView *line = [[UIView alloc] init];
     line.backgroundColor = [SZUtil colorWithHex:@"#057DFF"];

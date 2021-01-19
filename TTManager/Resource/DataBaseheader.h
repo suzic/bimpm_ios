@@ -30,5 +30,6 @@
 #import "DataManager+User.h"
 #import "DataManager+Target.h"
 #import "DataManager+Task.h"
+#import "DataManager+Form.h"
 
 #endif /* DataBaseheader_h */

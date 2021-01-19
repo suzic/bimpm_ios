@@ -8,7 +8,7 @@
 #import "UserSettingController.h"
 #import "SettingCell.h"
 
-@interface UserSettingController ()<UITableViewDelegate,UITableViewDataSource>
+@interface UserSettingController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *userImage;
 @property (weak, nonatomic) IBOutlet UILabel *userName;
@@ -35,9 +35,9 @@
     if (_settingArray == nil) {
         _settingArray = @[
 //        @{@"icon":@"erweima",@"title":@"二维码"},
-//        @{@"icon":@"share",@"title":@"分享项目"},
         @{@"icon":@"setting",@"title":@"设置"},
         @{@"icon":@"about",@"title":@"关于"},
+        @{@"icon":@"share",@"title":@"表单"},
         @{@"icon":@"about",@"title":@"退出登录"}];
     }
     return _settingArray;

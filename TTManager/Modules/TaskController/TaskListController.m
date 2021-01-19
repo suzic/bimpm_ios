@@ -6,14 +6,14 @@
 //
 
 #import "TaskListController.h"
-#import "TaskTabView.h"
+#import "TabListView.h"
 #import "TaskListView.h"
 #import "DragButton.h"
 #import "TaskController.h"
 
 @interface TaskListController ()
 
-@property (nonatomic, strong) TaskTabView *taskTabView;
+@property (nonatomic, strong) TabListView *taskTabView;
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
 @property (nonatomic,assign) TaskType taskType;
@@ -25,9 +25,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // 初始化相机，要不会有两秒延迟
-    [self initializeImagePicker];
-    self.actionSheetType = 1;
     // Do any additional setup after loading the view.
     self.title = @"任务列表";
     self.automaticallyAdjustsScrollViewInsets = NO;
@@ -94,9 +91,9 @@
 }
 
 #pragma mark - setter getter
-- (TaskTabView *)taskTabView{
+- (TabListView *)taskTabView{
     if (_taskTabView == nil) {
-        _taskTabView = [[TaskTabView alloc] init];
+        _taskTabView = [[TabListView alloc] init];
     }
     return _taskTabView;
 }
@@ -123,12 +120,14 @@
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.taskTabView];
+    self.taskTabView.listType = 1;
     [self.taskTabView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(self.view);
     }];
     self.taskListViewArray = [NSMutableArray array];
     for (NSNumber *status in self.listSattusArray) {
         TaskListView *view = [[TaskListView alloc] init];
+        view.listType = 1;
         view.currentTaskStatus = [status integerValue];
         view.listTitle = [self getListTitleWithStatus:[status integerValue]];
         view.needReloadData = YES;

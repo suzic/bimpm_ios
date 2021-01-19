@@ -49,7 +49,8 @@
 #define URL_TARGET_NEW   @"/file/TargetNew"
 
 // 表单
-#define URL_FROM_NEW       @"/form/FormNew"
-#define URL_FROM_DETAIL    @"/form/FormDetail"
-
+#define URL_FORM_NEW       @"/form/FormNew"
+#define URL_FORM_DETAIL    @"/form/FormDetail"
+#define URL_FORM_EDIT      @"/form/FormEdit"
+#define URL_FORM_LIST      @"/form/FormList"
 #endif /* NetWorkInterface_h */
