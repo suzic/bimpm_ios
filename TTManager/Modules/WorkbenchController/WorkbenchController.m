@@ -34,11 +34,20 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
+    [self setCurrentDate];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
     [self reoladNetwork];
 
+}
+- (void)setCurrentDate{
+    self.timeInforLabel.hidden = NO;
+    self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
+    NSDate *date = [NSDate date];
+    Solar *solarDate = [[Solar alloc] initWithDate:date];
+    Lunar *lunarDate = solarDate.lunar;
+    self.timeInforLabel.text = [NSString stringWithFormat:@"%@%@%@",[lunarDate ganzhiYear],lunarDate.lunarFromatterMonth, lunarDate.lunarFomatterDay];
 }
 - (void)reoladNetwork{
     [self.UTPGanttManager loadData];

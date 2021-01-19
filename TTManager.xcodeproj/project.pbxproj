@@ -117,6 +117,9 @@
 		4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */; };
 		4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */; };
 		4054B96025B6AAFA0023FC7F /* APIUTPOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */; };
+		4054B96E25B6BD5D0023FC7F /* Solar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96625B6BD5D0023FC7F /* Solar.m */; };
+		4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96825B6BD5D0023FC7F /* LunarSolarTransform.m */; };
+		4054B97025B6BD5D0023FC7F /* Lunar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96C25B6BD5D0023FC7F /* Lunar.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -388,6 +391,14 @@
 		4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = "<group>"; };
 		4054B95E25B6AAFA0023FC7F /* APIUTPOperationsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPOperationsManager.h; sourceTree = "<group>"; };
 		4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIUTPOperationsManager.m; sourceTree = "<group>"; };
+		4054B96625B6BD5D0023FC7F /* Solar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Solar.m; sourceTree = "<group>"; };
+		4054B96725B6BD5D0023FC7F /* LunarSolarPrivate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarSolarPrivate.h; sourceTree = "<group>"; };
+		4054B96825B6BD5D0023FC7F /* LunarSolarTransform.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LunarSolarTransform.m; sourceTree = "<group>"; };
+		4054B96925B6BD5D0023FC7F /* Lunar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lunar.h; sourceTree = "<group>"; };
+		4054B96A25B6BD5D0023FC7F /* LunarSolarHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarSolarHeader.h; sourceTree = "<group>"; };
+		4054B96B25B6BD5D0023FC7F /* Solar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solar.h; sourceTree = "<group>"; };
+		4054B96C25B6BD5D0023FC7F /* Lunar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lunar.m; sourceTree = "<group>"; };
+		4054B96D25B6BD5D0023FC7F /* LunarSolarTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarSolarTransform.h; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -709,6 +720,7 @@
 		402A9F572595B10F00A9DABA /* Functions */ = {
 			isa = PBXGroup;
 			children = (
+				4054B96525B6BD5D0023FC7F /* LunarAndSolarTransform */,
 				402A9F8E2595CC9F00A9DABA /* UIViewExt */,
 				402A9F702595B59400A9DABA /* Category */,
 				402A9F582595B12A00A9DABA /* CommonTools */,
@@ -1271,6 +1283,21 @@
 			path = APIUTPOperationsManager;
 			sourceTree = "<group>";
 		};
+		4054B96525B6BD5D0023FC7F /* LunarAndSolarTransform */ = {
+			isa = PBXGroup;
+			children = (
+				4054B96625B6BD5D0023FC7F /* Solar.m */,
+				4054B96725B6BD5D0023FC7F /* LunarSolarPrivate.h */,
+				4054B96825B6BD5D0023FC7F /* LunarSolarTransform.m */,
+				4054B96925B6BD5D0023FC7F /* Lunar.h */,
+				4054B96A25B6BD5D0023FC7F /* LunarSolarHeader.h */,
+				4054B96B25B6BD5D0023FC7F /* Solar.h */,
+				4054B96C25B6BD5D0023FC7F /* Lunar.m */,
+				4054B96D25B6BD5D0023FC7F /* LunarSolarTransform.h */,
+			);
+			path = LunarAndSolarTransform;
+			sourceTree = "<group>";
+		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1611,6 +1638,7 @@
 				402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */,
 				406FCAA425A1A62400636079 /* APITaskEditManager.m in Sources */,
 				402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */,
+				4054B97025B6BD5D0023FC7F /* Lunar.m in Sources */,
 				402AA1EE2599815700A9DABA /* MessageView.m in Sources */,
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
@@ -1625,6 +1653,7 @@
 				402AA1122595D92E00A9DABA /* ZHFormItem+CoreDataClass.m in Sources */,
 				400B494E25A6B598006CBEBB /* UIViewController+ImagePicker.m in Sources */,
 				40931C9D259B33C4008C3518 /* DragButton.m in Sources */,
+				4054B96E25B6BD5D0023FC7F /* Solar.m in Sources */,
 				402AA0ED2595D8CF00A9DABA /* ZHAllow+CoreDataClass.m in Sources */,
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
@@ -1667,6 +1696,7 @@
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
+				4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */,
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,
 				402AA2082599E05400A9DABA /* TaskListController.m in Sources */,

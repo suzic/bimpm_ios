@@ -698,7 +698,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="庚子年戊子月甲辰日" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mYo-CH-FVS">
-                                        <rect key="frame" x="203" y="33" width="138" height="18"/>
+                                        <rect key="frame" x="197" y="33" width="138" height="18"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -707,8 +707,7 @@
                                 <constraints>
                                     <constraint firstAttribute="bottom" secondItem="c9O-aV-tZI" secondAttribute="bottom" constant="10" id="Rh3-Eq-zID"/>
                                     <constraint firstItem="c9O-aV-tZI" firstAttribute="leading" secondItem="Dp6-Jb-50x" secondAttribute="leading" constant="15" id="TYH-Ur-BcT"/>
-                                    <constraint firstItem="mYo-CH-FVS" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="c9O-aV-tZI" secondAttribute="trailing" constant="8" symbolic="YES" id="dug-v8-jAL"/>
-                                    <constraint firstAttribute="trailing" secondItem="mYo-CH-FVS" secondAttribute="trailing" constant="87" id="oXC-ig-ZzE"/>
+                                    <constraint firstItem="mYo-CH-FVS" firstAttribute="leading" secondItem="c9O-aV-tZI" secondAttribute="trailing" constant="4" id="dug-v8-jAL"/>
                                     <constraint firstItem="mYo-CH-FVS" firstAttribute="centerY" secondItem="c9O-aV-tZI" secondAttribute="centerY" id="p9b-SR-qNN"/>
                                     <constraint firstAttribute="height" constant="68" id="pB7-t3-htX"/>
                                 </constraints>

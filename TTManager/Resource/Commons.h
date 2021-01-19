@@ -44,7 +44,7 @@
 #import "UIViewController+ImagePicker.h"
 #import "UIAlertAction+Extend.h"
 #import "NSString+Extend.h"
-
+#import "LunarSolarHeader.h"
 
 #define TARGETS_NAME        ([SZUtil app_target_name])
 
