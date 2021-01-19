@@ -628,16 +628,16 @@
 		402A9F362595A3B100A9DABA /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				4054B92425B40EB20023FC7F /* UserCenter */,
-				4054B8EF25B407130023FC7F /* MapViewController */,
-				402AA2022599DE8200A9DABA /* TaskController */,
-				402AA1DA2599717900A9DABA /* WebView */,
-				402AA13A2596D06100A9DABA /* Login */,
 				402A9F372595A3CD00A9DABA /* MonitoringController */,
 				402A9F382595A3E100A9DABA /* WorkbenchController */,
 				402A9F392595A41E00A9DABA /* DocumentLibController */,
 				402A9F3A2595A44500A9DABA /* ConversationController */,
 				402A9F3B2595A46600A9DABA /* TeamController */,
+				402AA2022599DE8200A9DABA /* TaskController */,
+				4054B92425B40EB20023FC7F /* UserCenter */,
+				4054B8EF25B407130023FC7F /* MapViewController */,
+				402AA1DA2599717900A9DABA /* WebView */,
+				402AA13A2596D06100A9DABA /* Login */,
 			);
 			path = Modules;
 			sourceTree = "<group>";

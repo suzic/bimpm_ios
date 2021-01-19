@@ -16,6 +16,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, weak) DocumentLibController *containerVC;
 @property (nonatomic, assign)  id uid_parent;
 @property (nonatomic, copy)  NSString *id_module;
+@property (nonatomic, assign) BOOL chooseTargetFile;
 
 - (void)reoladNetwork;
 

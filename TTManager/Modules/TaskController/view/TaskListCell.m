@@ -36,13 +36,11 @@
     self.userImage.layer.cornerRadius = _userImage.frame.size.height/2;
 }
 - (void)setCurrenttask:(ZHTask *)currenttask{
-    if (_currenttask != currenttask) {
-        _currenttask = currenttask;
-        self.taskName.text = [NSString stringWithFormat:@"%@-%@", _currenttask.name,_currenttask.assignStep.name];
+    _currenttask = currenttask;
+    self.taskName.text = [NSString stringWithFormat:@"%@-%@", _currenttask.name,_currenttask.assignStep.name];
 //        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
-        [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
-        self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
-    }
+    [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+    self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
 }
 - (UIColor *)setLineViewColor:(ZHTask *)task{
     UIColor *color = nil;

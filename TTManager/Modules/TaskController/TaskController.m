@@ -190,7 +190,11 @@
     }
     else if([type isEqualToString:@"4"]){
         NSLog(@"删除附件");
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+        [CNAlertView showWithTitle:@"确认删除当前附件？" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+            }
+        }];
     }
 }
 // 设置当前步骤或者任务预计完成时间

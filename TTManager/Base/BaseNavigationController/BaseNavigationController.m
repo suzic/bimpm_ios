@@ -62,6 +62,12 @@
                 hide = NO;
             }
         }
+        if ([viewController isKindOfClass:[FileListView class]]) {
+            FileListView *vc = (FileListView *)viewController;
+            if (vc.chooseTargetFile == YES) {
+                hide = NO;
+            }
+        }
         if ([viewController isKindOfClass:[TeamController class]])
         {
             TeamController *vc = (TeamController *)viewController;

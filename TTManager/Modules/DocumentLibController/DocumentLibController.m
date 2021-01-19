@@ -165,6 +165,7 @@
         self.fileView.uid_parent = [NSNull null];
         self.fileView.id_module = @"0";
         self.rootFileView = self.fileView;
+        self.fileView.chooseTargetFile = self.chooseTargetFile;
     }
 }
 

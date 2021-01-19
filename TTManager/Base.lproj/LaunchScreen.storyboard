@@ -17,7 +17,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Launch_screen" translatesAutoresizingMaskIntoConstraints="NO" id="2JM-z1-Ehk">
-                                <rect key="frame" x="69" y="379" width="276" height="138"/>
+                                <rect key="frame" x="69" y="279" width="276" height="138"/>
                                 <constraints>
                                     <constraint firstAttribute="width" secondItem="2JM-z1-Ehk" secondAttribute="height" multiplier="2:1" id="BxV-mz-Nep"/>
                                 </constraints>
@@ -26,7 +26,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.20000000000000001" green="0.30980392156862746" blue="0.59607843137254901" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="2JM-z1-Ehk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="1sP-3H-S3W"/>
+                            <constraint firstItem="2JM-z1-Ehk" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" constant="-100" id="1sP-3H-S3W"/>
                             <constraint firstItem="2JM-z1-Ehk" firstAttribute="width" secondItem="Ze5-6b-2t3" secondAttribute="width" multiplier="2:3" id="Cpc-tP-gkE"/>
                             <constraint firstItem="2JM-z1-Ehk" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="OWb-ra-XVr"/>
                         </constraints>

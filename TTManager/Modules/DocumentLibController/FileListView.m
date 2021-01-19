@@ -79,6 +79,7 @@
         VC.containerVC = self.containerVC;
         VC.uid_parent = [self get_uid_parent:target];
         VC.id_module = INT_32_TO_STRING(target.id_module);
+        VC.chooseTargetFile = self.chooseTargetFile;
         VC.title = target.name;
         self.containerVC.fileView = VC;
         [self.navigationController pushViewController:VC animated:YES];
