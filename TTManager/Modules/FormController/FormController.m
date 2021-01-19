@@ -24,8 +24,12 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.title = @"表单详情";
+    self.view.backgroundColor = [UIColor whiteColor];
     [self addUI];
+    [self setUpLongPressGes];
 }
+
 #pragma mark - UICollectionViewDelegate,UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;

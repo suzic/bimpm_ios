@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormController : UIViewController
 
+@property (nonatomic, copy)NSString *uid_form;
+
 @end
 
 NS_ASSUME_NONNULL_END

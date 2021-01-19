@@ -46,5 +46,6 @@
 // 新建文件夹
 #define target_new_file_group   @"target_new_file_group"
 
+#define form_selected_item      @"form_selected_item"
 
 #endif /* ResponderChainHeader_h */

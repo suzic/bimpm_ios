@@ -48,6 +48,11 @@
         self.formUserName.text = _currentForm.update_user;
         self.formLastDate.text = [SZUtil getTimeString:_currentForm.update_date withDateFormat:@"yyyy-MM-dd HH:mm:ss"];
         [self.formUserImage sd_setImageWithURL:[NSURL URLWithString:_currentForm.lastEditor.avatar] placeholderImage:[UIImage imageNamed:@"AppIcon"]];
+        if ([SZUtil isEmptyOrNull:_currentForm.buddyFile.uid_target]) {
+            self.formStatus.text = @"设计中";
+        }else{
+            self.formStatus.text = @"已制表";
+        }
     }
 }
 -(UILabel *)formName{
@@ -73,9 +78,7 @@
         _formStatus.backgroundColor = RGB_COLOR(5, 125, 255);
         _formStatus.textAlignment = NSTextAlignmentCenter;
         _formStatus.textColor = [UIColor whiteColor];
-        _formStatus.text = @"已制表";
         _formStatus.font = [UIFont systemFontOfSize:13];
-        _formStatus.textColor = RGB_COLOR(51, 51, 51);
     }
     return _formStatus;
 }

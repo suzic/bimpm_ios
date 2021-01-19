@@ -9,8 +9,9 @@
 #import "TabListView.h"
 #import "TaskListView.h"
 #import "DragButton.h"
+#import "FormController.h"
 
-@interface FormListController ()
+@interface FormListController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) TabListView *formTabView;
 @property (nonatomic, strong) NSMutableArray *formListArray;
@@ -30,6 +31,44 @@
     [super viewDidAppear:animated];
     self.formTabView.selectedTaskIndex = 0;
 }
+
+#pragma mark -private
+- (void)showNewFormAlert{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请表单名称" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        NSString *fileName = alertController.textFields[0].text;
+        if ([SZUtil isEmptyOrNull:fileName]) {
+            [CNAlertView showWithTitle:@"表单名不能为空" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    // 调用新建form接口
+                }
+            }];
+            return;
+        }
+    }]];
+    //定义第一个输入框；
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入新建表单名称";
+        textField.delegate = self;
+    }];
+    [self presentViewController:alertController animated:true completion:nil];
+}
+- (void)goFormDetailsViewController:(NSString *)uid_form{
+    FormController *vc = [[FormController alloc] init];
+    [self.navigationController pushViewController:vc animated:YES];
+}
+#pragma mark - responder chain
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if ([eventName isEqualToString:form_selected_item]) {
+        NSString *uid_form = userInfo[@"uid_form"];
+        [self goFormDetailsViewController:uid_form];
+    }else if([eventName isEqualToString:new_task_action]){
+        [self showNewFormAlert];
+    }
+}
+
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.formTabView];

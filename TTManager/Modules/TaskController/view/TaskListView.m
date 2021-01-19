@@ -120,7 +120,8 @@
         ZHTask *task = self.listArray[indexPath.row];
         [self routerEventWithName:Task_list_selected userInfo:@{@"uid_task":task.uid_task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
     }else if(self.listType == 2){
-        
+        ZHForm *form = self.listArray[indexPath.row];
+        [self routerEventWithName:form_selected_item userInfo:@{@"uid_form":form.uid_form}];
     }
 }
 - (void)reloadDataFromNetwork{

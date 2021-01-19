@@ -19,6 +19,6 @@
 
 #pragma mark - UI
 - (void)addUI{
-    
+    self.contentView.backgroundColor = [UIColor whiteColor];
 }
 @end
