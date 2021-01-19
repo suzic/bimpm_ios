@@ -94,7 +94,7 @@
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.logoutManager) {
-        [SZAlert showInfo:@"退出登录失败" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"退出登录失败" underTitle:TARGETS_NAME];
     }
 }
 /*

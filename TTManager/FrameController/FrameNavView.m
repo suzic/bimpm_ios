@@ -63,7 +63,7 @@
     [self.userAvatar sd_setBackgroundImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test-1"]];
     ZHProject *currentProject = [DataManager defaultInstance].currentProject;
     NSLog(@"当前选择的项目名称===%@",currentProject.name);
-    NSString *projectTitle = @"众和空间";
+    NSString *projectTitle = TARGETS_NAME;
     if (currentProject != nil) {
         projectTitle = currentProject.name;
     }

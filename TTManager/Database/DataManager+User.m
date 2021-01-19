@@ -71,7 +71,7 @@
         project.id_project = projectId;
         // 如果新建的是平台，即便没有通过网络获取，也有默认名称
         if (projectId == 1)
-            project.name = @"众和空间";
+            project.name = TARGETS_NAME;
     }
     return project;
 }

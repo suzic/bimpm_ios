@@ -119,7 +119,7 @@
 }
 - (void)newFileGroup:(NSString *)groupName{
     if ([SZUtil isEmptyOrNull:groupName]) {
-        [SZAlert showInfo:@"请填写文件名称" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"请填写文件名称" underTitle:TARGETS_NAME];
         return;
     }
     [self.uploadManager newFileGroupWithGroupName:groupName target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
@@ -128,7 +128,7 @@
 
 - (void)uploadImage:(NSData *)imageData fileName:(NSString *)fileName{
     if (imageData == nil) {
-        [SZAlert showInfo:@"请选择图片后重试" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"请选择图片后重试" underTitle:TARGETS_NAME];
         return;
     }
     [self.uploadManager uploadFile:imageData fileName:fileName target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent}];

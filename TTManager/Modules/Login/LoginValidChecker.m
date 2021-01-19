@@ -49,7 +49,7 @@
     
     if (info != nil)
     {
-        [SZAlert showInfo:info underTitle:@"众和空间"];
+        [SZAlert showInfo:info underTitle:TARGETS_NAME];
         return NO;
     }
     return YES;

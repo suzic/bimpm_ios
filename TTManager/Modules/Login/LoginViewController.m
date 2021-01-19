@@ -71,7 +71,7 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(YES),@"params":self.loginParams}];
         }
     }else{
-        [SZAlert showInfo:@"当前无网络，请检查网络线路连接以及网络服务状态。" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"当前无网络，请检查网络线路连接以及网络服务状态。" underTitle:TARGETS_NAME];
     }
 }
 
@@ -121,7 +121,7 @@
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     NSLog(@"请求失败");
     NSLog(@"失败的数据%@",manager.response.responseData);
-    [SZAlert showInfo:manager.response.responseData[@"msg"] underTitle:@"众和空间"];
+    [SZAlert showInfo:manager.response.responseData[@"msg"] underTitle:TARGETS_NAME];
 }
 #pragma mark -APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
@@ -191,7 +191,7 @@
             [self.captchManager loadData];
         }
         NSString *errorInfo = [NSString stringWithFormat:@"登录失败: %@", dic[@"msg"]];
-        [SZAlert showInfo:errorInfo underTitle:@"众和空间"];
+        [SZAlert showInfo:errorInfo underTitle:TARGETS_NAME];
     }
 }
 

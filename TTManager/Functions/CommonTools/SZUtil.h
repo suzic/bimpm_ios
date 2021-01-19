@@ -94,7 +94,7 @@
  * @abstract iOS设备的型号名称
  */
 + (NSString *)deviceVersion;
-
++ (NSString *)app_target_name;
 + (NSString *)showSizeInfo:(int64_t)sizeCount;
 
 + (NSDateFormatter *)dateFormatterFullTime;

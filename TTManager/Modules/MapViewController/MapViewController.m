@@ -53,7 +53,7 @@
 
 - (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateLocation:(BMKLocation *)location orError:(NSError *)error{
     if (error) {
-        [SZAlert showInfo:error.localizedDescription underTitle:@"众和空间"];
+        [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
     }else{
         NSLog(@"定位成功");
         [self distanceCurrentLocation:location];
@@ -61,7 +61,7 @@
 }
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
     NSLog(@"定位错误");
-    [SZAlert showInfo:error.localizedDescription underTitle:@"众和空间"];
+    [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
 }
 #pragma mark - private method
 - (void)addTimer{
@@ -90,6 +90,9 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     [self stopTimer];
     [self.locationManager stopUpdatingLocation];
+}
+- (void)clockAction:(UIButton *)button{
+    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
 }
 #pragma mark - ui
 - (void)addUI{
@@ -139,6 +142,7 @@
         [_clockBtn setTitle:@"打卡" forState:UIControlStateNormal];
         [_clockBtn setBackgroundColor:[UIColor orangeColor]];
         _clockBtn.clipsToBounds = YES;
+        [_clockBtn addTarget:self action:@selector(clockAction:) forControlEvents:UIControlEventTouchUpInside];
         _clockBtn.layer.cornerRadius = kScreenWidth/8;
     }
     return _clockBtn;

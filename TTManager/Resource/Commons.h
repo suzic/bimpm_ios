@@ -45,6 +45,9 @@
 #import "UIAlertAction+Extend.h"
 #import "NSString+Extend.h"
 
+
+#define TARGETS_NAME        ([SZUtil app_target_name])
+
 // 获取屏幕的尺寸
 #define kScreenHeight   ([UIScreen mainScreen].bounds.size.height)
 #define kScreenWidth    ([UIScreen mainScreen].bounds.size.width)

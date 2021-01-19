@@ -54,7 +54,7 @@
     [self addNotification];
     // 初始化
     self.inShowLogin = NO;
-    self.bFirst = YES;
+    self.bFirst = YES;    
 }
 
 - (void)viewDidAppear:(BOOL)animated{

@@ -21,7 +21,7 @@
     if ([status isEqualToNumber:@1]||[status isEqualToNumber:@2] ||[status isEqualToNumber:@3]){
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{}];
     }else{
-        [SZAlert showInfo:dataDic[@"msg"] underTitle:@"众和空间"];
+        [SZAlert showInfo:dataDic[@"msg"] underTitle:TARGETS_NAME];
     }
     return result;
 }

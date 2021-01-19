@@ -51,11 +51,11 @@
 }
 - (void)newFileGroupWithGroupName:(NSString *)fileName target:(NSDictionary *)target{
     if ([SZUtil isEmptyOrNull:fileName]) {
-        [SZAlert showInfo:@"请填写文件夹名称后重试" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"请填写文件夹名称后重试" underTitle:TARGETS_NAME];
         return;
     }
     if (target == nil) {
-        [SZAlert showInfo:@"请指定当前文件夹所属目录后重试" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"请指定当前文件夹所属目录后重试" underTitle:TARGETS_NAME];
         return;
     }
     self.uploadFileName = fileName;
@@ -106,11 +106,11 @@
 }
 - (void)showAgainUpload{
     if (self.uploadData == nil) {
-        [SZAlert showInfo:@"上传图片为空,请重新选择后重试" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"上传图片为空,请重新选择后重试" underTitle:TARGETS_NAME];
         return;
     }
     if ([SZUtil isEmptyOrNull:self.uploadFileName]) {
-        [SZAlert showInfo:@"上传图片名称为空,请填写后重试" underTitle:@"众和空间"];
+        [SZAlert showInfo:@"上传图片名称为空,请填写后重试" underTitle:TARGETS_NAME];
         return;
     }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"错误提示" message:@"创建失败,是否再次创建" preferredStyle:UIAlertControllerStyleAlert];

@@ -578,7 +578,13 @@ static NSDateFormatter *dayFormatter;
     //    NSLog(@"运营商:%@", carrier.carrierName);
     //    [objc] view plain copy
 }
-
++ (NSString *)app_target_name{
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    CFShow((__bridge CFTypeRef)(infoDictionary));
+      // app名称
+    NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
+    return app_Name;
+}
 #pragma mark - imageToTransparent
 
 void ProviderReleaseData (void *info, const void *data, size_t size)
