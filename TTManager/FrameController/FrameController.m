@@ -9,6 +9,8 @@
 #import "FrameNavView.h"
 #import "UserSettingController.h"
 #import "ProjectSelectController.h"
+#import "SettingViewController.h"
+#import "AboutViewController.h"
 
 @interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FrameNavViewDelegate>
 
@@ -187,6 +189,31 @@
         self.shadowView.hidden = YES;
         self.userView.hidden = YES;
     }];
+    [self showUserSetting:[notification object]];
+}
+- (void)showUserSetting:(NSObject *)obj{
+    if (obj != nil && [obj isKindOfClass:[NSIndexPath class]])
+    {
+        NSIndexPath *indexPath = (NSIndexPath *)obj;
+        switch (indexPath.row) {
+            case 0:
+            {
+                AboutViewController *vc = [[AboutViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+            case 1:
+            {
+                SettingViewController *vc = [[SettingViewController alloc] init];
+                vc.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:vc animated:YES];
+            }
+                break;
+            default:
+                break;
+        }
+    }
 }
 - (void)showHeaderView:(NSNotification *)notification{
     BOOL showHeader = [notification.object boolValue];

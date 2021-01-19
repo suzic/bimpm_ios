@@ -33,7 +33,8 @@
          NSClassFromString(@"ConversationListController"),
          NSClassFromString(@"TeamController"),
          */
-        _viewControlersList = @[NSClassFromString(@"FileListView")];
+        _viewControlersList = @[NSClassFromString(@"FileListView"),
+                                NSClassFromString(@"FrameController")];
     }
     return _viewControlersList;
 }
@@ -47,11 +48,12 @@
 }
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
     NSArray *array = @[NSClassFromString(@"MonitoringController"),
-                      NSClassFromString(@"WorkbenchController"),
-                      NSClassFromString(@"DocumentLibController"),
-                      NSClassFromString(@"ConversationListController"),
-                      NSClassFromString(@"TeamController"),
-                      NSClassFromString(@"FileListView")];
+                       NSClassFromString(@"WorkbenchController"),
+                       NSClassFromString(@"DocumentLibController"),
+                       NSClassFromString(@"ConversationListController"),
+                       NSClassFromString(@"TeamController"),
+                       NSClassFromString(@"FileListView"),
+                       NSClassFromString(@"FrameController")];
     if ([array containsObject:[viewController class]]) {
         BOOL hide = YES;
         if ([viewController isKindOfClass:[DocumentLibController class]])
