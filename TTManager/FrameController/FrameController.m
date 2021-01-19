@@ -66,8 +66,10 @@
         BOOL is_login = NO;
         if (currentUser != nil){
             is_login = currentUser.is_login;
+            [self updateFrame];
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(is_login)}];
         }
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(is_login)}];
     }
 }
 
@@ -302,6 +304,15 @@
 - (void)updateFrame
 {
     self.headerView.hidden = NO;
+    [self.headerView reloadData];
+    [self.settingVC reloadData];
+    NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
+    if ([SZUtil isEmptyOrNull:id_project]) {
+        [self showProjectListView:YES];
+    }else{
+        [self showProjectListView:NO];
+    }
+    [self.projectVC reloadData];
 }
 #pragma mark - FrameNavViewDelegate
 - (void)clickShowProjectListView{
@@ -325,17 +336,7 @@
         if ([AppDelegate sharedDelegate].initRongCloud == NO) {
             [[AppDelegate sharedDelegate] initRongCloudIM];
         }
-        [self.headerView reloadData];
-        [self.settingVC reloadData];
-        NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
-        if ([SZUtil isEmptyOrNull:id_project]) {
-//            self.projectView.hidden = NO;
-            [self showProjectListView:YES];
-        }else{
-//            self.projectView.hidden = YES;
-            [self showProjectListView:NO];
-        }
-        [self.projectVC reloadData];
+
         [self updateFrame];
     }
 }

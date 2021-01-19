@@ -44,7 +44,6 @@
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
     [self setNavigationBarHidden:[self.viewControlersList containsObject:[viewController class]] animated:YES];
-
 }
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated{
     NSArray *array = @[NSClassFromString(@"MonitoringController"),
