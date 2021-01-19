@@ -58,7 +58,6 @@
     [self addUI];
     [self loadData];
 }
-
 #pragma mark - api
 - (void)loadData{
     if (self.operabilityTools.isDetails) {
@@ -130,7 +129,7 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
-
+// 返回
 - (IBAction)closeVCAction:(id)sender {
     if (self.presentingViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
@@ -243,18 +242,32 @@
     NSString *operation = eventDic[@"operation"];
     if ([operation isEqualToString:@"0"]) {
         NSLog(@"发送任务");
-        self.taskParams.submitParams = @"1";
+        [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                self.taskParams.submitParams = @"1";
+                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+            }
+        }];
     }else{
-        self.taskParams.submitParams = operation;
+        [CNAlertView showWithTitle:@"确认提交任务进度" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                self.taskParams.submitParams = operation;
+                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+            }
+        }];
         NSLog(@"处理任务进度");
     }
-    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+    
 }
 // 发送当前任务
 - (void)sengCurrentTask:(NSDictionary *)taskDic{
     NSLog(@"发送当前任务");
-    self.taskParams.submitParams = @"1";
-    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+    [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            self.taskParams.submitParams = @"1";
+            [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+        }
+    }];
 }
 // 改变当前选中的步骤
 - (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
@@ -290,7 +303,6 @@
 }
 
 #pragma mark - APIManagerParamSource
-
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.taskNewManager) {
@@ -301,7 +313,6 @@
     return params;
 }
 #pragma mark - ApiManagerCallBackDelegate
-
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.taskNewManager) {
         ZHTask *task = (ZHTask *)manager.response.responseData;
@@ -363,13 +374,25 @@
 - (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
     if (indexPath.row == 0) {
         if (self.taskType == task_type_detail_draft) {
-            [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+            [CNAlertView showWithTitle:@"是否召回当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+                }
+            }];
         }else{
-            ZHUser *user = [DataManager defaultInstance].currentUser;
-            [self.verifyPhoneManager loadDataWithParams:@{@"phone":user.phone,@"type":@"RECALL_TASK"}];
+            [CNAlertView showWithTitle:@"是否召回当前任务" message:@"需要填写手机验证码" tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    ZHUser *user = [DataManager defaultInstance].currentUser;
+                    [self.verifyPhoneManager loadDataWithParams:@{@"phone":user.phone,@"type":@"RECALL_TASK"}];
+                }
+            }];
         }
     }else{
-        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessTerminateParams]];
+        [CNAlertView showWithTitle:@"是否终止当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessTerminateParams]];
+            }
+        }];
     }
 }
 #pragma mark - setting and getter
@@ -379,14 +402,12 @@
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
     }
 }
-
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
     }
     return _stepView;
 }
-
 - (TaskOperationView *)taskOperationView{
     if (_taskOperationView == nil) {
         _taskOperationView = [[TaskOperationView alloc] init];
@@ -405,7 +426,6 @@
     }
     return _taskContentView;
 }
-
 - (TaskParams *)taskParams{
     if (_taskParams == nil) {
         _taskParams = [[TaskParams alloc] init];

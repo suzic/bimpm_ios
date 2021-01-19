@@ -96,7 +96,11 @@
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
         NSString *fileName = alertController.textFields[0].text;
         if ([SZUtil isEmptyOrNull:fileName]) {
-            [self showNewFileView:type data:data];
+            [CNAlertView showWithTitle:@"文件名不能为空" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    [self showNewFileView:type data:data];
+                }
+            }];
             return;
         }
         if (type == 1) {
