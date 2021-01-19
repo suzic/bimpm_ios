@@ -116,6 +116,7 @@
 		4054B95325B5C5C40023FC7F /* APIFromDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */; };
 		4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */; };
 		4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */; };
+		4054B96025B6AAFA0023FC7F /* APIUTPOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -385,6 +386,8 @@
 		4054B95725B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataClass.m"; sourceTree = "<group>"; };
 		4054B95825B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHUserProject+CoreDataProperties.h"; sourceTree = "<group>"; };
 		4054B95925B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "ZHUserProject+CoreDataProperties.m"; sourceTree = "<group>"; };
+		4054B95E25B6AAFA0023FC7F /* APIUTPOperationsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPOperationsManager.h; sourceTree = "<group>"; };
+		4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIUTPOperationsManager.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -953,6 +956,7 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
+				4054B95D25B6AAB90023FC7F /* APIUTPOperationsManager */,
 				4054B95025B5C5AF0023FC7F /* APIFromDetailManager */,
 				4054B94A25B5C5950023FC7F /* APIFromNewManager */,
 				4054B93025B42C460023FC7F /* APIVerifyPhoneManager */,
@@ -1256,6 +1260,15 @@
 				4054B95225B5C5C40023FC7F /* APIFromDetailManager.m */,
 			);
 			path = APIFromDetailManager;
+			sourceTree = "<group>";
+		};
+		4054B95D25B6AAB90023FC7F /* APIUTPOperationsManager */ = {
+			isa = PBXGroup;
+			children = (
+				4054B95E25B6AAFA0023FC7F /* APIUTPOperationsManager.h */,
+				4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */,
+			);
+			path = APIUTPOperationsManager;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1662,6 +1675,7 @@
 				4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */,
 				406FCA7925A1953400636079 /* APIDepartmentManager.m in Sources */,
 				402AA0B52595D87100A9DABA /* ZHMessage+CoreDataProperties.m in Sources */,
+				4054B96025B6AAFA0023FC7F /* APIUTPOperationsManager.m in Sources */,
 				402AA1992597448800A9DABA /* APILoginManager.m in Sources */,
 				402A9F752595B5BF00A9DABA /* NSArray+Dlog.m in Sources */,
 				406FCA6225A0430900636079 /* TaskTitleView.m in Sources */,

@@ -26,6 +26,7 @@
 #define URL_USER_PROJECT_GANTT                  @"/user/UserToProjectGantt"
 #define URL_USER_PROJECT_LIST                   @"/user/UserToProjectList"
 #define URL_USER_PROJECT_DETAIL                 @"/user/UserToProjectDetail"
+#define URL_USER_PROJECT_OPERATIONS             @"/user/UserToProjectOperations"
 
 // 文件
 #define URL_TARGET_LIST                         @"/file/TargetList"
