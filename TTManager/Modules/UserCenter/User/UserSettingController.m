@@ -37,7 +37,7 @@
 //        @{@"icon":@"erweima",@"title":@"二维码"},
         @{@"icon":@"setting",@"title":@"设置"},
         @{@"icon":@"about",@"title":@"关于"},
-        @{@"icon":@"share",@"title":@"表单"},
+//        @{@"icon":@"share",@"title":@"表单"},
         @{@"icon":@"about",@"title":@"退出登录"}];
     }
     return _settingArray;
