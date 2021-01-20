@@ -17,10 +17,11 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
-    self.tableView.scrollEnabled = NO;
+    self.tableView.scrollEnabled = YES;
     [self.view addSubview:self.tableView];
     [self addTableViewMasonryLayout];
 }
@@ -29,7 +30,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(10);
         make.width.equalTo(self.view);
-        make.bottom.equalTo(20);
+        make.bottom.equalTo(-20);
         make.left.right.equalTo(self.view);
     }];
 }

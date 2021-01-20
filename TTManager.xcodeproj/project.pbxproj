@@ -127,6 +127,9 @@
 		4054B99C25B719190023FC7F /* APIFormEditManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99B25B719190023FC7F /* APIFormEditManager.m */; };
 		4054B9A125B71F990023FC7F /* DataManager+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A025B71F990023FC7F /* DataManager+Form.m */; };
 		4054B9A525B729920023FC7F /* FormViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A425B729920023FC7F /* FormViewCell.m */; };
+		4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A825B7C11D0023FC7F /* FormRowView.m */; };
+		4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B225B7C9DF0023FC7F /* FormItemView.m */; };
+		4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B625B7FC690023FC7F /* FormTitleView.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -420,6 +423,12 @@
 		4054B9A025B71F990023FC7F /* DataManager+Form.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Form.m"; sourceTree = "<group>"; };
 		4054B9A325B729920023FC7F /* FormViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormViewCell.h; sourceTree = "<group>"; };
 		4054B9A425B729920023FC7F /* FormViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormViewCell.m; sourceTree = "<group>"; };
+		4054B9A725B7C11D0023FC7F /* FormRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowView.h; sourceTree = "<group>"; };
+		4054B9A825B7C11D0023FC7F /* FormRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowView.m; sourceTree = "<group>"; };
+		4054B9B125B7C9DF0023FC7F /* FormItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemView.h; sourceTree = "<group>"; };
+		4054B9B225B7C9DF0023FC7F /* FormItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemView.m; sourceTree = "<group>"; };
+		4054B9B525B7FC690023FC7F /* FormTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormTitleView.h; sourceTree = "<group>"; };
+		4054B9B625B7FC690023FC7F /* FormTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormTitleView.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1322,6 +1331,12 @@
 				4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */,
 				4054B9A325B729920023FC7F /* FormViewCell.h */,
 				4054B9A425B729920023FC7F /* FormViewCell.m */,
+				4054B9A725B7C11D0023FC7F /* FormRowView.h */,
+				4054B9A825B7C11D0023FC7F /* FormRowView.m */,
+				4054B9B125B7C9DF0023FC7F /* FormItemView.h */,
+				4054B9B225B7C9DF0023FC7F /* FormItemView.m */,
+				4054B9B525B7FC690023FC7F /* FormTitleView.h */,
+				4054B9B625B7FC690023FC7F /* FormTitleView.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1675,6 +1690,7 @@
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
+				4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */,
 				4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */,
 				402AA09F2595D6EF00A9DABA /* DataManager.m in Sources */,
 				402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */,
@@ -1693,6 +1709,7 @@
 				402AA1B02598496C00A9DABA /* ProjectViewCell.m in Sources */,
 				402AA1032595D90400A9DABA /* ZHTask+CoreDataClass.m in Sources */,
 				402A9F4F2595A4F900A9DABA /* TeamController.m in Sources */,
+				4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */,
 				406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */,
 				402AA1122595D92E00A9DABA /* ZHFormItem+CoreDataClass.m in Sources */,
 				400B494E25A6B598006CBEBB /* UIViewController+ImagePicker.m in Sources */,
@@ -1749,6 +1766,7 @@
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,
 				402AA2082599E05400A9DABA /* TaskListController.m in Sources */,
+				4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */,
 				402A9F1A259577BC00A9DABA /* FrameController.m in Sources */,
 				402AA0B32595D87100A9DABA /* ZHMessage+CoreDataClass.m in Sources */,
 				4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */,

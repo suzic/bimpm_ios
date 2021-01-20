@@ -11,7 +11,7 @@
 
 - (ZHForm *)syncFormWithFormInfo:(NSDictionary *)info{
     ZHProject *project = [[DataManager defaultInstance] getProjectFromCoredataById:[info[@"fid_project"] intValue]];
-    [[DataManager defaultInstance] cleanCurrentProjectHasForm:project];
+//    [[DataManager defaultInstance] cleanCurrentProjectHasForm:project];
     ZHForm *form = [[DataManager defaultInstance] getFormByFormId:[info[@"uid_form"] intValue]];
     [[DataManager defaultInstance] cleanCurrentFormHasFormItem:form];
     

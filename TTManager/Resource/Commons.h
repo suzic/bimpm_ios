@@ -17,6 +17,7 @@
 #define MAS_SHORTHAND_GLOBALS
 
 #define FunctionCellHeight 94
+#define ItemRowHeight  44
 
 
 #import <UIKit/UIKit.h>

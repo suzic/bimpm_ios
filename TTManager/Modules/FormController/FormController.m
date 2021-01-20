@@ -7,6 +7,7 @@
 
 #import "FormController.h"
 #import "FormItemViewCell.h"
+#import "FormTitleView.h"
 
 static NSString *reuseIdentifier = @"formItemViewCell";
 static NSString *footerIdentifier = @"FooterIdentifier";
@@ -43,12 +44,22 @@ static NSString *headerIdentifier = @"headerIdentifier";
     FormItemViewCell *cell = (FormItemViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     return cell;
 }
-
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(kScreenWidth, 150);
+    return CGSizeMake(kScreenWidth, ItemRowHeight*3 + ItemRowHeight/3*2+10);
 }
-
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout referenceSizeForHeaderInSection:(NSInteger)section
+{
+    return CGSizeMake(kScreenWidth, ItemRowHeight*5+20+ItemRowHeight/3*2*2);
+}
+- (UICollectionReusableView *)collectionView:(UICollectionView *)collectionView viewForSupplementaryElementOfKind:(NSString *)kind atIndexPath:(NSIndexPath *)indexPath{
+    UICollectionReusableView *reusableView = nil;
+    if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
+        FormTitleView *titleView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier forIndexPath:indexPath];
+        reusableView = titleView;
+    }
+    return reusableView;
+}
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
 }
 - (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
@@ -107,7 +118,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
         UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc]init];
         layout.minimumLineSpacing = 0;
         layout.minimumInteritemSpacing = 0;
-        layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+        layout.scrollDirection = UICollectionViewScrollDirectionVertical;
       
         _formCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:layout];
         _formCollectionView.dataSource = self;
@@ -115,9 +126,10 @@ static NSString *headerIdentifier = @"headerIdentifier";
         _formCollectionView.showsHorizontalScrollIndicator = NO;
         _formCollectionView.showsVerticalScrollIndicator = NO;
         _formCollectionView.bounces = NO;
+        _formCollectionView.backgroundColor = [UIColor whiteColor];
         [_formCollectionView registerClass:[FormItemViewCell class] forCellWithReuseIdentifier:reuseIdentifier];
         [_formCollectionView registerClass:[UICollectionViewCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionFooter withReuseIdentifier:footerIdentifier];
-        [_formCollectionView registerClass:[UICollectionViewCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier];
+        [_formCollectionView registerClass:[FormTitleView class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier];
     }
     return _formCollectionView;
 }
