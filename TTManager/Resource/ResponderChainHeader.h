@@ -45,7 +45,9 @@
 #define current_selected_step   @"current_selected_step"
 // 新建文件夹
 #define target_new_file_group   @"target_new_file_group"
-
+// 当前选择表单
 #define form_selected_item      @"form_selected_item"
+// 当前tab切换的下标
+#define form_tab_type           @"form_tab_type"
 
 #endif /* ResponderChainHeader_h */

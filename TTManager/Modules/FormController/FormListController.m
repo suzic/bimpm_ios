@@ -14,6 +14,7 @@
 @interface FormListController ()<UITextFieldDelegate>
 
 @property (nonatomic, strong) TabListView *formTabView;
+@property (nonatomic, strong) DragButton *dragBtn;
 @property (nonatomic, strong) NSMutableArray *formListArray;
 @property (nonatomic, strong) NSMutableArray *formStatustArray;
 @end
@@ -26,10 +27,12 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"表单列表";
     [self addUI];
+    _tabIndex = NSNotFound;
+    self.tabIndex = 0;
 }
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
-    self.formTabView.selectedTaskIndex = 0;
+    self.formTabView.selectedTaskIndex = self.tabIndex;
 }
 
 #pragma mark -private
@@ -55,17 +58,22 @@
     }];
     [self presentViewController:alertController animated:true completion:nil];
 }
-- (void)goFormDetailsViewController:(NSString *)uid_form{
+- (void)goFormDetailsViewController:(ZHForm *)form{
     FormController *vc = [[FormController alloc] init];
+    vc.uid_form = form.uid_form;
+    vc.uid_ident = form.uid_ident;
+    vc.buddy_file = form.buddyFile.uid_target;
     [self.navigationController pushViewController:vc animated:YES];
 }
 #pragma mark - responder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_selected_item]) {
-        NSString *uid_form = userInfo[@"uid_form"];
-        [self goFormDetailsViewController:uid_form];
+        [self goFormDetailsViewController:userInfo[@"form"]];
     }else if([eventName isEqualToString:new_task_action]){
         [self showNewFormAlert];
+    }else if([eventName isEqualToString:form_tab_type]){
+        NSInteger index = [userInfo[@"index"] integerValue];
+        self.tabIndex = index;
     }
 }
 
@@ -87,8 +95,8 @@
     }
     [self.view layoutIfNeeded];
     [self.formTabView setChildrenViewList:self.formListArray];
-    DragButton *dragBtn = [DragButton initDragButtonVC:self];
-    [dragBtn makeConstraints:^(MASConstraintMaker *make) {
+    self.dragBtn = [DragButton initDragButtonVC:self];
+    [self.dragBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(-15);
         make.bottom.equalTo(-(SafeAreaBottomHeight == 0 ? 15 :SafeAreaBottomHeight));
         make.width.height.equalTo(49);
@@ -110,6 +118,12 @@
     return listTitle;
 }
 #pragma mark - setter getter
+- (void)setTabIndex:(NSInteger)tabIndex{
+    if (_tabIndex != tabIndex) {
+        _tabIndex = tabIndex;
+        self.dragBtn.hidden = _tabIndex == 0;
+    }
+}
 - (TabListView *)formTabView{
     if (_formTabView == nil) {
         _formTabView = [[TabListView alloc] init];

@@ -12,7 +12,7 @@
 - (ZHForm *)syncFormWithFormInfo:(NSDictionary *)info{
     ZHProject *project = [[DataManager defaultInstance] getProjectFromCoredataById:[info[@"fid_project"] intValue]];
 //    [[DataManager defaultInstance] cleanCurrentProjectHasForm:project];
-    ZHForm *form = [[DataManager defaultInstance] getFormByFormId:[info[@"uid_form"] intValue]];
+    ZHForm *form = [[DataManager defaultInstance] getFormByFormId:info[@"uid_form"]];
     [[DataManager defaultInstance] cleanCurrentFormHasFormItem:form];
     
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
@@ -59,7 +59,7 @@
     item.name = info[@"name"];
     item.d_name = info[@"d_name"];
 //    item.unit_char = info[@"unit_char"];
-    item.type = info[@"type"];
+    item.type = [NSString stringWithFormat:@"%@",info[@"type"]];
     item.length_min = [info[@"length_min"] intValue];
     item.length_max = [info[@"length_max"] intValue];
     item.not_null = [info[@"not_null"] boolValue];
@@ -68,7 +68,7 @@
     item.instance_value = info[@"instance_value"];
     return item;
 }
-- (ZHForm *)getFormByFormId:(int)uid_form{
+- (ZHForm *)getFormByFormId:(NSString *)uid_form{
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_form = %d", uid_form];
     NSArray *result = [self arrayFromCoreData:@"ZHForm" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHForm *form = nil;
@@ -77,7 +77,7 @@
     else
     {
         form = (ZHForm *)[self insertIntoCoreData:@"ZHForm"];
-        form.uid_form = INT_32_TO_STRING(uid_form);
+        form.uid_form = uid_form;
     }
     return form;
 }

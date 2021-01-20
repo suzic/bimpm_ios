@@ -174,6 +174,7 @@
     for (UIButton *button in self.tabButtonArray) {
         button.selected = button.tag == index + 10000;
     }
+    [self routerEventWithName:form_tab_type userInfo:@{@"index":@(index)}];
 }
 // 获取当前显示的tasklist 并且reloaddata
 - (void)getCurrentdisplayTaskListView:(NSInteger)index{

@@ -13,10 +13,13 @@ static NSString *reuseIdentifier = @"formItemViewCell";
 static NSString *footerIdentifier = @"FooterIdentifier";
 static NSString *headerIdentifier = @"headerIdentifier";
 
-@interface FormController ()<UICollectionViewDelegate,UICollectionViewDataSource>
+@interface FormController ()<UICollectionViewDelegate,UICollectionViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
 @property (nonatomic, strong) UICollectionView *formCollectionView;
 @property (nonatomic, strong) NSMutableArray *formItemsArray;
+
+@property (nonatomic, strong) APIFormDetailManager *formDetailManager;
+@property (nonatomic, strong) ZHForm *currentFrom;
 
 @end
 
@@ -29,8 +32,13 @@ static NSString *headerIdentifier = @"headerIdentifier";
     self.view.backgroundColor = [UIColor whiteColor];
     [self addUI];
     [self setUpLongPressGes];
+    
+    [self loadNetWork];
 }
-
+- (void)loadNetWork{
+    
+    [self.formDetailManager loadData];
+}
 #pragma mark - UICollectionViewDelegate,UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -99,6 +107,40 @@ static NSString *headerIdentifier = @"headerIdentifier";
             break;
     }
 }
+
+#pragma mark - private
+
+- (void)getFormItemInfo{
+    [self.formItemsArray removeAllObjects];
+    NSArray *array = [self.currentFrom.hasItems allObjects];
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    [self.formItemsArray addObjectsFromArray:[array sortedArrayUsingDescriptors:sortDescriptors]];
+}
+
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *params = @{};
+    if (manager == self.formDetailManager) {
+        params = @{@"uid_form":self.uid_form,
+                   @"uid_ident":self.uid_ident,
+                   @"buddy_file":self.buddy_file};
+    }
+    return params;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    if (manager == self.formDetailManager) {
+        self.currentFrom = (ZHForm *)manager.response.responseData;
+        [self getFormItemInfo];
+        [self.formCollectionView reloadData];
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.formDetailManager) {
+        
+    }
+}
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.formCollectionView];
@@ -109,7 +151,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 #pragma mark - setter and getter
 - (NSMutableArray *)formItemsArray{
     if (_formItemsArray == nil) {
-        _formItemsArray = [NSMutableArray arrayWithObjects:@"1",@"2",@"3",@"4",@"5", nil];
+        _formItemsArray = [NSMutableArray array];
     }
     return _formItemsArray;
 }
@@ -133,7 +175,14 @@ static NSString *headerIdentifier = @"headerIdentifier";
     }
     return _formCollectionView;
 }
-
+- (APIFormDetailManager *)formDetailManager{
+    if (_formDetailManager == nil) {
+        _formDetailManager = [[APIFormDetailManager alloc] init];
+        _formDetailManager.delegate = self;
+        _formDetailManager.paramSource = self;
+    }
+    return _formDetailManager;
+}
 /*
 #pragma mark - Navigation
 

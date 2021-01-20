@@ -42,7 +42,15 @@
 - (BOOL)manager:(BaseApiManager *)manager isCorrectWithParamsData:(NSDictionary *)data{
     return YES;
 }
+
 - (BOOL)manager:(BaseApiManager *)manager isCorrectWithCallBackData:(NSDictionary *)data{
     return YES;
 }
+
+-(id)coreDataCallBackData:(LCURLResponse *)response{
+    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+    ZHForm *form = [[DataManager defaultInstance] syncFormWithFormInfo:dict[@"form_info"]];
+    return form;
+}
+
 @end
