@@ -50,6 +50,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     FormItemViewCell *cell = (FormItemViewCell *)[collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    cell.formItem = self.formItemsArray[indexPath.row];
     return cell;
 }
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -64,6 +65,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     UICollectionReusableView *reusableView = nil;
     if ([kind isEqualToString:UICollectionElementKindSectionHeader]) {
         FormTitleView *titleView = [collectionView dequeueReusableSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:headerIdentifier forIndexPath:indexPath];
+        titleView.currentFrom = self.currentFrom;
         reusableView = titleView;
     }
     return reusableView;

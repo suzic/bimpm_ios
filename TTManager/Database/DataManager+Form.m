@@ -55,7 +55,7 @@
 - (ZHFormItem *)syncFormItemWithFormItemInfo:(NSDictionary *)info{
     ZHFormItem *item = [self getFormItemByFormItemId:[info[@"uid_item"] intValue]];
     item.ident = info[@"ident"];
-    item.order_index = [info[@"order_index"] intValue];
+    item.order_index = [info[@"oder_index"] intValue];
     item.name = info[@"name"];
     item.d_name = info[@"d_name"];
 //    item.unit_char = info[@"unit_char"];

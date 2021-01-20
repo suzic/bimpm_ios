@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormTitleView : UICollectionReusableView
 
+@property (nonatomic,strong)ZHForm *currentFrom;
+
 @end
 
 NS_ASSUME_NONNULL_END

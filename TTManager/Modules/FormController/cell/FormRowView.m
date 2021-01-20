@@ -51,7 +51,11 @@
 - (void)changeValueFieldLeft:(BOOL)left{
     self.keyTextField.hidden = left;
     [self.valueTextField updateConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(10);
+        if (left == YES) {
+            make.left.equalTo(10);
+        }else{
+            make.left.equalTo((kScreenWidth-20)/3);
+        }
     }];
 }
 #pragma mark - PopViewSelectedIndexDelegate
@@ -92,16 +96,19 @@
 - (UITextField *)keyTextField{
     if (_keyTextField == nil) {
         _keyTextField = [[UITextField alloc] init];
-        _keyTextField.placeholder = @"请填写key";
+        _keyTextField.placeholder = @"请填写字段名称";
         _keyTextField.font = [UIFont systemFontOfSize:16];
+        _keyTextField.textColor = RGB_COLOR(51, 51, 51);
+        _keyTextField.textAlignment = NSTextAlignmentCenter;
     }
     return _keyTextField;
 }
 - (UITextField *)valueTextField{
     if (_valueTextField == nil) {
         _valueTextField = [[UITextField alloc] init];
-        _valueTextField.placeholder = @"请填写value";
+        _valueTextField.placeholder = @"数据源";
         _valueTextField.font = [UIFont systemFontOfSize:16];
+        _keyTextField.textColor = RGB_COLOR(51, 51, 51);
     }
     return _valueTextField;
 }
@@ -109,9 +116,8 @@
     if (_formKeyTypeButton == nil) {
         _formKeyTypeButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [_formKeyTypeButton setTitle:@"字符串" forState:UIControlStateNormal];
-        
         [_formKeyTypeButton setImage:[UIImage imageNamed:@"button_ down"] forState:UIControlStateNormal];
-        [_formKeyTypeButton setTitleColor:RGB_COLOR(153, 153, 153) forState:UIControlStateNormal];
+        [_formKeyTypeButton setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
         [_formKeyTypeButton addTarget:self action:@selector(showKeyType:) forControlEvents:UIControlEventTouchUpInside];
         [_formKeyTypeButton setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
         _formKeyTypeButton.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);

@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithItemType:(FormItemType)itemType;
 
+@property (nonatomic, strong) ZHForm *currentForm;
+@property (nonatomic, strong) ZHFormItem *formItem;
+
+@property (nonatomic, assign) BOOL isEdit;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -73,6 +73,8 @@
         default:
             break;
     }
+    [self setRowItemKeyTextColor:itemType];
+    
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
         make.height.equalTo(ItemRowHeight/3*2);
@@ -95,7 +97,61 @@
         }];
     }
 }
+
+#pragma mark - private
+- (void)setRowItemEditStatus:(BOOL)edit{
+    self.firstRowView.keyTextField.enabled = edit;
+    self.firstRowView.valueTextField.enabled = edit;
+    self.firstRowView.formKeyTypeButton.enabled = edit;
+    
+    self.secondRowView.keyTextField.enabled = edit;
+    self.secondRowView.valueTextField.enabled = edit;
+    self.secondRowView.formKeyTypeButton.enabled = edit;
+    
+    self.thirdRowView.keyTextField.enabled = edit;
+    self.thirdRowView.valueTextField.enabled = edit;
+    self.thirdRowView.formKeyTypeButton.enabled = edit;
+}
+- (void)setRowItemKeyTextColor:(FormItemType)type{
+    if (type == formItemType_name) {
+        self.firstRowView.keyTextField.textColor = RGB_COLOR(4, 126, 255);
+        self.firstRowView.keyTextField.text = @"表单名称";
+        self.firstRowView.valueTextField.text = self.currentForm.name;
+        self.secondRowView.keyTextField.text = @"外部信息";
+        self.secondRowView.valueTextField.placeholder = @"请填写信息地址";
+        self.thirdRowView.keyTextField.text = @"外部报警";
+        self.thirdRowView.valueTextField.placeholder = @"请填写报警地址";
+    }else if(type == formItemType_system){
+        self.firstRowView.keyTextField.textColor = RGB_COLOR(4, 126, 255);
+        self.firstRowView.keyTextField.text = @"系统编号";
+        self.firstRowView.valueTextField.text = self.currentForm.uid_ident;
+        self.firstRowView.valueTextField.placeholder = @"请填写以key-@-###-%&组成的实例编号";
+        self.secondRowView.keyTextField.text = @"父级";
+        self.secondRowView.valueTextField.placeholder = @"请填写父级表单标示";
+    }
+    else{
+        self.firstRowView.keyTextField.text = self.formItem.name;
+        self.firstRowView.valueTextField.text = self.formItem.d_name;
+        self.secondRowView.valueTextField.placeholder = @"";
+//        self.thirdRowView.keyTextField.text = @"外部报警";
+//        self.thirdRowView.valueTextField.placeholder = @"请填写报警地址";
+    }
+}
 #pragma mark - setter and getter
+- (void)setIsEdit:(BOOL)isEdit{
+    _isEdit = isEdit;
+    [self setRowItemEditStatus:_isEdit];
+}
+- (void)setCurrentForm:(ZHForm *)currentForm{
+    _currentForm = currentForm;
+    [self setRowItemKeyTextColor:self.itemType];
+}
+- (void)setFormItem:(ZHFormItem *)formItem{
+    if (_formItem != formItem) {
+        _formItem = formItem;
+        [self setRowItemKeyTextColor:self.itemType];
+    }
+}
 - (UIView *)headerView{
     if (_headerView == nil) {
         _headerView = [[UIView alloc] init];

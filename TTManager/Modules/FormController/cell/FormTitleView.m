@@ -46,16 +46,24 @@
 }
 
 #pragma setter and getter
-
+- (void)setCurrentFrom:(ZHForm *)currentFrom{
+    if (_currentFrom != currentFrom) {
+        _currentFrom = currentFrom;
+        self.nameItemView.currentForm = _currentFrom;
+        self.systemItemView.currentForm = _currentFrom;
+    }
+}
 - (FormItemView *)nameItemView{
     if (_nameItemView == nil) {
         _nameItemView = [[FormItemView alloc] initWithItemType:formItemType_name];
+        _nameItemView.isEdit = NO;
     }
     return _nameItemView;
 }
 - (FormItemView *)systemItemView{
     if (_systemItemView == nil) {
         _systemItemView = [[FormItemView alloc] initWithItemType:formItemType_system];
+        _systemItemView.isEdit = NO;
     }
     return _systemItemView;
 }

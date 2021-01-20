@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormItemViewCell : UICollectionViewCell
 
+@property (nonatomic, strong) ZHFormItem *formItem;
+
 @end
 
 NS_ASSUME_NONNULL_END

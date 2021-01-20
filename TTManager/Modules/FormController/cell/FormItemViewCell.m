@@ -26,6 +26,12 @@
     [super layoutSublayersOfLayer:layer];
 //    [self.itemView borderForColor:[UIColor redColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
 }
+- (void)setFormItem:(ZHFormItem *)formItem{
+    if (_formItem != formItem) {
+        _formItem = formItem;
+        self.itemView.formItem = _formItem;
+    }
+}
 #pragma mark - UI
 - (void)addUI{
     self.contentView.backgroundColor = [UIColor whiteColor];
@@ -43,6 +49,7 @@
 - (FormItemView *)itemView{
     if (_itemView == nil) {
         _itemView = [[FormItemView alloc] initWithItemType:formItemType_content];
+        _itemView.isEdit = NO;
     }
     return _itemView;
 }
