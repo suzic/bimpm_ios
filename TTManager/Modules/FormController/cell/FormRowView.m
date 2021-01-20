@@ -50,14 +50,9 @@
 }
 - (void)changeValueFieldLeft:(BOOL)left{
     self.keyTextField.hidden = left;
-    [self.valueTextField makeConstraints:^(MASConstraintMaker *make) {
-        if (left == YES) {
-            make.left.equalTo(self.keyTextField.mas_left).offset(10);
-        }else{
-            make.left.equalTo(self.keyTextField.mas_right).offset(10);
-        }
+    [self.valueTextField updateConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(10);
     }];
-    [self layoutIfNeeded];
 }
 #pragma mark - PopViewSelectedIndexDelegate
 - (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
@@ -81,15 +76,16 @@
     
     [self.keyTextField makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(0);
-        make.width.equalTo(self.mas_width).multipliedBy(0.3);
+        make.width.equalTo(self).multipliedBy(0.3);
     }];
     [self.formKeyTypeButton makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.equalTo(0);
-        make.width.equalTo(self.mas_width).multipliedBy(0.3);
+        make.width.equalTo(self).multipliedBy(0.3);
     }];
+    
     [self.valueTextField makeConstraints:^(MASConstraintMaker *make) {
-        make.top.right.bottom.equalTo(0);
-        make.left.equalTo(self.keyTextField.mas_right).offset(10);
+        make.top.bottom.right.equalTo(0);
+        make.left.equalTo((kScreenWidth-20)/3);
     }];
 }
 #pragma mark - setter and getter
