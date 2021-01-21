@@ -39,6 +39,9 @@
         userInfo.name = user.name;
         userInfo.portraitUri = user.avatar;
         return completion(userInfo);
+    }else{
+        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+        userInfo.name = @"未知用户";
     }
     return completion(nil);
 }

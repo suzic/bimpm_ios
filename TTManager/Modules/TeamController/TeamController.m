@@ -11,15 +11,16 @@
 #import "PopViewController.h"
 #import "UserInforController.h"
 
-@interface TeamController ()<UITableViewDelegate,UITableViewDataSource,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface TeamController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UIButton *teamNameBtn;
-@property (nonatomic, strong) NSArray *teamArray;
+@property (nonatomic, strong) NSArray *departmentUserArray;
+@property (nonatomic, strong) NSArray *departmentList;
 @property (nonatomic, assign) NSInteger currentSelected;
-
+@property (nonatomic, copy) NSString *id_department;
 // api
-@property (nonatomic, strong)APIDepartmentManager *departmentListManager;
+//@property (nonatomic, strong)APIDepartmentManager *departmentListManager;
 @property (nonatomic, strong) APIDMDetailManager* dmDetailsManager;
 
 @end
@@ -37,35 +38,39 @@
     self.teamNameBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
     self.currentSelected = 0;
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
-    [self reoladNetwork];
+//    [self reoladNetwork];
 }
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
 }
 - (void)reoladNetwork{
-    self.departmentListManager.pageSize.pageIndex = 1;
-    self.departmentListManager.pageSize.pageSize = 20;
-    [self.departmentListManager loadData];
+    self.departmentUserArray = nil;
+    self.dmDetailsManager.pageSize.pageIndex = 1;
+    self.dmDetailsManager.pageSize.pageSize = 20;
+    [self.dmDetailsManager loadData];
 }
 //}
 #pragma mark - action
 - (IBAction)changTeamAction:(id)sender
 {
-    [self showPopView:(UIButton *)sender];
+    [self showDepartmentActionSheets];
 }
-- (void)showPopView:(UIView *)sourceView
-{
-    PopViewController *popView = [[PopViewController alloc] init];
-    popView.delegate = self;
-    popView.view.alpha = 1.0;
-    popView.dataList = [self departmentTitle];
-    popView.modalPresentationStyle = UIModalPresentationPopover;
+- (void)showDepartmentActionSheets{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择部门" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     
-    popView.popoverPresentationController.sourceView = sourceView;
-    popView.popoverPresentationController.sourceRect = CGRectMake(sourceView.frame.origin.x, sourceView.frame.origin.y, 0, 0);
-    popView.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
-    popView.popoverPresentationController.delegate = self;
-    [self presentViewController:popView animated:YES completion:nil];
+    for (int i= 0; i < self.departmentList.count; i++) {
+        ZHDepartmentUser *departmentUser = self.departmentList[i];
+        NSLog(@"部门名称 === %@",departmentUser.belongDepartment);
+        UIAlertAction *action = [UIAlertAction actionWithTitle:departmentUser.belongDepartment.name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            self.currentSelected = action.taskType;
+        }];
+        action.taskType = i;
+        [alert addAction:action];
+    }
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
 }
 
 #pragma mark - UITableViewDelegate and UITableViewDataSource
@@ -73,10 +78,9 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    if (self.teamArray.count > 0) {
-        ZHDepartment *department = self.teamArray[self.currentSelected];
-        NSLog(@"当前部门下的员工个数%ld",department.hasUsers.count);
-        return department.hasUsers.count;
+    if (self.departmentUserArray.count > 0) {
+        NSLog(@"当前部门下的员工个数%ld",self.departmentUserArray.count);
+        return self.departmentUserArray.count;
     }
     return 0;
 }
@@ -88,87 +92,57 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
     DocumentLibCell *cell = [tableView dequeueReusableCellWithIdentifier:@"documentLibCell" forIndexPath:indexPath];
-    ZHDepartment *department = self.teamArray[self.currentSelected];
-    NSArray *array = [self currentUserList:department.hasUsers];
-    ZHDepartmentUser *departmentUser = array[indexPath.row];
-    NSLog(@"%@",departmentUser.assignUser.belongUser.uid_chat);
-    cell.currentUser = departmentUser.assignUser.belongUser;
+    cell.currentUser = self.departmentUserArray[indexPath.row];
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    ZHDepartment *department = self.teamArray[self.currentSelected];
-    NSArray *array = [self currentUserList:department.hasUsers];
-    ZHDepartmentUser *departmentUser = array[indexPath.row];
+    ZHUser *user = self.departmentUserArray[indexPath.row];
     if (self.selectedUserType == NO) {
         UIStoryboard *storyBoard = [UIStoryboard storyboardWithName:@"Team" bundle:nil];
         UserInforController *vc = (UserInforController *)[storyBoard instantiateViewControllerWithIdentifier:@"userInforController"];
-        vc.user = departmentUser.assignUser.belongUser;
-        vc.id_department = department.id_department;
+        vc.user = user;
+        vc.id_department = [self.id_department intValue];
         NSLog(@"当前的user%@",vc.user);
         [self.navigationController pushViewController:vc animated:YES];
     }else{
         if (self.selectUserBlock) {
-            self.selectUserBlock(departmentUser.assignUser.belongUser);
+            self.selectUserBlock(user);
         }
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
 
-#pragma mark - PopViewSelectedIndexDelegate
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
-{
-    return UIModalPresentationNone;
-}
-- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
-    return YES;
-}
-- (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
-    self.currentSelected = indexPath.row;
-    ZHDepartment *department = self.teamArray[self.currentSelected];
-    NSArray *array = [self currentUserList:department.hasUsers];
-    [self.tableView showDataCount:array.count type:0];
-    [self.tableView reloadData];
-}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     if (manager == self.dmDetailsManager) {
-    }else if(manager == self.departmentListManager){
-        ZHUser *user = [DataManager defaultInstance].currentUser;
         ZHProject *project = [DataManager defaultInstance].currentProject;
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
-                @"id_user":INT_32_TO_STRING(user.id_user)};
+                @"id_department":self.id_department,
+        };
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.departmentListManager) {
+    if (manager == self.dmDetailsManager) {
         [self.tableView.mj_header endRefreshing];
-        self.departmentListManager.response = manager.response;
-        self.currentSelected = 0;
-        [self.tableView showDataCount:self.teamArray.count type:0];
-        self.teamNameBtn.hidden = !(self.teamArray.count > 0);
+        self.departmentUserArray = (NSMutableArray *)manager.response.responseData;
+        [self.tableView showDataCount:self.departmentUserArray.count type:0];
         [self.tableView reloadData];
     }
 }
 
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.departmentListManager) {
+    if (manager == self.dmDetailsManager) {
         [self.tableView.mj_header endRefreshing];
     }
 }
 #pragma mark - setter and getter
-- (APIDepartmentManager *)departmentListManager{
-    if (_departmentListManager == nil) {
-        _departmentListManager = [[APIDepartmentManager alloc] init];
-        _departmentListManager.delegate = self;
-        _departmentListManager.paramSource = self;
-    }
-    return _departmentListManager;
-}
+
 - (APIDMDetailManager *)dmDetailsManager{
     if (_dmDetailsManager == nil) {
         _dmDetailsManager = [[APIDMDetailManager alloc] init];
@@ -177,17 +151,32 @@
     }
     return _dmDetailsManager;
 }
-- (NSArray *)teamArray{
-    _teamArray = [NSArray array];
-    ZHProject *project = [DataManager defaultInstance].currentProject;
-    NSSet *department = project.hasDepartments;
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_department" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    NSArray *userArray = [department sortedArrayUsingDescriptors:sortDescriptors];
-    if (userArray.count > 0) {
-        _teamArray = userArray;
+- (NSArray *)departmentList{
+    if (_departmentList == nil) {
+        _departmentList = [NSArray array];
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        ZHUserProject *uProject = nil;
+        for (ZHUserProject *userProject in project.hasUsers) {
+            if (userProject.id_project == project.id_project) {
+                uProject = userProject;
+                break;
+            }
+        }
+        NSArray *department = [uProject.inDepartments allObjects];
+        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+        _departmentList = [department sortedArrayUsingDescriptors:sortDescriptors];
+        for (ZHDepartmentUser *user in _departmentList) {
+            NSLog(@"部门名称 == %@",user.belongDepartment.name);
+        }
     }
-    return _teamArray;
+    return _departmentList;
+}
+- (NSArray *)departmentUserArray{
+    if (_departmentUserArray == nil) {
+        _departmentUserArray = [NSArray array];
+    }
+    return _departmentUserArray;
 }
 - (void)setCurrentSelected:(NSInteger)currentSelected{
     _currentSelected = currentSelected;
@@ -195,25 +184,12 @@
     if (_currentSelected == NSNotFound) {
         return;
     }
-    NSArray *title = [self departmentTitle];
-    if (title.count > 0) {
-        [self.teamNameBtn setTitle:title[_currentSelected] forState:UIControlStateNormal];
-    }
+    ZHDepartmentUser *departmentUser = self.departmentList[_currentSelected];
+    self.id_department = INT_32_TO_STRING(departmentUser.belongDepartment.id_department);
+    [self.teamNameBtn setTitle:departmentUser.belongDepartment.name forState:UIControlStateNormal];
+    [self reoladNetwork];
 }
-- (NSArray *)departmentTitle{
-    NSMutableArray *array = [NSMutableArray array];
-    for (ZHDepartment *departMent in self.teamArray) {
-        NSLog(@"%@",departMent.name);
-        [array addObject:departMent.name];
-    }
-    return array;
-}
-- (NSArray *)currentUserList:(NSSet *)set{
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    NSArray *result = [set sortedArrayUsingDescriptors:sortDescriptors];
-    return result;
-}
+
 /*
 #pragma mark - Navigation
 

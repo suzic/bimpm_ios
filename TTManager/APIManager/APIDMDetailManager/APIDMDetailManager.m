@@ -18,7 +18,7 @@
 }
 #pragma mark - APIManager
 - (NSString *)apiName{
-    return URL_PROJECTTOUSER_DETAIL;
+    return URL_DEPARTMENT_DETAIL;
 }
 - (NSString *)service{
     return SERVICEADDRESS;
@@ -50,8 +50,18 @@
 - (id)departmentDetailCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
     self.pageSize = dict[@"page"];
-    [[DataManager defaultInstance] syncDepartMentWithInfo:@{@"department_list":@[dict[@"department"]]}];
-    response.responseData = [DataManager defaultInstance].currentProject;
-    return response;
+//    [[DataManager defaultInstance] syncDepartMentWithInfo:@{@"department_list":@[dict[@"department"]]}];
+    
+//    response.responseData = [DataManager defaultInstance].currentProject;
+    NSArray *member_list = dict[@"department"][@"member_list"];
+    NSMutableArray *result = [NSMutableArray array];
+    if ([member_list isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *dic in member_list) {
+            ZHUser *user = [[DataManager defaultInstance] getUserFromCoredataByID:[dic[@"id_user"] intValue]];
+            [[DataManager defaultInstance] syncUser:user withUserInfo:dic];
+            [result addObject:user];
+        }
+    }
+    return result;
 }
 @end

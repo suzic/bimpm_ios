@@ -8,7 +8,7 @@
 #import "FrameNavView.h"
 #import "PopViewController.h"
 
-@interface FrameNavView ()<PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface FrameNavView ()<APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong)  UIButton *userAvatar;
 @property (nonatomic, strong)  UIButton *changeProjectBtn;
@@ -137,41 +137,31 @@
 - (void)clickuserAvatarAction:(UIButton *)sender {
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowSettings object:nil];
 }
-- (void)showPopView:(UIView *)sourceView
-{
-    PopViewController *popView = [[PopViewController alloc] init];
-    popView.delegate = self;
-    popView.view.alpha = 1.0;
-    NSMutableArray *projectlist = [NSMutableArray arrayWithArray:self.projectList];
-    [projectlist addObject:@"回到列表"];
-    popView.dataList = projectlist;
-    popView.modalPresentationStyle = UIModalPresentationPopover;
-    
-    popView.popoverPresentationController.sourceView = sourceView;
-    popView.popoverPresentationController.sourceRect = CGRectMake(sourceView.frame.origin.x, sourceView.frame.origin.y, 0, 0);
-    popView.popoverPresentationController.permittedArrowDirections = UIPopoverArrowDirectionUp; //箭头方向
-    popView.popoverPresentationController.delegate = self;
-    [[SZUtil getCurrentVC] presentViewController:popView animated:YES completion:nil];
-}
-#pragma mark - PopViewSelectedIndexDelegate
-- (UIModalPresentationStyle)adaptivePresentationStyleForPresentationController:(UIPresentationController *)controller
-{
-    return UIModalPresentationNone;
-}
-- (BOOL)popoverPresentationControllerShouldDismissPopover:(UIPopoverPresentationController *)popoverPresentationController{
-    return YES;
-}
-- (void)popViewControllerSelectedCellIndexContent:(NSIndexPath *)indexPath{
-    if (indexPath.row == self.projectList.count){
+- (void)showProjectListActionSheets{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择项目" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    for (int i= 0; i < self.projectList.count; i++) {
+        ZHUserProject *userProject = self.projectList[i];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:userProject.belongProject.name style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            self.selectedIndex = action.taskType;
+            ZHUserProject *userProject = self.projectList[self.selectedIndex];
+            [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
+        }];
+        action.taskType = i;
+        [alert addAction:action];
+    }
+    UIAlertAction *backList = [UIAlertAction actionWithTitle:@"回到项目列表" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
         if (self.delegate && [self.delegate respondsToSelector:@selector(clickShowProjectListView)]) {
             [self.delegate clickShowProjectListView];
         }
-    }else{
-        self.selectedIndex = indexPath.row;
-        ZHUserProject *userProject = self.projectList[indexPath.row];
-        [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
-    }
+    }];
+    [backList setValue:RGB_COLOR(243, 145, 63) forKey:@"titleTextColor"];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:backList];
+    [alert addAction:cancel];
+    [[SZUtil getCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
@@ -190,7 +180,7 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self reloadData];
     }else if(manager == self.UTPlistManager){
-        [self showPopView:self.changeProjectBtn];
+        [self showProjectListActionSheets];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
