@@ -48,9 +48,9 @@
     }
 }
 - (void)addUI:(FormItemType)itemType{
-    [self addSubview:self.headerView];
     switch (itemType) {
         case formItemType_name:
+            [self addSubview:self.headerView];
             [self addSubview:self.firstRowView];
             [self addSubview:self.secondRowView];
             [self addSubview:self.thirdRowView];
@@ -58,11 +58,13 @@
             self.headerView.backgroundColor = [UIColor grayColor];
             break;
         case formItemType_system:
+            [self addSubview:self.headerView];
             [self addSubview:self.firstRowView];
             [self addSubview:self.secondRowView];
             self.headerView.backgroundColor = [UIColor grayColor];
             break;
         case formItemType_content:{
+            [self addSubview:self.headerView];
             [self addSubview:self.firstRowView];
             [self addSubview:self.secondRowView];
             [self addSubview:self.thirdRowView];
@@ -70,30 +72,41 @@
             self.secondRowView.keyTextField.hidden = YES;
             [self.thirdRowView changeValueFieldLeft:YES];
         }
+            break;
+        case formItemType_edit:
+            [self addSubview:self.firstRowView];
+            break;
         default:
             break;
     }
     [self setRowItemKeyTextColor:itemType];
-    
-    [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(0);
-        make.height.equalTo(ItemRowHeight/3*2);
-    }];
-    [self.firstRowView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(0);
-        make.height.equalTo(ItemRowHeight);
-        make.top.equalTo(self.headerView.mas_bottom);
-    }];
-    [self.secondRowView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.right.equalTo(0);
-        make.height.equalTo(ItemRowHeight);
-        make.top.equalTo(self.firstRowView.mas_bottom);
-    }];
-    if (itemType == formItemType_content || itemType == formItemType_name) {
-        [self.thirdRowView makeConstraints:^(MASConstraintMaker *make) {
+    if (itemType != formItemType_edit) {
+        [self.headerView makeConstraints:^(MASConstraintMaker *make) {
+            make.top.left.right.equalTo(0);
+            make.height.equalTo(ItemRowHeight/3*2);
+        }];
+        [self.firstRowView makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.equalTo(0);
             make.height.equalTo(ItemRowHeight);
-            make.top.equalTo(self.secondRowView.mas_bottom);
+            make.top.equalTo(self.headerView.mas_bottom);
+        }];
+        [self.secondRowView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(0);
+            make.height.equalTo(ItemRowHeight);
+            make.top.equalTo(self.firstRowView.mas_bottom);
+        }];
+        if (itemType == formItemType_content || itemType == formItemType_name) {
+            [self.thirdRowView makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(0);
+                make.height.equalTo(ItemRowHeight);
+                make.top.equalTo(self.secondRowView.mas_bottom);
+            }];
+        }
+    }else{
+        [self.firstRowView makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.equalTo(0);
+            make.height.equalTo(ItemRowHeight);
+            make.top.equalTo(0);
         }];
     }
 }

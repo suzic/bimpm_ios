@@ -11,6 +11,7 @@ typedef NS_ENUM(NSInteger,FormItemType){
     formItemType_name      = 0,
     formItemType_system    = 1,
     formItemType_content   = 2,
+    formItemType_edit      = 3,
 };
 
 NS_ASSUME_NONNULL_BEGIN

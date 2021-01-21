@@ -25,6 +25,20 @@
     [self.keyTextField borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeRight];
     [self.formKeyTypeButton borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeRight];
 }
+- (void)setItemRowContent:(id)data type:(FormItemType)itemType edit:(BOOL)edit{
+    switch (itemType) {
+        case formItemType_name:
+            break;
+        case formItemType_system:
+            break;
+        case formItemType_content:
+            break;
+        case formItemType_edit:
+            break;
+        default:
+            break;
+    }
+}
 #pragma mark - action
 - (void)showKeyType:(UIButton *)button{
     PopViewController *popView = [[PopViewController alloc] init];

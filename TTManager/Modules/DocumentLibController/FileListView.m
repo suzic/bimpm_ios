@@ -93,7 +93,7 @@
             ZHUser *user = [DataManager defaultInstance].currentUser;
             WebController *webVC = [[WebController alloc] init];
 //            webVC.loadUrl = target.link;
-            [webVC fileView:@{@"uid_target":[self get_uid_parent:target],@"t":user.token,@"m":@"1",@"f":@"0"}];
+            [webVC fileView:@{@"uid_target":[self get_uid_parent:target],@"t":user.token,@"m":@"0"}];
             webVC.hidesBottomBarWhenPushed = YES;
             [self.containerVC.navigationController pushViewController:webVC animated:YES];
         }

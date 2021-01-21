@@ -130,6 +130,8 @@
 		4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A825B7C11D0023FC7F /* FormRowView.m */; };
 		4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B225B7C9DF0023FC7F /* FormItemView.m */; };
 		4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B625B7FC690023FC7F /* FormTitleView.m */; };
+		4054B9BB25B915270023FC7F /* FormEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BA25B915270023FC7F /* FormEditController.m */; };
+		4054B9BF25B9188A0023FC7F /* FormEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BE25B9188A0023FC7F /* FormEditCell.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -429,6 +431,10 @@
 		4054B9B225B7C9DF0023FC7F /* FormItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemView.m; sourceTree = "<group>"; };
 		4054B9B525B7FC690023FC7F /* FormTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormTitleView.h; sourceTree = "<group>"; };
 		4054B9B625B7FC690023FC7F /* FormTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormTitleView.m; sourceTree = "<group>"; };
+		4054B9B925B915270023FC7F /* FormEditController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditController.h; sourceTree = "<group>"; };
+		4054B9BA25B915270023FC7F /* FormEditController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditController.m; sourceTree = "<group>"; };
+		4054B9BD25B9188A0023FC7F /* FormEditCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditCell.h; sourceTree = "<group>"; };
+		4054B9BE25B9188A0023FC7F /* FormEditCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditCell.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1320,6 +1326,8 @@
 				4054B98425B70F8E0023FC7F /* FormListController.m */,
 				4054B97325B6E5400023FC7F /* FormController.h */,
 				4054B97425B6E5400023FC7F /* FormController.m */,
+				4054B9B925B915270023FC7F /* FormEditController.h */,
+				4054B9BA25B915270023FC7F /* FormEditController.m */,
 			);
 			path = FormController;
 			sourceTree = "<group>";
@@ -1337,6 +1345,8 @@
 				4054B9B225B7C9DF0023FC7F /* FormItemView.m */,
 				4054B9B525B7FC690023FC7F /* FormTitleView.h */,
 				4054B9B625B7FC690023FC7F /* FormTitleView.m */,
+				4054B9BD25B9188A0023FC7F /* FormEditCell.h */,
+				4054B9BE25B9188A0023FC7F /* FormEditCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1743,6 +1753,7 @@
 				4054B98525B70F8E0023FC7F /* FormListController.m in Sources */,
 				4054B92025B40E560023FC7F /* ZHTarget+CoreDataClass.m in Sources */,
 				4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */,
+				4054B9BB25B915270023FC7F /* FormEditController.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
@@ -1779,6 +1790,7 @@
 				402AA1C72598A64800A9DABA /* UIView+BorderLine.m in Sources */,
 				4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */,
 				406FCA9425A1A51900636079 /* APIUTPGanttManager.m in Sources */,
+				4054B9BF25B9188A0023FC7F /* FormEditCell.m in Sources */,
 				402AA1102595D92E00A9DABA /* ZHFormItem+CoreDataProperties.m in Sources */,
 				406FCA9925A1A58400636079 /* APITaskListManager.m in Sources */,
 				4054B9A125B71F990023FC7F /* DataManager+Form.m in Sources */,
