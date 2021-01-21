@@ -30,7 +30,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.title = @"部门列表";
+    self.title = @"团队";
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     [self.teamNameBtn setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
