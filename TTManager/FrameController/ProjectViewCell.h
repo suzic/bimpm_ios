@@ -15,7 +15,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (weak, nonatomic) IBOutlet UIImageView *projectImage;
 @property (weak, nonatomic) IBOutlet UILabel *projectName;
-@property (weak, nonatomic) IBOutlet UIButton *joinBtn;
 
 @end
 

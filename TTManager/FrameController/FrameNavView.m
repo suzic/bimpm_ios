@@ -62,7 +62,6 @@
     ZHUser *user = [DataManager defaultInstance].currentUser;
     [self.userAvatar sd_setBackgroundImageWithURL:[NSURL URLWithString:user.avatar] forState:UIControlStateNormal placeholderImage:[UIImage imageNamed:@"test-1"]];
     ZHProject *currentProject = [DataManager defaultInstance].currentProject;
-    NSLog(@"当前选择的项目名称===%@",currentProject.name);
     NSString *projectTitle = TARGETS_NAME;
     if (currentProject != nil) {
         projectTitle = currentProject.name;
@@ -113,6 +112,7 @@
     if (selectable == YES) {
         [self.changeProjectBtn setImage:nil forState:UIControlStateNormal];
         self.changeProjectBtn.enabled = NO;
+        [self.changeProjectBtn setTitle:TARGETS_NAME forState:UIControlStateNormal];
         
     }else{
         [self.changeProjectBtn setImage:[UIImage imageNamed:@"button_ down"] forState:UIControlStateNormal];

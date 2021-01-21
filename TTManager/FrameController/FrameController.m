@@ -146,18 +146,15 @@
     }
 }
 
-- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:selectedProject]) {
-        NSLog(@"选择项目");
-        [self showProjectListView:NO];
-        [DataManager defaultInstance].currentProject = userInfo[@"currentProject"];
-        [self.headerView reloadData];
-        [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING([DataManager defaultInstance].currentProject.id_project)];
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
-        [self updateFrame];
-    }
+- (void)reloadCurrentSelectedProject:(ZHProject *)project{
+    NSLog(@"选择项目");
+    [self showProjectListView:NO];
+    [DataManager defaultInstance].currentProject = project;
+    [self.headerView reloadData];
+    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING(project.id_project)];
+    [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
+    [self updateFrame];
 }
-
 #pragma mark - NSNotification
 // 显示个人中心
 - (void)showSettings:(NSNotification *)notification
@@ -420,6 +417,7 @@
         self.settingVC = (UserSettingController *)[segue destinationViewController];
     }else if([segue.identifier isEqualToString:@"project"]){
         self.projectVC = (ProjectSelectController *)[segue destinationViewController];
+        self.projectVC.frameVC = self;
     }
 }
 

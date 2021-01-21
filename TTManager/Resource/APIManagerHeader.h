@@ -36,6 +36,7 @@
 #import "APIUTPInfoManager.h"
 #import "APIUTPGanttManager.h"
 #import "APIUTPDetailManager.h"
+#import "APIUTPOperationsManager.h"
 
 // 表单
 #import "APIFormNewManager.h"

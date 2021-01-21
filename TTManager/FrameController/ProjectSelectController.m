@@ -16,7 +16,7 @@
 
 // api
 @property (nonatomic, strong) APIUTPListManager *UTPlistManager;
-
+@property (nonatomic, strong) APIUTPOperationsManager *UTPOperations;
 @property (nonatomic, strong) APIUTPDetailManager *UTPDetailManager;
 
 @end
@@ -44,11 +44,26 @@
 - (NSArray *)projectList{
     _projectList = [NSArray array];
     NSMutableArray *result = [DataManager defaultInstance].currentProjectList;
-    
     NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"id_project" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    _projectList = [result sortedArrayUsingDescriptors:sortDescriptors];
+    NSArray *array = [result sortedArrayUsingDescriptors:sortDescriptors];
+    _projectList = [NSArray arrayWithArray:[self sortDefautProjectList:array]];
     return _projectList;
+}
+- (NSArray *)sortDefautProjectList:(NSArray *)array{
+    NSMutableArray *initArray = [NSMutableArray arrayWithArray:array];
+    NSMutableArray *resultArray = [NSMutableArray arrayWithArray:array];
+    for (ZHUserProject *userProject in resultArray) {
+        if (userProject.in_manager_invite == 1) {
+            [initArray removeObject:userProject];
+            [initArray insertObject:userProject atIndex:0];
+        }
+        if (userProject.in_apply == 1) {
+            [initArray removeObject:userProject];
+            [initArray insertObject:userProject atIndex:initArray.count];
+        }
+    }
+    return initArray;
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
@@ -78,6 +93,11 @@
     }
     [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
 }
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if ([eventName isEqualToString:user_to_project_operations]) {
+        [self.UTPOperations loadDataWithParams:userInfo];
+    }
+}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
@@ -94,7 +114,10 @@
         [self.projectCollectionView reloadData];
     }else if(manager == self.UTPDetailManager){
         ZHUserProject *userProject = self.projectList[self.selectedIndex];
-        [self routerEventWithName:selectedProject userInfo:@{@"currentProject":userProject.belongProject}];
+//        [self routerEventWithName:selectedProject userInfo:@{@"currentProject":userProject.belongProject}];
+        [self.frameVC reloadCurrentSelectedProject:userProject.belongProject];
+    }else if(manager == self.UTPOperations){
+        [self reloadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -119,6 +142,14 @@
         _UTPDetailManager.paramSource = self;
     }
     return _UTPDetailManager;
+}
+- (APIUTPOperationsManager *)UTPOperations{
+    if (_UTPOperations == nil) {
+        _UTPOperations = [[APIUTPOperationsManager alloc] init];
+        _UTPOperations.delegate = self;
+        _UTPOperations.paramSource = self;
+    }
+    return _UTPOperations;
 }
 /*
 #pragma mark - Navigation

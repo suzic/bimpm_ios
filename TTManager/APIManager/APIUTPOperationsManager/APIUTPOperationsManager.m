@@ -28,7 +28,7 @@
 }
 
 - (BOOL)isCoreData {
-    return YES;
+    return NO;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSDictionary *dic = @{@"data":params,

@@ -132,6 +132,7 @@
 		4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B625B7FC690023FC7F /* FormTitleView.m */; };
 		4054B9BB25B915270023FC7F /* FormEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BA25B915270023FC7F /* FormEditController.m */; };
 		4054B9BF25B9188A0023FC7F /* FormEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BE25B9188A0023FC7F /* FormEditCell.m */; };
+		4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9CB25B9449E0023FC7F /* MonitoringCell.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -435,6 +436,8 @@
 		4054B9BA25B915270023FC7F /* FormEditController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditController.m; sourceTree = "<group>"; };
 		4054B9BD25B9188A0023FC7F /* FormEditCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditCell.h; sourceTree = "<group>"; };
 		4054B9BE25B9188A0023FC7F /* FormEditCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditCell.m; sourceTree = "<group>"; };
+		4054B9CA25B9449E0023FC7F /* MonitoringCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonitoringCell.h; sourceTree = "<group>"; };
+		4054B9CB25B9449E0023FC7F /* MonitoringCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MonitoringCell.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -693,6 +696,7 @@
 		402A9F372595A3CD00A9DABA /* MonitoringController */ = {
 			isa = PBXGroup;
 			children = (
+				4054B9C825B944750023FC7F /* view */,
 				402A9F3C2595A4B800A9DABA /* MonitoringController.h */,
 				402A9F3D2595A4B800A9DABA /* MonitoringController.m */,
 			);
@@ -1366,6 +1370,15 @@
 			path = APIFormManager;
 			sourceTree = "<group>";
 		};
+		4054B9C825B944750023FC7F /* view */ = {
+			isa = PBXGroup;
+			children = (
+				4054B9CA25B9449E0023FC7F /* MonitoringCell.h */,
+				4054B9CB25B9449E0023FC7F /* MonitoringCell.m */,
+			);
+			path = view;
+			sourceTree = "<group>";
+		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -1661,6 +1674,7 @@
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
+				4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */,
 				4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,

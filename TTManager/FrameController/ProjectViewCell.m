@@ -7,38 +7,73 @@
 
 #import "ProjectViewCell.h"
 
+@interface ProjectViewCell ()
+
+
+@property (weak, nonatomic) IBOutlet UIView *bgView;
+@property (weak, nonatomic) IBOutlet UIView *maskView;
+@property (weak, nonatomic) IBOutlet UILabel *infor;
+@property (weak, nonatomic) IBOutlet UIButton *middleBtn;
+@property (weak, nonatomic) IBOutlet UIView *toolView;
+
+@end
+
 @implementation ProjectViewCell
 
 - (instancetype)initWithCoder:(NSCoder *)coder{
     self = [super initWithCoder:coder];
     if (self) {
-        [self borderForColor:[UIColor groupTableViewBackgroundColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+        self.maskView.hidden = YES;
     }
     return self;
-    
 }
+
+- (void)layoutSublayersOfLayer:(CALayer *)layer{
+    [super layoutSublayersOfLayer:layer];
+    [self.bgView borderForColor:RGB_COLOR(153, 153, 153) borderWidth:0.5 borderType:UIBorderSideTypeAll];
+}
+
 - (void)setUserProject:(ZHUserProject *)userProject{
     if (_userProject != userProject) {
         _userProject = userProject;
-        [self.projectImage sd_setImageWithURL:[NSURL URLWithString:userProject.belongProject.snap_image] placeholderImage:[UIImage imageNamed:@"empty_image"]];
-        NSLog(@"参与的项目列表=====%@",userProject.belongProject.snap_image);
-        self.joinBtn.hidden = userProject.in_manager_invite == 0;
+        [self.projectImage sd_setImageWithURL:[NSURL URLWithString:userProject.belongProject.snap_image] placeholderImage:[UIImage imageNamed:@"defaultProjectBg"]];
+        [self setmaskViewStyle:_userProject];
         self.projectName.text = userProject.belongProject.name;
-        self.joinBtn.hidden = NO;
-        if (_userProject.in_invite == 1) {
-            self.joinBtn.hidden = NO;
-//            self.joinBtn.titleLabel.text = @"";
-            [self.joinBtn setTitle:@"申请加入中" forState:UIControlStateNormal];
-        }else if(_userProject.in_manager_invite == 1){
-            [self.joinBtn setTitle:@"管理员邀请您加入" forState:UIControlStateNormal];
-        }else if(_userProject.in_apply == 1){
-//            NSString *text = [NSString stringWithFormat:@"%@邀请您加入",_userProject.invite_user];
-            [self.joinBtn setTitle:@"申请加入中" forState:UIControlStateNormal];
-        }
-        else{
-            self.joinBtn.hidden = YES;
-        }
     }
+}
+- (void)setmaskViewStyle:(ZHUserProject *)userProject {
+    NSLog(@"当前项目名称%@",userProject.belongProject.name);
+    if (userProject.in_invite == 1) {
+        self.maskView.hidden = NO;
+        NSString *text = [NSString stringWithFormat:@"%@邀请您加入",_userProject.invite_user];
+        self.infor.text = text;
+        self.middleBtn.hidden = YES;
+        self.toolView.hidden = NO;
+    }else if(userProject.in_manager_invite == 1){
+        self.maskView.hidden = NO;
+        self.infor.text = @"管理员邀请您加入";
+        self.middleBtn.hidden = YES;
+        self.toolView.hidden = NO;
+    }else if(userProject.in_apply == 1){
+        self.maskView.hidden = NO;
+        self.infor.text = @"申请加入中";
+        [self.middleBtn setTitle:@"放弃申请" forState:UIControlStateNormal];
+        [self.middleBtn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        self.middleBtn.backgroundColor = [UIColor whiteColor];
+        self.toolView.hidden = YES;
+    }else{
+        self.maskView.hidden = YES;
+    }
+}
+- (IBAction)agreeAction:(id)sender {
+    [self routerEventWithName:user_to_project_operations userInfo:@{@"code":@"ACCEPT",@"param":@"1",@"id_project":INT_32_TO_STRING(self.userProject.belongProject.id_project)}];
+}
+- (IBAction)rejectAction:(id)sender {
+    [self routerEventWithName:user_to_project_operations userInfo:@{@"code":@"ACCEPT",@"param":@"0",@"id_project":INT_32_TO_STRING(self.userProject.belongProject.id_project)}];
+}
+
+- (IBAction)middleAction:(id)sender {
+    [self routerEventWithName:user_to_project_operations userInfo:@{@"code":@"APPLY",@"param":@"0",@"id_project":INT_32_TO_STRING(self.userProject.belongProject.id_project)}];
 }
 
 @end

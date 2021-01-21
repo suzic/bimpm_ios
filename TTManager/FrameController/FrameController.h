@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (assign, nonatomic) BOOL inShowLogin;
 
+- (void)reloadCurrentSelectedProject:(ZHProject *)project;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -8,8 +8,6 @@
 #ifndef ResponderChainHeader_h
 #define ResponderChainHeader_h
 
-// 选择的项目
-#define selectedProject         @"selectedProject"
 // 选择某个task
 #define Task_list_selected      @"Task_list_selected"
 // 工作台查看更多消息
@@ -49,5 +47,7 @@
 #define form_selected_item      @"form_selected_item"
 // 当前tab切换的下标
 #define form_tab_type           @"form_tab_type"
+
+#define user_to_project_operations  @"user_to_project_operations"
 
 #endif /* ResponderChainHeader_h */

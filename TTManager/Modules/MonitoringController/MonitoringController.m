@@ -6,12 +6,13 @@
 //
 
 #import "MonitoringController.h"
-#import "ProjectViewCell.h"
+#import "MonitoringCell.h"
 #import "WebController.h"
 
 @interface MonitoringController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (weak, nonatomic) IBOutlet UICollectionView *collectionView;
+
 @end
 
 @implementation MonitoringController
@@ -41,13 +42,13 @@
     return 6;
 }
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
-    ProjectViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectIdentifler" forIndexPath:indexPath];
+    MonitoringCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectIdentifler" forIndexPath:indexPath];
     return cell;
 }
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((kScreenWidth-15)/3, 300.0f);
+    return CGSizeMake(kScreenWidth/3, kScreenWidth/3+20);
 }
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     WebController *webVC = [[WebController alloc] init];
