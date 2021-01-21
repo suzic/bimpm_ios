@@ -1371,7 +1371,7 @@
                                 </constraints>
                             </view>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="FbC-Ah-Xpj">
-                                <rect key="frame" x="0.0" y="105" width="413" height="821"/>
+                                <rect key="frame" x="15" y="105" width="413" height="821"/>
                                 <color key="backgroundColor" systemColor="systemGroupedBackgroundColor"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="mSC-a6-vyt">
                                     <size key="itemSize" width="112" height="208"/>
@@ -1388,7 +1388,7 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EUw-TS-ZPL" userLabel="bgView">
-                                                    <rect key="frame" x="15" y="0.0" width="97" height="193"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="97" height="193"/>
                                                     <subviews>
                                                         <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="test" translatesAutoresizingMaskIntoConstraints="NO" id="MpW-fo-3nb">
                                                             <rect key="frame" x="0.0" y="0.0" width="97" height="169"/>
@@ -1451,7 +1451,7 @@
                                                                             </connections>
                                                                         </button>
                                                                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qNx-yt-bep">
-                                                                            <rect key="frame" x="53.666666666666671" y="0.0" width="33.333333333333329" height="30"/>
+                                                                            <rect key="frame" x="53.666666666666657" y="0.0" width="33.333333333333343" height="30"/>
                                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                             <state key="normal" title="拒绝"/>
                                                                             <userDefinedRuntimeAttributes>
@@ -1510,9 +1510,9 @@
                                             </subviews>
                                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                             <constraints>
-                                                <constraint firstItem="EUw-TS-ZPL" firstAttribute="leading" secondItem="VOq-Wt-uSp" secondAttribute="leading" constant="15" id="2Rp-fS-e2h"/>
+                                                <constraint firstItem="EUw-TS-ZPL" firstAttribute="leading" secondItem="VOq-Wt-uSp" secondAttribute="leading" id="2Rp-fS-e2h"/>
                                                 <constraint firstItem="EUw-TS-ZPL" firstAttribute="top" secondItem="VOq-Wt-uSp" secondAttribute="top" id="CO8-3v-kWr"/>
-                                                <constraint firstAttribute="trailing" secondItem="EUw-TS-ZPL" secondAttribute="trailing" id="Wbv-Hq-C6q"/>
+                                                <constraint firstAttribute="trailing" secondItem="EUw-TS-ZPL" secondAttribute="trailing" constant="15" id="Wbv-Hq-C6q"/>
                                                 <constraint firstAttribute="bottom" secondItem="EUw-TS-ZPL" secondAttribute="bottom" constant="15" id="pFZ-Gu-Go5"/>
                                             </constraints>
                                         </collectionViewCellContentView>
@@ -1540,9 +1540,9 @@
                             <constraint firstItem="f2d-Af-r7n" firstAttribute="top" secondItem="In2-PI-Xo7" secondAttribute="top" id="B6H-lw-zcg"/>
                             <constraint firstItem="f2d-Af-r7n" firstAttribute="centerX" secondItem="NTA-eW-yjN" secondAttribute="centerX" id="Fg6-jt-tsZ"/>
                             <constraint firstItem="f2d-Af-r7n" firstAttribute="width" secondItem="In2-PI-Xo7" secondAttribute="width" id="Ten-uk-ORf"/>
-                            <constraint firstItem="FbC-Ah-Xpj" firstAttribute="leading" secondItem="In2-PI-Xo7" secondAttribute="leading" id="UzV-wz-rqF"/>
+                            <constraint firstItem="FbC-Ah-Xpj" firstAttribute="leading" secondItem="In2-PI-Xo7" secondAttribute="leading" constant="15" id="UzV-wz-rqF"/>
                             <constraint firstItem="FbC-Ah-Xpj" firstAttribute="top" secondItem="f2d-Af-r7n" secondAttribute="bottom" constant="15" id="gVX-cJ-xI4"/>
-                            <constraint firstAttribute="trailing" secondItem="FbC-Ah-Xpj" secondAttribute="trailing" constant="15" id="hQJ-Cq-zIx"/>
+                            <constraint firstAttribute="trailing" secondItem="FbC-Ah-Xpj" secondAttribute="trailing" id="hQJ-Cq-zIx"/>
                             <constraint firstAttribute="bottom" secondItem="FbC-Ah-Xpj" secondAttribute="bottom" id="lsI-fN-Kya"/>
                         </constraints>
                     </view>

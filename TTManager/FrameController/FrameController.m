@@ -71,6 +71,7 @@
 #pragma mark - init
 - (void)initUI
 {
+    self.shadowView.hidden = YES;
     [self.view insertSubview:self.headerView belowSubview:self.userView];
     self.projectView.hidden = YES;
     [self showProjectListView:NO];
@@ -178,7 +179,7 @@
     
     [UIView animateWithDuration:0.2 animations:^{
         self.userView.frame = rect;
-        self.shadowView.alpha = 0;
+        self.shadowView.alpha = 1;
     } completion:^(BOOL finished) {
         self.shadowView.hidden = YES;
         self.userView.hidden = YES;
@@ -296,6 +297,7 @@
     } completion:^(BOOL finished) {
         if (show == YES) {
             [self.projectVC reloadData];
+            self.shadowView.hidden = YES;
         }
     }];
     [self.headerView changeTabProjectStyle:show];
