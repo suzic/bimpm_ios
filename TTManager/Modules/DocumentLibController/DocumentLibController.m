@@ -39,6 +39,11 @@
         make.bottom.equalTo(-15);
         make.width.height.equalTo(49);
     }];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+}
+- (void)reoladNetwork{
+    [self.rootFileView.navigationController popToRootViewControllerAnimated:YES];
+    [self.rootFileView reoladNetwork];
 }
 
 - (void)loadFileCatalogCollectionView{
