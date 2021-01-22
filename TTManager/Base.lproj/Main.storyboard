@@ -491,8 +491,18 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cK3-OG-qo8" userLabel="Catalogue View">
                                 <rect key="frame" x="0.0" y="90" width="428" height="64"/>
                                 <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="53q-D0-tvo">
+                                        <rect key="frame" x="0.0" y="15" width="34" height="34"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" secondItem="53q-D0-tvo" secondAttribute="height" multiplier="1:1" id="MZk-S7-uqu"/>
+                                        </constraints>
+                                        <connections>
+                                            <action selector="previousButtonAction:" destination="Pvf-4O-76c" eventType="touchUpInside" id="5IK-hO-Uf9"/>
+                                        </connections>
+                                    </button>
                                     <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="4Wa-R1-nwA">
-                                        <rect key="frame" x="10" y="0.0" width="418" height="64"/>
+                                        <rect key="frame" x="34" y="0.0" width="394" height="64"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" automaticEstimatedItemSize="YES" minimumLineSpacing="0.0" minimumInteritemSpacing="0.0" id="0bb-ea-tE4">
                                             <size key="itemSize" width="158" height="70"/>
@@ -546,8 +556,11 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <constraints>
                                     <constraint firstAttribute="trailing" secondItem="4Wa-R1-nwA" secondAttribute="trailing" id="2Cm-WX-fq2"/>
-                                    <constraint firstItem="4Wa-R1-nwA" firstAttribute="leading" secondItem="cK3-OG-qo8" secondAttribute="leading" constant="10" id="MJY-NC-zVd"/>
                                     <constraint firstItem="4Wa-R1-nwA" firstAttribute="height" secondItem="cK3-OG-qo8" secondAttribute="height" id="VsH-9z-WlY"/>
+                                    <constraint firstAttribute="bottom" secondItem="53q-D0-tvo" secondAttribute="bottom" constant="15" id="cX0-cf-66g"/>
+                                    <constraint firstItem="53q-D0-tvo" firstAttribute="leading" secondItem="cK3-OG-qo8" secondAttribute="leading" id="fIA-JZ-8NN"/>
+                                    <constraint firstItem="4Wa-R1-nwA" firstAttribute="leading" secondItem="53q-D0-tvo" secondAttribute="trailing" id="gFU-du-3wk"/>
+                                    <constraint firstItem="53q-D0-tvo" firstAttribute="top" secondItem="cK3-OG-qo8" secondAttribute="top" constant="15" id="jSx-fb-6EE"/>
                                     <constraint firstAttribute="height" constant="64" id="kIG-zk-3Vf"/>
                                     <constraint firstItem="4Wa-R1-nwA" firstAttribute="centerY" secondItem="cK3-OG-qo8" secondAttribute="centerY" id="uEV-bv-z5D"/>
                                 </constraints>
@@ -576,6 +589,7 @@
                     <connections>
                         <outlet property="fileCatalogCollectionView" destination="4Wa-R1-nwA" id="s9d-UI-53o"/>
                         <outlet property="fileContainerView" destination="VC7-IP-Mus" id="5lb-b5-cIl"/>
+                        <outlet property="previousButton" destination="53q-D0-tvo" id="80h-AY-WPs"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5hP-z8-PHx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

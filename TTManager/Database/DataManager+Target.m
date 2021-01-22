@@ -58,7 +58,41 @@
         ZHTarget *parentTarget = [self getTargetFromCoreDataById:targetItem[@"fid_parent"]];
         childrenTarget.parentTarget = parentTarget;
     }
+    
+    // owner
+    if ([targetItem[@"owner"] isKindOfClass:[NSDictionary class]]) {
+        ZHUser *user = [self getUserFromCoredataByID:[targetItem[@"owner"][@"id_user"] intValue]];
+        user = [self syncUser:user withUserInfo:targetItem[@"owner"]];
+        childrenTarget.owner = user;
+    }
+    
+    [self cleanCurrentTargetAllows:childrenTarget];
+    
+    // allow
+    if ([targetItem[@"allows"] isKindOfClass:[NSArray class]]) {
+        for (NSDictionary *allowDic in targetItem[@"allows"]) {
+            ZHAllow *allow = (ZHAllow *)[self insertIntoCoreData:@"ZHAllow"];
+            allow = [self syncAllow:allow withAllowInfo:allowDic];
+            allow.belongTarget = childrenTarget;
+        }
+    }
+    
     childrenTarget.belongProject = project;
     return childrenTarget;
+}
+- (void)cleanCurrentTargetAllows:(ZHTarget *)target{
+    for (ZHAllow *allow in target.hasAllows) {
+        [self deleteFromCoreData:allow];
+    }
+}
+- (ZHAllow *)syncAllow:(ZHAllow *)allow withAllowInfo:(NSDictionary *)allowDic{
+    allow.uid_target = allowDic[@"uid_target"];
+    allow.allow_level = [allowDic[@"allow_level"] intValue];
+    if ([allowDic[@"user"] isKindOfClass:[NSDictionary class]]) {
+        ZHUser *user = [self getUserFromCoredataByID:[allowDic[@"user"][@"id_user"] intValue]];
+        user = [self syncUser:user withUserInfo:allowDic[@"user"]];
+        allow.belongUser = user;
+    }
+    return allow;
 }
 @end

@@ -30,6 +30,8 @@
 
 // 文件
 #define URL_TARGET_LIST                         @"/file/TargetList"
+#define URL_TARGET_RENAME                       @"/file/TargetRename"
+#define URL_TARGET_OPERATIONS                   @"/file/TargetOperations"
 #define URL_FILE_View                           @"/fileviewservice/FileView"
 
 // 团队成员

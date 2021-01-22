@@ -10,11 +10,13 @@
 #import "DocumentLibController.h"
 #import "WebController.h"
 
-@interface FileListView ()<UIGestureRecognizerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface FileListView ()<UIGestureRecognizerDelegate,UITextFieldDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong) NSArray *fileListArray;
 // api
-@property (nonatomic, strong)APITargetListManager *targetListManager;
+@property (nonatomic, strong) APITargetListManager *targetListManager;
+@property (nonatomic, strong) APITargetOperations *targetOperation;
+@property (nonatomic, strong) APITargetRenameManager *targetRename;
 
 @end
 
@@ -99,6 +101,35 @@
         }
     }
 }
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
+    
+    ZHTarget *target = self.fileListArray[indexPath.row];
+    BOOL edit = [self currentTargetPermission:target];
+    if (edit == YES) {
+        UITableViewRowAction *editAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleNormal title:@"重命名" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+            // 收回侧滑
+            [tableView setEditing:NO animated:YES];
+            [self showEditNameAlertView:target];
+            NSLog(@"重新命名");
+        }];
+
+        UITableViewRowAction *deleteAction = [UITableViewRowAction rowActionWithStyle:UITableViewRowActionStyleDestructive title:@"删除" handler:^(UITableViewRowAction * _Nonnull action, NSIndexPath * _Nonnull indexPath) {
+            NSLog(@"删除操作");
+            [CNAlertView showWithTitle:@"请确认删除当前文件" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    NSDictionary *params = @{@"id_project":target.fid_project,
+                                             @"code":@"DELETE",
+                                             @"param":@"0",
+                                             @"target_list":@[target.uid_target]};
+                    [self.targetOperation loadDataWithParams:params];
+                }
+            }];
+        }];
+        return @[deleteAction,editAction];
+    }
+    return @[];
+}
+#pragma mark - private
 - (NSString *)get_uid_parent:(ZHTarget *)target{
     NSString *uid_parent = @"0";
     // uid_target和fid_parent 都为空顶级目录
@@ -111,18 +142,6 @@
     }else{
         uid_parent = target.uid_target;
     }
-    
-//    if ([target.name isEqualToString:@"Pub"]) {
-//        uid_parent = @"0";
-//    }else if([target.name isEqualToString:@"Monitor"]){
-//        uid_parent = @"0";
-//    }else if([target.name isEqualToString:@"Form"]){
-//        uid_parent = @"0";
-//    }else if([target.name isEqualToString:@"Task"]){
-//        uid_parent = @"0";
-//    }else{
-//
-//    }
     return uid_parent;
 }
 - (NSString *)setDocmentLibTitle:(ZHTarget *)target{
@@ -144,6 +163,75 @@
     }
     return docmentLibTitle;
 }
+- (BOOL)currentTargetPermission:(ZHTarget *)target{
+    BOOL edit = NO;
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    // 顶级目录都没有编辑权限
+    if ([SZUtil isEmptyOrNull:target.uid_target] &&[SZUtil isEmptyOrNull:target.fid_parent]) {
+        edit = NO;
+    }
+    //
+    else{
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        ZHUserProject *uProject = nil;
+        for (ZHUserProject *userProject in project.hasUsers) {
+            if (userProject.id_project == project.id_project) {
+                uProject = userProject;
+                break;
+            }
+        }
+        // 项目经理或者管理员
+        if (uProject.assignRole.id_role == 3 || uProject.assignRole.id_role == 4) {
+            edit = YES;
+        }
+        // 文件所有者是不是自己
+        else{
+            if (user.id_user == target.owner.id_user) {
+                edit = YES;
+            }
+            //
+            else{
+                // 有权限
+                if (target.access_mode == 0) {
+                    // allow 存在也可能有权限
+                    if (target.hasAllows.count > 0) {
+                        for (ZHAllow *allow in target.hasAllows) {
+                            // 有自己则有权限
+                            if (allow.belongUser.id_user == user.id_user && allow.allow_level == 2) {
+                                edit = YES;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    return edit;
+}
+- (void)showEditNameAlertView:(ZHTarget *)target{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入文件名称" preferredStyle:UIAlertControllerStyleAlert];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+    }]];
+    [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        
+        NSString *fileName = alertController.textFields[0].text;
+        if ([SZUtil isEmptyOrNull:fileName]) {
+            [CNAlertView showWithTitle:@"文件名不能为空" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    [self showEditNameAlertView:target];
+                }
+            }];
+        }else{
+            [self.targetRename loadDataWithParams:@{@"uid_target":target.uid_target,@"new_name":fileName}];
+        }
+    }]];
+    //定义第一个输入框；
+    [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
+        textField.placeholder = @"请输入新建文件名称";
+        textField.delegate = self;
+    }];
+    [self presentViewController:alertController animated:true completion:nil];
+}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
@@ -159,12 +247,29 @@
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.targetListManager) {
+        self.fileListArray = nil;
         [self.tableView.mj_header endRefreshing];
         [self.tableView showDataCount:self.fileListArray.count type:0];
         [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
-//        self.title = @"";
         [self.containerVC loadFileCatalogCollectionView];
         [self.tableView reloadData];
+    }else if(manager == self.targetRename){
+        
+        [self.targetListManager loadData];
+        
+    }else if(manager == self.targetOperation){
+        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+        NSDictionary *result = dic[@"data"][@"results"][0];
+        if (![result[@"sub_code"] isEqualToNumber:@0]) {
+            [SZAlert showInfo:result[@"msg"] underTitle:TARGETS_NAME];
+        }else{
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"操作成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                [self.targetListManager loadData];
+            }];
+            [alert addAction:sure];
+            [self presentViewController:alert animated:YES completion:nil];
+        }
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -184,14 +289,33 @@
     }
     return _targetListManager;
 }
-- (NSArray *)fileListArray{
-    NSArray *result = (NSArray *)self.targetListManager.response.responseData;
-    if (self.navigationController.viewControllers.count >1) {
-        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-        result = [result sortedArrayUsingDescriptors:sortDescriptors];
+- (APITargetRenameManager *)targetRename{
+    if (_targetRename == nil) {
+        _targetRename = [[APITargetRenameManager alloc] init];
+        _targetRename.delegate = self;
+        _targetRename.paramSource = self;
     }
-    _fileListArray = result;
+    return _targetRename;
+}
+- (APITargetOperations *)targetOperation{
+    if (_targetOperation == nil) {
+        _targetOperation = [[APITargetOperations alloc] init];
+        _targetOperation.delegate = self;
+        _targetOperation.paramSource = self;
+    }
+    return _targetOperation;
+}
+- (NSArray *)fileListArray{
+    if (_fileListArray == nil) {
+        NSArray *result = (NSArray *)self.targetListManager.response.responseData;
+        if (self.navigationController.viewControllers.count >1) {
+            NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+            NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"is_file" ascending:YES];
+            NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1,sd, nil];
+            result = [result sortedArrayUsingDescriptors:sortDescriptors];
+        }
+        _fileListArray = result;
+    }
     return _fileListArray;
 }
 #pragma mark - UIGestureRecognizerDelegate

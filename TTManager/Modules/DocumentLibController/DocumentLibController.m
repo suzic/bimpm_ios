@@ -16,6 +16,8 @@
 
 @property (weak, nonatomic) IBOutlet UICollectionView *fileCatalogCollectionView;
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
+@property (weak, nonatomic) IBOutlet UIButton *previousButton;
+
 @property (nonatomic, strong) UploadFileManager *uploadManager;
 @property (nonatomic, strong) FileListView *rootFileView;
 @property (nonatomic, strong) DragButton *dragBtn;
@@ -44,9 +46,15 @@
     
     if (self.rootFileView.navigationController.viewControllers.count == 1) {
         self.dragBtn.hidden = YES;
+        [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back_normal"] forState:UIControlStateNormal];
+//        self.previousButton.enabled = NO;
     }else if (self.rootFileView.navigationController.viewControllers.count >= 6) {
         self.dragBtn.hidden = NO;
+        [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back"] forState:UIControlStateNormal];
+//        self.previousButton.enabled = YES;
     }else{
+        [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back"] forState:UIControlStateNormal];
+//        self.previousButton.enabled = YES;
         self.dragBtn.hidden = NO;
     }
 }
@@ -97,6 +105,12 @@
         [self showNewFileView:1 data:nil];
     }
 }
+- (IBAction)previousButtonAction:(id)sender {
+    if (self.rootFileView.navigationController.viewControllers.count >1) {
+        [self.rootFileView.navigationController popViewControllerAnimated:YES];
+    }
+}
+
 #pragma mark - private
 - (void)showNewFileView:(NSInteger)type data:(NSData *)data{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入文件名称" preferredStyle:UIAlertControllerStyleAlert];
