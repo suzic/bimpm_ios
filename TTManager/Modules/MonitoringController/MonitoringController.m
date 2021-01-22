@@ -30,6 +30,7 @@
 
 - (void)reoladNetwork{
     
+    [self.collectionView.mj_header endRefreshing];
 }
 
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource

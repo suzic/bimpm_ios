@@ -14,6 +14,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *psdTextField;
 @property (weak, nonatomic) IBOutlet UITextField *verificationTextField;
 @property (weak, nonatomic) IBOutlet UIButton *verificationBtn;
+@property (weak, nonatomic) IBOutlet UIView *verificationBgView;
 
 // API
 @property (nonatomic, strong)APICaptchManager *captchManager;
@@ -25,8 +26,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    // 获取验证图片
-    [self.captchManager loadData];
+    
     
     // 修改占位符字体颜色
     [self changeTextFiledPlaceholderColor:self.phoneTextField.placeholder textFiled:self.phoneTextField];
@@ -37,12 +37,20 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFailed:) name:NotiUserLoginFailed object:nil];
     
     [self initUI];
+    [self showVerificationView:NO];
 }
 - (void)initUI{
     ZHUser *user = [DataManager defaultInstance].currentUser;
     if (user) {
         self.phoneTextField.text = user.phone;
         self.psdTextField.text = user.password;
+    }
+}
+- (void)showVerificationView:(BOOL)show{
+    self.verificationBgView.hidden = !show;
+    self.verificationBtn.hidden = !show;
+    if (show == YES) {
+        [self.captchManager loadData];
     }
 }
 #pragma mark - Action
@@ -98,8 +106,8 @@
 //    loginUser.captcha_code = self.verificationTextField.text;
 //    [[DataManager defaultInstance] saveContext];
     NSLog(@"图形验证码%@",self.verificationTextField.text);
-    if (![LoginValidChecker validString:self.verificationTextField.text inFormat:SPECVaildStringFormatCaptcha])
-        return NO;
+//    if (![LoginValidChecker validString:self.verificationTextField.text inFormat:SPECVaildStringFormatCaptcha])
+//        return NO;
     self.loginParams = @{@"phone":self.phoneTextField.text,
                                   @"password":self.psdTextField.text.MD5String,
                                   @"verify":@"",
@@ -166,7 +174,8 @@
     NSDictionary *dic = (NSDictionary *)notification.object;
     if ([dic[@"code"] intValue] == 102 || [dic[@"code"] intValue] == 103 || [dic[@"code"] intValue] == 105) // 连续5次以上登录失败
     {
-        [self.captchManager loadData];
+//        [self.captchManager loadData];
+        [self showVerificationView:YES];
     }
 //    else if ([dic[@"code"] intValue] == 105)
 //    {

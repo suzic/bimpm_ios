@@ -17,10 +17,13 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)]];
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     
+}
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)]];
 }
 - (void)reoladNetwork{
     [self refreshConversationTableViewIfNeeded];
@@ -46,6 +49,8 @@
     }else{
         RCUserInfo *userInfo = [[RCUserInfo alloc] init];
         userInfo.name = @"未知用户";
+        userInfo.userId = userId;
+        return completion(userInfo);
     }
     return completion(nil);
 }

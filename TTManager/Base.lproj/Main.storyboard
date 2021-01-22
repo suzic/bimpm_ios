@@ -1261,7 +1261,7 @@
                                             </userDefinedRuntimeAttribute>
                                         </userDefinedRuntimeAttributes>
                                     </view>
-                                    <view alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gaI-4F-HqH" userLabel="PassView">
+                                    <view hidden="YES" alpha="0.5" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gaI-4F-HqH" userLabel="PassView">
                                         <rect key="frame" x="0.0" y="138" width="214" height="44"/>
                                         <subviews>
                                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="line" placeholder="输入验证码" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sim-YE-cYY">
@@ -1303,7 +1303,7 @@
                                             <action selector="loginAction:" destination="Rzh-BC-Eqo" eventType="touchUpInside" id="zyc-oH-msI"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0dL-ey-6Kz">
+                                    <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0dL-ey-6Kz">
                                         <rect key="frame" x="224" y="138" width="100" height="44"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                         <constraints>
@@ -1361,6 +1361,7 @@
                     <connections>
                         <outlet property="phoneTextField" destination="DgW-5q-pZH" id="el1-am-Chd"/>
                         <outlet property="psdTextField" destination="Ar4-br-OJA" id="N59-bv-qfX"/>
+                        <outlet property="verificationBgView" destination="gaI-4F-HqH" id="YXr-wh-VyF"/>
                         <outlet property="verificationBtn" destination="0dL-ey-6Kz" id="f7Z-L2-eih"/>
                         <outlet property="verificationTextField" destination="sim-YE-cYY" id="u3a-XX-UFN"/>
                     </connections>
