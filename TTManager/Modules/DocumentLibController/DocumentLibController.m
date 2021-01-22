@@ -52,14 +52,17 @@
     if (self.rootFileView.navigationController.viewControllers.count == 1) {
         self.dragBtn.hidden = YES;
         [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back_normal"] forState:UIControlStateNormal];
+        self.actionSheetType = 2;
 //        self.previousButton.enabled = NO;
     }else if (self.rootFileView.navigationController.viewControllers.count >= 6) {
+        self.actionSheetType = 3;
         self.dragBtn.hidden = NO;
         [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back"] forState:UIControlStateNormal];
 //        self.previousButton.enabled = YES;
     }else{
         [self.previousButton setImage:[UIImage imageNamed:@"document_lid_back"] forState:UIControlStateNormal];
 //        self.previousButton.enabled = YES;
+        self.actionSheetType = 2;
         self.dragBtn.hidden = NO;
     }
 }

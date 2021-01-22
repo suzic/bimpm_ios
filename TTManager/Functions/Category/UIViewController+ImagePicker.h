@@ -14,7 +14,7 @@ typedef void(^ImagePickerCompletionHandler)(NSData *imageData, UIImage *image);
 
 - (void)initializeImagePicker;
 
-// 1 从附件中选择 2 新建文件夹
+// 1 从附件中选择 2 新建文件夹 3,不显示新建文件夹
 @property (nonatomic,assign) NSInteger actionSheetType;
 
 

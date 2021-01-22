@@ -126,18 +126,20 @@ static void *sheetType = @"actionSheetType";
                 }
         }];
     }];
-    
-    UIAlertAction * fileAction = [UIAlertAction actionWithTitle: self.actionSheetType == 1 ? @"文件库":@"新建文件夹" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-        if (self.actionSheetType == 1) {
-            [self routerEventWithName:open_document_library userInfo:@{}];
-        }else if(self.actionSheetType == 2){
-            [self routerEventWithName:target_new_file_group userInfo:@{}];
-        }
-    }];
     [actionController addAction:cancelAction];
     [actionController addAction:takePhotoAction];
     [actionController addAction:choseFromAlbumAction];
-    [actionController addAction:fileAction];
+    if (self.actionSheetType != 3) {
+        UIAlertAction * fileAction = [UIAlertAction actionWithTitle: self.actionSheetType == 1 ? @"文件库":@"新建文件夹" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            if (self.actionSheetType == 1) {
+                [self routerEventWithName:open_document_library userInfo:@{}];
+            }else if(self.actionSheetType == 2){
+                [self routerEventWithName:target_new_file_group userInfo:@{}];
+            }
+        }];
+        [actionController addAction:fileAction];
+    }
+   
     [self presentViewController:actionController animated:YES completion:^{}];
 }
 
