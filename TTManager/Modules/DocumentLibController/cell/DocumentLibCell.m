@@ -26,7 +26,21 @@
         _target = target;
         NSString *fileIconImage = [self getCurrentfileTypeImageView:_target];
         self.documentIcon.image = [UIImage imageNamed:fileIconImage];
-        self.documentTitle.text = _target.name;
+        if ([SZUtil isEmptyOrNull:_target.uid_target] && _target.is_file == 0) {
+            if (_target.id_module == 0) {
+                self.documentTitle.text = @"文档";
+            }else if(_target.id_module == 8){
+                self.documentTitle.text = @"大屏配置";
+            }else if(_target.id_module == 9){
+                self.documentTitle.text = @"表单文件";
+            }else if(_target.id_module == 10){
+                self.documentTitle.text = @"任务附件";
+            }else if(_target.id_module > 10){
+                self.documentTitle.text = [NSString stringWithFormat:@"%@文件",_target.name];
+            }
+        }else{
+            self.documentTitle.text = _target.name;
+        }
     }
 }
 - (NSString *)getCurrentfileTypeImageView:(ZHTarget *)target{

@@ -80,7 +80,7 @@
         VC.uid_parent = [self get_uid_parent:target];
         VC.id_module = INT_32_TO_STRING(target.id_module);
         VC.chooseTargetFile = self.chooseTargetFile;
-        VC.title = target.name;
+        VC.title = [self setDocmentLibTitle:target];
         self.containerVC.fileView = VC;
         [self.navigationController pushViewController:VC animated:YES];
     }else if(target.is_file == 1){
@@ -101,18 +101,48 @@
 }
 - (NSString *)get_uid_parent:(ZHTarget *)target{
     NSString *uid_parent = @"0";
-    if ([target.name isEqualToString:@"Pub"]) {
+    // uid_target和fid_parent 都为空顶级目录
+    if ([SZUtil isEmptyOrNull:target.uid_target] &&[SZUtil isEmptyOrNull:target.fid_parent]) {
         uid_parent = @"0";
-    }else if([target.name isEqualToString:@"Monitor"]){
-        uid_parent = @"0";
-    }else if([target.name isEqualToString:@"Form"]){
-        uid_parent = @"0";
-    }else if([target.name isEqualToString:@"Task"]){
+    }
+    // uid_target不为空 fid_parent为空 表示第二级别目录
+    else if ([SZUtil isEmptyOrNull:target.uid_target] && ![SZUtil isEmptyOrNull:target.fid_parent]){
         uid_parent = @"0";
     }else{
         uid_parent = target.uid_target;
     }
+    
+//    if ([target.name isEqualToString:@"Pub"]) {
+//        uid_parent = @"0";
+//    }else if([target.name isEqualToString:@"Monitor"]){
+//        uid_parent = @"0";
+//    }else if([target.name isEqualToString:@"Form"]){
+//        uid_parent = @"0";
+//    }else if([target.name isEqualToString:@"Task"]){
+//        uid_parent = @"0";
+//    }else{
+//
+//    }
     return uid_parent;
+}
+- (NSString *)setDocmentLibTitle:(ZHTarget *)target{
+    NSString *docmentLibTitle = @"";
+    if ([SZUtil isEmptyOrNull:target.uid_target] && target.is_file == 0) {
+        if (target.id_module == 0) {
+            docmentLibTitle = @"文档";
+        }else if(target.id_module == 8){
+            docmentLibTitle = @"大屏配置";
+        }else if(target.id_module == 9){
+            docmentLibTitle = @"表单文件";
+        }else if(target.id_module == 10){
+            docmentLibTitle = @"任务附件";
+        }else if(target.id_module > 10){
+            docmentLibTitle = [NSString stringWithFormat:@"%@文件",target.name];
+        }
+    }else{
+        docmentLibTitle = target.name;
+    }
+    return docmentLibTitle;
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{

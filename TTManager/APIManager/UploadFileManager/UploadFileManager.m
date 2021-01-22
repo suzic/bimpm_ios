@@ -11,12 +11,13 @@
 
 @property (nonatomic, strong) APIUploadFileManager *uploadFileManager;
 @property (nonatomic, strong) APITargetNewManager *targetNewManager;
-@property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic, copy) NSString *uploadFileName;
 @property (nonatomic,strong) NSData *uploadData;
+
+@property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic, copy) NSString *is_file;
 @property (nonatomic, copy) NSString *id_module;
-@property (nonatomic,copy) NSString *fid_project;
+@property (nonatomic, assign) id fid_parent;
 
 @end
 
@@ -39,8 +40,13 @@
     }
     self.uploadFileName = fileName;
     self.is_file = @"1";
+    self.uid_target = target[@"uid_target"];
     self.id_module = target[@"id_module"];
-    self.fid_project = target[@"fid_parent"];
+    if ([target[@"fid_parent"] isEqualToString:@"0"]) {
+        self.fid_parent = [NSNull null];
+    }else{
+        self.fid_parent = target[@"fid_parent"];
+    }
     self.uploadData = imageData;
     if (![SZUtil isMobileNumber:fileName]) {
         self.uploadFileName = fileName;
@@ -60,8 +66,13 @@
     }
     self.uploadFileName = fileName;
     self.is_file = @"0";
+    self.uid_target = target[@"uid_target"];
     self.id_module = target[@"id_module"];
-    self.fid_project = target[@"fid_parent"];
+    if ([target[@"fid_parent"] isEqualToString:@"0"]) {
+        self.fid_parent = [NSNull null];
+    }else{
+        self.fid_parent = target[@"fid_parent"];
+    }
     [self.targetNewManager loadData];
 }
 
@@ -74,7 +85,7 @@
     }else if(manager == self.targetNewManager){
         params = @{@"target_info":@{@"uid_target":self.uid_target,
                                     @"id_module":self.id_module,
-                                    @"fid_parent":self.fid_project,
+                                    @"fid_parent":self.fid_parent,
                                     @"is_file":self.is_file,
                                                  @"access_mode":@"0",@"name":self.uploadFileName,@"fid_project":INT_32_TO_STRING(project.id_project)}};
     }
@@ -96,6 +107,7 @@
         if (self.uploadResult) {
             NSDictionary *dic = manager.response.responseData[@"data"];
             self.uploadResult(YES, dic[@"target_info"][@"uid_target"], self.uid_target);
+            [SZAlert showInfo:@"创建成功" underTitle:TARGETS_NAME];
         }
     }
 }

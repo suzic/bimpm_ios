@@ -18,7 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *fileContainerView;
 @property (nonatomic, strong) UploadFileManager *uploadManager;
 @property (nonatomic, strong) FileListView *rootFileView;
-
+@property (nonatomic, strong) DragButton *dragBtn;
 @end
 
 @implementation DocumentLibController
@@ -30,8 +30,9 @@
     // 初始化相机，要不会有两秒延迟
     [self initializeImagePicker];
     self.actionSheetType = 2;
-    DragButton *dragBtn = [DragButton initDragButtonVC:self];
-    [dragBtn makeConstraints:^(MASConstraintMaker *make) {
+    self.dragBtn = [DragButton initDragButtonVC:self];
+    self.dragBtn.hidden = YES;
+    [self.dragBtn makeConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(-15);
         make.bottom.equalTo(-15);
         make.width.height.equalTo(49);
@@ -40,6 +41,14 @@
 
 - (void)loadFileCatalogCollectionView{
     [self.fileCatalogCollectionView reloadData];
+    
+    if (self.rootFileView.navigationController.viewControllers.count == 1) {
+        self.dragBtn.hidden = YES;
+    }else if (self.rootFileView.navigationController.viewControllers.count >= 6) {
+        self.dragBtn.hidden = NO;
+    }else{
+        self.dragBtn.hidden = NO;
+    }
 }
 - (void)fileViewListEmpty:(BOOL)empty{
     if (self.rootFileView.navigationController.viewControllers.count <=1)
@@ -122,7 +131,7 @@
         [SZAlert showInfo:@"请填写文件名称" underTitle:TARGETS_NAME];
         return;
     }
-    [self.uploadManager newFileGroupWithGroupName:groupName target:@{@"id_module":self.fileView.id_module,@"fid_project":self.fileView.uid_parent}];
+    [self.uploadManager newFileGroupWithGroupName:groupName target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent,@"uid_target":@"",}];
     [self uploadSuccess];
 }
 
@@ -131,7 +140,7 @@
         [SZAlert showInfo:@"请选择图片后重试" underTitle:TARGETS_NAME];
         return;
     }
-    [self.uploadManager uploadFile:imageData fileName:fileName target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent}];
+    [self.uploadManager uploadFile:imageData fileName:fileName target:@{@"id_module":self.fileView.id_module,@"fid_parent":self.fileView.uid_parent,@"uid_target":self.fileView.uid_parent}];
     [self uploadSuccess];
     
 }
