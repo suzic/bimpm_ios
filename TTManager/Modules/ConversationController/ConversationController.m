@@ -7,7 +7,7 @@
 
 #import "ConversationController.h"
 
-@interface ConversationController ()<RCIMUserInfoDataSource>
+@interface ConversationController ()<RCIMUserInfoDataSource,RCIMSendMessageDelegate>
 
 @end
 
@@ -17,6 +17,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    [[RCIM sharedRCIM] setSendMessageDelegate:self];
 }
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
     ZHUser *user = [[LoginUserManager defaultInstance] getUserByRongIMId:userId];
@@ -29,6 +30,11 @@
     }
     return completion(nil);
 }
+
+- (void)didSendIMMessage:(RCMessageContent *)messageContent status:(NSInteger)status{
+    NSLog(@"融云消息发送状态 %ld",(long)status);
+}
+
 /*
 #pragma mark - Navigation
 
