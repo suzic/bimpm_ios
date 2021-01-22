@@ -19,8 +19,12 @@
     // Do any additional setup after loading the view.
     [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)]];
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
+    
 }
-
+- (void)reoladNetwork{
+    [self refreshConversationTableViewIfNeeded];
+}
 #pragma mark - 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model

@@ -338,7 +338,7 @@
         if ([AppDelegate sharedDelegate].initRongCloud == NO) {
             [[AppDelegate sharedDelegate] initRongCloudIM];
         }
-
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self updateFrame];
     }
 }

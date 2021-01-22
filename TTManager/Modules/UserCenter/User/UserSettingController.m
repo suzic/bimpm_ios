@@ -90,6 +90,8 @@
         [DataManager defaultInstance].currentProject = nil;
         [[DataManager defaultInstance].currentProjectList removeLastObject];
         [DataManager defaultInstance].currentProjectList = nil;
+        [[RCIM sharedRCIM] logout];
+        [AppDelegate sharedDelegate].initRongCloud = NO;
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
