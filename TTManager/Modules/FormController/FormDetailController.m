@@ -25,10 +25,14 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.title = @"表单详情";
     self.isEditForm = NO;
     [self addUI];
+    [self.formDetailManager loadData];
 }
-
+- (void)viewWillLayoutSubviews{
+    [super viewWillLayoutSubviews];
+}
 #pragma mark - UITableViewDelegate UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -47,7 +51,7 @@
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"identifier";
-    FormEditCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
+    FormEditCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
@@ -92,11 +96,13 @@
 - (void)addUI{
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(0);
+        make.left.top.equalTo(10);
+        make.right.bottom.equalTo(-10);
     }];
-    
+    self.tableView.layer.borderWidth = 0.5;
+    self.tableView.layer.borderColor = RGB_COLOR(102, 102, 102).CGColor;
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
-    self.navigationController.navigationItem.rightBarButtonItem = barItem;
+    self.navigationItem.rightBarButtonItem = barItem;
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -107,6 +113,12 @@
         
     }
     return _tableView;
+}
+- (NSMutableArray *)formItemsArray{
+    if (_formItemsArray == nil) {
+        _formItemsArray = [NSMutableArray array];
+    }
+    return _formItemsArray;
 }
 - (APIFormDetailManager *)formDetailManager{
     if (_formDetailManager == nil) {

@@ -32,7 +32,7 @@
 - (void)layoutSublayersOfLayer:(CALayer *)layer{
     [super layoutSublayersOfLayer:layer];
     [self.keyLabel borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeRight];
-    [self.contentView borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeAll];
+    [self.contentView borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeBottom];
 }
 - (void)addUI{
     [self addSubview:self.keyLabel];

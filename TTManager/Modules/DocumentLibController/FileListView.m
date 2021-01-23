@@ -9,6 +9,7 @@
 #import "DocumentLibCell.h"
 #import "DocumentLibController.h"
 #import "WebController.h"
+#import "FormDetailController.h"
 
 @interface FileListView ()<UIGestureRecognizerDelegate,UITextFieldDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
 
@@ -72,34 +73,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     ZHTarget *target = self.fileListArray[indexPath.row];
-    // 文件夹
-    if (target.is_file == 0)
-    {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"documentList"];
-        FileListView *VC = (FileListView *)[nav topViewController];
-        VC.containerVC = self.containerVC;
-        VC.uid_parent = [self get_uid_parent:target];
-        VC.id_module = INT_32_TO_STRING(target.id_module);
-        VC.chooseTargetFile = self.chooseTargetFile;
-        VC.title = [self setDocmentLibTitle:target];
-        self.containerVC.fileView = VC;
-        [self.navigationController pushViewController:VC animated:YES];
-    }else if(target.is_file == 1){
-        if (self.containerVC.chooseTargetFile == YES) {
-            if (self.containerVC.targetBlock) {
-                self.containerVC.targetBlock(target);
-            }
-            [self.containerVC.navigationController popViewControllerAnimated:YES];
-        }else{
-            ZHUser *user = [DataManager defaultInstance].currentUser;
-            WebController *webVC = [[WebController alloc] init];
-//            webVC.loadUrl = target.link;
-            [webVC fileView:@{@"uid_target":[self get_uid_parent:target],@"t":user.token,@"m":@"0"}];
-            webVC.hidesBottomBarWhenPushed = YES;
-            [self.containerVC.navigationController pushViewController:webVC animated:YES];
-        }
-    }
+    [self currentSelectedTargetDetail:target];
 }
 - (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath{
     
@@ -130,6 +104,48 @@
     return @[];
 }
 #pragma mark - private
+- (void)currentSelectedTargetDetail:(ZHTarget *)target{
+    // 文件夹
+    if (target.is_file == 0)
+    {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"documentList"];
+        FileListView *VC = (FileListView *)[nav topViewController];
+        VC.containerVC = self.containerVC;
+        VC.uid_parent = [self get_uid_parent:target];
+        VC.id_module = INT_32_TO_STRING(target.id_module);
+        VC.chooseTargetFile = self.chooseTargetFile;
+        VC.title = [self setDocmentLibTitle:target];
+        self.containerVC.fileView = VC;
+        [self.navigationController pushViewController:VC animated:YES];
+    }
+    // 文件
+    else if(target.is_file == 1){
+        // 选择文件后返回
+        if (self.containerVC.chooseTargetFile == YES) {
+            if (self.containerVC.targetBlock) {
+                self.containerVC.targetBlock(target);
+            }
+            [self.containerVC.navigationController popViewControllerAnimated:YES];
+        }
+        // 查看文件
+        else{
+            // 表单文件
+            if (target.type == 11) {
+                FormDetailController *formVC = [[FormDetailController alloc] init];
+                formVC.buddy_file = target.uid_target;
+                formVC.hidesBottomBarWhenPushed = YES;
+                [self.containerVC.navigationController pushViewController:formVC animated:YES];
+            }else{
+                ZHUser *user = [DataManager defaultInstance].currentUser;
+                WebController *webVC = [[WebController alloc] init];
+                [webVC fileView:@{@"uid_target":[self get_uid_parent:target],@"t":user.token,@"m":@"0"}];
+                webVC.hidesBottomBarWhenPushed = YES;
+                [self.containerVC.navigationController pushViewController:webVC animated:YES];
+            }
+        }
+    }
+}
 - (NSString *)get_uid_parent:(ZHTarget *)target{
     NSString *uid_parent = @"0";
     // uid_target和fid_parent 都为空顶级目录
