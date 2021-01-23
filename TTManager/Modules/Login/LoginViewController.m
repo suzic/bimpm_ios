@@ -15,13 +15,6 @@
 
 @interface LoginViewController ()<ApiManagerCallBackDelegate,APIManagerParamSource,UITableViewDelegate,UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet UITextField *phoneTextField;
-@property (weak, nonatomic) IBOutlet UITextField *psdTextField;
-@property (weak, nonatomic) IBOutlet UITextField *verificationTextField;
-@property (weak, nonatomic) IBOutlet UIButton *verificationBtn;
-@property (weak, nonatomic) IBOutlet UIView *verificationBgView;
-
-
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tabLoginMode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -29,13 +22,18 @@
 @property (retain, nonatomic) PhoneCell *phoneCell;
 @property (retain, nonatomic) PassCell *passwordCell;
 @property (retain, nonatomic) PassCell *confirmPasswordCell;
+// 验证码
 @property (retain, nonatomic) VerificationCell *verifyCell;
+// 图形验证码
 @property (retain, nonatomic) VerificationCell *captchaCell;
+
 @property (retain, nonatomic) OperationCell *buttonCell;
 @property (retain, nonatomic) OperationCell *moreButtonCell;
 
+// 当前选择的增禄方式 0 密码登录 1 验证码登录
 @property (nonatomic, assign) BOOL currentSelectedTab;
-
+// 显示图形验证码
+@property (nonatomic, assign) BOOL showCaptch;
 // API
 @property (nonatomic, strong)APICaptchManager *captchManager;
 @property (nonatomic, strong)NSDictionary *loginParams;
@@ -46,32 +44,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-//    // 修改占位符字体颜色
-//    [self changeTextFiledPlaceholderColor:self.phoneTextField.placeholder textFiled:self.phoneTextField];
-//    [self changeTextFiledPlaceholderColor:self.psdTextField.placeholder textFiled:self.psdTextField];
-//    [self changeTextFiledPlaceholderColor:self.verificationTextField.placeholder textFiled:self.verificationTextField];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFinish:) name:NotiUserLogined object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFailed:) name:NotiUserLoginFailed object:nil];
     
     self.controllerType = typeLoginPassword;
     self.currentSelectedTab = 0;
-    [self initUI];
-    [self showVerificationView:NO];
-}
-- (void)initUI{
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    if (user) {
-        self.phoneTextField.text = user.phone;
-        self.psdTextField.text = user.password;
-    }
-}
-- (void)showVerificationView:(BOOL)show{
-    self.verificationBgView.hidden = !show;
-    self.verificationBtn.hidden = !show;
-    if (show == YES) {
-        [self.captchManager loadData];
-    }
+    self.showCaptch = NO;
 }
 
 #pragma mark - UITableViewDelegate,UITableViewDataSource
@@ -109,13 +87,14 @@
                 case 1:
                     self.passwordCell = [tableView dequeueReusableCellWithIdentifier:@"passCell" forIndexPath:indexPath];
 //                    self.passwordCell.btnForgotPassword.hidden = NO;
-//                    self.passwordCell.passwordString.text = currentUser.password;
+                    self.passwordCell.passWordtextField.text = currentUser.password;
                     cell = self.passwordCell;
                     break;
                 case 2:
                     self.captchaCell = [tableView dequeueReusableCellWithIdentifier:@"verificationCell" forIndexPath:indexPath];
 //                    self.captchaCell.captchLabel.text = currentUser.captcha_code;
 //                    [self.captchaCell.captchCode setBackgroundImage:self.currentCaptchaImage forState:UIControlStateNormal];
+                    [self.captchaCell.getVerificationBtn setTitle:@"" forState:UIControlStateNormal];
                     cell = self.captchaCell;
                     break;
                 case 3:
@@ -141,12 +120,13 @@
             {
                 case 0:
                     self.phoneCell = [tableView dequeueReusableCellWithIdentifier:@"phoneCell" forIndexPath:indexPath];
-//                    self.phoneCell.phoneNumber.text = currentUser.phone;
+                    self.phoneCell.phoneTextField.text = currentUser.phone;
                     cell = self.phoneCell;
                     break;
                 case 1:
                     self.verifyCell = [tableView dequeueReusableCellWithIdentifier:@"verificationCell" forIndexPath:indexPath];
 //                    self.verifyCell.verifyString.text = @"";
+                    [self.verifyCell.getVerificationBtn setTitle:@"发送验证码" forState:UIControlStateNormal];
                     cell = self.verifyCell;
                     break;
                 case 2:
@@ -178,8 +158,8 @@
             {
                 case 0:
                     self.phoneCell = [tableView dequeueReusableCellWithIdentifier:@"phoneCell" forIndexPath:indexPath];
-//                    if (self.controllerType == typeLoginRetrieving)
-//                        self.phoneCell.phoneNumber.text = currentUser.phone;
+                    if (self.controllerType == typeLoginRetrieving)
+                        self.phoneCell.phoneTextField.text = currentUser.phone;
                     cell = self.phoneCell;
                     break;
                 case 1:
@@ -231,7 +211,7 @@
     switch (self.controllerType)
     {
         case typeLoginPassword:
-            if (indexPath.row == 2)
+            if (indexPath.row == 2 && self.showCaptch == NO)
                 return 0.01f;
             else if (indexPath.row == 3)
                 return 30.0f;
@@ -253,15 +233,16 @@
     }
 }
 #pragma mark - Action
-// 获取验证码
-- (IBAction)getVerificationAction:(id)sender
-{
-    [self.captchManager loadData];
-}
 
 - (IBAction)textChange:(id)sender {
 }
 - (IBAction)sendVerifyCode:(id)sender {
+    UIButton *button = (UIButton *)sender;
+    if (self.showCaptch == YES) {
+        [self.captchManager loadData];
+    }else{
+        [button startCountDown:60 finishTitile:@"发送验证码"];
+    }
 }
 - (IBAction)forgetPassword:(id)sender {
     if (self.controllerType == typeLoginRetrieving) {
@@ -316,10 +297,7 @@
             // 采集更新用户数据后再执行静默登录
             if ([self checkValid])
             {
-//                [super showHud];
-//                self.inRequest = YES;
-//                self.ukDelay = 15;
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@(YES)];
+                [self loginAction];
             }
         }
         else if (self.controllerType == typeLoginRetrieving) // 找回密码
@@ -355,7 +333,7 @@
 }
 
 // 登录操作
-- (IBAction)loginAction:(id)sender {
+- (void)loginAction{
     if ([self.captchManager isReachable])
     {
         if ([self checkValid]) {
@@ -367,28 +345,28 @@
 }
 - (BOOL)checkValid{
     
-    if (![LoginValidChecker validString:self.phoneTextField.text inFormat:SPECVaildStringFormatUserName])
+    if (![LoginValidChecker validString:self.phoneCell.phoneTextField.text inFormat:SPECVaildStringFormatUserName])
         return NO;
     
-//    [DataManager defaultInstance].currentUser = nil;
+    [DataManager defaultInstance].currentUser = nil;
 //    [[DataManager defaultInstance] setCurrentUserByPhone:self.phoneTextField.text];
-//    ZHUser *loginUser = [DataManager defaultInstance].currentUser;
-//    loginUser.phone = self.phoneTextField.text;
-    if (![LoginValidChecker validString:self.psdTextField.text inFormat:SPECVaildStringFormatPassword])
+    ZHUser *loginUser = [DataManager defaultInstance].currentUser;
+    loginUser.phone = self.passwordCell.passWordtextField.text;
+    if (![LoginValidChecker validString:self.passwordCell.passWordtextField.text inFormat:SPECVaildStringFormatPassword])
         return NO;
-//    loginUser.password = self.psdTextField.text;
+    loginUser.password = self.passwordCell.passWordtextField.text;
 //    NSLog(@"输入的密码%@",self.psdTextField.text);
-//    loginUser.pass_md5 = loginUser.password.MD5String;
+    loginUser.pass_md5 = loginUser.password.MD5String;
 //    loginUser.verify_code = @""; // 密码登录必须保证验证码是空的
 //    loginUser.captcha_code = self.verificationTextField.text;
-//    [[DataManager defaultInstance] saveContext];
-    NSLog(@"图形验证码%@",self.verificationTextField.text);
+    [[DataManager defaultInstance] saveContext];
+//    NSLog(@"图形验证码%@",self.verificationTextField.text);
 //    if (![LoginValidChecker validString:self.verificationTextField.text inFormat:SPECVaildStringFormatCaptcha])
 //        return NO;
-    self.loginParams = @{@"phone":self.phoneTextField.text,
-                                  @"password":self.psdTextField.text.MD5String,
+    self.loginParams = @{@"phone":self.phoneCell.phoneTextField.text,
+                                  @"password":self.passwordCell.passWordtextField.text.MD5String,
                                   @"verify":@"",
-                                  @"captcha":self.verificationTextField.text,
+                                  @"captcha":self.captchaCell.verificationTextField.text,
                                   @"device_id":[SZUtil getUUID],
                                    @"device_name":[SZUtil deviceVersion]};
     return YES;
@@ -399,7 +377,7 @@
 }
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.captchManager){
-        [self.verificationBtn setBackgroundImage:(UIImage *)manager.response.responseData forState:UIControlStateNormal];
+        [self.captchaCell.getVerificationBtn setBackgroundImage:(UIImage *)manager.response.responseData forState:UIControlStateNormal];
     }
     NSLog(@"成功的数据%@",manager.response.responseData);
 }
@@ -464,7 +442,7 @@
 - (void)userLoginFinish:(NSNotification *)notification
 {
     ZHUser *user = [DataManager defaultInstance].currentUser;
-    user.password = self.psdTextField.text;
+    user.password = self.phoneCell.phoneTextField.text;
     [[DataManager defaultInstance] saveContext];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
@@ -477,8 +455,9 @@
     NSDictionary *dic = (NSDictionary *)notification.object;
     if ([dic[@"code"] intValue] == 102 || [dic[@"code"] intValue] == 103 || [dic[@"code"] intValue] == 105) // 连续5次以上登录失败
     {
-//        [self.captchManager loadData];
-        [self showVerificationView:YES];
+        self.showCaptch = YES;
+        [self.captchManager loadData];
+        [self.tableView reloadData];
     }
 //    else if ([dic[@"code"] intValue] == 105)
 //    {

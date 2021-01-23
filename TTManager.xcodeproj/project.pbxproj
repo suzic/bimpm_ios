@@ -182,6 +182,7 @@
 		4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFCB25BBF79B004F8BB4 /* PassCell.m */; };
 		4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */; };
 		4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD325BBF7D9004F8BB4 /* OperationCell.m */; };
+		4081EFD825BC28BC004F8BB4 /* UIButton+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -526,6 +527,8 @@
 		4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerificationCell.m; sourceTree = "<group>"; };
 		4081EFD225BBF7D9004F8BB4 /* OperationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperationCell.h; sourceTree = "<group>"; };
 		4081EFD325BBF7D9004F8BB4 /* OperationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperationCell.m; sourceTree = "<group>"; };
+		4081EFD625BC28BC004F8BB4 /* UIButton+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extend.h"; sourceTree = "<group>"; };
+		4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extend.m"; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -850,6 +853,8 @@
 				40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */,
 				4054B8DE25B3008C0023FC7F /* NSString+Extend.h */,
 				4054B8DF25B3008C0023FC7F /* NSString+Extend.m */,
+				4081EFD625BC28BC004F8BB4 /* UIButton+Extend.h */,
+				4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */,
 			);
 			path = Category;
 			sourceTree = "<group>";
@@ -1747,6 +1752,7 @@
 				402AA10F2595D92E00A9DABA /* ZHForm+CoreDataProperties.m in Sources */,
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
 				402AA1012595D90400A9DABA /* ZHFlow+CoreDataClass.m in Sources */,
+				4081EFD825BC28BC004F8BB4 /* UIButton+Extend.m in Sources */,
 				402A9F762595B5BF00A9DABA /* NSDictionary+Dlog.m in Sources */,
 				402A9F642595B12A00A9DABA /* UIAlertAction+ButtonIndex.m in Sources */,
 				406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */,
