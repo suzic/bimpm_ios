@@ -210,18 +210,19 @@
 
 - (AFHTTPSessionManager *)sessionManager
 {
-        _sessionManager = [AFHTTPSessionManager manager];
-        _sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
-        _sessionManager.requestSerializer.timeoutInterval = 15.0;
-        _sessionManager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
+    _sessionManager = [AFHTTPSessionManager manager];
+    _sessionManager.requestSerializer = [AFJSONRequestSerializer serializer];
+    _sessionManager.requestSerializer.timeoutInterval = 15.0;
+    _sessionManager.requestSerializer.stringEncoding = NSUTF8StringEncoding;
     
     for (NSString *key in self.headers)
     {
          [_sessionManager.requestSerializer setValue:_headers[key] forHTTPHeaderField:key];
     }
     
-        _sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
-        _sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",
+    _sessionManager.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    _sessionManager.responseSerializer.acceptableContentTypes = [NSSet setWithArray:@[@"application/json",
                                                                                    @"text/html",
                                                                                    @"text/json",
                                                                                    @"text/plain",

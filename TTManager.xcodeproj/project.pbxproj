@@ -183,6 +183,8 @@
 		4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */; };
 		4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD325BBF7D9004F8BB4 /* OperationCell.m */; };
 		4081EFD825BC28BC004F8BB4 /* UIButton+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */; };
+		4081EFE225BC31D3004F8BB4 /* APIRegisterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */; };
+		4081EFE625BC3255004F8BB4 /* APIResetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE525BC3255004F8BB4 /* APIResetManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -529,6 +531,10 @@
 		4081EFD325BBF7D9004F8BB4 /* OperationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperationCell.m; sourceTree = "<group>"; };
 		4081EFD625BC28BC004F8BB4 /* UIButton+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIButton+Extend.h"; sourceTree = "<group>"; };
 		4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Extend.m"; sourceTree = "<group>"; };
+		4081EFE025BC31D3004F8BB4 /* APIRegisterManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIRegisterManager.h; sourceTree = "<group>"; };
+		4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIRegisterManager.m; sourceTree = "<group>"; };
+		4081EFE425BC3255004F8BB4 /* APIResetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIResetManager.h; sourceTree = "<group>"; };
+		4081EFE525BC3255004F8BB4 /* APIResetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIResetManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -1024,31 +1030,12 @@
 		402AA1672597265A00A9DABA /* APIManager */ = {
 			isa = PBXGroup;
 			children = (
-				4054B9E925BACF480023FC7F /* APITargetOperations */,
 				4054B98925B7177D0023FC7F /* APIFormManager */,
-				4054B95D25B6AAB90023FC7F /* APIUTPOperationsManager */,
-				4054B93025B42C460023FC7F /* APIVerifyPhoneManager */,
-				4054B8D825B206FA0023FC7F /* UploadFileManager */,
-				4054B8CE25B197910023FC7F /* APIUTPDetailManager */,
-				4054B8C525B15E330023FC7F /* APILogoutManager */,
-				402DA0F025B002D30030E68D /* APITargetNewManager */,
-				402DA0EE25B001B10030E68D /* APIUploadFileManager */,
-				406FCB1325A556F600636079 /* APIIMTokenManager */,
-				406FCAB225A1A71D00636079 /* APITaskProcessManager */,
-				406FCAAC25A1A6B200636079 /* APITaskOperationsManager */,
-				406FCAA625A1A66500636079 /* APITaskDeatilManager */,
-				406FCAA125A1A60C00636079 /* APITaskEditManager */,
-				406FCA9C25A1A5B200636079 /* APITaskNewManager */,
-				406FCA9625A1A56D00636079 /* APITaskListManager */,
-				406FCA9125A1A4D600636079 /* APIUTPGanttManager */,
-				406FCA8B25A1A45500636079 /* APIUTPInfoManager */,
-				406FCA8025A1A2FF00636079 /* APIUTPListManager */,
-				406FCA7B25A1959C00636079 /* APIDMDetailManager */,
+				406FCA9625A1A56D00636079 /* APITaskManager */,
+				406FCA8025A1A2FF00636079 /* APIUTPManager */,
 				406FCA7625A1944100636079 /* APIDepartmentManager */,
-				406FCA6B25A1912500636079 /* APITargetListManager */,
+				406FCA6B25A1912500636079 /* APITargetManager */,
 				402AA1962597446B00A9DABA /* APILoginManager */,
-				402AA18C2597276C00A9DABA /* APICaptchaManager */,
-				4054B9E325BACE8B0023FC7F /* APITargetRenameManager */,
 			);
 			path = APIManager;
 			sourceTree = "<group>";
@@ -1122,20 +1109,23 @@
 			path = ApiProxy;
 			sourceTree = "<group>";
 		};
-		402AA18C2597276C00A9DABA /* APICaptchaManager */ = {
-			isa = PBXGroup;
-			children = (
-				402AA18D259727CA00A9DABA /* APICaptchManager.h */,
-				402AA18E259727CA00A9DABA /* APICaptchManager.m */,
-			);
-			path = APICaptchaManager;
-			sourceTree = "<group>";
-		};
 		402AA1962597446B00A9DABA /* APILoginManager */ = {
 			isa = PBXGroup;
 			children = (
+				406FCB1425A5571C00636079 /* APIIMTokenManager.h */,
+				406FCB1525A5571C00636079 /* APIIMTokenManager.m */,
+				4054B93125B42C730023FC7F /* APIVerifyPhoneManager.h */,
+				4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */,
+				4054B8C625B15E830023FC7F /* APILogoutManager.h */,
+				4054B8C725B15E830023FC7F /* APILogoutManager.m */,
 				402AA1972597448800A9DABA /* APILoginManager.h */,
 				402AA1982597448800A9DABA /* APILoginManager.m */,
+				402AA18D259727CA00A9DABA /* APICaptchManager.h */,
+				402AA18E259727CA00A9DABA /* APICaptchManager.m */,
+				4081EFE025BC31D3004F8BB4 /* APIRegisterManager.h */,
+				4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */,
+				4081EFE425BC3255004F8BB4 /* APIResetManager.h */,
+				4081EFE525BC3255004F8BB4 /* APIResetManager.m */,
 			);
 			path = APILoginManager;
 			sourceTree = "<group>";
@@ -1204,24 +1194,6 @@
 			path = TaskController;
 			sourceTree = "<group>";
 		};
-		402DA0EE25B001B10030E68D /* APIUploadFileManager */ = {
-			isa = PBXGroup;
-			children = (
-				402DA0EA25B001A60030E68D /* APIUploadFileManager.h */,
-				402DA0EB25B001A60030E68D /* APIUploadFileManager.m */,
-			);
-			path = APIUploadFileManager;
-			sourceTree = "<group>";
-		};
-		402DA0F025B002D30030E68D /* APITargetNewManager */ = {
-			isa = PBXGroup;
-			children = (
-				402DA0F125B002F60030E68D /* APITargetNewManager.h */,
-				402DA0F225B002F60030E68D /* APITargetNewManager.m */,
-			);
-			path = APITargetNewManager;
-			sourceTree = "<group>";
-		};
 		402DA0F625B03CB90030E68D /* Service */ = {
 			isa = PBXGroup;
 			children = (
@@ -1229,33 +1201,6 @@
 				402DA0F825B03CB90030E68D /* ServiceIdentifer.h */,
 			);
 			path = Service;
-			sourceTree = "<group>";
-		};
-		4054B8C525B15E330023FC7F /* APILogoutManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B8C625B15E830023FC7F /* APILogoutManager.h */,
-				4054B8C725B15E830023FC7F /* APILogoutManager.m */,
-			);
-			path = APILogoutManager;
-			sourceTree = "<group>";
-		};
-		4054B8CE25B197910023FC7F /* APIUTPDetailManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */,
-				4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */,
-			);
-			path = APIUTPDetailManager;
-			sourceTree = "<group>";
-		};
-		4054B8D825B206FA0023FC7F /* UploadFileManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B8DA25B207240023FC7F /* UploadFileManager.h */,
-				4054B8DB25B207240023FC7F /* UploadFileManager.m */,
-			);
-			path = UploadFileManager;
 			sourceTree = "<group>";
 		};
 		4054B8EF25B407130023FC7F /* MapViewController */ = {
@@ -1304,24 +1249,6 @@
 				406FCA50259E360700636079 /* SettingCell.m */,
 			);
 			path = User;
-			sourceTree = "<group>";
-		};
-		4054B93025B42C460023FC7F /* APIVerifyPhoneManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B93125B42C730023FC7F /* APIVerifyPhoneManager.h */,
-				4054B93225B42C730023FC7F /* APIVerifyPhoneManager.m */,
-			);
-			path = APIVerifyPhoneManager;
-			sourceTree = "<group>";
-		};
-		4054B95D25B6AAB90023FC7F /* APIUTPOperationsManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B95E25B6AAFA0023FC7F /* APIUTPOperationsManager.h */,
-				4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */,
-			);
-			path = APIUTPOperationsManager;
 			sourceTree = "<group>";
 		};
 		4054B96525B6BD5D0023FC7F /* LunarAndSolarTransform */ = {
@@ -1392,24 +1319,6 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		4054B9E325BACE8B0023FC7F /* APITargetRenameManager */ = {
-			isa = PBXGroup;
-			children = (
-				4054B9E425BACEB80023FC7F /* APITargetRenameManager.h */,
-				4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */,
-			);
-			path = APITargetRenameManager;
-			sourceTree = "<group>";
-		};
-		4054B9E925BACF480023FC7F /* APITargetOperations */ = {
-			isa = PBXGroup;
-			children = (
-				4054B9EA25BACF680023FC7F /* APITargetOperations.h */,
-				4054B9EB25BACF680023FC7F /* APITargetOperations.m */,
-			);
-			path = APITargetOperations;
-			sourceTree = "<group>";
-		};
 		4054B9F125BBD5DE0023FC7F /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -1421,13 +1330,23 @@
 			path = view;
 			sourceTree = "<group>";
 		};
-		406FCA6B25A1912500636079 /* APITargetListManager */ = {
+		406FCA6B25A1912500636079 /* APITargetManager */ = {
 			isa = PBXGroup;
 			children = (
+				402DA0EA25B001A60030E68D /* APIUploadFileManager.h */,
+				402DA0EB25B001A60030E68D /* APIUploadFileManager.m */,
+				4054B8DA25B207240023FC7F /* UploadFileManager.h */,
+				4054B8DB25B207240023FC7F /* UploadFileManager.m */,
+				4054B9EA25BACF680023FC7F /* APITargetOperations.h */,
+				4054B9EB25BACF680023FC7F /* APITargetOperations.m */,
+				402DA0F125B002F60030E68D /* APITargetNewManager.h */,
+				402DA0F225B002F60030E68D /* APITargetNewManager.m */,
+				4054B9E425BACEB80023FC7F /* APITargetRenameManager.h */,
+				4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */,
 				406FCA6C25A1915E00636079 /* APITargetListManager.h */,
 				406FCA6D25A1915E00636079 /* APITargetListManager.m */,
 			);
-			path = APITargetListManager;
+			path = APITargetManager;
 			sourceTree = "<group>";
 		};
 		406FCA7625A1944100636079 /* APIDepartmentManager */ = {
@@ -1439,94 +1358,42 @@
 			path = APIDepartmentManager;
 			sourceTree = "<group>";
 		};
-		406FCA7B25A1959C00636079 /* APIDMDetailManager */ = {
+		406FCA8025A1A2FF00636079 /* APIUTPManager */ = {
 			isa = PBXGroup;
 			children = (
+				4054B95E25B6AAFA0023FC7F /* APIUTPOperationsManager.h */,
+				4054B95F25B6AAFA0023FC7F /* APIUTPOperationsManager.m */,
+				4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */,
+				4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */,
+				406FCA9225A1A51900636079 /* APIUTPGanttManager.h */,
+				406FCA9325A1A51900636079 /* APIUTPGanttManager.m */,
+				406FCA8C25A1A47E00636079 /* APIUTPInfoManager.h */,
+				406FCA8D25A1A47E00636079 /* APIUTPInfoManager.m */,
 				406FCA7C25A195B600636079 /* APIDMDetailManager.h */,
 				406FCA7D25A195B600636079 /* APIDMDetailManager.m */,
-			);
-			path = APIDMDetailManager;
-			sourceTree = "<group>";
-		};
-		406FCA8025A1A2FF00636079 /* APIUTPListManager */ = {
-			isa = PBXGroup;
-			children = (
 				406FCA8125A1A32700636079 /* APIUTPListManager.h */,
 				406FCA8225A1A32700636079 /* APIUTPListManager.m */,
 			);
-			path = APIUTPListManager;
+			path = APIUTPManager;
 			sourceTree = "<group>";
 		};
-		406FCA8B25A1A45500636079 /* APIUTPInfoManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCA8C25A1A47E00636079 /* APIUTPInfoManager.h */,
-				406FCA8D25A1A47E00636079 /* APIUTPInfoManager.m */,
-			);
-			path = APIUTPInfoManager;
-			sourceTree = "<group>";
-		};
-		406FCA9125A1A4D600636079 /* APIUTPGanttManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCA9225A1A51900636079 /* APIUTPGanttManager.h */,
-				406FCA9325A1A51900636079 /* APIUTPGanttManager.m */,
-			);
-			path = APIUTPGanttManager;
-			sourceTree = "<group>";
-		};
-		406FCA9625A1A56D00636079 /* APITaskListManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCA9725A1A58400636079 /* APITaskListManager.h */,
-				406FCA9825A1A58400636079 /* APITaskListManager.m */,
-			);
-			path = APITaskListManager;
-			sourceTree = "<group>";
-		};
-		406FCA9C25A1A5B200636079 /* APITaskNewManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCA9D25A1A5C800636079 /* APITaskNewManager.h */,
-				406FCA9E25A1A5C800636079 /* APITaskNewManager.m */,
-			);
-			path = APITaskNewManager;
-			sourceTree = "<group>";
-		};
-		406FCAA125A1A60C00636079 /* APITaskEditManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCAA225A1A62300636079 /* APITaskEditManager.h */,
-				406FCAA325A1A62300636079 /* APITaskEditManager.m */,
-			);
-			path = APITaskEditManager;
-			sourceTree = "<group>";
-		};
-		406FCAA625A1A66500636079 /* APITaskDeatilManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCAA725A1A67800636079 /* APITaskDeatilManager.h */,
-				406FCAA825A1A67800636079 /* APITaskDeatilManager.m */,
-			);
-			path = APITaskDeatilManager;
-			sourceTree = "<group>";
-		};
-		406FCAAC25A1A6B200636079 /* APITaskOperationsManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCAAD25A1A6EA00636079 /* APITaskOperationsManager.h */,
-				406FCAAE25A1A6EA00636079 /* APITaskOperationsManager.m */,
-			);
-			path = APITaskOperationsManager;
-			sourceTree = "<group>";
-		};
-		406FCAB225A1A71D00636079 /* APITaskProcessManager */ = {
+		406FCA9625A1A56D00636079 /* APITaskManager */ = {
 			isa = PBXGroup;
 			children = (
 				406FCAB325A1A74900636079 /* APITaskProcessManager.h */,
 				406FCAB425A1A74900636079 /* APITaskProcessManager.m */,
+				406FCAAD25A1A6EA00636079 /* APITaskOperationsManager.h */,
+				406FCAAE25A1A6EA00636079 /* APITaskOperationsManager.m */,
+				406FCAA725A1A67800636079 /* APITaskDeatilManager.h */,
+				406FCAA825A1A67800636079 /* APITaskDeatilManager.m */,
+				406FCAA225A1A62300636079 /* APITaskEditManager.h */,
+				406FCAA325A1A62300636079 /* APITaskEditManager.m */,
+				406FCA9D25A1A5C800636079 /* APITaskNewManager.h */,
+				406FCA9E25A1A5C800636079 /* APITaskNewManager.m */,
+				406FCA9725A1A58400636079 /* APITaskListManager.h */,
+				406FCA9825A1A58400636079 /* APITaskListManager.m */,
 			);
-			path = APITaskProcessManager;
+			path = APITaskManager;
 			sourceTree = "<group>";
 		};
 		406FCAC125A1F74900636079 /* PageSize */ = {
@@ -1536,15 +1403,6 @@
 				406FCAC325A1F76100636079 /* PageSize.m */,
 			);
 			path = PageSize;
-			sourceTree = "<group>";
-		};
-		406FCB1325A556F600636079 /* APIIMTokenManager */ = {
-			isa = PBXGroup;
-			children = (
-				406FCB1425A5571C00636079 /* APIIMTokenManager.h */,
-				406FCB1525A5571C00636079 /* APIIMTokenManager.m */,
-			);
-			path = APIIMTokenManager;
 			sourceTree = "<group>";
 		};
 		4081EFC425BBF749004F8BB4 /* cell */ = {
@@ -1791,9 +1649,11 @@
 				402AA1402596D09800A9DABA /* LoginValidChecker.m in Sources */,
 				406FCAC425A1F76100636079 /* PageSize.m in Sources */,
 				4054B99725B718C50023FC7F /* APIFormDetailManager.m in Sources */,
+				4081EFE225BC31D3004F8BB4 /* APIRegisterManager.m in Sources */,
 				40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */,
 				402AA1B02598496C00A9DABA /* ProjectViewCell.m in Sources */,
 				402AA1032595D90400A9DABA /* ZHTask+CoreDataClass.m in Sources */,
+				4081EFE625BC3255004F8BB4 /* APIResetManager.m in Sources */,
 				402A9F4F2595A4F900A9DABA /* TeamController.m in Sources */,
 				4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */,
 				406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */,

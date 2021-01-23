@@ -13,6 +13,7 @@
 // 通过手机号确定当前用户
 - (void)setCurrentUserByPhone:(NSString *)phone
 {
+    [[LoginUserManager defaultInstance] saveCurrentLoginUserPhone:phone];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"phone = %@", phone];
     NSArray *findArray = [self arrayFromCoreData:@"ZHUser" predicate:predicate limit:1 offset:0 orderBy:nil];
     if (findArray != nil && findArray.count > 0)

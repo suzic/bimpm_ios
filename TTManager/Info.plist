@@ -26,6 +26,15 @@
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>NSIncludesSubdomains</key>
+			<true/>
+			<key>NSTemporaryExceptionAllowsInsecureHTTPLoads</key>
+			<true/>
+			<key>NSTemporaryExceptionMinimumTLSVersion</key>
+			<string>TLSv1.2</string>
+		</dict>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>是否允许当前应用访问您当前的相机，为您提供扫描二维码查看商品详情</string>

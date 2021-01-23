@@ -9,7 +9,9 @@
 #define NetWorkInterface_h
 
 #define SERVICEADDRESS     @"http://www.suzic.cn:8010"
+//#define SERVICEADDRESS     @"https://www.bim-pm.com"
 #define FILESERVICEADDRESS @"https://www.suzic.cn"
+
 
 // 用户登录相关接口
 #define URI_SIGN_IN                             @"/login/signIn"
