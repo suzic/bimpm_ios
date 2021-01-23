@@ -178,6 +178,10 @@
 		406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF125A34A8200636079 /* UITableView+EmptyView.m */; };
 		406FCAF725A400C000636079 /* DataManager+Task.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCAF625A400C000636079 /* DataManager+Task.m */; };
 		406FCB1625A5571C00636079 /* APIIMTokenManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406FCB1525A5571C00636079 /* APIIMTokenManager.m */; };
+		4081EFC825BBF775004F8BB4 /* PhoneCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFC725BBF775004F8BB4 /* PhoneCell.m */; };
+		4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFCB25BBF79B004F8BB4 /* PassCell.m */; };
+		4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */; };
+		4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD325BBF7D9004F8BB4 /* OperationCell.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -514,6 +518,14 @@
 		406FCAFA25A4602200636079 /* TTManager.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TTManager.entitlements; sourceTree = "<group>"; };
 		406FCB1425A5571C00636079 /* APIIMTokenManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIIMTokenManager.h; sourceTree = "<group>"; };
 		406FCB1525A5571C00636079 /* APIIMTokenManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIIMTokenManager.m; sourceTree = "<group>"; };
+		4081EFC625BBF775004F8BB4 /* PhoneCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PhoneCell.h; sourceTree = "<group>"; };
+		4081EFC725BBF775004F8BB4 /* PhoneCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PhoneCell.m; sourceTree = "<group>"; };
+		4081EFCA25BBF79B004F8BB4 /* PassCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PassCell.h; sourceTree = "<group>"; };
+		4081EFCB25BBF79B004F8BB4 /* PassCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PassCell.m; sourceTree = "<group>"; };
+		4081EFCE25BBF7BB004F8BB4 /* VerificationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VerificationCell.h; sourceTree = "<group>"; };
+		4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VerificationCell.m; sourceTree = "<group>"; };
+		4081EFD225BBF7D9004F8BB4 /* OperationCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OperationCell.h; sourceTree = "<group>"; };
+		4081EFD325BBF7D9004F8BB4 /* OperationCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperationCell.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -633,16 +645,11 @@
 		402A9F172595778E00A9DABA /* FrameController */ = {
 			isa = PBXGroup;
 			children = (
+				4054B9F125BBD5DE0023FC7F /* view */,
 				402A9F18259577BC00A9DABA /* FrameController.h */,
 				402A9F19259577BC00A9DABA /* FrameController.m */,
 				402A9F932595CDDC00A9DABA /* ProjectSelectController.h */,
 				402A9F942595CDDC00A9DABA /* ProjectSelectController.m */,
-				402AA1AE2598496C00A9DABA /* ProjectViewCell.h */,
-				402AA1AF2598496C00A9DABA /* ProjectViewCell.m */,
-				402A9F802595B7A500A9DABA /* FrameNavView.h */,
-				402A9F812595B7A500A9DABA /* FrameNavView.m */,
-				406FCA4F259E360700636079 /* SettingCell.h */,
-				406FCA50259E360700636079 /* SettingCell.m */,
 			);
 			path = FrameController;
 			sourceTree = "<group>";
@@ -1000,6 +1007,7 @@
 		402AA13A2596D06100A9DABA /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				4081EFC425BBF749004F8BB4 /* cell */,
 				402AA1632597039800A9DABA /* LoginViewController.h */,
 				402AA1642597039800A9DABA /* LoginViewController.m */,
 				402AA13C2596D09800A9DABA /* LoginValidChecker.h */,
@@ -1287,6 +1295,8 @@
 			children = (
 				406FCA4B259E2D9C00636079 /* UserSettingController.h */,
 				406FCA4C259E2D9C00636079 /* UserSettingController.m */,
+				406FCA4F259E360700636079 /* SettingCell.h */,
+				406FCA50259E360700636079 /* SettingCell.m */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1393,6 +1403,17 @@
 				4054B9EB25BACF680023FC7F /* APITargetOperations.m */,
 			);
 			path = APITargetOperations;
+			sourceTree = "<group>";
+		};
+		4054B9F125BBD5DE0023FC7F /* view */ = {
+			isa = PBXGroup;
+			children = (
+				402AA1AE2598496C00A9DABA /* ProjectViewCell.h */,
+				402AA1AF2598496C00A9DABA /* ProjectViewCell.m */,
+				402A9F802595B7A500A9DABA /* FrameNavView.h */,
+				402A9F812595B7A500A9DABA /* FrameNavView.m */,
+			);
+			path = view;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetListManager */ = {
@@ -1519,6 +1540,21 @@
 				406FCB1525A5571C00636079 /* APIIMTokenManager.m */,
 			);
 			path = APIIMTokenManager;
+			sourceTree = "<group>";
+		};
+		4081EFC425BBF749004F8BB4 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				4081EFC625BBF775004F8BB4 /* PhoneCell.h */,
+				4081EFC725BBF775004F8BB4 /* PhoneCell.m */,
+				4081EFCA25BBF79B004F8BB4 /* PassCell.h */,
+				4081EFCB25BBF79B004F8BB4 /* PassCell.m */,
+				4081EFCE25BBF7BB004F8BB4 /* VerificationCell.h */,
+				4081EFCF25BBF7BB004F8BB4 /* VerificationCell.m */,
+				4081EFD225BBF7D9004F8BB4 /* OperationCell.h */,
+				4081EFD325BBF7D9004F8BB4 /* OperationCell.m */,
+			);
+			path = cell;
 			sourceTree = "<group>";
 		};
 		40931C8D259ACB36008C3518 /* view */ = {
@@ -1691,6 +1727,7 @@
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
 				4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */,
+				4081EFC825BBF775004F8BB4 /* PhoneCell.m in Sources */,
 				4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				4054B9E625BACEB80023FC7F /* APITargetRenameManager.m in Sources */,
@@ -1727,6 +1764,7 @@
 				402A9F622595B12A00A9DABA /* SZModalAlert.m in Sources */,
 				402A9F432595A4CF00A9DABA /* WorkbenchController.m in Sources */,
 				402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */,
+				4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */,
 				402AA0B42595D87100A9DABA /* ZHUser+CoreDataProperties.m in Sources */,
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
@@ -1830,6 +1868,8 @@
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,
+				4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */,
+				4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,
 				4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
 				406FCA8325A1A32700636079 /* APIUTPListManager.m in Sources */,
@@ -1982,6 +2022,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
@@ -2003,6 +2044,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
