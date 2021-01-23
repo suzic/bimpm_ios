@@ -11,7 +11,6 @@
 #import "ProjectSelectController.h"
 #import "SettingViewController.h"
 #import "AboutViewController.h"
-#import "FormListController.h"
 
 @interface FrameController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FrameNavViewDelegate>
 
@@ -201,13 +200,6 @@
             case 1:
             {
                 SettingViewController *vc = [[SettingViewController alloc] init];
-                vc.hidesBottomBarWhenPushed = YES;
-                [self.navigationController pushViewController:vc animated:YES];
-            }
-                break;
-            case 2:
-            {
-                FormListController *vc = [[FormListController alloc] init];
                 vc.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:vc animated:YES];
             }

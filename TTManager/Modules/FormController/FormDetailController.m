@@ -1,30 +1,31 @@
 //
-//  FormEditController.m
+//  FormDetailController.m
 //  TTManager
 //
 //  Created by chao liu on 2021/1/21.
 //
 
-#import "FormEditController.h"
+#import "FormDetailController.h"
 #import "FormEditCell.h"
 
-@interface FormEditController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
+@interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *formItemsArray;
+@property (nonatomic, assign) BOOL isEditForm;
 
 @property (nonatomic, strong) APIFormDetailManager *formDetailManager;
+@property (nonatomic, strong) APIFormEditManager *editFormManager;
+
 @property (nonatomic, strong) ZHForm *currentFrom;
-
-
 @end
 
-@implementation FormEditController
+@implementation FormDetailController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    self.isEditForm = NO;
     [self addUI];
 }
 
@@ -51,6 +52,7 @@
         cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
     cell.formItem = self.formItemsArray[indexPath.row];
+    cell.isEdit = self.isEditForm;
     return cell;
 }
 - (void)getFormItemInfo{
@@ -81,12 +83,20 @@
         
     }
 }
+#pragma mark - Action
+- (void)editAction:(UIBarButtonItem *)barItem{
+    self.isEditForm = ! self.isEditForm;
+    barItem.title = self.isEditing == YES ? @"完成":@"编辑";
+}
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(0);
     }];
+    
+    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
+    self.navigationController.navigationItem.rightBarButtonItem = barItem;
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -105,6 +115,14 @@
         _formDetailManager.paramSource = self;
     }
     return _formDetailManager;
+}
+- (APIFormEditManager *)editFormManager{
+    if (_editFormManager == nil) {
+        _editFormManager = [[APIFormEditManager alloc] init];
+        _editFormManager.delegate = self;
+        _editFormManager.paramSource = self;
+    }
+    return _editFormManager;
 }
 /*
 #pragma mark - Navigation

@@ -118,9 +118,7 @@
 		4054B96E25B6BD5D0023FC7F /* Solar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96625B6BD5D0023FC7F /* Solar.m */; };
 		4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96825B6BD5D0023FC7F /* LunarSolarTransform.m */; };
 		4054B97025B6BD5D0023FC7F /* Lunar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96C25B6BD5D0023FC7F /* Lunar.m */; };
-		4054B97525B6E5400023FC7F /* FormController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B97425B6E5400023FC7F /* FormController.m */; };
 		4054B97B25B6E7C40023FC7F /* FormItemViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */; };
-		4054B98525B70F8E0023FC7F /* FormListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B98425B70F8E0023FC7F /* FormListController.m */; };
 		4054B98C25B717AE0023FC7F /* APIFormListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B98B25B717AE0023FC7F /* APIFormListManager.m */; };
 		4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99125B7186D0023FC7F /* APIFormNewManager.m */; };
 		4054B99725B718C50023FC7F /* APIFormDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99625B718C50023FC7F /* APIFormDetailManager.m */; };
@@ -130,7 +128,7 @@
 		4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A825B7C11D0023FC7F /* FormRowView.m */; };
 		4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B225B7C9DF0023FC7F /* FormItemView.m */; };
 		4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B625B7FC690023FC7F /* FormTitleView.m */; };
-		4054B9BB25B915270023FC7F /* FormEditController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BA25B915270023FC7F /* FormEditController.m */; };
+		4054B9BB25B915270023FC7F /* FormDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BA25B915270023FC7F /* FormDetailController.m */; };
 		4054B9BF25B9188A0023FC7F /* FormEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BE25B9188A0023FC7F /* FormEditCell.m */; };
 		4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9CB25B9449E0023FC7F /* MonitoringCell.m */; };
 		4054B9E625BACEB80023FC7F /* APITargetRenameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */; };
@@ -410,12 +408,8 @@
 		4054B96B25B6BD5D0023FC7F /* Solar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solar.h; sourceTree = "<group>"; };
 		4054B96C25B6BD5D0023FC7F /* Lunar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lunar.m; sourceTree = "<group>"; };
 		4054B96D25B6BD5D0023FC7F /* LunarSolarTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarSolarTransform.h; sourceTree = "<group>"; };
-		4054B97325B6E5400023FC7F /* FormController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormController.h; sourceTree = "<group>"; };
-		4054B97425B6E5400023FC7F /* FormController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormController.m; sourceTree = "<group>"; };
 		4054B97925B6E7C40023FC7F /* FormItemViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemViewCell.h; sourceTree = "<group>"; };
 		4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemViewCell.m; sourceTree = "<group>"; };
-		4054B98325B70F8E0023FC7F /* FormListController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormListController.h; sourceTree = "<group>"; };
-		4054B98425B70F8E0023FC7F /* FormListController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormListController.m; sourceTree = "<group>"; };
 		4054B98A25B717AE0023FC7F /* APIFormListManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormListManager.h; sourceTree = "<group>"; };
 		4054B98B25B717AE0023FC7F /* APIFormListManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFormListManager.m; sourceTree = "<group>"; };
 		4054B99025B7186D0023FC7F /* APIFormNewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormNewManager.h; sourceTree = "<group>"; };
@@ -434,8 +428,8 @@
 		4054B9B225B7C9DF0023FC7F /* FormItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemView.m; sourceTree = "<group>"; };
 		4054B9B525B7FC690023FC7F /* FormTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormTitleView.h; sourceTree = "<group>"; };
 		4054B9B625B7FC690023FC7F /* FormTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormTitleView.m; sourceTree = "<group>"; };
-		4054B9B925B915270023FC7F /* FormEditController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditController.h; sourceTree = "<group>"; };
-		4054B9BA25B915270023FC7F /* FormEditController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditController.m; sourceTree = "<group>"; };
+		4054B9B925B915270023FC7F /* FormDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormDetailController.h; sourceTree = "<group>"; };
+		4054B9BA25B915270023FC7F /* FormDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormDetailController.m; sourceTree = "<group>"; };
 		4054B9BD25B9188A0023FC7F /* FormEditCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditCell.h; sourceTree = "<group>"; };
 		4054B9BE25B9188A0023FC7F /* FormEditCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditCell.m; sourceTree = "<group>"; };
 		4054B9CA25B9449E0023FC7F /* MonitoringCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MonitoringCell.h; sourceTree = "<group>"; };
@@ -1334,12 +1328,8 @@
 			isa = PBXGroup;
 			children = (
 				4054B97825B6E7950023FC7F /* cell */,
-				4054B98325B70F8E0023FC7F /* FormListController.h */,
-				4054B98425B70F8E0023FC7F /* FormListController.m */,
-				4054B97325B6E5400023FC7F /* FormController.h */,
-				4054B97425B6E5400023FC7F /* FormController.m */,
-				4054B9B925B915270023FC7F /* FormEditController.h */,
-				4054B9BA25B915270023FC7F /* FormEditController.m */,
+				4054B9B925B915270023FC7F /* FormDetailController.h */,
+				4054B9BA25B915270023FC7F /* FormDetailController.m */,
 			);
 			path = FormController;
 			sourceTree = "<group>";
@@ -1792,10 +1782,9 @@
 				402AA187259726D700A9DABA /* ApiProxy.m in Sources */,
 				4054B91025B40E2F0023FC7F /* ZHDepartmentUser+CoreDataProperties.m in Sources */,
 				402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */,
-				4054B98525B70F8E0023FC7F /* FormListController.m in Sources */,
 				4054B92025B40E560023FC7F /* ZHTarget+CoreDataClass.m in Sources */,
 				4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */,
-				4054B9BB25B915270023FC7F /* FormEditController.m in Sources */,
+				4054B9BB25B915270023FC7F /* FormDetailController.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
@@ -1814,7 +1803,6 @@
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
-				4054B97525B6E5400023FC7F /* FormController.m in Sources */,
 				4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */,
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,

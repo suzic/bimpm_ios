@@ -1,5 +1,5 @@
 //
-//  FormEditController.h
+//  FormDetailController.h
 //  TTManager
 //
 //  Created by chao liu on 2021/1/21.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface FormEditController : UIViewController
+@interface FormDetailController : UIViewController
 
 @property (nonatomic, strong) NSString *buddy_file;
 

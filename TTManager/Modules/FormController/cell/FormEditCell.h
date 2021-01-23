@@ -11,7 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormEditCell : UITableViewCell
 
-@property (nonatomic, strong)ZHFormItem *formItem;
+@property (nonatomic, strong) ZHFormItem *formItem;
+@property (nonatomic, assign) BOOL isEdit;
 
 @end
 
