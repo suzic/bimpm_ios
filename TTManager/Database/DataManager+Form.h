@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DataManager (Form)
 
 - (ZHForm *)getFormByFormId:(NSString *)uid_form;
-- (ZHFormItem *)getFormItemByFormItemId:(int)uid_item;
+- (ZHFormItem *)getFormItemByFormItemId:(NSString *)uid_item;
 - (void)cleanCurrentProjectHasForm:(ZHProject *)project;
 - (void)cleanCurrentFormHasFormItem:(ZHForm *)form;
 

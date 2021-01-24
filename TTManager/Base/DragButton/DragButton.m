@@ -22,12 +22,12 @@
     DragButton *button = [DragButton buttonWithType:UIButtonTypeCustom];
 //    button.frame = CGRectMake(MainScreenWidth-ErrorLogButtonHigt, MainScreenHeight-ErrorLogButtonHigt, ErrorLogButtonHigt, ErrorLogButtonHigt);
     button.currentVC = VC;
-    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+//    [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundImage:[UIImage imageNamed:@"new_task"] forState:UIControlStateNormal];
     button.clipsToBounds = YES;
     button.layer.cornerRadius = ErrorLogButtonHigt/2;
-    button.layer.borderWidth = 1.0f;
-    button.layer.borderColor = [UIColor whiteColor].CGColor;
+//    button.layer.borderWidth = 1.0f;
+//    button.layer.borderColor = [UIColor whiteColor].CGColor;
     [button addTarget:button action:@selector(logButtonAction:) forControlEvents:UIControlEventTouchUpInside];
 
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:button action:@selector(handlePan:)];

@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL isEditForm;
 
 @property (nonatomic, strong) APIFormDetailManager *formDetailManager;
-@property (nonatomic, strong) APIFormEditManager *editFormManager;
+@property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
 
 @property (nonatomic, strong) ZHForm *currentFrom;
 @end
@@ -71,6 +71,8 @@
     NSDictionary *params = @{};
     if (manager == self.formDetailManager) {
         params = @{@"buddy_file":self.buddy_file};
+    }else if(manager == self.formOperationsManager){
+        params = [self getOperationsFromParams];
     }
     return params;
 }
@@ -97,7 +99,7 @@
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
     if (self.isEditForm == YES) {
-        [self.editFormManager loadData];
+        [self.formOperationsManager loadData];
     }
     self.isEditForm = ! self.isEditForm;
     barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
@@ -114,6 +116,16 @@
     self.tableView.layer.borderColor = RGB_COLOR(102, 102, 102).CGColor;
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     self.navigationItem.rightBarButtonItem = barItem;
+}
+- (NSMutableDictionary *)getOperationsFromParams{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":@"Lc-0008",@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
+    NSMutableArray *items = [NSMutableArray array];
+    for (ZHFormItem *formItem in self.formItemsArray) {
+        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.d_name};
+        [items addObject:itemDic];
+    }
+    params[@"info"] = items;
+    return params;
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -145,13 +157,13 @@
     }
     return _formDetailManager;
 }
-- (APIFormEditManager *)editFormManager{
-    if (_editFormManager == nil) {
-        _editFormManager = [[APIFormEditManager alloc] init];
-        _editFormManager.delegate = self;
-        _editFormManager.paramSource = self;
+- (APIFormOperationsManager *)formOperationsManager{
+    if (_formOperationsManager == nil) {
+        _formOperationsManager = [[APIFormOperationsManager alloc] init];
+        _formOperationsManager.delegate = self;
+        _formOperationsManager.paramSource = self;
     }
-    return _editFormManager;
+    return _formOperationsManager;
 }
 /*
 #pragma mark - Navigation

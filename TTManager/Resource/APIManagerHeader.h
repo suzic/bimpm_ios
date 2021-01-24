@@ -47,5 +47,6 @@
 #import "APIFormDetailManager.h"
 #import "APIFormEditManager.h"
 #import "APIFormListManager.h"
+#import "APIFormOperationsManager.h"
 
 #endif /* APIManagerHeader_h */

@@ -53,7 +53,7 @@
     return form;
 }
 - (ZHFormItem *)syncFormItemWithFormItemInfo:(NSDictionary *)info{
-    ZHFormItem *item = [self getFormItemByFormItemId:[info[@"uid_item"] intValue]];
+    ZHFormItem *item = [self getFormItemByFormItemId:info[@"uid_item"]];
     item.ident = info[@"ident"];
     item.order_index = [info[@"oder_index"] intValue];
     item.name = info[@"name"];
@@ -81,8 +81,8 @@
     }
     return form;
 }
-- (ZHFormItem *)getFormItemByFormItemId:(int)uid_item{
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_item = %d", uid_item];
+- (ZHFormItem *)getFormItemByFormItemId:(NSString *)uid_item{
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_item = %@", uid_item];
     NSArray *result = [self arrayFromCoreData:@"ZHFormItem" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHFormItem *formItem = nil;
     if (result != nil && result.count > 0)
@@ -90,7 +90,7 @@
     else
     {
         formItem = (ZHFormItem *)[self insertIntoCoreData:@"ZHFormItem"];
-        formItem.uid_item = INT_32_TO_STRING(uid_item);
+        formItem.uid_item = uid_item;
     }
     return formItem;
 }

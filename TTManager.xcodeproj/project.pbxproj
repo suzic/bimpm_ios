@@ -185,6 +185,7 @@
 		4081EFD825BC28BC004F8BB4 /* UIButton+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFD725BC28BC004F8BB4 /* UIButton+Extend.m */; };
 		4081EFE225BC31D3004F8BB4 /* APIRegisterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */; };
 		4081EFE625BC3255004F8BB4 /* APIResetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE525BC3255004F8BB4 /* APIResetManager.m */; };
+		4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -535,6 +536,8 @@
 		4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIRegisterManager.m; sourceTree = "<group>"; };
 		4081EFE425BC3255004F8BB4 /* APIResetManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIResetManager.h; sourceTree = "<group>"; };
 		4081EFE525BC3255004F8BB4 /* APIResetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIResetManager.m; sourceTree = "<group>"; };
+		4081EFE825BD6153004F8BB4 /* APIFormOperationsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormOperationsManager.h; sourceTree = "<group>"; };
+		4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFormOperationsManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -1306,6 +1309,8 @@
 				4054B99625B718C50023FC7F /* APIFormDetailManager.m */,
 				4054B99A25B719190023FC7F /* APIFormEditManager.h */,
 				4054B99B25B719190023FC7F /* APIFormEditManager.m */,
+				4081EFE825BD6153004F8BB4 /* APIFormOperationsManager.h */,
+				4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */,
 			);
 			path = APIFormManager;
 			sourceTree = "<group>";
@@ -1678,6 +1683,7 @@
 				4054B8E025B3008C0023FC7F /* NSString+Extend.m in Sources */,
 				402A9EF42595769900A9DABA /* AppDelegate.mm in Sources */,
 				4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */,
+				4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
 				402A9F912595CC9F00A9DABA /* UIViewExt.m in Sources */,
