@@ -1,8 +1,8 @@
 //
 //  ZHFormItem+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/24.
 //
 //
 
@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSString *type;
 @property (nullable, nonatomic, copy) NSString *uid_item;
 @property (nonatomic) BOOL unique;
+@property (nullable, nonatomic, copy) NSString *unit_char;
 @property (nullable, nonatomic, retain) ZHForm *belongForm;
 
 @end

@@ -11,9 +11,10 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormEditCell : UITableViewCell
 
-@property (nonatomic, strong) ZHFormItem *formItem;
-@property (nonatomic, assign) BOOL isEdit;
+@property (nonatomic, strong) UILabel *keyLabel;
+@property (nonatomic, strong) UITextField *valueTextField;
 
+- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(ZHFormItem *)formItem;
 @end
 
 NS_ASSUME_NONNULL_END

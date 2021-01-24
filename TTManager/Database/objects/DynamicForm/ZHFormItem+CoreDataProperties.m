@@ -1,8 +1,8 @@
 //
 //  ZHFormItem+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/1/24.
 //
 //
 
@@ -26,6 +26,7 @@
 @dynamic type;
 @dynamic uid_item;
 @dynamic unique;
+@dynamic unit_char;
 @dynamic belongForm;
 
 @end

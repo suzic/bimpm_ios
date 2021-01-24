@@ -11,7 +11,7 @@
 @interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
 @property (nonatomic, strong) UITableView *tableView;
-
+@property (nonatomic, strong) FormEditCell *headerView;
 @property (nonatomic, strong) NSMutableArray *formItemsArray;
 @property (nonatomic, assign) BOOL isEditForm;
 
@@ -30,9 +30,7 @@
     [self addUI];
     [self.formDetailManager loadData];
 }
-- (void)viewWillLayoutSubviews{
-    [super viewWillLayoutSubviews];
-}
+
 #pragma mark - UITableViewDelegate UITableViewDataSource
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
@@ -41,13 +39,16 @@
     return self.formItemsArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 60;
+    return 44;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
+    self.headerView.keyLabel.text = @"系统编号";
+    self.headerView.valueTextField.text = self.currentFrom.uid_ident;
+    self.headerView.valueTextField.enabled = NO;
+    return self.headerView;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *identifier = @"identifier";
@@ -55,8 +56,7 @@
     if (!cell) {
         cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.isEdit = self.isEditForm;
-    cell.formItem = self.formItemsArray[indexPath.row];
+    [cell setIsFormEdit:self.isEditForm indexPath:indexPath item:self.formItemsArray[indexPath.row]];
     return cell;
 }
 - (void)getFormItemInfo{
@@ -87,6 +87,13 @@
         
     }
 }
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    NSIndexPath *indexPath = userInfo[@"indexPath"];
+    NSString *value = userInfo[@"value"];
+    ZHFormItem *item = self.formItemsArray[indexPath.row];
+    item.d_name = [NSString stringWithFormat:@"%@",value];
+    [self.tableView reloadData];
+}
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
     if (self.isEditForm == YES) {
@@ -94,7 +101,7 @@
     }
     self.isEditForm = ! self.isEditForm;
     barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
-    
+    [self.tableView reloadData];
 }
 #pragma mark - UI
 - (void)addUI{
@@ -113,10 +120,16 @@
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
-        _tableView.dataSource = self;
-        
+        _tableView.dataSource = self;        
     }
     return _tableView;
+}
+- (FormEditCell *)headerView{
+    if (_headerView == nil) {
+        _headerView = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"headerCell"];
+        _headerView.backgroundColor = [UIColor whiteColor];
+    }
+    return _headerView;
 }
 - (NSMutableArray *)formItemsArray{
     if (_formItemsArray == nil) {

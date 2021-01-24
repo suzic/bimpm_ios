@@ -58,7 +58,7 @@
     item.order_index = [info[@"oder_index"] intValue];
     item.name = info[@"name"];
     item.d_name = info[@"d_name"];
-//    item.unit_char = info[@"unit_char"];
+    item.unit_char = info[@"unit_char"];
     item.type = [NSString stringWithFormat:@"%@",info[@"type"]];
     item.length_min = [info[@"length_min"] intValue];
     item.length_max = [info[@"length_max"] intValue];
