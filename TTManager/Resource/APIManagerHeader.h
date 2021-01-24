@@ -34,6 +34,7 @@
 #import "APIUploadFileManager.h"
 #import "APITargetOperations.h"
 #import "APITargetRenameManager.h"
+#import "APITargetCloneManager.h"
 
 // 用户对项目操作
 #import "APIUTPListManager.h"

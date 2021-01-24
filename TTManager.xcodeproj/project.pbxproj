@@ -186,6 +186,7 @@
 		4081EFE225BC31D3004F8BB4 /* APIRegisterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE125BC31D3004F8BB4 /* APIRegisterManager.m */; };
 		4081EFE625BC3255004F8BB4 /* APIResetManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE525BC3255004F8BB4 /* APIResetManager.m */; };
 		4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */; };
+		4081EFEE25BDA67C004F8BB4 /* APITargetCloneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
 		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
@@ -538,6 +539,8 @@
 		4081EFE525BC3255004F8BB4 /* APIResetManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIResetManager.m; sourceTree = "<group>"; };
 		4081EFE825BD6153004F8BB4 /* APIFormOperationsManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormOperationsManager.h; sourceTree = "<group>"; };
 		4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFormOperationsManager.m; sourceTree = "<group>"; };
+		4081EFEC25BDA67C004F8BB4 /* APITargetCloneManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APITargetCloneManager.h; sourceTree = "<group>"; };
+		4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetCloneManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
 		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
@@ -1350,6 +1353,8 @@
 				4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */,
 				406FCA6C25A1915E00636079 /* APITargetListManager.h */,
 				406FCA6D25A1915E00636079 /* APITargetListManager.m */,
+				4081EFEC25BDA67C004F8BB4 /* APITargetCloneManager.h */,
+				4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */,
 			);
 			path = APITargetManager;
 			sourceTree = "<group>";
@@ -1706,6 +1711,7 @@
 				406BF1AA25ADE0C400A12DC3 /* ConversationController.m in Sources */,
 				406FCA8E25A1A47E00636079 /* APIUTPInfoManager.m in Sources */,
 				402AA1B625986FA300A9DABA /* DocumentLibCell.m in Sources */,
+				4081EFEE25BDA67C004F8BB4 /* APITargetCloneManager.m in Sources */,
 				4054B98C25B717AE0023FC7F /* APIFormListManager.m in Sources */,
 				406FCA42259E066300636079 /* ConversationListController.m in Sources */,
 				406FCA5E259F7DD100636079 /* TaskOperationView.m in Sources */,

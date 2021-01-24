@@ -17,6 +17,7 @@
 
 @property (nonatomic, strong) APIFormDetailManager *formDetailManager;
 @property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
+@property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
 
 @property (nonatomic, strong) ZHForm *currentFrom;
 @end
@@ -46,7 +47,7 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextField.text = self.currentFrom.uid_ident;
+    self.headerView.valueTextField.text = self.currentFrom.instance_ident;
     self.headerView.valueTextField.enabled = NO;
     return self.headerView;
 }
@@ -59,13 +60,6 @@
     [cell setIsFormEdit:self.isEditForm indexPath:indexPath item:self.formItemsArray[indexPath.row]];
     return cell;
 }
-- (void)getFormItemInfo{
-    [self.formItemsArray removeAllObjects];
-    NSArray *array = [self.currentFrom.hasItems allObjects];
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    [self.formItemsArray addObjectsFromArray:[array sortedArrayUsingDescriptors:sortDescriptors]];
-}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
@@ -73,6 +67,8 @@
         params = @{@"buddy_file":self.buddy_file};
     }else if(manager == self.formOperationsManager){
         params = [self getOperationsFromParams];
+    }else if(manager == self.targetCloneManager){
+        
     }
     return params;
 }
@@ -82,13 +78,22 @@
         self.currentFrom = (ZHForm *)manager.response.responseData;
         [self getFormItemInfo];
         [self.tableView reloadData];
+    }else if(manager == self.formOperationsManager){
+        
+    }else if(manager == self.targetCloneManager){
+        
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.formDetailManager) {
         
+    }else if(manager == self.formOperationsManager){
+        
+    }else if(manager == self.targetCloneManager){
     }
 }
+
+#pragma mark - responsder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     NSIndexPath *indexPath = userInfo[@"indexPath"];
     NSString *value = userInfo[@"value"];
@@ -105,6 +110,23 @@
     barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
     [self.tableView reloadData];
 }
+- (NSMutableDictionary *)getOperationsFromParams{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.currentFrom.instance_ident,@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
+    NSMutableArray *items = [NSMutableArray array];
+    for (ZHFormItem *formItem in self.formItemsArray) {
+        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.instance_value};
+        [items addObject:itemDic];
+    }
+    params[@"info"] = items;
+    return params;
+}
+- (void)getFormItemInfo{
+    [self.formItemsArray removeAllObjects];
+    NSArray *array = [self.currentFrom.hasItems allObjects];
+    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
+    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
+    [self.formItemsArray addObjectsFromArray:[array sortedArrayUsingDescriptors:sortDescriptors]];
+}
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.tableView];
@@ -116,16 +138,6 @@
     self.tableView.layer.borderColor = RGB_COLOR(102, 102, 102).CGColor;
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     self.navigationItem.rightBarButtonItem = barItem;
-}
-- (NSMutableDictionary *)getOperationsFromParams{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.currentFrom.uid_ident,@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
-    NSMutableArray *items = [NSMutableArray array];
-    for (ZHFormItem *formItem in self.formItemsArray) {
-        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.instance_value};
-        [items addObject:itemDic];
-    }
-    params[@"info"] = items;
-    return params;
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -165,6 +177,15 @@
     }
     return _formOperationsManager;
 }
+- (APITargetCloneManager *)targetCloneManager{
+    if (_targetCloneManager == nil) {
+        _targetCloneManager = [[APITargetCloneManager alloc] init];
+        _targetCloneManager.delegate = self;
+        _targetCloneManager.paramSource = self;
+    }
+    return _targetCloneManager;
+}
+
 /*
 #pragma mark - Navigation
 
