@@ -138,13 +138,13 @@
 - (void)setFormItem:(ZHFormItem *)formItem{
     _formItem = formItem;
     self.keyLabel.text = _formItem.name;
-    if ([SZUtil isEmptyOrNull:_formItem.d_name]) {
+    if ([SZUtil isEmptyOrNull:_formItem.instance_value]) {
         self.valueTextField.placeholder = self.itemTypeValueDic[_formItem.type];
     }else{
         if ([_formItem.type  isEqualToString:@"1"] || [_formItem.type isEqualToString:@"2"]) {
-            self.valueTextField.text = [NSString stringWithFormat:@"%@%@",_formItem.d_name,_formItem.unit_char];
+            self.valueTextField.text = [NSString stringWithFormat:@"%@%@",_formItem.instance_value,_formItem.unit_char];
         }else{
-            self.valueTextField.text = _formItem.d_name;
+            self.valueTextField.text = _formItem.instance_value;
         }
         
     }

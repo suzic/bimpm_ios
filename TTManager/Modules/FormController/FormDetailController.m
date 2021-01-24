@@ -93,7 +93,7 @@
     NSIndexPath *indexPath = userInfo[@"indexPath"];
     NSString *value = userInfo[@"value"];
     ZHFormItem *item = self.formItemsArray[indexPath.row];
-    item.d_name = [NSString stringWithFormat:@"%@",value];
+    item.instance_value = [NSString stringWithFormat:@"%@",value];
     [self.tableView reloadData];
 }
 #pragma mark - Action
@@ -121,7 +121,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.currentFrom.uid_ident,@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
     NSMutableArray *items = [NSMutableArray array];
     for (ZHFormItem *formItem in self.formItemsArray) {
-        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.d_name};
+        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.instance_value};
         [items addObject:itemDic];
     }
     params[@"info"] = items;
