@@ -12,14 +12,28 @@
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) FormEditCell *headerView;
-@property (nonatomic, strong) NSMutableArray *formItemsArray;
-@property (nonatomic, assign) BOOL isEditForm;
 
+// 当前原始表单数据
+@property (nonatomic, strong) ZHForm *currentFrom;
+// 原始数据
+@property (nonatomic, strong) NSMutableArray *formItemsArray;
+// 克隆的表单
+@property (nonatomic, strong) NSMutableArray *cloneFormItemsArray;
+// 是否是克隆
+@property (nonatomic, assign) BOOL isCloneFormItem;
+// 克隆后的buddy_file
+@property (nonatomic, copy) NSString *clone_buddy_file;
+// 克隆后的表单数据
+@property (nonatomic, strong) ZHForm *cloneCurrentFrom;
+// 是否是编辑状态
+@property (nonatomic, assign) BOOL isEditForm;
+// api表单详情
 @property (nonatomic, strong) APIFormDetailManager *formDetailManager;
+// api表单操作
 @property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
+// api克隆表单
 @property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
 
-@property (nonatomic, strong) ZHForm *currentFrom;
 @end
 
 @implementation FormDetailController
@@ -27,6 +41,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"表单详情";
+    self.isCloneFormItem = NO;
     self.isEditForm = NO;
     [self addUI];
     [self.formDetailManager loadData];
@@ -37,7 +52,7 @@
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.formItemsArray.count;
+    return self.instanceFromArray.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 44;
@@ -47,7 +62,7 @@
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextField.text = self.currentFrom.instance_ident;
+    self.headerView.valueTextField.text =  self.instanceFrom.instance_ident;
     self.headerView.valueTextField.enabled = NO;
     return self.headerView;
 }
@@ -57,30 +72,42 @@
     if (!cell) {
         cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    [cell setIsFormEdit:self.isEditForm indexPath:indexPath item:self.formItemsArray[indexPath.row]];
+    ZHFormItem *item = self.instanceFromArray[indexPath.row];
+    [cell setIsFormEdit:self.isEditForm indexPath:indexPath item:item];
     return cell;
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.formDetailManager) {
-        params = @{@"buddy_file":self.buddy_file};
+        params = @{@"buddy_file": self.isCloneFormItem == YES ? self.clone_buddy_file :self.buddy_file};
     }else if(manager == self.formOperationsManager){
         params = [self getOperationsFromParams];
     }else if(manager == self.targetCloneManager){
-        
+        params = @{@"clone_module":[NSNull null],
+                   @"clone_parent":[NSNull null],
+                   @"new_name":[NSNull null],
+                   @"source_target":self.buddy_file};
     }
     return params;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.formDetailManager) {
-        self.currentFrom = (ZHForm *)manager.response.responseData;
+        if (self.isCloneFormItem == NO) {
+            self.currentFrom = (ZHForm *)manager.response.responseData;
+        }else if(self.isCloneFormItem == YES){
+            self.cloneCurrentFrom = (ZHForm *)manager.response.responseData;
+        }
         [self getFormItemInfo];
         [self.tableView reloadData];
     }else if(manager == self.formOperationsManager){
         
     }else if(manager == self.targetCloneManager){
+        self.isCloneFormItem = YES;
+        NSDictionary *dic = manager.response.responseData;
+        self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
+        [self.formDetailManager loadData];
         
     }
 }
@@ -97,13 +124,16 @@
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     NSIndexPath *indexPath = userInfo[@"indexPath"];
     NSString *value = userInfo[@"value"];
-    ZHFormItem *item = self.formItemsArray[indexPath.row];
+    ZHFormItem *item = self.instanceFromArray[indexPath.row];
     item.instance_value = [NSString stringWithFormat:@"%@",value];
     [self.tableView reloadData];
 }
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
-    if (self.isEditForm == YES) {
+    if (self.isEditForm == NO) {
+        [self.targetCloneManager loadData];
+    }
+    else if (self.isEditForm == YES) {
         [self.formOperationsManager loadData];
     }
     self.isEditForm = ! self.isEditForm;
@@ -111,9 +141,9 @@
     [self.tableView reloadData];
 }
 - (NSMutableDictionary *)getOperationsFromParams{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.currentFrom.instance_ident,@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFrom.instance_ident,@"id_project":INT_32_TO_STRING(self.instanceFrom.belongProject.id_project)}];
     NSMutableArray *items = [NSMutableArray array];
-    for (ZHFormItem *formItem in self.formItemsArray) {
+    for (ZHFormItem *formItem in self.instanceFromArray) {
         NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.instance_value};
         [items addObject:itemDic];
     }
@@ -121,11 +151,22 @@
     return params;
 }
 - (void)getFormItemInfo{
-    [self.formItemsArray removeAllObjects];
-    NSArray *array = [self.currentFrom.hasItems allObjects];
+    NSArray *result = [NSArray array];
+    if (self.isCloneFormItem == NO) {
+        [self.formItemsArray removeAllObjects];
+        result = [self.currentFrom.hasItems allObjects];
+    }else if(self.isCloneFormItem == YES){
+        [self.cloneFormItemsArray removeAllObjects];
+        result = [self.cloneCurrentFrom.hasItems allObjects];
+    }
     NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
     NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    [self.formItemsArray addObjectsFromArray:[array sortedArrayUsingDescriptors:sortDescriptors]];
+    NSArray *sortArray = [result sortedArrayUsingDescriptors:sortDescriptors];
+    if (self.isCloneFormItem == NO) {
+        [self.formItemsArray addObjectsFromArray:sortArray];
+    }else{
+        [self.cloneFormItemsArray addObjectsFromArray:sortArray];
+    }
 }
 #pragma mark - UI
 - (void)addUI{
@@ -155,11 +196,34 @@
     }
     return _headerView;
 }
+- (NSMutableArray *)instanceFromArray{
+    if (self.isCloneFormItem == NO) {
+        return self.formItemsArray;
+    }else if(self.isCloneFormItem == YES){
+        return self.cloneFormItemsArray;
+    }
+    return nil;
+}
+- (ZHForm *)instanceFrom{
+    if (self.isCloneFormItem == NO) {
+        return self.currentFrom;
+    }else if(self.isCloneFormItem == YES){
+        return  self.cloneCurrentFrom;
+    }
+    return nil;
+}
+
 - (NSMutableArray *)formItemsArray{
     if (_formItemsArray == nil) {
         _formItemsArray = [NSMutableArray array];
     }
     return _formItemsArray;
+}
+- (NSMutableArray *)cloneFormItemsArray{
+    if (_cloneFormItemsArray == nil) {
+        _cloneFormItemsArray = [NSMutableArray array];
+    }
+    return _cloneFormItemsArray;
 }
 - (APIFormDetailManager *)formDetailManager{
     if (_formDetailManager == nil) {
