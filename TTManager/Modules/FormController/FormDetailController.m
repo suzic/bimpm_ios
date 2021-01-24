@@ -118,7 +118,7 @@
     self.navigationItem.rightBarButtonItem = barItem;
 }
 - (NSMutableDictionary *)getOperationsFromParams{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":@"Lc-0008",@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.currentFrom.uid_ident,@"id_project":INT_32_TO_STRING(self.currentFrom.belongProject.id_project)}];
     NSMutableArray *items = [NSMutableArray array];
     for (ZHFormItem *formItem in self.formItemsArray) {
         NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.d_name};
