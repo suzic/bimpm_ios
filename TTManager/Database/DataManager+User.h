@@ -48,7 +48,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 设置当前登录用户的phone
 /// @param phone phone
-- (void)setCurrentUserByPhone:(NSString *)phone;
+- (ZHUser *)setCurrentUserByPhone:(NSString *)phone;
 
 /// 同步用户数据
 /// @param user 当前用户

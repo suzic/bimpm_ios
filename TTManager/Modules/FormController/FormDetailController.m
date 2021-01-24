@@ -55,8 +55,8 @@
     if (!cell) {
         cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
     }
-    cell.formItem = self.formItemsArray[indexPath.row];
     cell.isEdit = self.isEditForm;
+    cell.formItem = self.formItemsArray[indexPath.row];
     return cell;
 }
 - (void)getFormItemInfo{
@@ -89,8 +89,12 @@
 }
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
+    if (self.isEditForm == YES) {
+        [self.editFormManager loadData];
+    }
     self.isEditForm = ! self.isEditForm;
-    barItem.title = self.isEditing == YES ? @"完成":@"编辑";
+    barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
+    
 }
 #pragma mark - UI
 - (void)addUI{

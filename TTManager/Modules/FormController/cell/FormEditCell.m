@@ -50,13 +50,6 @@
 }
 
 #pragma mark - setter and getter
-- (void)setFormItem:(ZHFormItem *)formItem{
-    if (_formItem != formItem) {
-        _formItem = formItem;
-        self.keyLabel.text = _formItem.name;
-        self.valueTextField.text = _formItem.d_name;
-    }
-}
 - (void)setIsEdit:(BOOL)isEdit{
     if (_isEdit != isEdit) {
         _isEdit = isEdit;
@@ -64,6 +57,14 @@
         [self setValueTextFieldStyleByItemStatus:isEdit];
     }
 }
+- (void)setFormItem:(ZHFormItem *)formItem{
+    if (_formItem != formItem) {
+        _formItem = formItem;
+        self.keyLabel.text = _formItem.name;
+        self.valueTextField.text = _formItem.d_name;
+    }
+}
+
 - (UILabel *)keyLabel{
     if (_keyLabel == nil) {
         _keyLabel = [[UILabel alloc] init];

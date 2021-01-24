@@ -63,12 +63,12 @@
 
     // 同步用户自身信息
     currentUser.token = oneData[@"token"];
-    currentUser.pass_md5 = oneData[@"password"];
+//    currentUser.pass_md5 = oneData[@"password"];
 //    currentUser.password = response.requestParams[@"data"][@"password"];
-    currentUser.verify_code = response.requestParams[@"data"][@"verify"];
-    currentUser.captcha_code = response.requestParams[@"data"][@"captcha"];
+//    currentUser.verify_code = response.requestParams[@"data"][@"verify"];
+//    currentUser.captcha_code = response.requestParams[@"data"][@"captcha"];
     currentUser.is_login = YES;
-    [[DataManager defaultInstance] syncUser:currentUser withUserInfo:userInfoDic];
+    currentUser = [[DataManager defaultInstance] syncUser:currentUser withUserInfo:userInfoDic];
         
     // 同步用户关联的项目信息
     NSArray *projectList = oneData[@"project_list"];

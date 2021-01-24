@@ -363,6 +363,14 @@
                                              @"captcha":captchaCode,
                                              @"device_id":[SZUtil getUUID],
                                              @"device_name":[SZUtil deviceVersion]};
+        
+        ZHUser *user = [[DataManager defaultInstance] setCurrentUserByPhone:self.phone];
+        user.password = self.password;
+        user.pass_md5 = pass;
+        user.verify_code = verify;
+        user.captcha_code = captchaCode;
+        [[DataManager defaultInstance] saveContext];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(YES),@"params":loginPrams}];
     }else{
         [SZAlert showInfo:@"当前无网络，请检查网络线路连接以及网络服务状态。" underTitle:TARGETS_NAME];
@@ -500,9 +508,9 @@
 #pragma mark - Notification
 - (void)userLoginFinish:(NSNotification *)notification
 {
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    user.password = self.phoneCell.phoneTextField.text;
-    [[DataManager defaultInstance] saveContext];
+//    ZHUser *user = [DataManager defaultInstance].currentUser;
+//    user.phone = self.phoneCell.phoneTextField.text;
+//    [[DataManager defaultInstance] saveContext];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)userLoginFailed:(NSNotification *)notification

@@ -11,29 +11,30 @@
 @implementation DataManager (User)
 
 // 通过手机号确定当前用户
-- (void)setCurrentUserByPhone:(NSString *)phone
+- (ZHUser *)setCurrentUserByPhone:(NSString *)phone
 {
     [[LoginUserManager defaultInstance] saveCurrentLoginUserPhone:phone];
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"phone = %@", phone];
     NSArray *findArray = [self arrayFromCoreData:@"ZHUser" predicate:predicate limit:1 offset:0 orderBy:nil];
+    ZHUser *user = nil;
     if (findArray != nil && findArray.count > 0)
     {
-        if (self.currentUser.phone != ((ZHUser *)findArray[0]).phone)
-            self.currentUser = (ZHUser *)findArray[0];
+        user = (ZHUser *)findArray[0];
     }
     else
     {
-        self.currentUser = (ZHUser *)[self insertIntoCoreData:@"ZHUser"];
-        self.currentUser.id_user = 0;
-        self.currentUser.phone = phone;
-        self.currentUser.token = @"";
-        self.currentUser.is_login = NO;
+        user = (ZHUser *)[self insertIntoCoreData:@"ZHUser"];
+//        self.currentUser.id_user = 0;
+        user.phone = phone;
+//        self.currentUser.token = @"";
+//        self.currentUser.is_login = NO;
     }
     NSLog(@"%@",self.currentUser.phone);
     NSString *identifierStr = [SZUtil getUUID];
     NSLog(@"Current User has Device ID : %@", identifierStr);
-    self.currentUser.device = identifierStr;
+    user.device = identifierStr;
     [self saveContext];
+    return user;
 }
 
 - (ZHUser *)getUserFromCoredataByID:(int)userId
@@ -176,6 +177,7 @@
     user.uid_chat = dicData[@"uid_chat"];
     user.status = [dicData[@"status"] intValue];
     user.gender = [dicData[@"gender"] intValue];
+    [self saveContext];
     return user;
 }
 
