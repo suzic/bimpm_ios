@@ -196,6 +196,9 @@
 		40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */; };
 		40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E6C25BEB28800FC98DD /* FormImageCell.m */; };
 		40E73E7125BEB55C00FC98DD /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E7025BEB55C00FC98DD /* ImageCell.m */; };
+		40E73E8A25BF13B500FC98DD /* APIFileDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E8925BF13B500FC98DD /* APIFileDownLoadManager.m */; };
+		40E73E8E25BF178C00FC98DD /* APITargetUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E8D25BF178C00FC98DD /* APITargetUpdateManager.m */; };
+		40E73E9225BF1B3600FC98DD /* BottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E9125BF1B3600FC98DD /* BottomView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -556,6 +559,12 @@
 		40E73E6C25BEB28800FC98DD /* FormImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormImageCell.m; sourceTree = "<group>"; };
 		40E73E6F25BEB55C00FC98DD /* ImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		40E73E7025BEB55C00FC98DD /* ImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
+		40E73E8825BF13B500FC98DD /* APIFileDownLoadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFileDownLoadManager.h; sourceTree = "<group>"; };
+		40E73E8925BF13B500FC98DD /* APIFileDownLoadManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFileDownLoadManager.m; sourceTree = "<group>"; };
+		40E73E8C25BF178C00FC98DD /* APITargetUpdateManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APITargetUpdateManager.h; sourceTree = "<group>"; };
+		40E73E8D25BF178C00FC98DD /* APITargetUpdateManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetUpdateManager.m; sourceTree = "<group>"; };
+		40E73E9025BF1B3600FC98DD /* BottomView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BottomView.h; sourceTree = "<group>"; };
+		40E73E9125BF1B3600FC98DD /* BottomView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BottomView.m; sourceTree = "<group>"; };
 		578C9E99FFA515FBBC675532 /* libPods-TTManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.debug.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.debug.xcconfig"; sourceTree = "<group>"; };
 		74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.release.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.release.xcconfig"; sourceTree = "<group>"; };
@@ -1282,6 +1291,8 @@
 				40E73E6C25BEB28800FC98DD /* FormImageCell.m */,
 				40E73E6F25BEB55C00FC98DD /* ImageCell.h */,
 				40E73E7025BEB55C00FC98DD /* ImageCell.m */,
+				40E73E9025BF1B3600FC98DD /* BottomView.h */,
+				40E73E9125BF1B3600FC98DD /* BottomView.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1340,6 +1351,10 @@
 				406FCA6D25A1915E00636079 /* APITargetListManager.m */,
 				4081EFEC25BDA67C004F8BB4 /* APITargetCloneManager.h */,
 				4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */,
+				40E73E8825BF13B500FC98DD /* APIFileDownLoadManager.h */,
+				40E73E8925BF13B500FC98DD /* APIFileDownLoadManager.m */,
+				40E73E8C25BF178C00FC98DD /* APITargetUpdateManager.h */,
+				40E73E8D25BF178C00FC98DD /* APITargetUpdateManager.m */,
 			);
 			path = APITargetManager;
 			sourceTree = "<group>";
@@ -1579,6 +1594,7 @@
 				402AA09E2595D6EF00A9DABA /* DataManager+User.m in Sources */,
 				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
 				4054B91325B40E2F0023FC7F /* ZHDepartment+CoreDataClass.m in Sources */,
+				40E73E9225BF1B3600FC98DD /* BottomView.m in Sources */,
 				40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
@@ -1610,6 +1626,7 @@
 				402A9F642595B12A00A9DABA /* UIAlertAction+ButtonIndex.m in Sources */,
 				406FCAA925A1A67800636079 /* APITaskDeatilManager.m in Sources */,
 				40931C99259ACDA0008C3518 /* TabListView.m in Sources */,
+				40E73E8A25BF13B500FC98DD /* APIFileDownLoadManager.m in Sources */,
 				406FCAB525A1A74900636079 /* APITaskProcessManager.m in Sources */,
 				4054B92125B40E560023FC7F /* ZHTarget+CoreDataProperties.m in Sources */,
 				402A9F7D2595B60900A9DABA /* UIColor+Hex.m in Sources */,
@@ -1624,6 +1641,7 @@
 				402A9F432595A4CF00A9DABA /* WorkbenchController.m in Sources */,
 				402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */,
 				4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */,
+				40E73E8E25BF178C00FC98DD /* APITargetUpdateManager.m in Sources */,
 				402AA0B42595D87100A9DABA /* ZHUser+CoreDataProperties.m in Sources */,
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,

@@ -8,7 +8,7 @@
 #import "FormDetailController.h"
 #import "FormEditCell.h"
 #import "FormImageCell.h"
-
+#import "BottomView.h"
 /**
  1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
  2:模版是固化的（instance_ident==nil），实例中的历史记录版本也是固化的（通过buddy_file=uid_target进行FormDetail拿不到数据的为历史记录版本）。固化的版本不需要判断是否可编辑（multi_editable是否大于0）
@@ -25,6 +25,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) FormEditCell *headerView;
+@property (nonatomic, strong) BottomView *bottomView;
 
 // 当前原始表单数据
 @property (nonatomic, strong) ZHForm *currentFrom;
@@ -40,13 +41,19 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 @property (nonatomic, strong) ZHForm *cloneCurrentFrom;
 // 是否是编辑状态
 @property (nonatomic, assign) BOOL isEditForm;
+
+// 获取表单json
+@property (nonatomic, strong) APIFileDownLoadManager *downLoadManager;
 // api表单详情
 @property (nonatomic, strong) APIFormDetailManager *formDetailManager;
-// api表单操作
-@property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
 // api克隆表单
 @property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
-
+// api表单操作
+@property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
+// 上传表单文件
+@property (nonatomic, strong) APIUploadFileManager *uploadfileManager;
+// 上传表单文件
+@property (nonatomic, strong) APITargetUpdateManager *targetUpdateManager;
 @end
 
 @implementation FormDetailController
@@ -130,6 +137,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                    @"clone_parent":[NSNull null],
                    @"new_name":[NSNull null],
                    @"source_target":self.buddy_file};
+    }else if(manager == self.uploadfileManager){
+        
+    }else if(manager == self.targetUpdateManager){
+        
+    }else if(manager == self.downLoadManager){
+        
     }
     return params;
 }
@@ -152,14 +165,22 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
         [self.formDetailManager loadData];
         
+    }else if(manager == self.uploadfileManager){
+        [self.targetUpdateManager loadData];
+    }else if(manager == self.targetUpdateManager){
+        
+    }else if(manager == self.downLoadManager){
+        // 获取详情
+        [self.formDetailManager loadData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.formDetailManager) {
-        
     }else if(manager == self.formOperationsManager){
-        
     }else if(manager == self.targetCloneManager){
+    }else if(manager == self.uploadfileManager){
+    }else if(manager == self.targetUpdateManager){
+    }else if(manager == self.downLoadManager){
     }
 }
 
@@ -175,9 +196,11 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         NSIndexPath *formItemIndex = userInfo[@"formItemIndex"];
         NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
         NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
+    }else if([eventName isEqualToString:save_edit_form]){
+        NSLog(@"保存当前编辑的表单");
     }
-    
 }
+
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
     if (self.isEditForm == NO) {
@@ -220,8 +243,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 #pragma mark - UI
 - (void)addUI{
-    [self.view addSubview:self.tableView];
     [self.view addSubview:self.headerView];
+    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.bottomView];
+    
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(0);
         make.left.right.equalTo(0);
@@ -230,7 +255,13 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.headerView.mas_bottom);
         make.left.equalTo(0);
-        make.right.bottom.equalTo(0);
+        make.right.equalTo(0);
+    }];
+    [self.bottomView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.tableView.mas_bottom);
+        make.height.equalTo(44);
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(-SafeAreaBottomHeight);
     }];
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     self.navigationItem.rightBarButtonItem = barItem;
@@ -249,6 +280,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         //直接用估算高度
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
+        _tableView.backgroundColor = [UIColor whiteColor];
     }
     return _tableView;
 }
@@ -258,6 +290,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         _headerView.backgroundColor = [UIColor whiteColor];
     }
     return _headerView;
+}
+- (BottomView *)bottomView{
+    if (_bottomView == nil) {
+        _bottomView = [[BottomView alloc] init];
+    }
+    return _bottomView;
 }
 - (NSMutableArray *)instanceFromArray{
     if (self.isCloneFormItem == NO) {
@@ -288,6 +326,15 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _cloneFormItemsArray;
 }
+#pragma mark - api
+-(APIFileDownLoadManager *)downLoadManager{
+    if (_downLoadManager == nil) {
+        _downLoadManager = [[APIFileDownLoadManager alloc] init];
+        _downLoadManager.delegate = self;
+        _downLoadManager.paramSource = self;
+    }
+    return _downLoadManager;
+}
 - (APIFormDetailManager *)formDetailManager{
     if (_formDetailManager == nil) {
         _formDetailManager = [[APIFormDetailManager alloc] init];
@@ -295,14 +342,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         _formDetailManager.paramSource = self;
     }
     return _formDetailManager;
-}
-- (APIFormOperationsManager *)formOperationsManager{
-    if (_formOperationsManager == nil) {
-        _formOperationsManager = [[APIFormOperationsManager alloc] init];
-        _formOperationsManager.delegate = self;
-        _formOperationsManager.paramSource = self;
-    }
-    return _formOperationsManager;
 }
 - (APITargetCloneManager *)targetCloneManager{
     if (_targetCloneManager == nil) {
@@ -312,7 +351,30 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _targetCloneManager;
 }
-
+- (APIFormOperationsManager *)formOperationsManager{
+    if (_formOperationsManager == nil) {
+        _formOperationsManager = [[APIFormOperationsManager alloc] init];
+        _formOperationsManager.delegate = self;
+        _formOperationsManager.paramSource = self;
+    }
+    return _formOperationsManager;
+}
+- (APIUploadFileManager *)uploadfileManager{
+    if (_uploadfileManager == nil) {
+        _uploadfileManager = [[APIUploadFileManager alloc] init];
+        _uploadfileManager.delegate = self;
+        _uploadfileManager.paramSource = self;
+    }
+    return _uploadfileManager;
+}
+- (APITargetUpdateManager *)targetUpdateManager{
+    if (_targetUpdateManager == nil) {
+        _targetUpdateManager = [[APITargetUpdateManager alloc] init];
+        _targetUpdateManager.delegate = self;
+        _targetUpdateManager.paramSource = self;
+    }
+    return _targetUpdateManager;
+}
 /*
 #pragma mark - Navigation
 

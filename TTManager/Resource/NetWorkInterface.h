@@ -34,7 +34,8 @@
 #define URL_TARGET_RENAME                       @"/file/TargetRename"
 #define URL_TARGET_OPERATIONS                   @"/file/TargetOperations"
 #define URL_TARGET_CLONE                        @"/file/TargetClone"
-#define URL_FILE_View                           @"/fileviewservice/FileView"
+#define URL_TARGET_NEW                          @"/file/TargetNew"
+#define URL_TARGET_UPDATE                       @"/file/TargetUpdate"
 
 // 团队成员
 #define URL_DEPARTMENT_LIST                      @"/department/DepartmentList"
@@ -50,8 +51,11 @@
 #define URL_TASK_PROCESS                         @"/task/TaskProcess"
 
 // 文件
-#define URL_UPLOAD_FILE  @"/fileviewservice/file/FileUpload"
-#define URL_TARGET_NEW   @"/file/TargetNew"
+#define URL_UPLOAD_FILE      @"/fileviewservice/file/FileUpload"
+#define URL_FILE_DOWNLOAD(uid_target)    [NSString stringWithFormat:@"/fileviewservice/FileDownload/%@",uid_target]
+
+#define URL_FILE_View        @"/fileviewservice/FileView"
+
 
 // 表单
 #define URL_FORM_NEW             @"/form/FormNew"
