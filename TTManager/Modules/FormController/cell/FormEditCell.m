@@ -7,7 +7,7 @@
 
 #import "FormEditCell.h"
 
-@interface FormEditCell ()<UITextFieldDelegate>
+@interface FormEditCell ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UIButton *clickButton;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
@@ -19,7 +19,13 @@
 
 @end
 @implementation FormEditCell
-
+- (instancetype)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self addUI];
+    }
+    return self;
+}
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -49,21 +55,36 @@
         [self showActionSheets];
     }
 }
-#pragma mark - UITextFieldDelegate
-
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextField.text}];
+#pragma mark - UITextViewDelegate
+-(void)textViewDidChange:(UITextView *)textView{
+    if (self.valueTextView.editable == YES) {
+        NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
+        NSLog(@"当前textView的高度是---%ld",height);
+        textView.scrollEnabled = NO;
+        if (height < 44) {
+            height = 44;
+        }
+        [self.valueTextView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(height);
+        }];
+        UITableView *tableView = [self tableView];
+        [tableView beginUpdates];
+        [tableView endUpdates];
+    }
+}
+- (void)textViewDidEndEditing:(UITextView *)textView{
+    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
 }
 
 #pragma mark - private
 
 - (void)setValueTextFieldStyleByItemStatus:(BOOL)isEdit{
     if (isEdit == YES) {
-        [self.valueTextField borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeAll];
-        self.valueTextField.enabled = YES;
+        [self.valueTextView borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeAll];
+        self.valueTextView.editable = YES;
     }else{
-        [self.valueTextField borderForColor:[UIColor clearColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
-        self.valueTextField.enabled = NO;
+        [self.valueTextView borderForColor:[UIColor clearColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+        self.valueTextView.editable = NO;
     }
     NSInteger type = [_formItem.type intValue];
     // 日期 YYYY-MM-DD
@@ -71,14 +92,7 @@
         self.clickButton.hidden = NO;
     }
 }
-- (void)changeTextFiledPlaceholderColor:(NSString *)placeholder textFiled:(UITextField *)textFiled{
-    NSMutableParagraphStyle *style = [[NSMutableParagraphStyle alloc] init];
-    style.alignment = NSTextAlignmentLeft;
-    NSAttributedString *attri = [[NSAttributedString alloc] initWithString:placeholder attributes:@{NSForegroundColorAttributeName:RGB_COLOR(153, 153, 153 ),NSFontAttributeName:[UIFont systemFontOfSize:16], NSParagraphStyleAttributeName:style}];
-    textFiled.layer.borderColor = RGB_COLOR(153, 153, 153).CGColor;
-    textFiled.layer.cornerRadius = 2;
-    textFiled.attributedPlaceholder = attri;
-}
+
 - (void)showActionSheets{
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     for (int i= 0; i < self.enum_poolArray.count; i++) {
@@ -94,13 +108,20 @@
     [alert addAction:cancel];
     [[SZUtil getCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
+- (UITableView *)tableView {
+  UIView *tableView = self.superview;
+  while (![tableView isKindOfClass:[UITableView class]] && tableView) {
+    tableView = tableView.superview;
+  }
+  return (UITableView *)tableView;
+}
 - (void)addUI{
-    [self.contentView addSubview:self.valueTextField];
-    [self.contentView addSubview:self.clickButton];
+    [self addSubview:self.valueTextView];
+    [self addSubview:self.clickButton];
     self.clickButton.hidden = YES;
     
     UIView *keyBgView = [[UIView alloc] init];
-    [self.contentView addSubview:keyBgView];
+    [self addSubview:keyBgView];
     
     [keyBgView addSubview:self.keyLabel];
     [keyBgView makeConstraints:^(MASConstraintMaker *make) {
@@ -113,10 +134,12 @@
         make.height.equalTo(keyBgView.mas_height);
         make.top.right.equalTo(0);
     }];
-    [self.valueTextField makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.right.equalTo(-5);
-        make.top.equalTo(5);
+    [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.contentView).offset(5);
         make.left.equalTo(keyBgView.mas_right);
+        make.bottom.equalTo(self.contentView);
+        make.right.equalTo(-5);
+        make.height.greaterThanOrEqualTo(35);
     }];
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
@@ -140,12 +163,12 @@
     _formItem = formItem;
     self.keyLabel.text = _formItem.name;
     if ([SZUtil isEmptyOrNull:_formItem.instance_value]) {
-        self.valueTextField.placeholder = self.itemTypeValueDic[_formItem.type];
+        self.valueTextView.placeholder = self.itemTypeValueDic[_formItem.type];
     }else{
         if ([_formItem.type  isEqualToString:@"1"] || [_formItem.type isEqualToString:@"2"]) {
-            self.valueTextField.text = [NSString stringWithFormat:@"%@%@",_formItem.instance_value,_formItem.unit_char];
+            self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem.instance_value,_formItem.unit_char];
         }else{
-            self.valueTextField.text = _formItem.instance_value;
+            self.valueTextView.text = _formItem.instance_value;
         }
     }
 //    [self.fromIamgeView.imageCollectionView reloadData];
@@ -161,22 +184,18 @@
     }
     return _keyLabel;
 }
-- (UITextField *)valueTextField{
-    if (_valueTextField == nil) {
-        _valueTextField = [[UITextField alloc] init];
-        _valueTextField.placeholder = @"数据源";
-        _valueTextField.font = [UIFont systemFontOfSize:16];
-        _valueTextField.textColor = RGB_COLOR(51, 51, 51);
-        _valueTextField.delegate = self;
-        [self changeTextFiledPlaceholderColor:_valueTextField.placeholder textFiled:_valueTextField];
-        UIView *leftView = [[UIView alloc] init];
-        leftView.frame = CGRectMake(0, 0, 10, 10);
-        leftView.backgroundColor = [UIColor clearColor];
-        _valueTextField.leftViewMode=UITextFieldViewModeAlways; //此处用来设置leftview现实时机
-        _valueTextField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        _valueTextField.leftView = leftView;
+- (UITextView *)valueTextView{
+    if (_valueTextView == nil) {
+        _valueTextView = [[UITextView alloc] init];
+        _valueTextView.font = [UIFont systemFontOfSize:16];
+        _valueTextView.textColor = RGB_COLOR(51, 51, 51);
+        _valueTextView.placeholder = @"数据源";
+        _valueTextView.placeholderColor = [UIColor lightGrayColor];
+//        _valueTextView.textContainerInset = UIEdgeInsetsMake(8, 0, 0, 0);
+        _valueTextView.delegate = self;
+        _valueTextView.scrollEnabled = NO;
     }
-    return _valueTextField;
+    return _valueTextView;
 }
 - (UIButton *)clickButton{
     if (_clickButton == nil) {
@@ -227,5 +246,14 @@
 
     // Configure the view for the selected state
 }
-
+//-(CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority{
+//    // 在对collectionView进行布局
+//    self.valueTextView.frame = CGRectMake(0, 0, targetSize.width, 44);
+//    [self.valueTextView layoutIfNeeded];
+//
+//    // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
+//    NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
+//
+//    return CGSizeMake([UIScreen mainScreen].bounds.size.width, height+10);
+//}
 @end

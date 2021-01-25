@@ -15,6 +15,10 @@ static NSString *reuseIdentifier = @"ImageCell";
 @property (nonatomic, strong) UICollectionView *imageCollectionView;
 @property (nonatomic, strong) UILabel *keyLabel;
 
+@property (nonatomic, strong) ZHFormItem *formItem;
+@property (nonatomic, assign) BOOL isFormEdit;
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
 @end
 
 @implementation FormImageCell
@@ -27,6 +31,7 @@ static NSString *reuseIdentifier = @"ImageCell";
     }
     return self;
 }
+
 - (void)addUI{
     UIView *keyBgView = [[UIView alloc] init];
     [self.contentView addSubview:keyBgView];
@@ -46,9 +51,20 @@ static NSString *reuseIdentifier = @"ImageCell";
     [self.imageCollectionView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(-5);
         make.right.equalTo(0);
-        make.top.equalTo(5);
+        make.top.equalTo(10);
         make.width.equalTo(self).multipliedBy(0.75);
     }];
+}
+- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(ZHFormItem *)formItem{
+    self.indexPath = indexPath;
+    self.isFormEdit = isFormEdit;
+    self.formItem = formItem;
+}
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+        decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
+    decoratedUserInfo[@"formItemIndex"] = self.indexPath;
+    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
@@ -61,6 +77,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
+    [cell setIsFormEdit:YES indexPath:indexPath item:@""];
     return cell;
 }
 
@@ -99,6 +116,11 @@ static NSString *reuseIdentifier = @"ImageCell";
         _keyLabel.text = @"图片集";
     }
     return _keyLabel;
+}
+- (void)setFormItem:(ZHFormItem *)formItem{
+    if (_formItem != formItem) {
+        _formItem = formItem;
+    }
 }
 -(CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority{
     // 在对collectionView进行布局

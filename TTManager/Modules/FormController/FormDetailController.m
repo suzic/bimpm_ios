@@ -67,15 +67,11 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.instanceFromArray.count;
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 44;
+    return 0.01;
 }
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextField.text =  self.instanceFrom.instance_ident;
-    self.headerView.valueTextField.enabled = NO;
-    return self.headerView;
+    return nil;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
@@ -97,6 +93,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return cell;
 }
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
@@ -121,6 +118,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
             self.cloneCurrentFrom = (ZHForm *)manager.response.responseData;
         }
         [self getFormItemInfo];
+        [self fillHeaderView];
         [self.tableView reloadData];
     }else if(manager == self.formOperationsManager){
         
@@ -143,11 +141,18 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 #pragma mark - responsder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    NSIndexPath *indexPath = userInfo[@"indexPath"];
-    NSString *value = userInfo[@"value"];
-    ZHFormItem *item = self.instanceFromArray[indexPath.row];
-    item.instance_value = [NSString stringWithFormat:@"%@",value];
-    [self.tableView reloadData];
+    if ([eventName isEqualToString:form_edit_item]) {
+        NSIndexPath *indexPath = userInfo[@"indexPath"];
+        NSString *value = userInfo[@"value"];
+        ZHFormItem *item = self.instanceFromArray[indexPath.row];
+        item.instance_value = [NSString stringWithFormat:@"%@",value];
+        [self.tableView reloadData];
+    }else if ([eventName isEqualToString:delete_formItem_image]) {
+        NSIndexPath *formItemIndex = userInfo[@"formItemIndex"];
+        NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
+        NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
+    }
+    
 }
 #pragma mark - Action
 - (void)editAction:(UIBarButtonItem *)barItem{
@@ -192,12 +197,24 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 #pragma mark - UI
 - (void)addUI{
     [self.view addSubview:self.tableView];
+    [self.view addSubview:self.headerView];
+    [self.headerView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.left.right.equalTo(0);
+        make.height.equalTo(44);
+    }];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(0);
+        make.top.equalTo(self.headerView.mas_bottom);
+        make.left.equalTo(0);
         make.right.bottom.equalTo(0);
     }];
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     self.navigationItem.rightBarButtonItem = barItem;
+}
+- (void)fillHeaderView{
+    self.headerView.keyLabel.text = @"系统编号";
+    self.headerView.valueTextView.text =  self.instanceFrom.instance_ident;
+    self.headerView.valueTextView.editable = NO;
 }
 #pragma mark - setter and getter
 - (UITableView *)tableView{
@@ -213,7 +230,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 - (FormEditCell *)headerView{
     if (_headerView == nil) {
-        _headerView = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:@"headerCell"];
+        _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
         _headerView.backgroundColor = [UIColor whiteColor];
     }
     return _headerView;

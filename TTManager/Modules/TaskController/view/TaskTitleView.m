@@ -90,24 +90,12 @@
         _taskTitle.textColor = RGB_COLOR(51, 51, 51);
         _taskTitle.font = [UIFont systemFontOfSize:20.0f];
         _taskTitle.delegate = self;
-        [self setTextViewPlaceholder:_taskTitle];
-        _taskTitle.textContainerInset = UIEdgeInsetsMake(-2, 0, 0, 0);
+        _taskTitle.placeholder = @"请输入任务标题";
+        _taskTitle.placeholderColor = [UIColor lightGrayColor];
     }
     return _taskTitle;
 }
-- (void)setTextViewPlaceholder:(UITextView *)textView{
-    
-    UILabel *placeHolderLabel = [[UILabel alloc] init];
-    placeHolderLabel.text = @"请输入任务标题";
-    placeHolderLabel.numberOfLines = 0;
-    placeHolderLabel.textColor = [UIColor lightGrayColor];
-    [placeHolderLabel sizeToFit];
-    [textView addSubview:placeHolderLabel];
 
-    textView.font = [UIFont systemFontOfSize:20.f];
-    placeHolderLabel.font = [UIFont systemFontOfSize:20.f];
-    [textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
-}
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
     

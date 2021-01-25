@@ -52,5 +52,6 @@
 
 // 编辑表单
 #define form_edit_item    @"form_edit_item"
+#define delete_formItem_image  @"delete_formItem_image"
 
 #endif /* ResponderChainHeader_h */

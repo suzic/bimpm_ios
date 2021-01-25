@@ -11,7 +11,8 @@
 
 @property (nonatomic, strong) UIImageView *fromImageView;
 @property (nonatomic, strong) UIButton *deleteButton;
-
+@property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic ,assign) BOOL isFormEdit;
 @end
 
 @implementation ImageCell
@@ -45,7 +46,12 @@
 }
 #pragma mark - actions
 - (void)deleteFromImageAction:(UIButton *)button{
-    
+    [self routerEventWithName:delete_formItem_image userInfo:@{@"deleteIndex":self.indexPath}];
+}
+- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSString *)imageUrl{
+    self.isFormEdit = isFormEdit;
+    self.indexPath = indexPath;
+    [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user_header"]];
 }
 #pragma maek - setter and getter
 - (UIImageView *)fromImageView{

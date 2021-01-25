@@ -30,6 +30,7 @@
 #import <RongIMKit/RongIMKit.h>
 #import <Aspects/Aspects.h>
 #import <BRPickerView/BRPickerView.h>
+#import <UITextView+Placeholder/UITextView+Placeholder.h>
 //#import <BaiduMapAPI_Base/BMKBaseComponent.h>
 //#import <BaiduMapAPI_Map/BMKMapComponent.h>
 //#import <MapKit/MapKit.h>
