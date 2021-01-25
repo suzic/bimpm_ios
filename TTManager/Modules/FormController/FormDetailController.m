@@ -7,6 +7,7 @@
 
 #import "FormDetailController.h"
 #import "FormEditCell.h"
+#import "FormImageCell.h"
 
 /**
  1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
@@ -17,6 +18,8 @@
  5:最后上传成功之后 再调用TargetUpdate 告诉更新了哪个target（clone_target）。
  */
 
+static NSString *textCellIndex = @"textCellIndex";
+static NSString *imageCellIndex = @"ImageCellIndex";
 
 @interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
@@ -64,9 +67,7 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.instanceFromArray.count;
 }
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 44;
-}
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
 }
@@ -77,13 +78,23 @@
     return self.headerView;
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    static NSString *identifier = @"identifier";
-    FormEditCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
-    if (!cell) {
-        cell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
+    UITableViewCell *cell = nil;
+    if (indexPath.row % 2 == 0) {
+        FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
+        if (!editCell) {
+            editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
+        }
+        
+        ZHFormItem *item = self.instanceFromArray[indexPath.row];
+        [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:item];
+        cell = editCell;
+    }else{
+        FormImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIndex];
+        if (!imageCell) {
+            imageCell = [[FormImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellIndex];
+        }
+        cell = imageCell;
     }
-    ZHFormItem *item = self.instanceFromArray[indexPath.row];
-    [cell setIsFormEdit:self.isEditForm indexPath:indexPath item:item];
     return cell;
 }
 #pragma mark - APIManagerParamSource
@@ -182,11 +193,9 @@
 - (void)addUI{
     [self.view addSubview:self.tableView];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.equalTo(10);
-        make.right.bottom.equalTo(-10);
+        make.left.top.equalTo(0);
+        make.right.bottom.equalTo(0);
     }];
-    self.tableView.layer.borderWidth = 0.5;
-    self.tableView.layer.borderColor = RGB_COLOR(102, 102, 102).CGColor;
     UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
     self.navigationItem.rightBarButtonItem = barItem;
 }
@@ -195,7 +204,10 @@
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
-        _tableView.dataSource = self;        
+        _tableView.dataSource = self;
+        //直接用估算高度
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        _tableView.estimatedRowHeight = 44;
     }
     return _tableView;
 }

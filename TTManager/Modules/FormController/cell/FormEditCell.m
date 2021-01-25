@@ -6,7 +6,6 @@
 //
 
 #import "FormEditCell.h"
-#import "FormItemView.h"
 
 @interface FormEditCell ()<UITextFieldDelegate>
 
@@ -31,11 +30,6 @@
     return self;
 }
 
-- (void)layoutSublayersOfLayer:(CALayer *)layer{
-    [super layoutSublayersOfLayer:layer];
-    [self.keyLabel borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeRight];
-    [self.contentView borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeBottom];
-}
 - (void)clickButtonAction:(UIButton *)button{
     NSLog(@"点击了我");
     [[IQKeyboardManager sharedManager] resignFirstResponder];
@@ -101,26 +95,33 @@
     [[SZUtil getCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
 - (void)addUI{
-    [self.contentView addSubview:self.keyLabel];
     [self.contentView addSubview:self.valueTextField];
-    
     [self.contentView addSubview:self.clickButton];
     self.clickButton.hidden = YES;
-    [self.keyLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(0);
-        make.width.equalTo(self).multipliedBy(0.3);
+    
+    UIView *keyBgView = [[UIView alloc] init];
+    [self.contentView addSubview:keyBgView];
+    
+    [keyBgView addSubview:self.keyLabel];
+    [keyBgView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(0);
+        make.height.equalTo(44);
+        make.width.equalTo(self).multipliedBy(0.25);
     }];
-   
+    [self.keyLabel makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(10);
+        make.height.equalTo(keyBgView.mas_height);
+        make.top.right.equalTo(0);
+    }];
     [self.valueTextField makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
         make.top.equalTo(5);
-        make.left.equalTo(self.keyLabel.mas_right).offset(5);
+        make.left.equalTo(keyBgView.mas_right);
     }];
-    
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
         make.top.equalTo(5);
-        make.left.equalTo(self.keyLabel.mas_right).offset(5);
+        make.left.equalTo(keyBgView.mas_right);
     }];
 }
 
@@ -146,8 +147,9 @@
         }else{
             self.valueTextField.text = _formItem.instance_value;
         }
-        
     }
+//    [self.fromIamgeView.imageCollectionView reloadData];
+//    [self.fromIamgeView.imageCollectionView layoutIfNeeded];
 }
 
 - (UILabel *)keyLabel{
@@ -155,7 +157,7 @@
         _keyLabel = [[UILabel alloc] init];
         _keyLabel.font = [UIFont systemFontOfSize:16];
         _keyLabel.textColor = RGB_COLOR(51, 51, 51);
-        _keyLabel.textAlignment = NSTextAlignmentCenter;
+        _keyLabel.textAlignment = NSTextAlignmentLeft;
     }
     return _keyLabel;
 }
@@ -184,6 +186,7 @@
     }
     return _clickButton;
 }
+
 - (NSDictionary *)itemTypeValueDic{
     if (_itemTypeValueDic == nil) {
         _itemTypeValueDic = @{@"0":@"字符串",
@@ -217,10 +220,6 @@
         };
     }
     return _datePickerView;
-}
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    // Initialization code
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

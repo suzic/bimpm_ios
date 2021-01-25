@@ -8,7 +8,7 @@
 #import "TaskListView.h"
 #import "TaskListCell.h"
 #import "TaskListController.h"
-#import "FormViewCell.h"
+//#import "FormViewCell.h"
 
 @interface TaskListView ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
@@ -104,12 +104,12 @@
         cell.currenttask = self.listArray[indexPath.row];
         itemCell = cell;
     }else if(self.listType == 2){
-        FormViewCell *cell = (FormViewCell *)[tableView dequeueReusableCellWithIdentifier:indentifier];
-        if (!cell) {
-            cell =[[FormViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
-        }
-        cell.currentForm = self.listArray[indexPath.row];
-        itemCell = cell;
+//        FormViewCell *cell = (FormViewCell *)[tableView dequeueReusableCellWithIdentifier:indentifier];
+//        if (!cell) {
+//            cell =[[FormViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
+//        }
+//        cell.currentForm = self.listArray[indexPath.row];
+//        itemCell = cell;
     }
     
     return itemCell;

@@ -118,16 +118,11 @@
 		4054B96E25B6BD5D0023FC7F /* Solar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96625B6BD5D0023FC7F /* Solar.m */; };
 		4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96825B6BD5D0023FC7F /* LunarSolarTransform.m */; };
 		4054B97025B6BD5D0023FC7F /* Lunar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B96C25B6BD5D0023FC7F /* Lunar.m */; };
-		4054B97B25B6E7C40023FC7F /* FormItemViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */; };
 		4054B98C25B717AE0023FC7F /* APIFormListManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B98B25B717AE0023FC7F /* APIFormListManager.m */; };
 		4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99125B7186D0023FC7F /* APIFormNewManager.m */; };
 		4054B99725B718C50023FC7F /* APIFormDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99625B718C50023FC7F /* APIFormDetailManager.m */; };
 		4054B99C25B719190023FC7F /* APIFormEditManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B99B25B719190023FC7F /* APIFormEditManager.m */; };
 		4054B9A125B71F990023FC7F /* DataManager+Form.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A025B71F990023FC7F /* DataManager+Form.m */; };
-		4054B9A525B729920023FC7F /* FormViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A425B729920023FC7F /* FormViewCell.m */; };
-		4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9A825B7C11D0023FC7F /* FormRowView.m */; };
-		4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B225B7C9DF0023FC7F /* FormItemView.m */; };
-		4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9B625B7FC690023FC7F /* FormTitleView.m */; };
 		4054B9BB25B915270023FC7F /* FormDetailController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BA25B915270023FC7F /* FormDetailController.m */; };
 		4054B9BF25B9188A0023FC7F /* FormEditCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9BE25B9188A0023FC7F /* FormEditCell.m */; };
 		4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9CB25B9449E0023FC7F /* MonitoringCell.m */; };
@@ -199,6 +194,8 @@
 		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
 		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
 		40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */; };
+		40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E6C25BEB28800FC98DD /* FormImageCell.m */; };
+		40E73E7125BEB55C00FC98DD /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E7025BEB55C00FC98DD /* ImageCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -417,8 +414,6 @@
 		4054B96B25B6BD5D0023FC7F /* Solar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Solar.h; sourceTree = "<group>"; };
 		4054B96C25B6BD5D0023FC7F /* Lunar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Lunar.m; sourceTree = "<group>"; };
 		4054B96D25B6BD5D0023FC7F /* LunarSolarTransform.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LunarSolarTransform.h; sourceTree = "<group>"; };
-		4054B97925B6E7C40023FC7F /* FormItemViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemViewCell.h; sourceTree = "<group>"; };
-		4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemViewCell.m; sourceTree = "<group>"; };
 		4054B98A25B717AE0023FC7F /* APIFormListManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormListManager.h; sourceTree = "<group>"; };
 		4054B98B25B717AE0023FC7F /* APIFormListManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFormListManager.m; sourceTree = "<group>"; };
 		4054B99025B7186D0023FC7F /* APIFormNewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFormNewManager.h; sourceTree = "<group>"; };
@@ -429,14 +424,6 @@
 		4054B99B25B719190023FC7F /* APIFormEditManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APIFormEditManager.m; sourceTree = "<group>"; };
 		4054B99F25B71F990023FC7F /* DataManager+Form.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DataManager+Form.h"; sourceTree = "<group>"; };
 		4054B9A025B71F990023FC7F /* DataManager+Form.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "DataManager+Form.m"; sourceTree = "<group>"; };
-		4054B9A325B729920023FC7F /* FormViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormViewCell.h; sourceTree = "<group>"; };
-		4054B9A425B729920023FC7F /* FormViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormViewCell.m; sourceTree = "<group>"; };
-		4054B9A725B7C11D0023FC7F /* FormRowView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormRowView.h; sourceTree = "<group>"; };
-		4054B9A825B7C11D0023FC7F /* FormRowView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormRowView.m; sourceTree = "<group>"; };
-		4054B9B125B7C9DF0023FC7F /* FormItemView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemView.h; sourceTree = "<group>"; };
-		4054B9B225B7C9DF0023FC7F /* FormItemView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemView.m; sourceTree = "<group>"; };
-		4054B9B525B7FC690023FC7F /* FormTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormTitleView.h; sourceTree = "<group>"; };
-		4054B9B625B7FC690023FC7F /* FormTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormTitleView.m; sourceTree = "<group>"; };
 		4054B9B925B915270023FC7F /* FormDetailController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormDetailController.h; sourceTree = "<group>"; };
 		4054B9BA25B915270023FC7F /* FormDetailController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormDetailController.m; sourceTree = "<group>"; };
 		4054B9BD25B9188A0023FC7F /* FormEditCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditCell.h; sourceTree = "<group>"; };
@@ -565,6 +552,10 @@
 		40E334C525A98E00008DBDAB /* OperabilityTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperabilityTools.m; sourceTree = "<group>"; };
 		40E334C825A99DFF008DBDAB /* UIAlertAction+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIAlertAction+Extend.h"; sourceTree = "<group>"; };
 		40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertAction+Extend.m"; sourceTree = "<group>"; };
+		40E73E6B25BEB28800FC98DD /* FormImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormImageCell.h; sourceTree = "<group>"; };
+		40E73E6C25BEB28800FC98DD /* FormImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormImageCell.m; sourceTree = "<group>"; };
+		40E73E6F25BEB55C00FC98DD /* ImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
+		40E73E7025BEB55C00FC98DD /* ImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 		578C9E99FFA515FBBC675532 /* libPods-TTManager.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TTManager.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		5D3C7C05354298C36297A760 /* Pods-TTManager.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.debug.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.debug.xcconfig"; sourceTree = "<group>"; };
 		74F8E0F8F04BF593F6C5B4E1 /* Pods-TTManager.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TTManager.release.xcconfig"; path = "Target Support Files/Pods-TTManager/Pods-TTManager.release.xcconfig"; sourceTree = "<group>"; };
@@ -1285,18 +1276,12 @@
 		4054B97825B6E7950023FC7F /* cell */ = {
 			isa = PBXGroup;
 			children = (
-				4054B97925B6E7C40023FC7F /* FormItemViewCell.h */,
-				4054B97A25B6E7C40023FC7F /* FormItemViewCell.m */,
-				4054B9A325B729920023FC7F /* FormViewCell.h */,
-				4054B9A425B729920023FC7F /* FormViewCell.m */,
-				4054B9A725B7C11D0023FC7F /* FormRowView.h */,
-				4054B9A825B7C11D0023FC7F /* FormRowView.m */,
-				4054B9B125B7C9DF0023FC7F /* FormItemView.h */,
-				4054B9B225B7C9DF0023FC7F /* FormItemView.m */,
-				4054B9B525B7FC690023FC7F /* FormTitleView.h */,
-				4054B9B625B7FC690023FC7F /* FormTitleView.m */,
 				4054B9BD25B9188A0023FC7F /* FormEditCell.h */,
 				4054B9BE25B9188A0023FC7F /* FormEditCell.m */,
+				40E73E6B25BEB28800FC98DD /* FormImageCell.h */,
+				40E73E6C25BEB28800FC98DD /* FormImageCell.m */,
+				40E73E6F25BEB55C00FC98DD /* ImageCell.h */,
+				40E73E7025BEB55C00FC98DD /* ImageCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1591,10 +1576,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				402AA1D82598B02600A9DABA /* HeaderCell.m in Sources */,
-				4054B97B25B6E7C40023FC7F /* FormItemViewCell.m in Sources */,
 				402AA09E2595D6EF00A9DABA /* DataManager+User.m in Sources */,
 				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
 				4054B91325B40E2F0023FC7F /* ZHDepartment+CoreDataClass.m in Sources */,
+				40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,
@@ -1643,7 +1628,6 @@
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
-				4054B9B725B7FC690023FC7F /* FormTitleView.m in Sources */,
 				4054B9EC25BACF680023FC7F /* APITargetOperations.m in Sources */,
 				4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */,
 				402AA09F2595D6EF00A9DABA /* DataManager.m in Sources */,
@@ -1653,7 +1637,6 @@
 				4054B97025B6BD5D0023FC7F /* Lunar.m in Sources */,
 				402AA1EE2599815700A9DABA /* MessageView.m in Sources */,
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
-				4054B9A525B729920023FC7F /* FormViewCell.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
 				4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */,
 				402AA1402596D09800A9DABA /* LoginValidChecker.m in Sources */,
@@ -1665,7 +1648,6 @@
 				402AA1032595D90400A9DABA /* ZHTask+CoreDataClass.m in Sources */,
 				4081EFE625BC3255004F8BB4 /* APIResetManager.m in Sources */,
 				402A9F4F2595A4F900A9DABA /* TeamController.m in Sources */,
-				4054B9A925B7C11D0023FC7F /* FormRowView.m in Sources */,
 				406FCAF225A34A8200636079 /* UITableView+EmptyView.m in Sources */,
 				402AA1122595D92E00A9DABA /* ZHFormItem+CoreDataClass.m in Sources */,
 				400B494E25A6B598006CBEBB /* UIViewController+ImagePicker.m in Sources */,
@@ -1690,6 +1672,7 @@
 				4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */,
 				4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
+				40E73E7125BEB55C00FC98DD /* ImageCell.m in Sources */,
 				402AA0DC2595D8A300A9DABA /* ZHProjectMemo+CoreDataClass.m in Sources */,
 				402A9F912595CC9F00A9DABA /* UIViewExt.m in Sources */,
 				402AA182259726D700A9DABA /* BaseApiManager.m in Sources */,
@@ -1723,7 +1706,6 @@
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,
 				402AA2082599E05400A9DABA /* TaskListController.m in Sources */,
-				4054B9B325B7C9DF0023FC7F /* FormItemView.m in Sources */,
 				402A9F1A259577BC00A9DABA /* FrameController.m in Sources */,
 				402AA0B32595D87100A9DABA /* ZHMessage+CoreDataClass.m in Sources */,
 				4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */,
