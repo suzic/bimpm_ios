@@ -8,6 +8,16 @@
 #import "FormDetailController.h"
 #import "FormEditCell.h"
 
+/**
+ 1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
+ 2:模版是固化的（instance_ident==nil），实例中的历史记录版本也是固化的（通过buddy_file=uid_target进行FormDetail拿不到数据的为历史记录版本）。固化的版本不需要判断是否可编辑（multi_editable是否大于0）
+ 3:判断是否可编辑，如果可编辑直接编辑当前表格，
+ 4:如果不可编辑，TargetClone，下载clone后的表单文件clone_form.json,
+ 5:FormOperations-FILL，更新form.json(或者clone_form.json)，使用FileUpload上传当前form.json(或者clone_form.json)
+ 5:最后上传成功之后 再调用TargetUpdate 告诉更新了哪个target（clone_target）。
+ */
+
+
 @interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
 @property (nonatomic, strong) UITableView *tableView;
