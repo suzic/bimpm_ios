@@ -93,7 +93,31 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return cell;
 }
-
+#pragma mark - network
+// 下载当前form表单
+- (void)downLoadCurrentFormJsonByBuddy_file:(NSString *)buddy_file{
+    
+}
+// 查看当前表单详情，如果没有是快照 只读，如果有则继续下一步
+- (void)getFromDetailByBuddy_file:(NSString *)buddy_file{
+    
+}
+// 克隆当前表单，克隆成功之后 调用下载clone后的表单
+- (void)cloneCurrentFormByBuddy_file:(NSString *)buddy_file{
+    
+}
+// 填充当前表单
+- (void)operationsFormFill:(NSDictionary *)params{
+    
+}
+// 上传填充之后的表单
+- (void)uploadFillSuccessLaterFrom:(NSDictionary *)fillFrom{
+    
+}
+// 通知服务器，我更新了哪个文件
+- (void)informTargetUpdateByBuddy_file:(NSString *)buddy_file{
+    
+}
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
