@@ -8,9 +8,10 @@
 #ifndef NetWorkInterface_h
 #define NetWorkInterface_h
 
-#define SERVICEADDRESS     @"http://www.suzic.cn:8010"
-//#define SERVICEADDRESS     @"https://www.bim-pm.com"
-#define FILESERVICEADDRESS @"https://www.suzic.cn"
+//#define SERVICEADDRESS     @"http://www.suzic.cn:8010"
+#define SERVICEADDRESS     @"https://www.bim-pm.com/bimpmservice"
+
+#define FILESERVICEADDRESS @"https://www.bim-pm.com/"
 
 
 // 用户登录相关接口

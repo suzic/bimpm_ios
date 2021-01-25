@@ -247,7 +247,7 @@
 }
 - (IBAction)sendVerifyCode:(id)sender {
     UIButton *button = (UIButton *)sender;
-    if (self.showCaptch == YES) {
+    if (self.showCaptch == YES && self.controllerType == typeLoginPassword) {
         [self.captchManager loadData];
     }else{
         self.verifyBtn = button;
@@ -412,6 +412,7 @@
         self.controllerType = typeLoginPassword;
     }else if(manager == self.registerManager){
         self.controllerType = typeLoginPassword;
+        self.showCaptch = NO;
         [SZAlert showInfo:@"注册成功，将为您切换到登录界面。" underTitle:TARGETS_NAME];
     }
     NSLog(@"成功的数据%@",manager.response.responseData);

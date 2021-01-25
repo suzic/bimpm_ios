@@ -37,8 +37,9 @@
 @property (nonatomic, strong) UIViewController *userVC;
 
 // api
-@property (nonatomic, strong)APILoginManager *loginManager;
-@property (nonatomic, strong)APILoginManager *newDeviceCheckManager;
+@property (nonatomic, strong) APILoginManager *loginManager;
+@property (nonatomic, strong) APILoginManager *newDeviceCheckManager;
+@property (nonatomic, strong) APIIMTokenManager *IMTokenManager;
 
 @property (nonatomic, copy) NSString *verifyCode;
 
@@ -327,11 +328,26 @@
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLogined object:nil];
-        if ([AppDelegate sharedDelegate].initRongCloud == NO) {
-            [[AppDelegate sharedDelegate] initRongCloudIM];
+        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+        if (![SZUtil isEmptyOrNull:currentUser.uid_chat]) {
+            if ([AppDelegate sharedDelegate].initRongCloud == NO) {
+                [[AppDelegate sharedDelegate] initRongCloudIM];
+            }
+        }else{
+            [self.IMTokenManager loadData];
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self updateFrame];
+    }else if(manager == self.IMTokenManager){
+        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+        if (![SZUtil isEmptyOrNull:currentUser.uid_chat]) {
+            currentUser.uid_chat = manager.response.responseData[@"data"][@"uid_chat"];
+            [[DataManager defaultInstance] saveContext];
+            
+            if ([AppDelegate sharedDelegate].initRongCloud == NO) {
+                [[AppDelegate sharedDelegate] initRongCloudIM];
+            }
+        }
     }
 }
 
@@ -349,10 +365,10 @@
         NSString *savedPassword = @"";
         if ([SZUtil isEmptyOrNull:currentUser.verify_code] == YES){
             if (![SZUtil isEmptyOrNull:currentUser.password])
-                savedPassword = currentUser.password;
+                savedPassword = currentUser.password.MD5String;
         }
        params = @{@"phone":currentUser.phone,
-                 @"password":savedPassword.MD5String,
+                 @"password":savedPassword,
                  @"verify":currentUser.verify_code == nil ? @"" : currentUser.verify_code,
                  @"captcha":@"",
                  @"device_id":currentUser.device,
@@ -364,6 +380,8 @@
                  @"captcha":@"",
                  @"device_id":currentUser.device,
           @"device_name":deviceType};
+    }else if(manager == self.IMTokenManager){
+        params = @{@"id_user":INT_32_TO_STRING(currentUser.id_user)};
     }
     NSLog(@"请求参数%@",params);
     return params;
@@ -378,6 +396,14 @@
         _loginManager.paramSource = self;
     }
     return _loginManager;
+}
+- (APIIMTokenManager *)IMTokenManager{
+    if (_IMTokenManager == nil) {
+        _IMTokenManager = [[APIIMTokenManager alloc] init];
+        _IMTokenManager.delegate = self;
+        _IMTokenManager.paramSource = self;
+    }
+    return _IMTokenManager;
 }
 - (APILoginManager *)newDeviceCheckManager{
     if (_newDeviceCheckManager == nil) {

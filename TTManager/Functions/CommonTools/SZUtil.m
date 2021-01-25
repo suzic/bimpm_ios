@@ -580,7 +580,7 @@ static NSDateFormatter *dayFormatter;
 }
 + (NSString *)app_target_name{
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
-    CFShow((__bridge CFTypeRef)(infoDictionary));
+//    CFShow((__bridge CFTypeRef)(infoDictionary));
       // app名称
     NSString *app_Name = [infoDictionary objectForKey:@"CFBundleDisplayName"];
     return app_Name;
