@@ -43,6 +43,7 @@
 }
 - (void)reoladNetwork{
     [self.rootFileView.navigationController popToRootViewControllerAnimated:YES];
+    self.rootFileView.title = @"目录";
     [self.rootFileView reoladNetwork];
 }
 
