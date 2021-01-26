@@ -16,12 +16,15 @@
     BOOL result = YES;
     NSDictionary *dataDic = response.responseData;
     NSNumber *status = dataDic[@"code"];
-    
-    // 需要重新登录 抛出登录通知，继续下一步操作
-    if ([status isEqualToNumber:@1]||[status isEqualToNumber:@2] ||[status isEqualToNumber:@3]){
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{}];
+    if ([dataDic isKindOfClass:[NSDictionary class]] && status == nil) {
+        return result;
     }else{
-        [SZAlert showInfo:dataDic[@"msg"] underTitle:TARGETS_NAME];
+        // 需要重新登录 抛出登录通知，继续下一步操作
+        if ([status isEqualToNumber:@1]||[status isEqualToNumber:@2] ||[status isEqualToNumber:@3]){
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{}];
+        }else{
+            [SZAlert showInfo:dataDic[@"msg"] underTitle:TARGETS_NAME];
+        }
     }
     return result;
 }

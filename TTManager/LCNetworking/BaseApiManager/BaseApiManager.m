@@ -46,10 +46,14 @@
                                                          service:self.child.service apiName:self.child.apiName success:^(LCURLResponse * _Nonnull response)
     {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if ([response.responseData[@"code"] isEqualToNumber:@0]) {
+        if (requestype == REQUEST_TYPE_GET) {
             [strongSelf successedOnCallingAPI:response];
         }else{
-            [strongSelf failedOnCallingAPI:response withErrorType:APIManagerErrorTypeDefault];
+            if ([response.responseData[@"code"] isEqualToNumber:@0]) {
+                [strongSelf successedOnCallingAPI:response];
+            }else{
+                [strongSelf failedOnCallingAPI:response withErrorType:APIManagerErrorTypeDefault];
+            }
         }
     } fail:^(LCURLResponse * _Nonnull response) {
         __strong typeof(weakSelf) strongSelf = weakSelf;

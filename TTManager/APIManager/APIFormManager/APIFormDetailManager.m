@@ -28,7 +28,7 @@
 }
 
 - (BOOL)isCoreData {
-    return YES;
+    return NO;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSDictionary *dic = @{@"data":params,
@@ -47,10 +47,10 @@
     return YES;
 }
 
--(id)coreDataCallBackData:(LCURLResponse *)response{
-    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
-    ZHForm *form = [[DataManager defaultInstance] syncFormWithFormInfo:dict[@"form_info"]];
-    return form;
-}
+//-(id)coreDataCallBackData:(LCURLResponse *)response{
+//    NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
+//    ZHForm *form = [[DataManager defaultInstance] syncFormWithFormInfo:dict[@"form_info"]];
+//    return form;
+//}
 
 @end

@@ -9,6 +9,8 @@
 #import "FormEditCell.h"
 #import "FormImageCell.h"
 #import "BottomView.h"
+#import "FormHeaderView.h"
+
 /**
  1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
  2:模版是固化的（instance_ident==nil），实例中的历史记录版本也是固化的（通过buddy_file=uid_target进行FormDetail拿不到数据的为历史记录版本）。固化的版本不需要判断是否可编辑（multi_editable是否大于0）
@@ -26,22 +28,26 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) FormEditCell *headerView;
 @property (nonatomic, strong) BottomView *bottomView;
-
-// 当前原始表单数据
-@property (nonatomic, strong) ZHForm *currentFrom;
+@property (nonatomic, strong) FormHeaderView *formHeaderView;
+// 下载的表单数据
+@property (nonatomic, strong) NSMutableDictionary *downLoadformDic;
+// 下载克隆后的表单数据
+@property (nonatomic, strong) NSMutableDictionary *downLoadCloneformDic;
 // 原始数据
-@property (nonatomic, strong) NSMutableArray *formItemsArray;
+@property (nonatomic, strong) NSMutableDictionary *formDic;
 // 克隆的表单
-@property (nonatomic, strong) NSMutableArray *cloneFormItemsArray;
+@property (nonatomic, strong) NSMutableDictionary *cloneFormDic;
+// 当前表单是否可克隆
+@property (nonatomic, assign) BOOL canCloneForm;
 // 是否是克隆
-@property (nonatomic, assign) BOOL isCloneFormItem;
-// 克隆后的buddy_file
-@property (nonatomic, copy) NSString *clone_buddy_file;
-// 克隆后的表单数据
-@property (nonatomic, strong) ZHForm *cloneCurrentFrom;
+@property (nonatomic, assign) BOOL isCloneForm;
+
+// 当前下载的json是否可编辑
+@property (nonatomic, assign) BOOL canEditForm;
 // 是否是编辑状态
 @property (nonatomic, assign) BOOL isEditForm;
-
+// 克隆后的buddy_file
+@property (nonatomic, copy) NSString *clone_buddy_file;
 // 获取表单json
 @property (nonatomic, strong) APIFileDownLoadManager *downLoadManager;
 // api表单详情
@@ -61,10 +67,11 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"表单详情";
-    self.isCloneFormItem = NO;
+    self.isCloneForm = NO;
     self.isEditForm = NO;
+    self.canCloneForm = NO;
     [self addUI];
-    [self.formDetailManager loadData];
+    [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
 }
 
 #pragma mark - UITableViewDelegate UITableViewDataSource
@@ -72,7 +79,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return self.instanceFromArray.count;
+    NSArray *items = self.instanceFromDic[@"items"];
+    return items.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
@@ -87,9 +95,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         if (!editCell) {
             editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
         }
-        
-        ZHFormItem *item = self.instanceFromArray[indexPath.row];
-        [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:item];
+        NSArray *items = self.instanceFromDic[@"items"];
+
+        NSDictionary *formItem = items[indexPath.row];
+        [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:formItem];
         cell = editCell;
     }else{
         FormImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIndex];
@@ -103,33 +112,34 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 #pragma mark - network
 // 下载当前form表单
 - (void)downLoadCurrentFormJsonByBuddy_file:(NSString *)buddy_file{
-    
+    self.downLoadManager.uid_target = buddy_file;
+    [self.downLoadManager loadData];
 }
 // 查看当前表单详情，如果没有是快照 只读，如果有则继续下一步
 - (void)getFromDetailByBuddy_file:(NSString *)buddy_file{
-    
+    [self.formDetailManager loadData];
 }
 // 克隆当前表单，克隆成功之后 调用下载clone后的表单
 - (void)cloneCurrentFormByBuddy_file:(NSString *)buddy_file{
-    
+    [self.downLoadManager loadData];
 }
 // 填充当前表单
 - (void)operationsFormFill:(NSDictionary *)params{
-    
+    [self.formOperationsManager loadData];
 }
 // 上传填充之后的表单
 - (void)uploadFillSuccessLaterFrom:(NSDictionary *)fillFrom{
-    
+    [self.uploadfileManager loadData];
 }
 // 通知服务器，我更新了哪个文件
 - (void)informTargetUpdateByBuddy_file:(NSString *)buddy_file{
-    
+    [self.targetUpdateManager loadData];
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.formDetailManager) {
-        params = @{@"buddy_file": self.isCloneFormItem == YES ? self.clone_buddy_file :self.buddy_file};
+        params = @{@"buddy_file": self.instanceBuddy_file};
     }else if(manager == self.formOperationsManager){
         params = [self getOperationsFromParams];
     }else if(manager == self.targetCloneManager){
@@ -138,40 +148,38 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                    @"new_name":[NSNull null],
                    @"source_target":self.buddy_file};
     }else if(manager == self.uploadfileManager){
-        
+        params = @{@"id_project":self.instanceFromDic[@"form_info"][@"fid_project"],
+                   @"uid_target":self.instanceBuddy_file,
+                   @"file":self.instanceDownLoadForm};
     }else if(manager == self.targetUpdateManager){
-        
-    }else if(manager == self.downLoadManager){
-        
+        params = @{@"id_project":self.instanceFromDic[@"form_info"][@"fid_project"],@"uid_target":self.instanceBuddy_file};
     }
     return params;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    NSDictionary *data = (NSDictionary *)manager.response.responseData;
     if (manager == self.formDetailManager) {
-        if (self.isCloneFormItem == NO) {
-            self.currentFrom = (ZHForm *)manager.response.responseData;
-        }else if(self.isCloneFormItem == YES){
-            self.cloneCurrentFrom = (ZHForm *)manager.response.responseData;
-        }
-        [self getFormItemInfo];
+        [self getFormItemInfo:data];
         [self fillHeaderView];
+        [self judgeDownLoadFormIsEditClone];
         [self.tableView reloadData];
     }else if(manager == self.formOperationsManager){
         
     }else if(manager == self.targetCloneManager){
-        self.isCloneFormItem = YES;
+        self.isCloneForm = YES;
         NSDictionary *dic = manager.response.responseData;
         self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
-        [self.formDetailManager loadData];
+        [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
         
     }else if(manager == self.uploadfileManager){
         [self.targetUpdateManager loadData];
     }else if(manager == self.targetUpdateManager){
         
     }else if(manager == self.downLoadManager){
-        // 获取详情
-        [self.formDetailManager loadData];
+        NSLog(@"下载表单成功");
+        [self setCloneFormInfo:data];
+        [self judgeDownLoadFormIsEditClone];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -187,15 +195,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 #pragma mark - responsder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_edit_item]) {
-        NSIndexPath *indexPath = userInfo[@"indexPath"];
-        NSString *value = userInfo[@"value"];
-        ZHFormItem *item = self.instanceFromArray[indexPath.row];
-        item.instance_value = [NSString stringWithFormat:@"%@",value];
-        [self.tableView reloadData];
+        [self modifyCurrentDownLoadForm:userInfo];
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         NSIndexPath *formItemIndex = userInfo[@"formItemIndex"];
         NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
         NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
+//        [self modifyCurrentDownLoadForm:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
         NSLog(@"保存当前编辑的表单");
     }
@@ -213,42 +218,79 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
     [self.tableView reloadData];
 }
+#pragma mark - private
+// 获取操作后的提交的参数
 - (NSMutableDictionary *)getOperationsFromParams{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFrom.instance_ident,@"id_project":INT_32_TO_STRING(self.instanceFrom.belongProject.id_project)}];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFromDic[@"instance_ident"],@"id_project":self.instanceFromDic[@"buddy_file"][@"fid_project"]}];
     NSMutableArray *items = [NSMutableArray array];
-    for (ZHFormItem *formItem in self.instanceFromArray) {
-        NSDictionary *itemDic = @{@"ident":formItem.uid_item,@"instance_value":formItem.instance_value};
+    for (NSDictionary *formItem in self.instanceFromDic[@"items"]) {
+        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":formItem[@"instance_value"]};
         [items addObject:itemDic];
     }
     params[@"info"] = items;
     return params;
 }
-- (void)getFormItemInfo{
-    NSArray *result = [NSArray array];
-    if (self.isCloneFormItem == NO) {
-        [self.formItemsArray removeAllObjects];
-        result = [self.currentFrom.hasItems allObjects];
-    }else if(self.isCloneFormItem == YES){
-        [self.cloneFormItemsArray removeAllObjects];
-        result = [self.cloneCurrentFrom.hasItems allObjects];
-    }
-    NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"order_index" ascending:YES];
-    NSArray *sortDescriptors = [NSArray arrayWithObjects:sd, nil];
-    NSArray *sortArray = [result sortedArrayUsingDescriptors:sortDescriptors];
-    if (self.isCloneFormItem == NO) {
-        [self.formItemsArray addObjectsFromArray:sortArray];
+// 设置获取的表单详情数据
+- (void)getFormItemInfo:(NSDictionary *)form{
+    if (self.isCloneForm == NO) {
+        self.formDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
     }else{
-        [self.cloneFormItemsArray addObjectsFromArray:sortArray];
+        self.cloneFormDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
     }
+}
+// 设置当前clong后的表单数据
+- (void)setCloneFormInfo:(NSDictionary *)form{
+    if (self.isCloneForm == NO) {
+        self.downLoadformDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+    }else{
+        self.downLoadCloneformDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+    }
+    // 获取表单详情
+    [self getFromDetailByBuddy_file:self.instanceBuddy_file];
+}
+// 修改当前编辑的数据(包含显示的form和下载的form)
+- (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData{
+    NSIndexPath *indexPath = modifyData[@"indexPath"];
+    NSString *value = modifyData[@"value"];
+    NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
+    itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
+    items[indexPath.row] = itemDic;
+    self.instanceFromDic[@"items"] = items;
+    [self.tableView reloadData];
+}
+// 判断当前表单是否可编辑可克隆
+- (void)judgeDownLoadFormIsEditClone{
+    
+    // instance_ident 为nil，则不可编辑
+    if ([SZUtil isEmptyOrNull:self.instanceDownLoadForm[@"instance_ident"]]) {
+        self.canEditForm = NO;
+    }else{
+        // 快照，不可编辑，不可克隆
+        if ([SZUtil isEmptyOrNull:self.instanceFromDic[@"form_info"]]) {
+            self.canEditForm = NO;
+            self.canCloneForm = NO;
+        }else{
+             int multi_editable = [self.instanceFromDic[@"buddy_file"][@"multi_editable"] intValue];
+            self.canEditForm = multi_editable > 0;
+            self.canCloneForm = YES;
+        }
+    }
+    [self.tableView reloadData];
 }
 #pragma mark - UI
 - (void)addUI{
+    [self.view addSubview:self.formHeaderView];
     [self.view addSubview:self.headerView];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.bottomView];
     
+    [self.formHeaderView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+    }];
+    
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(0);
+        make.top.equalTo(self.formHeaderView.mas_bottom);
         make.left.right.equalTo(0);
         make.height.equalTo(44);
     }];
@@ -268,7 +310,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 - (void)fillHeaderView{
     self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextView.text =  self.instanceFrom.instance_ident;
+    self.headerView.valueTextView.text =  self.instanceFromDic[@"uid_ident"];
     self.headerView.valueTextView.editable = NO;
 }
 #pragma mark - setter and getter
@@ -284,10 +326,17 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _tableView;
 }
+- (FormHeaderView *)formHeaderView{
+    if (_formHeaderView == nil) {
+        _formHeaderView = [[FormHeaderView alloc] init];
+    }
+    return _formHeaderView;
+}
 - (FormEditCell *)headerView{
     if (_headerView == nil) {
         _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
         _headerView.backgroundColor = [UIColor whiteColor];
+        _headerView.valueTextView.placeholder = @"";
     }
     return _headerView;
 }
@@ -297,34 +346,52 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _bottomView;
 }
-- (NSMutableArray *)instanceFromArray{
-    if (self.isCloneFormItem == NO) {
-        return self.formItemsArray;
-    }else if(self.isCloneFormItem == YES){
-        return self.cloneFormItemsArray;
+- (NSMutableDictionary *)downLoadformDic{
+    if (_downLoadformDic == nil) {
+        _downLoadformDic = [NSMutableDictionary dictionary];
+    }
+    return _downLoadformDic;
+}
+- (NSMutableDictionary *)downLoadCloneformDic{
+    if (_downLoadCloneformDic == nil) {
+        _downLoadCloneformDic = [NSMutableDictionary dictionary];
+    }
+    return _downLoadCloneformDic;
+}
+- (NSMutableDictionary *)formDic{
+    if (_formDic == nil) {
+        _formDic = [NSMutableDictionary dictionary];
+    }
+    return _formDic;
+}
+- (NSMutableDictionary *)cloneFormDic{
+    if (_cloneFormDic == nil) {
+        _cloneFormDic = [NSMutableDictionary dictionary];
+    }
+    return _cloneFormDic;
+}
+- (NSMutableDictionary *)instanceFromDic{
+    if (self.isCloneForm == NO) {
+        return self.formDic;
+    }else if(self.isCloneForm == YES){
+        return self.cloneFormDic;
     }
     return nil;
 }
-- (ZHForm *)instanceFrom{
-    if (self.isCloneFormItem == NO) {
-        return self.currentFrom;
-    }else if(self.isCloneFormItem == YES){
-        return  self.cloneCurrentFrom;
+- (NSMutableDictionary *)instanceDownLoadForm{
+    if (self.isEditForm == YES) {
+        return self.downLoadformDic;
+    }else if(self.isEditForm == NO){
+        return self.downLoadCloneformDic;
     }
     return nil;
 }
-
-- (NSMutableArray *)formItemsArray{
-    if (_formItemsArray == nil) {
-        _formItemsArray = [NSMutableArray array];
+- (NSString *)instanceBuddy_file{
+    if (self.isEditForm == NO) {
+        return self.buddy_file;
+    }else{
+        return self.clone_buddy_file;
     }
-    return _formItemsArray;
-}
-- (NSMutableArray *)cloneFormItemsArray{
-    if (_cloneFormItemsArray == nil) {
-        _cloneFormItemsArray = [NSMutableArray array];
-    }
-    return _cloneFormItemsArray;
 }
 #pragma mark - api
 -(APIFileDownLoadManager *)downLoadManager{

@@ -96,6 +96,7 @@
 		402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F225B002F60030E68D /* APITargetNewManager.m */; };
 		402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F725B03CB90030E68D /* ServiceIdentifer.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
+		403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D947E25BFF0CA003B1B60 /* FormHeaderView.m */; };
 		4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8C725B15E830023FC7F /* APILogoutManager.m */; };
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
 		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
@@ -373,6 +374,8 @@
 		402DA0F825B03CB90030E68D /* ServiceIdentifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceIdentifer.h; sourceTree = "<group>"; };
 		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
+		403D947D25BFF0CA003B1B60 /* FormHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormHeaderView.h; sourceTree = "<group>"; };
+		403D947E25BFF0CA003B1B60 /* FormHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormHeaderView.m; sourceTree = "<group>"; };
 		4054B8C625B15E830023FC7F /* APILogoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogoutManager.h; sourceTree = "<group>"; };
 		4054B8C725B15E830023FC7F /* APILogoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogoutManager.m; sourceTree = "<group>"; };
 		4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPDetailManager.h; sourceTree = "<group>"; };
@@ -1293,6 +1296,8 @@
 				40E73E7025BEB55C00FC98DD /* ImageCell.m */,
 				40E73E9025BF1B3600FC98DD /* BottomView.h */,
 				40E73E9125BF1B3600FC98DD /* BottomView.m */,
+				403D947D25BFF0CA003B1B60 /* FormHeaderView.h */,
+				403D947E25BFF0CA003B1B60 /* FormHeaderView.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1725,6 +1730,7 @@
 				402A9F612595B12A00A9DABA /* SZUtil.m in Sources */,
 				402AA2082599E05400A9DABA /* TaskListController.m in Sources */,
 				402A9F1A259577BC00A9DABA /* FrameController.m in Sources */,
+				403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */,
 				402AA0B32595D87100A9DABA /* ZHMessage+CoreDataClass.m in Sources */,
 				4054B91125B40E2F0023FC7F /* ZHDepartment+CoreDataProperties.m in Sources */,
 				406FCA7925A1953400636079 /* APIDepartmentManager.m in Sources */,

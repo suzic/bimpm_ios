@@ -28,7 +28,7 @@
 }
 
 - (BOOL)isCoreData {
-    return NO;
+    return YES;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];

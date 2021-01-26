@@ -12,7 +12,7 @@
 @property (nonatomic, strong) UIButton *clickButton;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
 @property (nonatomic, strong) NSMutableArray *enum_poolArray;
-@property (nonatomic, strong) ZHFormItem *formItem;
+@property (nonatomic, strong) NSDictionary *formItem;
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) BRDatePickerView *datePickerView;
@@ -39,7 +39,7 @@
 - (void)clickButtonAction:(UIButton *)button{
     NSLog(@"点击了我");
     [[IQKeyboardManager sharedManager] resignFirstResponder];
-    NSInteger type = [_formItem.type intValue];
+    NSInteger type = [_formItem[@"type"] intValue];
     if (type == 3) {
         [self.datePickerView show];
     }
@@ -51,7 +51,7 @@
     // 枚举
     else if(type == 5){
         [self.superview.superview resignFirstResponder];
-        [self.enum_poolArray addObjectsFromArray:[_formItem.enum_pool componentsSeparatedByString:@","]];
+        [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
         [self showActionSheets];
     }
 }
@@ -86,7 +86,7 @@
         [self.valueTextView borderForColor:[UIColor clearColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
         self.valueTextView.editable = NO;
     }
-    NSInteger type = [_formItem.type intValue];
+    NSInteger type = [_formItem[@"type"] intValue];
     // 日期 YYYY-MM-DD
     if (type == 3 ||type == 4||type == 5) {
         self.clickButton.hidden = NO;
@@ -149,7 +149,7 @@
 }
 
 #pragma mark - setter and getter
-- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(ZHFormItem *)formItem{
+- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
     self.isFormEdit = isFormEdit;
     self.formItem = formItem;
     self.indexPath = indexPath;
@@ -159,16 +159,16 @@
     [self setValueTextFieldStyleByItemStatus:_isFormEdit];
 }
 
-- (void)setFormItem:(ZHFormItem *)formItem{
+- (void)setFormItem:(NSDictionary *)formItem{
     _formItem = formItem;
-    self.keyLabel.text = _formItem.name;
-    if ([SZUtil isEmptyOrNull:_formItem.instance_value]) {
-        self.valueTextView.placeholder = self.itemTypeValueDic[_formItem.type];
+    self.keyLabel.text = _formItem[@"name"];
+    if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
+        self.valueTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",_formItem[@"type"]]];
     }else{
-        if ([_formItem.type  isEqualToString:@"1"] || [_formItem.type isEqualToString:@"2"]) {
-            self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem.instance_value,_formItem.unit_char];
+        if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
+            self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem[@"instance_value"],_formItem[@"unit_char"]];
         }else{
-            self.valueTextView.text = _formItem.instance_value;
+            self.valueTextView.text = _formItem[@"instance_value"];
         }
     }
 //    [self.fromIamgeView.imageCollectionView reloadData];
