@@ -32,8 +32,10 @@
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:params];
-//    dict[@"pager"] = [self.pageSize currentPage];
-    NSDictionary *dic = @{@"data":dict};
+    dict[@"pager"] = [self.pageSize currentPage];
+    NSDictionary *dic = @{@"data":dict,
+                          @"module":@"",
+                          @"priority":@"5"};
     return dic;
 }
 #pragma mark - APIManagerValidator 参数验证
@@ -49,7 +51,7 @@
 // 本地数据库
 - (id)targetListCoreData:(LCURLResponse *)response{
     NSDictionary *dict = [NSDictionary changeType:(NSDictionary*)response.responseData[@"data"]];
-    self.pageSize = dict[@"page"];
+    self.responsePageSize = [self.responsePageSize pageDic: dict[@"pager"]];
     NSArray *array = [[DataManager defaultInstance] syncTargetWithInfo:dict];
     return array;
 }

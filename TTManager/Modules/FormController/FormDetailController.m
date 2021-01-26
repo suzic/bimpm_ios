@@ -86,7 +86,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     return 1;
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSArray *items = self.instanceFromDic[@"items"];
+    NSArray *items = self.instanceDownLoadForm[@"items"];
     return items.count;
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
@@ -102,7 +102,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         if (!editCell) {
             editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
         }
-        NSArray *items = self.instanceFromDic[@"items"];
+        NSArray *items = self.instanceDownLoadForm[@"items"];
 
         NSDictionary *formItem = items[indexPath.row];
         [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:formItem];
@@ -155,11 +155,13 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                    @"new_name":[NSNull null],
                    @"source_target":self.buddy_file};
     }else if(manager == self.uploadfileManager){
-        params = @{@"id_project":self.instanceFromDic[@"form_info"][@"fid_project"],
-                   @"uid_target":self.instanceBuddy_file,
-                   @"file":self.instanceDownLoadForm};
+        NSString *data = [SZUtil convertToJsonData:self.instanceDownLoadForm];
+        NSDictionary *upload = @{@"name":self.instanceDownLoadForm[@"name"],@"type":@"json",@"data":data};
+        [self.uploadfileManager.uploadArray addObject: upload];
+        params = @{@"id_project":[NSString stringWithFormat:@"%@",self.instanceFromDic[@"fid_project"]],
+                   @"uid_target":self.instanceBuddy_file};
     }else if(manager == self.targetUpdateManager){
-        params = @{@"id_project":self.instanceFromDic[@"form_info"][@"fid_project"],@"uid_target":self.instanceBuddy_file};
+        params = @{@"id_project":self.instanceFromDic[@"fid_project"],@"uid_target":self.instanceBuddy_file};
     }
     return params;
 }
@@ -172,7 +174,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self judgeDownLoadFormIsEditClone];
         [self.tableView reloadData];
     }else if(manager == self.formOperationsManager){
-        
+        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+        if ([dic[@"code"] isEqualToNumber:@0]) {
+            [self.uploadfileManager loadData];
+        }
     }else if(manager == self.targetCloneManager){
         self.isCloneForm = YES;
         NSDictionary *dic = manager.response.responseData;
@@ -182,7 +187,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else if(manager == self.uploadfileManager){
         [self.targetUpdateManager loadData];
     }else if(manager == self.targetUpdateManager){
-        
+        [SZAlert showInfo:@"TargetUpdate成功" underTitle:TARGETS_NAME];
     }else if(manager == self.downLoadManager){
         NSLog(@"下载表单成功");
         [self setCloneFormInfo:data];
@@ -231,7 +236,11 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFromDic[@"instance_ident"],@"id_project":self.instanceFromDic[@"buddy_file"][@"fid_project"]}];
     NSMutableArray *items = [NSMutableArray array];
     for (NSDictionary *formItem in self.instanceFromDic[@"items"]) {
-        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":formItem[@"instance_value"]};
+        NSString *instance_value = formItem[@"instance_value"];
+        if ([SZUtil isEmptyOrNull:instance_value]) {
+            instance_value = @"";
+        }
+        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":instance_value};
         [items addObject:itemDic];
     }
     params[@"info"] = items;
@@ -248,22 +257,31 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 // 设置当前clong后的表单数据
 - (void)setCloneFormInfo:(NSDictionary *)form{
     if (self.isCloneForm == NO) {
-        self.downLoadformDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+        self.downLoadformDic = [NSMutableDictionary dictionaryWithDictionary: form];
     }else{
-        self.downLoadCloneformDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+        self.downLoadCloneformDic = [NSMutableDictionary dictionaryWithDictionary: form];
     }
     // 获取表单详情
     [self getFromDetailByBuddy_file:self.instanceBuddy_file];
 }
 // 修改当前编辑的数据(包含显示的form和下载的form)
 - (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData{
+    // 显示的数据
     NSIndexPath *indexPath = modifyData[@"indexPath"];
     NSString *value = modifyData[@"value"];
-    NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
+    NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
     NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
     itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
     items[indexPath.row] = itemDic;
-    self.instanceFromDic[@"items"] = items;
+    self.instanceDownLoadForm[@"items"] = items;
+    
+    // fill 的数据
+    NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
+    NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
+    itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
+    items[indexPath.row] = currentitemDic;
+    self.instanceFromDic[@"items"] = currentitems;
+    
     [self.tableView reloadData];
 }
 // 判断当前表单是否可编辑可克隆
@@ -319,7 +337,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 - (void)fillHeaderView{
     self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextView.text =  self.instanceFromDic[@"uid_ident"];
+    self.headerView.valueTextView.text =  self.isCloneForm == YES ? self.instanceDownLoadForm[@"instance_ident"] :self.instanceDownLoadForm[@"uid_ident"];
     self.headerView.valueTextView.editable = NO;
 }
 #pragma mark - setter and getter
@@ -389,9 +407,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     return nil;
 }
 - (NSMutableDictionary *)instanceDownLoadForm{
-    if (self.isEditForm == YES) {
+    if (self.isEditForm == NO) {
         return self.downLoadformDic;
-    }else if(self.isEditForm == NO){
+    }else if(self.isEditForm == YES){
         return self.downLoadCloneformDic;
     }
     return nil;

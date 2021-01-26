@@ -13,7 +13,7 @@
 
 @interface FileListView ()<UIGestureRecognizerDelegate,UITextFieldDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
 
-@property (nonatomic, strong) NSArray *fileListArray;
+@property (nonatomic, strong) NSMutableArray *fileListArray;
 // api
 @property (nonatomic, strong) APITargetListManager *targetListManager;
 @property (nonatomic, strong) APITargetOperations *targetOperation;
@@ -33,6 +33,7 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
+    self.tableView.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(refresMoreData)];
     [self reoladNetwork];
 
 }
@@ -41,7 +42,10 @@
     self.targetListManager.pageSize.pageSize = 20;
     [self.targetListManager loadData];
 }
-
+- (void)refresMoreData{
+    self.targetListManager.pageSize.pageIndex++;
+    [self.targetListManager loadData];
+}
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     //隐藏导航栏造成的返回手势失效
@@ -263,8 +267,18 @@
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.targetListManager) {
-        self.fileListArray = nil;
         [self.tableView.mj_header endRefreshing];
+        [self.tableView.mj_footer endRefreshing];
+        if (manager.responsePageSize.currentCount < self.targetListManager.pageSize.pageSize) {
+            [self.tableView.mj_footer endRefreshingWithNoMoreData];
+            self.tableView.mj_footer.hidden = YES;
+        }
+        if (self.targetListManager.pageSize.pageIndex == 1) {
+            [self.fileListArray removeAllObjects];
+        }
+        
+        [self.fileListArray addObjectsFromArray:(NSArray *)manager.response.responseData];
+        [self sortfileList];
         [self.tableView showDataCount:self.fileListArray.count type:0];
         [self.containerVC fileViewListEmpty:(self.fileListArray.count <= 0)];
         [self.containerVC loadFileCatalogCollectionView];
@@ -321,19 +335,32 @@
     }
     return _targetOperation;
 }
-- (NSArray *)fileListArray{
+- (NSMutableArray *)fileListArray{
     if (_fileListArray == nil) {
-        NSArray *result = (NSArray *)self.targetListManager.response.responseData;
-        if (self.navigationController.viewControllers.count >1) {
-            NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
-            NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"is_file" ascending:YES];
-            NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1,sd, nil];
-            result = [result sortedArrayUsingDescriptors:sortDescriptors];
-        }
-        _fileListArray = result;
+//        NSArray *result = (NSArray *)self.targetListManager.response.responseData;
+//        if (self.navigationController.viewControllers.count >1) {
+//            NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+//            NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"is_file" ascending:YES];
+//            NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1,sd, nil];
+//            result = [result sortedArrayUsingDescriptors:sortDescriptors];
+//        }
+//        _fileListArray = [NSMutableArray arrayWithArray:result];
+        _fileListArray = [NSMutableArray array];
     }
     return _fileListArray;
 }
+- (void)sortfileList{
+    NSArray *result = [NSArray arrayWithArray:self.fileListArray];
+    if (self.navigationController.viewControllers.count >1) {
+        NSSortDescriptor *sd = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+        NSSortDescriptor *sd1 = [[NSSortDescriptor alloc] initWithKey:@"is_file" ascending:YES];
+        NSArray *sortDescriptors = [NSArray arrayWithObjects:sd1,sd, nil];
+        result = [result sortedArrayUsingDescriptors:sortDescriptors];
+    }
+    [self.fileListArray removeAllObjects];
+    [self.fileListArray addObjectsFromArray:result];
+}
+
 #pragma mark - UIGestureRecognizerDelegate
 - (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer*)gestureRecognizer{
     //判断是否为rootViewController

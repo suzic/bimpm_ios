@@ -31,7 +31,9 @@
     return NO;
 }
 - (NSDictionary *)reformParams:(NSDictionary *)params{
-    NSDictionary *dic = @{@"data":params};
+    NSDictionary *dic = @{@"data":params,
+                          @"priority":@"5",
+                          @"module":@""};
     return dic;
 }
 

@@ -52,7 +52,8 @@
         self.uploadFileName = fileName;
     }
     [self.uploadFileManager.uploadArray removeAllObjects];
-    [self.uploadFileManager.uploadArray addObject:imageData];
+    NSDictionary *upLoadDic = @{@"name":fileName,@"type":@"image",@"data":imageData};
+    [self.uploadFileManager.uploadArray addObject:upLoadDic];
     [self.uploadFileManager loadData];
 }
 - (void)newFileGroupWithGroupName:(NSString *)fileName target:(NSDictionary *)target{

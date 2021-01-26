@@ -62,5 +62,5 @@
 #define URL_FORM_DETAIL          @"/form/FormDetail"
 #define URL_FORM_EDIT            @"/form/FormEdit"
 #define URL_FORM_LIST            @"/form/FormList"
-#define URL_FORM_OPERATIONS      @"/form/FormOperation"
+#define URL_FORM_OPERATIONS      @"/form/FormOperations"
 #endif /* NetWorkInterface_h */

@@ -11,6 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface APIUploadFileManager : BaseApiManager<APIManager,APIManagerValidator>
 
+/// 需要上传的文件数据，格式@{@"name":@"",@"type":@"image/json",@"data":@""}
 @property (nonatomic, strong) NSMutableArray *uploadArray;
 
 @end

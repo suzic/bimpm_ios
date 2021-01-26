@@ -172,4 +172,8 @@
  */
 + (UIViewController *)getCurrentVC;
 
+/// 字典转json
+/// @param dict 字典
++ (id)convertToJsonData:(NSMutableDictionary *)dict;
+
 @end

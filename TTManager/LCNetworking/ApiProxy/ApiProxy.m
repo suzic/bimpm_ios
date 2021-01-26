@@ -136,10 +136,16 @@
     NSDictionary *dic = params[@"params"];
     NSArray *imageArray = params[@"upload"];
     NSURLSessionDataTask * uploadtask =  [self.sessionManager POST:url parameters:dic headers:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        for (NSData * image in imageArray)
+        for (NSDictionary * uploadDic in imageArray)
         {
-            NSString * leadingString = [SZUtil getGUID];
-            [formData appendPartWithFileData:image name:@"file" fileName:[NSString stringWithFormat:@"%@.png",leadingString] mimeType:@"image/png"];
+            id data = uploadDic[@"data"];
+            NSString *fileName = uploadDic[@"name"];
+            NSString *type = uploadDic[@"type"];
+            if ([type isEqualToString:@"image"]) {
+                [formData appendPartWithFileData:data name:@"file" fileName:[NSString stringWithFormat:@"%@.png",fileName] mimeType:@"image/png"];
+            }else if([type isEqualToString:@"json"]){
+                [formData appendPartWithFileData:data name:@"file" fileName:[NSString stringWithFormat:@"%@.form",fileName] mimeType:@"text/json"];
+            }
         }
       } progress:^(NSProgress * _Nonnull uploadProgress)
       {
