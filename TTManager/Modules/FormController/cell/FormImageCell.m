@@ -28,6 +28,7 @@ static NSString *reuseIdentifier = @"ImageCell";
     if (self) {
         [self addUI];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }
     return self;
 }

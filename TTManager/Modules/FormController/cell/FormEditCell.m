@@ -32,6 +32,7 @@
         [self addUI];
         self.enum_poolArray = [NSMutableArray array];
         self.selectionStyle = UITableViewCellSelectionStyleNone;
+        self.separatorInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }
     return self;
 }
@@ -60,10 +61,13 @@
     if (self.valueTextView.editable == YES) {
         NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
         NSLog(@"当前textView的高度是---%ld",height);
-        textView.scrollEnabled = NO;
-        if (height < 44) {
+        if (height <= 44) {
             height = 44;
+        }else if(height > 44*10){
+            textView.scrollEnabled = YES;
+            height = 44*10;
         }
+        self.valueTextView.backgroundColor = [UIColor redColor];
         [self.valueTextView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(height);
         }];
@@ -79,13 +83,7 @@
 #pragma mark - private
 
 - (void)setValueTextFieldStyleByItemStatus:(BOOL)isEdit{
-    if (isEdit == YES) {
-        [self.valueTextView borderForColor:RGB_COLOR(102, 102, 102) borderWidth:0.5 borderType:UIBorderSideTypeAll];
-        self.valueTextView.editable = YES;
-    }else{
-        [self.valueTextView borderForColor:[UIColor clearColor] borderWidth:0.5 borderType:UIBorderSideTypeAll];
-        self.valueTextView.editable = NO;
-    }
+
     NSInteger type = [_formItem[@"type"] intValue];
     // 日期 YYYY-MM-DD
     if (type == 3 ||type == 4||type == 5) {
@@ -119,10 +117,10 @@
     [self addSubview:self.valueTextView];
     [self addSubview:self.clickButton];
     self.clickButton.hidden = YES;
-    
+
     UIView *keyBgView = [[UIView alloc] init];
     [self addSubview:keyBgView];
-    
+
     [keyBgView addSubview:self.keyLabel];
     [keyBgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(0);
@@ -135,11 +133,12 @@
         make.top.right.equalTo(0);
     }];
     [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.contentView).offset(5);
+        make.top.equalTo(0);
         make.left.equalTo(keyBgView.mas_right);
-        make.bottom.equalTo(self.contentView);
+        make.bottom.equalTo(0);
         make.right.equalTo(-5);
-        make.height.greaterThanOrEqualTo(35);
+        make.height.greaterThanOrEqualTo(44);
+        make.height.lessThanOrEqualTo(44*10);
     }];
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
@@ -191,9 +190,8 @@
         _valueTextView.textColor = RGB_COLOR(51, 51, 51);
         _valueTextView.placeholder = @"数据源";
         _valueTextView.placeholderColor = [UIColor lightGrayColor];
-//        _valueTextView.textContainerInset = UIEdgeInsetsMake(8, 0, 0, 0);
         _valueTextView.delegate = self;
-        _valueTextView.scrollEnabled = NO;
+        _valueTextView.textContainerInset = UIEdgeInsetsMake(12, 0, 8, 8);
     }
     return _valueTextView;
 }

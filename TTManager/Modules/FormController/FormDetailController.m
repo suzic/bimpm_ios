@@ -25,10 +25,16 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 @interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
 
+// 表格内容
 @property (nonatomic, strong) UITableView *tableView;
+// 系统名称
 @property (nonatomic, strong) FormEditCell *headerView;
+// 底部操作栏
 @property (nonatomic, strong) BottomView *bottomView;
-@property (nonatomic, strong) FormHeaderView *formHeaderView;
+// 快照提醒
+@property (nonatomic, strong) FormHeaderView *snapshootView;
+// 是否是快照
+@property (nonatomic, assign) BOOL isSnapshoot;
 // 下载的表单数据
 @property (nonatomic, strong) NSMutableDictionary *downLoadformDic;
 // 下载克隆后的表单数据
@@ -70,6 +76,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     self.isCloneForm = NO;
     self.isEditForm = NO;
     self.canCloneForm = NO;
+    self.isSnapshoot = NO;
     [self addUI];
     [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
 }
@@ -270,6 +277,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         if ([SZUtil isEmptyOrNull:self.instanceFromDic[@"form_info"]]) {
             self.canEditForm = NO;
             self.canCloneForm = NO;
+            self.isSnapshoot = YES;
         }else{
              int multi_editable = [self.instanceFromDic[@"buddy_file"][@"multi_editable"] intValue];
             self.canEditForm = multi_editable > 0;
@@ -280,17 +288,18 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 #pragma mark - UI
 - (void)addUI{
-    [self.view addSubview:self.formHeaderView];
+    [self.view addSubview:self.snapshootView];
     [self.view addSubview:self.headerView];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.bottomView];
     
-    [self.formHeaderView makeConstraints:^(MASConstraintMaker *make) {
+    [self.snapshootView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
+        make.height.equalTo(44);
     }];
     
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.formHeaderView.mas_bottom);
+        make.top.equalTo(self.snapshootView.mas_bottom);
         make.left.right.equalTo(0);
         make.height.equalTo(44);
     }];
@@ -320,17 +329,18 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         _tableView.delegate = self;
         _tableView.dataSource = self;
         //直接用估算高度
-        _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.estimatedRowHeight = 44;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.backgroundColor = [UIColor whiteColor];
     }
     return _tableView;
 }
-- (FormHeaderView *)formHeaderView{
-    if (_formHeaderView == nil) {
-        _formHeaderView = [[FormHeaderView alloc] init];
+
+- (FormHeaderView *)snapshootView{
+    if (_snapshootView == nil) {
+        _snapshootView = [[FormHeaderView alloc] init];
     }
-    return _formHeaderView;
+    return _snapshootView;
 }
 - (FormEditCell *)headerView{
     if (_headerView == nil) {

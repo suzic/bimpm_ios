@@ -36,7 +36,7 @@
 - (UIButton *)saveButton{
     if (_saveButton == nil) {
         _saveButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_saveButton setTitle:@"保存" forState:UIControlStateNormal];
+        [_saveButton setTitle:@"提交保存" forState:UIControlStateNormal];
         [_saveButton addTarget:self action:@selector(saveButtonAction:) forControlEvents:UIControlEventTouchUpInside];
         _saveButton.backgroundColor = RGB_COLOR(25, 107, 248);
         _saveButton.titleLabel.font = [UIFont systemFontOfSize:16];
