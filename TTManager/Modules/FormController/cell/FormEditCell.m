@@ -51,7 +51,9 @@
     // 枚举
     else if(type == 5){
         [self.enum_poolArray removeAllObjects];
-        [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
+        if (![SZUtil isEmptyOrNull:_formItem[@"enum_pool"]]) {
+            [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
+        }
         [self showActionSheets];
     }
 }
@@ -101,7 +103,12 @@
 }
 
 - (void)showActionSheets{
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"请选择" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    NSString *title = @"请选择";
+    if (self.enum_poolArray.count<= 0) {
+        title = @"无数据";
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
     for (int i= 0; i < self.enum_poolArray.count; i++) {
         NSString *title = self.enum_poolArray[i];
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
@@ -176,6 +183,7 @@
     self.keyLabel.text = _formItem[@"name"];
     if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
         self.valueTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",_formItem[@"type"]]];
+//        self.valueTextView.placeholder = _formItem[@"placeholderValue"];
     }else{
         if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
             self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem[@"instance_value"],_formItem[@"unit_char"]];

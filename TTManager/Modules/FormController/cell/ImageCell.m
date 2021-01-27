@@ -35,6 +35,11 @@
     [bgView addSubview:self.fromImageView];
     [bgView addSubview:self.deleteButton];
     
+    [self.contentView addSubview:self.addButton];
+    [self.addButton makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(0);
+        make.bottom.right.equalTo(-10);
+    }];
     [self.fromImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(0);
     }];
@@ -53,6 +58,17 @@
     self.indexPath = indexPath;
     [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user_header"]];
 }
+- (void)hideAddButton:(BOOL)hide{
+    if (hide == YES) {
+        self.deleteButton.hidden = NO;
+        self.fromImageView.hidden = NO;
+        self.addButton.hidden = YES;
+    }else{
+        self.deleteButton.hidden = YES;
+        self.fromImageView.hidden = YES;
+        self.addButton.hidden = NO;
+    }
+}
 #pragma maek - setter and getter
 - (UIImageView *)fromImageView{
     if (_fromImageView == nil) {
@@ -69,5 +85,12 @@
         [_deleteButton addTarget:self action:@selector(deleteFromImageAction:) forControlEvents:UIControlEventTouchUpInside];
     }
     return _deleteButton;
+}
+- (UIButton *)addButton{
+    if (_addButton == nil) {
+        _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_addButton setBackgroundImage:[UIImage imageNamed:@"add_user"] forState:UIControlStateNormal];
+    }
+    return _addButton;
 }
 @end

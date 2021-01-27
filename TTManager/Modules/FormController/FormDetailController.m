@@ -108,6 +108,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         if (!imageCell) {
             imageCell = [[FormImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellIndex];
         }
+        [imageCell setIsFormEdit:self.isEditForm indexPath:indexPath item:formItem];
         cell = imageCell;
     }else{
         FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
