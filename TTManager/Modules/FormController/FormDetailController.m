@@ -10,6 +10,7 @@
 #import "FormImageCell.h"
 #import "BottomView.h"
 #import "FormHeaderView.h"
+#import "FormEditButton.h"
 
 /**
  1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
@@ -23,8 +24,10 @@
 static NSString *textCellIndex = @"textCellIndex";
 static NSString *imageCellIndex = @"ImageCellIndex";
 
-@interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource>
+@interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource,FormEditDelegate>
 
+// 编辑按钮
+@property (nonatomic, strong) FormEditButton *editButton;
 // 表格内容
 @property (nonatomic, strong) UITableView *tableView;
 // 系统名称
@@ -97,22 +100,22 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
-    if (indexPath.row % 2 == 0) {
-        FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
-        if (!editCell) {
-            editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
-        }
-        NSArray *items = self.instanceDownLoadForm[@"items"];
-
-        NSDictionary *formItem = items[indexPath.row];
-        [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:formItem];
-        cell = editCell;
-    }else{
+    NSArray *items = self.instanceDownLoadForm[@"items"];
+    NSDictionary *formItem = items[indexPath.row];
+    // 静态图片
+    if ([formItem[@"type"] isEqualToNumber:@7] || [formItem[@"type"] isEqualToNumber:@8]) {
         FormImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIndex];
         if (!imageCell) {
             imageCell = [[FormImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellIndex];
         }
         cell = imageCell;
+    }else{
+        FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
+        if (!editCell) {
+            editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
+        }
+        [editCell setIsFormEdit:self.isEditForm indexPath:indexPath item:formItem];
+        cell = editCell;
     }
     return cell;
 }
@@ -141,6 +144,19 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 // 通知服务器，我更新了哪个文件
 - (void)informTargetUpdateByBuddy_file:(NSString *)buddy_file{
     [self.targetUpdateManager loadData];
+}
+#pragma mark - FormEditDelegate
+- (void)startEditCurrentForm{
+    if (self.canEditForm == NO) {
+        [self.targetCloneManager loadData];
+    }else{
+        self.isEditForm = YES;
+        [self.editButton resetEditButtonStyle:NO];
+        [self.tableView reloadData];
+    }
+}
+- (void)cancelEditCurrentForm{
+    [self.editButton resetEditButtonStyle:YES];
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
@@ -180,6 +196,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         }
     }else if(manager == self.targetCloneManager){
         self.isCloneForm = YES;
+        self.isEditForm = YES;
+        [self.editButton resetEditButtonStyle:NO];
         NSDictionary *dic = manager.response.responseData;
         self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
         [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
@@ -191,7 +209,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else if(manager == self.downLoadManager){
         NSLog(@"下载表单成功");
         [self setCloneFormInfo:data];
-        [self judgeDownLoadFormIsEditClone];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
@@ -215,21 +232,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 //        [self modifyCurrentDownLoadForm:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
         NSLog(@"保存当前编辑的表单");
+        [self operationsFormFill:nil];
     }
 }
 
-#pragma mark - Action
-- (void)editAction:(UIBarButtonItem *)barItem{
-    if (self.isEditForm == NO) {
-        [self.targetCloneManager loadData];
-    }
-    else if (self.isEditForm == YES) {
-        [self.formOperationsManager loadData];
-    }
-    self.isEditForm = ! self.isEditForm;
-    barItem.title = self.isEditForm == YES ? @"完成":@"编辑";
-    [self.tableView reloadData];
-}
 #pragma mark - private
 // 获取操作后的提交的参数
 - (NSMutableDictionary *)getOperationsFromParams{
@@ -249,7 +255,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 // 设置获取的表单详情数据
 - (void)getFormItemInfo:(NSDictionary *)form{
     if (self.isCloneForm == NO) {
-        self.formDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+        if ([form[@"data"][@"form_info"] isKindOfClass:[NSDictionary class]]) {
+            self.formDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
+        }
     }else{
         self.cloneFormDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
     }
@@ -278,8 +286,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     // fill 的数据
     NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
     NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
-    itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
-    items[indexPath.row] = currentitemDic;
+    currentitemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
+    currentitems[indexPath.row] = currentitemDic;
     self.instanceFromDic[@"items"] = currentitems;
     
     [self.tableView reloadData];
@@ -290,18 +298,22 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     // instance_ident 为nil，则不可编辑
     if ([SZUtil isEmptyOrNull:self.instanceDownLoadForm[@"instance_ident"]]) {
         self.canEditForm = NO;
+        self.canCloneForm = YES;
     }else{
         // 快照，不可编辑，不可克隆
-        if ([SZUtil isEmptyOrNull:self.instanceFromDic[@"form_info"]]) {
+        if (self.instanceFromDic.allKeys.count <= 0) {
             self.canEditForm = NO;
             self.canCloneForm = NO;
             self.isSnapshoot = YES;
         }else{
              int multi_editable = [self.instanceFromDic[@"buddy_file"][@"multi_editable"] intValue];
+            self.isSnapshoot = NO;
             self.canEditForm = multi_editable > 0;
             self.canCloneForm = YES;
         }
     }
+    [self changeEditView];
+    [self updateSnapshootViewLayout];
     [self.tableView reloadData];
 }
 #pragma mark - UI
@@ -313,7 +325,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     
     [self.snapshootView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
-        make.height.equalTo(44);
+        make.height.equalTo(0);
     }];
     
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
@@ -332,15 +344,41 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         make.left.right.equalTo(0);
         make.bottom.equalTo(-SafeAreaBottomHeight);
     }];
-    UIBarButtonItem *barItem = [[UIBarButtonItem alloc] initWithTitle:@"编辑" style:UIBarButtonItemStylePlain target:self action:@selector(editAction:)];
-    self.navigationItem.rightBarButtonItem = barItem;
+    [self changeEditView];
 }
+
 - (void)fillHeaderView{
     self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextView.text =  self.isCloneForm == YES ? self.instanceDownLoadForm[@"instance_ident"] :self.instanceDownLoadForm[@"uid_ident"];
+    if ([SZUtil isEmptyOrNull:self.instanceDownLoadForm[@"instance_ident"]]) {
+        self.headerView.valueTextView.text = self.instanceDownLoadForm[@"uid_ident"];
+    }else{
+        self.headerView.valueTextView.text = self.instanceDownLoadForm[@"instance_ident"];
+    }
     self.headerView.valueTextView.editable = NO;
 }
+- (void)changeEditView{
+    // 快照直接不显示
+    if (self.isSnapshoot == YES) {
+        self.navigationItem.rightBarButtonItem = nil;
+    }else{
+        UIBarButtonItem *rightCustomView = [[UIBarButtonItem alloc] initWithCustomView:self.editButton];
+        self.navigationItem.rightBarButtonItem = rightCustomView;    }
+}
+- (void)updateSnapshootViewLayout{
+    CGFloat snapshootViewH = self.isSnapshoot == YES ? 44 : 0;
+    [self.snapshootView updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(snapshootViewH);
+    }];
+}
 #pragma mark - setter and getter
+- (FormEditButton *)editButton{
+    if (_editButton == nil) {
+        _editButton = [[FormEditButton alloc] init];
+        _editButton.frame = CGRectMake(0, 0, 80, 44);
+        _editButton.delegate = self;
+    }
+    return _editButton;
+}
 - (UITableView *)tableView{
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -409,7 +447,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (NSMutableDictionary *)instanceDownLoadForm{
     if (self.isEditForm == NO) {
         return self.downLoadformDic;
-    }else if(self.isEditForm == YES){
+    }else if(self.isEditForm == YES && self.isCloneForm == NO){
+        return self.downLoadformDic;
+    }else if(self.isEditForm == YES && self.isCloneForm == YES){
         return self.downLoadCloneformDic;
     }
     return nil;
@@ -417,7 +457,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (NSString *)instanceBuddy_file{
     if (self.isEditForm == NO) {
         return self.buddy_file;
-    }else{
+    }else if(self.isEditForm == YES && self.isCloneForm == NO){
+        return self.buddy_file;
+    }
+    else{
         return self.clone_buddy_file;
     }
 }

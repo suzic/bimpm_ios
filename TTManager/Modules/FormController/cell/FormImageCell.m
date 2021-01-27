@@ -62,10 +62,12 @@ static NSString *reuseIdentifier = @"ImageCell";
     self.formItem = formItem;
 }
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-        decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
-    decoratedUserInfo[@"formItemIndex"] = self.indexPath;
-    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
+    if ([eventName isEqualToString:delete_formItem_image]) {
+        NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+            decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
+        decoratedUserInfo[@"formItemIndex"] = self.indexPath;
+        [super routerEventWithName:eventName userInfo:decoratedUserInfo];
+    }
 }
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{

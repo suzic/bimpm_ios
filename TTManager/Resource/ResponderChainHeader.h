@@ -51,9 +51,9 @@
 #define user_to_project_operations  @"user_to_project_operations"
 
 // 编辑表单
-#define form_edit_item    @"form_edit_item"
+#define form_edit_item          @"form_edit_item"
 // 删除表单中的图片
-#define delete_formItem_image  @"delete_formItem_image"
+#define delete_formItem_image   @"delete_formItem_image"
 // 保存当前编辑的表单内容
-#define save_edit_form       @"save_edit_form"
+#define save_edit_form          @"save_edit_form"
 #endif /* ResponderChainHeader_h */

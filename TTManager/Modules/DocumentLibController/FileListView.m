@@ -316,6 +316,7 @@
         _targetListManager = [[APITargetListManager alloc] init];
         _targetListManager.delegate = self;
         _targetListManager.paramSource = self;
+        [_targetListManager.pageSize.orders addObject:@{@"key":@"name", @"ascending":@"asc"}];
     }
     return _targetListManager;
 }

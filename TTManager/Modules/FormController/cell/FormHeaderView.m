@@ -106,7 +106,7 @@
     if (_snapshootInfoLabel == nil) {
         _snapshootInfoLabel = [[UILabel alloc] init];
         _snapshootInfoLabel.font = [UIFont systemFontOfSize:16];
-        _snapshootInfoLabel.text = @"这是一份历史快照";
+        _snapshootInfoLabel.text = @"这是一份历史快照,不能编辑";
         _snapshootInfoLabel.textColor = [UIColor redColor];
     }
     return _snapshootInfoLabel;

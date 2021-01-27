@@ -97,6 +97,7 @@
 		402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F725B03CB90030E68D /* ServiceIdentifer.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D947E25BFF0CA003B1B60 /* FormHeaderView.m */; };
+		403D948325C10443003B1B60 /* FormEditButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D948225C10443003B1B60 /* FormEditButton.m */; };
 		4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8C725B15E830023FC7F /* APILogoutManager.m */; };
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
 		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
@@ -376,6 +377,8 @@
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
 		403D947D25BFF0CA003B1B60 /* FormHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormHeaderView.h; sourceTree = "<group>"; };
 		403D947E25BFF0CA003B1B60 /* FormHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormHeaderView.m; sourceTree = "<group>"; };
+		403D948125C10443003B1B60 /* FormEditButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditButton.h; sourceTree = "<group>"; };
+		403D948225C10443003B1B60 /* FormEditButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditButton.m; sourceTree = "<group>"; };
 		4054B8C625B15E830023FC7F /* APILogoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogoutManager.h; sourceTree = "<group>"; };
 		4054B8C725B15E830023FC7F /* APILogoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogoutManager.m; sourceTree = "<group>"; };
 		4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPDetailManager.h; sourceTree = "<group>"; };
@@ -1298,6 +1301,8 @@
 				40E73E9125BF1B3600FC98DD /* BottomView.m */,
 				403D947D25BFF0CA003B1B60 /* FormHeaderView.h */,
 				403D947E25BFF0CA003B1B60 /* FormHeaderView.m */,
+				403D948125C10443003B1B60 /* FormEditButton.h */,
+				403D948225C10443003B1B60 /* FormEditButton.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1640,6 +1645,7 @@
 				402AA180259726D700A9DABA /* ApiErrIntercept.m in Sources */,
 				406FCA9F25A1A5C800636079 /* APITaskNewManager.m in Sources */,
 				402AA0F02595D8CF00A9DABA /* ZHAllow+CoreDataProperties.m in Sources */,
+				403D948325C10443003B1B60 /* FormEditButton.m in Sources */,
 				406FCAAF25A1A6EA00636079 /* APITaskOperationsManager.m in Sources */,
 				402AA1D02598AD0100A9DABA /* FunctionCell.m in Sources */,
 				402A9F622595B12A00A9DABA /* SZModalAlert.m in Sources */,

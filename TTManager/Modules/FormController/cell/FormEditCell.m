@@ -46,12 +46,11 @@
     }
     //HH:mm:ss
     else if(type == 4){
-        [self.superview.superview resignFirstResponder];
         [self.datePickerView show];
     }
     // 枚举
     else if(type == 5){
-        [self.superview.superview resignFirstResponder];
+        [self.enum_poolArray removeAllObjects];
         [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
         [self showActionSheets];
     }
@@ -67,7 +66,6 @@
             textView.scrollEnabled = YES;
             height = 44*10;
         }
-        self.valueTextView.backgroundColor = [UIColor redColor];
         [self.valueTextView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(height);
         }];
@@ -77,6 +75,7 @@
     }
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
+    NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
     [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
 }
 
@@ -84,10 +83,20 @@
 
 - (void)setValueTextFieldStyleByItemStatus:(BOOL)isEdit{
 
-    NSInteger type = [_formItem[@"type"] intValue];
-    // 日期 YYYY-MM-DD
-    if (type == 3 ||type == 4||type == 5) {
-        self.clickButton.hidden = NO;
+    if (isEdit == YES) {
+        self.valueTextView.editable = YES;
+        NSInteger type = [_formItem[@"type"] intValue];
+        // 日期 YYYY-MM-DD
+        if (type == 3 ||type == 4||type == 5) {
+            self.clickButton.hidden = NO;
+            self.valueTextView.editable = NO;
+        }else{
+            self.clickButton.hidden = YES;
+            self.valueTextView.editable = YES;
+        }
+    }else{
+        self.clickButton.hidden = YES;
+        self.valueTextView.editable = NO;
     }
 }
 
@@ -114,6 +123,8 @@
   return (UITableView *)tableView;
 }
 - (void)addUI{
+    self.userInteractionEnabled = YES;
+    self.contentView.userInteractionEnabled = YES;
     [self addSubview:self.valueTextView];
     [self addSubview:self.clickButton];
     self.clickButton.hidden = YES;
@@ -157,7 +168,9 @@
     _isFormEdit = isFormEdit;
     [self setValueTextFieldStyleByItemStatus:_isFormEdit];
 }
-
+- (void)setIndexPath:(NSIndexPath *)indexPath{
+    _indexPath = indexPath;
+}
 - (void)setFormItem:(NSDictionary *)formItem{
     _formItem = formItem;
     self.keyLabel.text = _formItem[@"name"];
@@ -170,8 +183,6 @@
             self.valueTextView.text = _formItem[@"instance_value"];
         }
     }
-//    [self.fromIamgeView.imageCollectionView reloadData];
-//    [self.fromIamgeView.imageCollectionView layoutIfNeeded];
 }
 
 - (UILabel *)keyLabel{
