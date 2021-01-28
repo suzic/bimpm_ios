@@ -308,8 +308,43 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }];
 }
 // 删除当前表单中的图片数据
-- (void)deleteImageToCurrentImageFormItem:(NSDictionary *)addDic{
+- (void)deleteImageToCurrentImageFormItem:(NSDictionary *)deleteDic{
+    // 显示的数据
+    NSIndexPath *indexPath = deleteDic[@"formItemIndex"];
+    NSIndexPath *deleteIndex = deleteDic[@"deleteIndex"];
+    NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
+    NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
+    // fill 的数据
+    NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
+    NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
     
+    if ([itemDic[@"type"] isEqualToNumber:@7]) {
+        itemDic[@"instance_value"] = @"";
+        currentitemDic[@"instance_value"] = @"";
+        items[indexPath.row] = itemDic;
+        self.instanceDownLoadForm[@"items"] = items;
+        currentitems[indexPath.row] = currentitemDic;
+        self.instanceFromDic[@"items"] = currentitems;
+        
+    }else if([itemDic[@"type"] isEqualToNumber:@8]){
+        NSMutableArray *itemImageArray = nil;
+        if (![SZUtil isEmptyOrNull:itemDic[@"instance_value"]]) {
+            itemImageArray = [NSMutableArray arrayWithArray: [itemDic[@"instance_value"] componentsSeparatedByString:@","]];
+        }else{
+            itemImageArray = [NSMutableArray array];
+        }
+        if (itemImageArray.count > deleteIndex.row) {
+            [itemImageArray removeObjectAtIndex:deleteIndex.row];
+        }
+        
+        itemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
+        currentitemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
+        items[indexPath.row] = itemDic;
+        self.instanceDownLoadForm[@"items"] = items;
+        currentitems[indexPath.row] = currentitemDic;
+        self.instanceFromDic[@"items"] = currentitems;
+    }
+    [self.tableView reloadData];
 }
 #pragma mark - FormEditDelegate
 - (void)startEditCurrentForm{

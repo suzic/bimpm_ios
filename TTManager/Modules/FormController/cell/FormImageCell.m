@@ -80,7 +80,6 @@ static NSString *reuseIdentifier = @"ImageCell";
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
     if ([eventName isEqualToString:delete_formItem_image]) {
-        decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
         decoratedUserInfo[@"formItemIndex"] = self.indexPath;
     }
     [super routerEventWithName:eventName userInfo:decoratedUserInfo];
