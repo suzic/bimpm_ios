@@ -11,6 +11,7 @@
 #import <AssetsLibrary/AssetsLibrary.h>
 #import <Photos/PHPhotoLibrary.h>
 #import <AVFoundation/AVCaptureDevice.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 
 static void *kImagePickerCompletionHandlerKey = @"kImagePickerCompletionHandlerKey";
 static void *kCameraPickerKey = @"kCameraPickerKey";
@@ -58,6 +59,10 @@ static void *sheetType = @"actionSheetType";
     self.cameraPicker.allowsEditing = isEdit; //拍照选去是否可以截取，和代理中的获取截取后的方法配合使用
     self.cameraPicker.delegate = self;
     self.cameraPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
+    NSString *requiredMediaType = (NSString *)kUTTypeImage;
+    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
+    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType, requiredMediaType1,nil];
+    [self.cameraPicker setMediaTypes:arrMediaTypes];
 }
 - (void)setUpPhotoPickControllerIsEdit:(BOOL)isEdit {
     self.photoLibraryPicker = [[UIImagePickerController alloc] init];
@@ -66,6 +71,10 @@ static void *sheetType = @"actionSheetType";
     //去掉毛玻璃效果 否则在ios11 下 全局设置了UIScrollViewContentInsetAdjustmentNever 导致导航栏遮住了内容视图
     self.photoLibraryPicker.navigationBar.translucent = NO;
     self.photoLibraryPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    NSString *requiredMediaType = (NSString *)kUTTypeImage;
+    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
+    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType, requiredMediaType1,nil];
+    [self.photoLibraryPicker setMediaTypes:arrMediaTypes];
 }
 - (void)presentChoseActionSheet {
     
@@ -146,28 +155,46 @@ static void *sheetType = @"actionSheetType";
 #pragma mark - UIImagePickerControllerDelegate
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [picker dismissViewControllerAnimated:YES completion:nil];
-    UIImage *editedimage = [[UIImage alloc] init];
-    if(self.isCutImageBool){
-         //获取裁剪的图
-        editedimage = info[@"UIImagePickerControllerEditedImage"]; //获取裁剪的图
-        CGSize imageSize = CGSizeMake(413, 626);
-        if (self.imageSize.height>0) {
-            imageSize = self.imageSize;
+    NSString *mediaType = [info objectForKey:UIImagePickerControllerMediaType];
+    if ([mediaType isEqualToString:(NSString *)kUTTypeImage]) {
+        UIImage *editedimage = [[UIImage alloc] init];
+        if(self.isCutImageBool){
+             //获取裁剪的图
+            editedimage = info[@"UIImagePickerControllerEditedImage"]; //获取裁剪的图
+            CGSize imageSize = CGSizeMake(413, 626);
+            if (self.imageSize.height>0) {
+                imageSize = self.imageSize;
+            }
+            editedimage = [self reSizeImage:editedimage toSize:imageSize];
         }
-        editedimage = [self reSizeImage:editedimage toSize:imageSize];
+        else{
+            editedimage = info[@"UIImagePickerControllerOriginalImage"];
+        }
+        NSData *imageData = UIImageJPEGRepresentation(editedimage, 0.0001);//首次进行压缩
+        UIImage *image = [UIImage imageWithData:imageData];
+        //图片限制大小不超过 1M     CGFloat  kb =   data.lenth / 1000;  计算kb方法 os 按照千进制计算
+        while (imageData.length/1000 > 1024) {
+            NSLog(@"图片超过1M 压缩");
+            imageData = UIImageJPEGRepresentation(image, 0.5);
+            image = [UIImage imageWithData:imageData];
+        }
+        self.completionHandler(imageData, image,mediaType);
     }
-    else{
-        editedimage = info[@"UIImagePickerControllerOriginalImage"];
+    // 录制视频
+    else if([mediaType isEqualToString:(NSString *)kUTTypeMovie]){
+        NSURL *url=[info objectForKey:UIImagePickerControllerMediaURL];//视频路径
+        NSString *urlStr=[url path];
+        if (picker == self.cameraPicker) {
+            if (UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(urlStr)) {
+                //保存视频到相簿，注意也可以使用ALAssetsLibrary来保存
+                UISaveVideoAtPathToSavedPhotosAlbum(urlStr, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);//保存视频到相簿
+            }
+        }
+        
+        NSData *videoData = [NSData dataWithContentsOfFile:urlStr];
+        self.completionHandler(videoData, nil,mediaType);
     }
-    NSData *imageData = UIImageJPEGRepresentation(editedimage, 0.0001);//首次进行压缩
-    UIImage *image = [UIImage imageWithData:imageData];
-    //图片限制大小不超过 1M     CGFloat  kb =   data.lenth / 1000;  计算kb方法 os 按照千进制计算
-    while (imageData.length/1000 > 1024) {
-        NSLog(@"图片超过1M 压缩");
-        imageData = UIImageJPEGRepresentation(image, 0.5);
-        image = [UIImage imageWithData:imageData];
-    }
-    self.completionHandler(imageData, image);
+    
 }
 
 - (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker {

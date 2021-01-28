@@ -104,7 +104,7 @@
 #pragma mark - responder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if([eventName isEqualToString:new_task_action]){
-        [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
+        [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
             NSLog(@"打开相册");
 
             [self showNewFileView:0 data:imageData];
@@ -169,7 +169,7 @@
 }
 - (void)uploadSuccess{
     __weak typeof(self) weakSelf = self;
-    self.uploadManager.uploadResult = ^(BOOL success, NSString * _Nonnull errMsg, NSString * _Nonnull id_file) {
+    self.uploadManager.uploadResult = ^(BOOL success, NSDictionary * _Nonnull targetInfo, NSString * _Nonnull id_file) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (success == YES) {
             [strongSelf.fileView reoladNetwork];

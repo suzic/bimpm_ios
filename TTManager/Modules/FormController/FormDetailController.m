@@ -69,6 +69,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 @property (nonatomic, strong) APIUploadFileManager *uploadfileManager;
 // 上传表单文件
 @property (nonatomic, strong) APITargetUpdateManager *targetUpdateManager;
+// 上传表单内的图片
+@property (nonatomic, strong) UploadFileManager *uploadManager;
+
 @end
 
 @implementation FormDetailController
@@ -82,6 +85,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     self.isSnapshoot = NO;
     [self addUI];
     [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+}
+
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [self initializeImagePicker];
+    self.actionSheetType = 3;
 }
 
 #pragma mark - UITableViewDelegate UITableViewDataSource
@@ -146,83 +155,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (void)informTargetUpdateByBuddy_file:(NSString *)buddy_file{
     [self.targetUpdateManager loadData];
 }
-#pragma mark - FormEditDelegate
-- (void)startEditCurrentForm{
-    if (self.canEditForm == NO) {
-        [self.targetCloneManager loadData];
-    }else{
-        self.isEditForm = YES;
-        [self.editButton resetEditButtonStyle:NO];
-        [self.tableView reloadData];
-    }
-}
-- (void)cancelEditCurrentForm{
-    self.isEditForm = NO;
-    [self.editButton resetEditButtonStyle:YES];
-    [self.tableView reloadData];
-}
-#pragma mark - APIManagerParamSource
-- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
-    NSDictionary *params = @{};
-    if (manager == self.formDetailManager) {
-        params = @{@"buddy_file": self.instanceBuddy_file};
-    }else if(manager == self.formOperationsManager){
-        params = [self getOperationsFromParams];
-    }else if(manager == self.targetCloneManager){
-        params = @{@"clone_module":[NSNull null],
-                   @"clone_parent":[NSNull null],
-                   @"new_name":[NSNull null],
-                   @"source_target":self.buddy_file};
-    }else if(manager == self.uploadfileManager){
-        NSString *data = [SZUtil convertToJsonData:self.instanceDownLoadForm];
-        NSDictionary *upload = @{@"name":self.instanceDownLoadForm[@"name"],@"type":@"json",@"data":data};
-        [self.uploadfileManager.uploadArray addObject: upload];
-        params = @{@"id_project":[NSString stringWithFormat:@"%@",self.instanceFromDic[@"fid_project"]],
-                   @"uid_target":self.instanceBuddy_file};
-    }else if(manager == self.targetUpdateManager){
-        params = @{@"id_project":self.instanceFromDic[@"fid_project"],@"uid_target":self.instanceBuddy_file};
-    }
-    return params;
-}
-#pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    NSDictionary *data = (NSDictionary *)manager.response.responseData;
-    if (manager == self.formDetailManager) {
-        [self getFormItemInfo:data];
-        [self fillHeaderView];
-        [self judgeDownLoadFormIsEditClone];
-        [self.tableView reloadData];
-    }else if(manager == self.formOperationsManager){
-        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
-        if ([dic[@"code"] isEqualToNumber:@0]) {
-            [self.uploadfileManager loadData];
-        }
-    }else if(manager == self.targetCloneManager){
-        self.isCloneForm = YES;
-        self.isEditForm = YES;
-        [self.editButton resetEditButtonStyle:NO];
-        NSDictionary *dic = manager.response.responseData;
-        self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
-        [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
-        
-    }else if(manager == self.uploadfileManager){
-        [self.targetUpdateManager loadData];
-    }else if(manager == self.targetUpdateManager){
-        [SZAlert showInfo:@"TargetUpdate成功" underTitle:TARGETS_NAME];
-    }else if(manager == self.downLoadManager){
-        NSLog(@"下载表单成功");
-        [self setCloneFormInfo:data];
-    }
-}
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.formDetailManager) {
-    }else if(manager == self.formOperationsManager){
-    }else if(manager == self.targetCloneManager){
-    }else if(manager == self.uploadfileManager){
-    }else if(manager == self.targetUpdateManager){
-    }else if(manager == self.downLoadManager){
-    }
-}
 
 #pragma mark - responsder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
@@ -233,9 +165,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
         NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
 //        [self modifyCurrentDownLoadForm:userInfo];
+        [self deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
         NSLog(@"保存当前编辑的表单");
         [self operationsFormFill:nil];
+    }else if([eventName isEqualToString:add_formItem_image]){
+        [self addImageToCurrentImageFormItem:userInfo];
     }
 }
 
@@ -318,6 +253,140 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     [self changeEditView];
     [self updateSnapshootViewLayout];
     [self.tableView reloadData];
+}
+// 添加图片到表单
+- (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
+    [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
+        // 显示的数据
+        NSIndexPath *indexPath = addDic[@"indexPath"];
+        NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
+        NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
+        
+        // fill 的数据
+        NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
+        NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
+        
+        // 内嵌图片
+        if ([itemDic[@"type"] isEqualToNumber:@7]) {
+            // 加密成Base64形式的NSString
+            NSString *base64String = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+            base64String = [NSString stringWithFormat:@"data:text/rtf;base64,%@",base64String];
+            itemDic[@"instance_value"] = base64String;
+            currentitemDic[@"instance_value"] = base64String;
+            items[indexPath.row] = itemDic;
+            self.instanceDownLoadForm[@"items"] = items;
+            currentitems[indexPath.row] = currentitemDic;
+            self.instanceFromDic[@"items"] = currentitems;
+            [self.tableView reloadData];
+        }
+        // 图片链接地址
+        else if([itemDic[@"type"] isEqualToNumber:@8]){
+            __weak typeof(self) weakSelf = self;
+            [self.uploadManager uploadFile:imageData fileName:[SZUtil getTimeNow] target:@{@"id_module":@"0",@"fid_parent":@"0"}];
+            self.uploadManager.uploadResult = ^(BOOL success, NSDictionary * _Nonnull targetInfo, NSString * _Nonnull id_file) {
+                __strong typeof(weakSelf) strongSelf = weakSelf;
+
+                if (success == YES) {
+                    NSString *link = targetInfo[@"link"];
+                    NSMutableArray *itemImageArray = nil;
+                    if (![SZUtil isEmptyOrNull:itemDic[@"instance_value"]]) {
+                        itemImageArray = [NSMutableArray arrayWithArray: [itemDic[@"instance_value"] componentsSeparatedByString:@","]];
+                    }else{
+                        itemImageArray = [NSMutableArray array];
+                    }
+                    [itemImageArray addObject:link];
+                    itemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
+                    currentitemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
+                    items[indexPath.row] = itemDic;
+                    strongSelf.instanceDownLoadForm[@"items"] = items;
+                    currentitems[indexPath.row] = currentitemDic;
+                    strongSelf.instanceFromDic[@"items"] = currentitems;
+                    [strongSelf.tableView reloadData];
+                }
+            };
+        }
+    }];
+}
+// 删除当前表单中的图片数据
+- (void)deleteImageToCurrentImageFormItem:(NSDictionary *)addDic{
+    
+}
+#pragma mark - FormEditDelegate
+- (void)startEditCurrentForm{
+    if (self.canEditForm == NO) {
+        [self.targetCloneManager loadData];
+    }else{
+        self.isEditForm = YES;
+        [self.editButton resetEditButtonStyle:NO];
+        [self.tableView reloadData];
+    }
+}
+- (void)cancelEditCurrentForm{
+    self.isEditForm = NO;
+    [self.editButton resetEditButtonStyle:YES];
+    [self.tableView reloadData];
+}
+#pragma mark - APIManagerParamSource
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *params = @{};
+    if (manager == self.formDetailManager) {
+        params = @{@"buddy_file": self.instanceBuddy_file};
+    }else if(manager == self.formOperationsManager){
+        params = [self getOperationsFromParams];
+    }else if(manager == self.targetCloneManager){
+        params = @{@"clone_module":[NSNull null],
+                   @"clone_parent":[NSNull null],
+                   @"new_name":[NSNull null],
+                   @"source_target":self.buddy_file};
+    }else if(manager == self.uploadfileManager){
+        NSString *data = [SZUtil convertToJsonData:self.instanceDownLoadForm];
+        NSDictionary *upload = @{@"name":self.instanceDownLoadForm[@"name"],@"type":@"json",@"data":data};
+        [self.uploadfileManager.uploadArray addObject: upload];
+        params = @{@"id_project":[NSString stringWithFormat:@"%@",self.instanceFromDic[@"fid_project"]],
+                   @"uid_target":self.instanceBuddy_file};
+    }else if(manager == self.targetUpdateManager){
+        params = @{@"id_project":self.instanceFromDic[@"fid_project"],@"uid_target":self.instanceBuddy_file};
+    }
+    return params;
+}
+#pragma mark - ApiManagerCallBackDelegate
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    NSDictionary *data = (NSDictionary *)manager.response.responseData;
+    if (manager == self.formDetailManager) {
+        [self getFormItemInfo:data];
+        [self fillHeaderView];
+        [self judgeDownLoadFormIsEditClone];
+        [self.tableView reloadData];
+    }else if(manager == self.formOperationsManager){
+        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+        if ([dic[@"code"] isEqualToNumber:@0]) {
+            [self.uploadfileManager loadData];
+        }
+    }else if(manager == self.targetCloneManager){
+        self.isCloneForm = YES;
+        self.isEditForm = YES;
+        [self.editButton resetEditButtonStyle:NO];
+        NSDictionary *dic = manager.response.responseData;
+        self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
+        [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
+        
+    }else if(manager == self.uploadfileManager){
+        [self.targetUpdateManager loadData];
+    }else if(manager == self.targetUpdateManager){
+        [SZAlert showInfo:@"TargetUpdate成功" underTitle:TARGETS_NAME];
+    }else if(manager == self.downLoadManager){
+        NSLog(@"下载表单成功");
+        [self setCloneFormInfo:data];
+    }
+}
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.formDetailManager) {
+    }else if(manager == self.formOperationsManager){
+    }else if(manager == self.targetCloneManager){
+    }else if(manager == self.uploadfileManager){
+    }else if(manager == self.targetUpdateManager){
+    }else if(manager == self.downLoadManager){
+    }
 }
 #pragma mark - UI
 - (void)addUI{
@@ -515,6 +584,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         _targetUpdateManager.paramSource = self;
     }
     return _targetUpdateManager;
+}
+- (UploadFileManager *)uploadManager{
+    if (_uploadManager == nil) {
+        _uploadManager = [[UploadFileManager alloc] init];
+    }
+    return _uploadManager;
 }
 /*
 #pragma mark - Navigation

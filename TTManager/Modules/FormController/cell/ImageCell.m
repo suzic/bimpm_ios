@@ -59,7 +59,8 @@
     if (type == 1) {
         [self imageData:imageUrl];
     }else if(type == 2){
-        [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user_header"]];
+        NSString *url = [NSString stringWithFormat:@"%@/FileService/%@",FILESERVICEADDRESS,imageUrl];
+        [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"empty_url_image"]];
     }
 }
 - (void)imageData:(NSString *)imageData{
@@ -71,7 +72,8 @@
         if (encrypt.count >1) {
             NSString *encryptType = encrypt[1];
             if ([encryptType isEqualToString:@"base64"]) {
-                NSData *data = [[NSData alloc] initWithBase64EncodedString:imageString options:0];
+                // Base64形式的字符串为data
+                NSData *data = [[NSData alloc] initWithBase64EncodedString:imageString options:NSDataBase64DecodingIgnoreUnknownCharacters];
                 self.fromImageView.image = [UIImage imageWithData:data];
                 CGImageRef cgref = [self.fromImageView.image CGImage];
                 CIImage *cim = [self.fromImageView.image CIImage];

@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef void(^UploadFileResult)(BOOL success,NSString *errMsg,NSString *id_file);
+typedef void(^UploadFileResult)(BOOL success,NSDictionary *targetInfo,NSString *id_file);
 
 @interface UploadFileManager : NSObject
 
@@ -20,7 +20,7 @@ typedef void(^UploadFileResult)(BOOL success,NSString *errMsg,NSString *id_file)
 - (void)uploadFile:(NSData *)imageData fileName:(NSString *)fileName target:(NSDictionary *)target;
 /// 新建一个文件目录
 /// @param fileName 目录名称
-/// @param ZHTarget 目录所属ZHTarget
+/// @param target 目录
 - (void)newFileGroupWithGroupName:(NSString *)fileName target:(NSDictionary *)target;
 
 @end

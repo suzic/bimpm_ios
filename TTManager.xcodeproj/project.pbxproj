@@ -98,6 +98,7 @@
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D947E25BFF0CA003B1B60 /* FormHeaderView.m */; };
 		403D948325C10443003B1B60 /* FormEditButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D948225C10443003B1B60 /* FormEditButton.m */; };
+		403D948B25C287B0003B1B60 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403D948A25C287B0003B1B60 /* MobileCoreServices.framework */; };
 		4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8C725B15E830023FC7F /* APILogoutManager.m */; };
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
 		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
@@ -379,6 +380,7 @@
 		403D947E25BFF0CA003B1B60 /* FormHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormHeaderView.m; sourceTree = "<group>"; };
 		403D948125C10443003B1B60 /* FormEditButton.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormEditButton.h; sourceTree = "<group>"; };
 		403D948225C10443003B1B60 /* FormEditButton.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormEditButton.m; sourceTree = "<group>"; };
+		403D948A25C287B0003B1B60 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4054B8C625B15E830023FC7F /* APILogoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogoutManager.h; sourceTree = "<group>"; };
 		4054B8C725B15E830023FC7F /* APILogoutManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APILogoutManager.m; sourceTree = "<group>"; };
 		4054B8D025B197B90023FC7F /* APIUTPDetailManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIUTPDetailManager.h; sourceTree = "<group>"; };
@@ -581,6 +583,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				403D948B25C287B0003B1B60 /* MobileCoreServices.framework in Frameworks */,
 				4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */,
 				4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */,
 				406BF1A525ADD52100A12DC3 /* QuartzCore.framework in Frameworks */,
@@ -815,6 +818,7 @@
 		402A9F672595B1B500A9DABA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				403D948A25C287B0003B1B60 /* MobileCoreServices.framework */,
 				4054B8F725B409D60023FC7F /* SystemConfiguration.framework */,
 				4054B8F525B409BB0023FC7F /* Accelerate.framework */,
 				406BF1A425ADD52100A12DC3 /* QuartzCore.framework */,

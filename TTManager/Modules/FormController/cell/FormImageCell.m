@@ -78,42 +78,20 @@ static NSString *reuseIdentifier = @"ImageCell";
     self.isFormEdit = isFormEdit;
 }
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
     if ([eventName isEqualToString:delete_formItem_image]) {
-        NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-            decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
+        decoratedUserInfo[@"newParam"] = @"new param"; // 添加数据
         decoratedUserInfo[@"formItemIndex"] = self.indexPath;
-        [super routerEventWithName:eventName userInfo:decoratedUserInfo];
     }
+    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
 }
 #pragma mark - actions
+
 - (void)addImageAction:(UIButton *)button{
     NSLog(@"添加图片");
+    [self routerEventWithName:add_formItem_image userInfo:@{@"indexPath":self.indexPath}];
 }
-- (BOOL)showAddView:(NSIndexPath *)indexPath{
-    BOOL show = NO;
-    // 不是编辑状态直接返回个数
-    if (self.isFormEdit == YES) {
-        // 多个图片集直接创建一个add在最后
-        if (self.imageType == 2) {
-            show = YES;
-        }else{
-            // 内嵌图片存在 没有添加按钮
-            if (self.imagesArray.count <=0) {
-                show = YES;
-            }
-        }
-    }
-    if (show == YES) {
-        if (self.imageType == 2 && indexPath.row == self.imagesArray.count) {
-            show = YES;
-        }else if(self.imageType == 1 && indexPath.row == 0){
-            show = YES;
-        }else{
-            show = NO;
-        }
-    }
-    return show;
-}
+
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
@@ -126,7 +104,7 @@ static NSString *reuseIdentifier = @"ImageCell";
     }else{
         // 多个图片集直接创建一个add在最后
         if (self.imageType == 2) {
-            return self.imagesArray.count+1;
+            return self.imagesArray.count<6 ? self.imagesArray.count+1 : self.imagesArray.count;
         }else{
             // 内嵌图片存在 没有添加按钮
             if (self.imagesArray.count >0) {
@@ -142,7 +120,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    if ([self showAddView:indexPath]) {
+    if (indexPath.row == self.imagesArray.count && self.isFormEdit == YES) {
         cell.addButton.hidden = NO;
         [cell.addButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell hideAddButton:NO];
@@ -211,6 +189,7 @@ static NSString *reuseIdentifier = @"ImageCell";
         if (![SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
             [self.imagesArray addObject:_formItem[@"instance_value"]];
         }
+        
     }else if([_formItem[@"type"] isEqualToNumber:@8]){
         self.valueTextView.placeholder = @"多个图片";
         self.imageType = 2;
@@ -218,15 +197,6 @@ static NSString *reuseIdentifier = @"ImageCell";
             [self.imagesArray addObjectsFromArray:[_formItem[@"instance_value"] componentsSeparatedByString:@","]];
         }
     }
-//    if (self.imagesArray.count <= 0) {
-//        self.valueTextView.hidden = NO;
-//        self.imageCollectionView.hidden = YES;
-//    }else{
-//        self.valueTextView.hidden = YES;
-//        self.imageCollectionView.hidden = NO;
-//    }
-//    self.imageCollectionView.hidden = NO;
-//    self.valueTextView.hidden = YES;
     [self.imageCollectionView reloadData];
 }
 - (void)setIsFormEdit:(BOOL)isFormEdit{
@@ -263,7 +233,11 @@ static NSString *reuseIdentifier = @"ImageCell";
         cotentViewH = 44;
     }else{
         if (self.isFormEdit == YES) {
-            cotentViewH = cotentViewH+10;
+            if(self.imagesArray.count >= 3){
+                cotentViewH = cotentViewH*2+10;
+            }else{
+                cotentViewH = cotentViewH+10;
+            }
         }
     }
     return CGSizeMake([UIScreen mainScreen].bounds.size.width, cotentViewH);

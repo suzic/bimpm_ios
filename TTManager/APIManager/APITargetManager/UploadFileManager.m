@@ -107,7 +107,7 @@
     }else if(manager == self.targetNewManager){
         if (self.uploadResult) {
             NSDictionary *dic = manager.response.responseData[@"data"];
-            self.uploadResult(YES, dic[@"target_info"][@"uid_target"], self.uid_target);
+            self.uploadResult(YES, dic[@"target_info"], self.uid_target);
             [SZAlert showInfo:@"创建成功" underTitle:TARGETS_NAME];
         }
     }

@@ -167,11 +167,11 @@
     if ([type isEqualToString:@"1"]) {
         NSLog(@"添加附加");
         __weak typeof(self) weakSelf = self;
-        [weakSelf pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image) {
+        [weakSelf pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image, NSString * _Nonnull mediaType) {
             __strong typeof(weakSelf) strongSelf = weakSelf;
             NSLog(@"当前选择的图片");
-            [strongSelf.uploadManager uploadFile:imageData fileName:[SZUtil getTimeNow] target:@{@"id_module":@"10",@"fid_parent":[NSNull null]}];
-            strongSelf.uploadManager.uploadResult = ^(BOOL success, NSString * _Nonnull errMsg, NSString * _Nonnull id_file) {
+            [strongSelf.uploadManager uploadFile:imageData fileName:[SZUtil getTimeNow] target:@{@"id_module":@"10",@"fid_parent":@"0"}];
+            strongSelf.uploadManager.uploadResult = ^(BOOL success, NSDictionary * _Nonnull targetInfo, NSString * _Nonnull id_file) {
                 if (success == YES) {
                     weakSelf.taskParams.uid_target = id_file;
                     [weakSelf.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
