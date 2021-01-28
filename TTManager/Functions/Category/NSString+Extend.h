@@ -16,6 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param key key
 -(NSString *)urlAddCompnentForValue:(NSString *)value key:(NSString *)key;
 
+// Base64编码方法2
+- (NSString *)base64EncodingString;
+
+// Base64解码方法2
+- (NSString *)base64DecodingString;
 @end
 
 NS_ASSUME_NONNULL_END

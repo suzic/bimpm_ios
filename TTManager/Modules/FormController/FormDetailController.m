@@ -157,7 +157,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
 }
 - (void)cancelEditCurrentForm{
+    self.isEditForm = NO;
     [self.editButton resetEditButtonStyle:YES];
+    [self.tableView reloadData];
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{

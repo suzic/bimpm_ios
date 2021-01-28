@@ -53,18 +53,43 @@
 - (void)deleteFromImageAction:(UIButton *)button{
     [self routerEventWithName:delete_formItem_image userInfo:@{@"deleteIndex":self.indexPath}];
 }
-- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSString *)imageUrl{
+- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSString *)imageUrl imageType:(NSInteger)type{
     self.isFormEdit = isFormEdit;
     self.indexPath = indexPath;
-    [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user_header"]];
+    if (type == 1) {
+        [self imageData:imageUrl];
+    }else if(type == 2){
+        [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"user_header"]];
+    }
+}
+- (void)imageData:(NSString *)imageData{
+    NSArray *imageDataArray = [imageData componentsSeparatedByString:@","];
+    if (imageDataArray.count > 1) {
+        NSString *imageString = imageDataArray[1];
+        NSString *imageEncrypt = imageDataArray[0];
+        NSArray *encrypt = [imageEncrypt componentsSeparatedByString:@";"];
+        if (encrypt.count >1) {
+            NSString *encryptType = encrypt[1];
+            if ([encryptType isEqualToString:@"base64"]) {
+                NSData *data = [[NSData alloc] initWithBase64EncodedString:imageString options:0];
+                self.fromImageView.image = [UIImage imageWithData:data];
+                CGImageRef cgref = [self.fromImageView.image CGImage];
+                CIImage *cim = [self.fromImageView.image CIImage];
+                if (cim == nil && cgref == NULL)
+                {
+                    self.fromImageView.image = [UIImage imageNamed:@"empty_url_image"];
+                }
+            }
+        }
+    }
 }
 - (void)hideAddButton:(BOOL)hide{
     if (hide == YES) {
-        self.deleteButton.hidden = NO;
+        self.deleteButton.hidden = !self.isFormEdit;
         self.fromImageView.hidden = NO;
         self.addButton.hidden = YES;
     }else{
-        self.deleteButton.hidden = YES;
+        self.deleteButton.hidden = !self.isFormEdit;
         self.fromImageView.hidden = YES;
         self.addButton.hidden = NO;
     }
@@ -73,7 +98,7 @@
 - (UIImageView *)fromImageView{
     if (_fromImageView == nil) {
         _fromImageView = [[UIImageView alloc] init];
-        _fromImageView.image = [UIImage imageNamed:@"user_header"];
+        _fromImageView.image = [UIImage imageNamed:@"empty_url_image"];
         _fromImageView.contentMode = UIViewContentModeScaleToFill;
     }
     return _fromImageView;
@@ -89,7 +114,7 @@
 - (UIButton *)addButton{
     if (_addButton == nil) {
         _addButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [_addButton setBackgroundImage:[UIImage imageNamed:@"add_user"] forState:UIControlStateNormal];
+        [_addButton setBackgroundImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
     }
     return _addButton;
 }

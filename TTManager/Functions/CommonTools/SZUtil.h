@@ -176,4 +176,8 @@
 /// @param dict 字典
 + (id)convertToJsonData:(NSMutableDictionary *)dict;
 
+/// 字符串转字典
+/// @param jsonString 字符串
++ (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
+
 @end

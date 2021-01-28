@@ -18,6 +18,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 @property (nonatomic, strong) NSDictionary *formItem;
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, strong) UITextView *valueTextView;
 
 // 图片集类型 1:内嵌图片，2:图片list
 @property (nonatomic, assign) NSInteger imageType;
@@ -39,9 +40,13 @@ static NSString *reuseIdentifier = @"ImageCell";
 - (void)addUI{
     UIView *keyBgView = [[UIView alloc] init];
     [self.contentView addSubview:keyBgView];
-    [self addSubview:self.imageCollectionView];
     
+    [self addSubview:self.imageCollectionView];
+
     [keyBgView addSubview:self.keyLabel];
+    
+    [self addSubview:self.valueTextView];
+    
     [keyBgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(0);
         make.height.equalTo(44);
@@ -59,11 +64,18 @@ static NSString *reuseIdentifier = @"ImageCell";
         make.width.equalTo(self).multipliedBy(0.75);
         make.height.greaterThanOrEqualTo(44);
     }];
+    [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(-5);
+        make.right.equalTo(0);
+        make.top.equalTo(5);
+        make.width.equalTo(self).multipliedBy(0.75);
+        make.height.equalTo(44);
+    }];
 }
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
     self.indexPath = indexPath;
-    self.isFormEdit = isFormEdit;
     self.formItem = formItem;
+    self.isFormEdit = isFormEdit;
 }
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:delete_formItem_image]) {
@@ -77,25 +89,67 @@ static NSString *reuseIdentifier = @"ImageCell";
 - (void)addImageAction:(UIButton *)button{
     NSLog(@"添加图片");
 }
-
+- (BOOL)showAddView:(NSIndexPath *)indexPath{
+    BOOL show = NO;
+    // 不是编辑状态直接返回个数
+    if (self.isFormEdit == YES) {
+        // 多个图片集直接创建一个add在最后
+        if (self.imageType == 2) {
+            show = YES;
+        }else{
+            // 内嵌图片存在 没有添加按钮
+            if (self.imagesArray.count <=0) {
+                show = YES;
+            }
+        }
+    }
+    if (show == YES) {
+        if (self.imageType == 2 && indexPath.row == self.imagesArray.count) {
+            show = YES;
+        }else if(self.imageType == 1 && indexPath.row == 0){
+            show = YES;
+        }else{
+            show = NO;
+        }
+    }
+    return show;
+}
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView{
     return 1;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.isFormEdit == YES ? self.imagesArray.count+1 :self.imagesArray.count;
+    // 不是编辑状态直接返回个数
+    if (self.isFormEdit == NO) {
+        return self.imagesArray.count;
+    }else{
+        // 多个图片集直接创建一个add在最后
+        if (self.imageType == 2) {
+            return self.imagesArray.count+1;
+        }else{
+            // 内嵌图片存在 没有添加按钮
+            if (self.imagesArray.count >0) {
+                return self.imagesArray.count;
+            }
+            // 创建添加按钮
+            else{
+                return 1;
+            }
+        }
+    }
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
-    if (indexPath.row == self.imagesArray.count && self.isFormEdit == YES) {
+    if ([self showAddView:indexPath]) {
         cell.addButton.hidden = NO;
         [cell.addButton addTarget:self action:@selector(addImageAction:) forControlEvents:UIControlEventTouchUpInside];
         [cell hideAddButton:NO];
-    }else{
+    }
+    else{
         NSString *data = self.imagesArray[indexPath.row];
-        [cell setIsFormEdit:self.isFormEdit indexPath:indexPath item:data];
+        [cell setIsFormEdit:self.isFormEdit indexPath:indexPath item:data imageType:self.imageType];
         [cell hideAddButton:YES];
     }
     return cell;
@@ -136,17 +190,61 @@ static NSString *reuseIdentifier = @"ImageCell";
     }
     return _keyLabel;
 }
+- (UITextView *)valueTextView{
+    if (_valueTextView == nil) {
+        _valueTextView = [[UITextView alloc] init];
+        _valueTextView.font = [UIFont systemFontOfSize:16];
+        _valueTextView.textColor = RGB_COLOR(51, 51, 51);
+        _valueTextView.placeholderColor = [UIColor lightGrayColor];
+        _valueTextView.editable = NO;
+    }
+    return _valueTextView;
+}
 - (void)setFormItem:(NSDictionary *)formItem{
-    if (_formItem != formItem) {
-        _formItem = formItem;
-        [self.imagesArray removeAllObjects];
+    _formItem = formItem;
+    [self.imagesArray removeAllObjects];
+    
+    self.keyLabel.text = _formItem[@"name"];
+    if ([_formItem[@"type"] isEqualToNumber:@7]) {
+        self.valueTextView.placeholder = @"小图片";
+        self.imageType = 1;
+        if (![SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
+            [self.imagesArray addObject:_formItem[@"instance_value"]];
+        }
+    }else if([_formItem[@"type"] isEqualToNumber:@8]){
+        self.valueTextView.placeholder = @"多个图片";
+        self.imageType = 2;
         if (![SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
             [self.imagesArray addObjectsFromArray:[_formItem[@"instance_value"] componentsSeparatedByString:@","]];
         }
-        self.keyLabel.text = _formItem[@"name"];
-        [self.imageCollectionView reloadData];
+    }
+//    if (self.imagesArray.count <= 0) {
+//        self.valueTextView.hidden = NO;
+//        self.imageCollectionView.hidden = YES;
+//    }else{
+//        self.valueTextView.hidden = YES;
+//        self.imageCollectionView.hidden = NO;
+//    }
+//    self.imageCollectionView.hidden = NO;
+//    self.valueTextView.hidden = YES;
+    [self.imageCollectionView reloadData];
+}
+- (void)setIsFormEdit:(BOOL)isFormEdit{
+    _isFormEdit = isFormEdit;
+    if (_isFormEdit == YES) {
+        self.valueTextView.hidden = YES;
+        self.imageCollectionView.hidden = NO;
+    }else{
+        if (self.imagesArray.count <= 0) {
+            self.valueTextView.hidden = NO;
+            self.imageCollectionView.hidden = YES;
+        }else{
+            self.valueTextView.hidden = YES;
+            self.imageCollectionView.hidden = NO;
+        }
     }
 }
+
 - (NSMutableArray *)imagesArray{
     if (_imagesArray == nil) {
         _imagesArray = [NSMutableArray array];
