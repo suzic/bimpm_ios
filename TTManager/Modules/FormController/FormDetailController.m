@@ -294,7 +294,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                     }else{
                         itemImageArray = [NSMutableArray array];
                     }
-                    [itemImageArray addObject:link];
+                    NSString *url = [NSString stringWithFormat:@"%@/FileService/%@",FILESERVICEADDRESS,link];
+                    [itemImageArray addObject:url];
                     itemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
                     currentitemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
                     items[indexPath.row] = itemDic;

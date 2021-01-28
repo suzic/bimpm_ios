@@ -59,8 +59,7 @@
     if (type == 1) {
         [self imageData:imageUrl];
     }else if(type == 2){
-        NSString *url = [NSString stringWithFormat:@"%@/FileService/%@",FILESERVICEADDRESS,imageUrl];
-        [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"empty_url_image"]];
+        [self.fromImageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"empty_url_image"]];
     }
 }
 - (void)imageData:(NSString *)imageData{
