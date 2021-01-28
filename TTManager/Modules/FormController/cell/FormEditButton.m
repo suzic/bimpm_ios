@@ -32,6 +32,7 @@
 - (void)switchChange:(UISwitch *)mySwitch{
     if (mySwitch.on == YES) {
     }else if(mySwitch.on == NO){
+        mySwitch.on = YES;
         if (self.delegate && [self.delegate respondsToSelector:@selector(cancelEditCurrentForm)]) {
             [self.delegate cancelEditCurrentForm];
         }

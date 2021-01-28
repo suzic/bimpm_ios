@@ -62,14 +62,13 @@ static NSString *reuseIdentifier = @"ImageCell";
         make.right.equalTo(0);
         make.top.equalTo(10);
         make.width.equalTo(self).multipliedBy(0.75);
-        make.height.greaterThanOrEqualTo(44);
     }];
     [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(-5);
         make.right.equalTo(0);
         make.top.equalTo(5);
         make.width.equalTo(self).multipliedBy(0.75);
-        make.height.equalTo(44);
+//        make.height.equalTo(44);
     }];
 }
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{

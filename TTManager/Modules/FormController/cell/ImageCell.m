@@ -51,7 +51,11 @@
 }
 #pragma mark - actions
 - (void)deleteFromImageAction:(UIButton *)button{
-    [self routerEventWithName:delete_formItem_image userInfo:@{@"deleteIndex":self.indexPath}];
+    [CNAlertView showWithTitle:@"温馨提示" message:@"是否删除当前图片" tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+        if (buttonIndex == 1) {
+            [self routerEventWithName:delete_formItem_image userInfo:@{@"deleteIndex":self.indexPath}];
+        }
+    }];
 }
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSString *)imageUrl imageType:(NSInteger)type{
     self.isFormEdit = isFormEdit;

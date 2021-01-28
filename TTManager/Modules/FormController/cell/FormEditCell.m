@@ -59,22 +59,20 @@
 }
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
-    if (self.valueTextView.editable == YES) {
-        NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
-        NSLog(@"当前textView的高度是---%ld",height);
-        if (height <= 44) {
-            height = 44;
-        }else if(height > 44*10){
-            textView.scrollEnabled = YES;
-            height = 44*10;
-        }
-        [self.valueTextView updateConstraints:^(MASConstraintMaker *make) {
-            make.height.equalTo(height);
-        }];
-        UITableView *tableView = [self tableView];
-        [tableView beginUpdates];
-        [tableView endUpdates];
+    NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
+    NSLog(@"当前textView的高度是---%ld",height);
+    if (height <= 34) {
+        height = 34;
+    }else if(height > 34*10){
+        textView.scrollEnabled = YES;
+        height = 34*10;
     }
+    [self.valueTextView updateConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(height);
+    }];
+    UITableView *tableView = [self tableView];
+    [tableView beginUpdates];
+    [tableView endUpdates];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
@@ -153,10 +151,10 @@
     [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(0);
         make.left.equalTo(keyBgView.mas_right);
-        make.bottom.equalTo(0);
+        make.bottom.equalTo(-5);
         make.right.equalTo(-5);
-        make.height.greaterThanOrEqualTo(44);
-        make.height.lessThanOrEqualTo(44*10);
+        make.height.greaterThanOrEqualTo(34);
+        make.height.lessThanOrEqualTo(34*10);
     }];
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
@@ -170,6 +168,8 @@
     self.isFormEdit = isFormEdit;
     self.formItem = formItem;
     self.indexPath = indexPath;
+    [self layoutIfNeeded];
+    [self textViewDidChange:self.valueTextView];
 }
 - (void)setIsFormEdit:(BOOL)isFormEdit{
     _isFormEdit = isFormEdit;
@@ -186,7 +186,11 @@
 //        self.valueTextView.placeholder = _formItem[@"placeholderValue"];
     }else{
         if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
-            self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem[@"instance_value"],_formItem[@"unit_char"]];
+            if (![SZUtil isEmptyOrNull:_formItem[@"unit_char"]]) {
+                self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem[@"instance_value"],_formItem[@"unit_char"]];
+            }else{
+                self.valueTextView.text = _formItem[@"instance_value"];
+            }
         }else{
             self.valueTextView.text = _formItem[@"instance_value"];
         }

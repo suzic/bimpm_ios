@@ -50,11 +50,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 @property (nonatomic, assign) BOOL canCloneForm;
 // 是否是克隆
 @property (nonatomic, assign) BOOL isCloneForm;
-
 // 当前下载的json是否可编辑
 @property (nonatomic, assign) BOOL canEditForm;
 // 是否是编辑状态
 @property (nonatomic, assign) BOOL isEditForm;
+// 是否修改过表单数据
+@property (nonatomic, assign) BOOL isModification;
 // 克隆后的buddy_file
 @property (nonatomic, copy) NSString *clone_buddy_file;
 // 获取表单json
@@ -83,8 +84,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     self.isEditForm = NO;
     self.canCloneForm = NO;
     self.isSnapshoot = NO;
+    self.isModification = NO;
     [self addUI];
     [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+    [self updateBottomView];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -159,17 +162,20 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 #pragma mark - responsder chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_edit_item]) {
+        self.isModification = YES;
         [self modifyCurrentDownLoadForm:userInfo];
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         NSIndexPath *formItemIndex = userInfo[@"formItemIndex"];
         NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
         NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
 //        [self modifyCurrentDownLoadForm:userInfo];
+        self.isModification = YES;
         [self deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
         NSLog(@"保存当前编辑的表单");
         [self operationsFormFill:nil];
     }else if([eventName isEqualToString:add_formItem_image]){
+        self.isModification = YES;
         [self addImageToCurrentImageFormItem:userInfo];
     }
 }
@@ -347,6 +353,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     [self.tableView reloadData];
 }
+- (void)resetFormData{
+    self.isModification = NO;
+    self.isEditForm = NO;
+    [self.editButton resetEditButtonStyle:YES];
+    [self.tableView reloadData];
+}
 #pragma mark - FormEditDelegate
 - (void)startEditCurrentForm{
     if (self.canEditForm == NO) {
@@ -356,11 +368,23 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self.editButton resetEditButtonStyle:NO];
         [self.tableView reloadData];
     }
+    [self updateBottomView];
 }
 - (void)cancelEditCurrentForm{
-    self.isEditForm = NO;
-    [self.editButton resetEditButtonStyle:YES];
-    [self.tableView reloadData];
+    if (self.isModification == YES) {
+        [CNAlertView showWithTitle:@"温馨提示" message:@"是否保存当前修改内容" cancelButtonTitle:@"放弃" otherButtonTitles:@[@"保存"] tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                [self operationsFormFill:nil];
+            }else{
+                self.isEditForm = NO;
+                [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+                [self resetFormData];
+            }
+        }];
+    }else{
+        [self resetFormData];
+    }
+    [self updateBottomView];
 }
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
@@ -410,6 +434,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self.targetUpdateManager loadData];
     }else if(manager == self.targetUpdateManager){
         [SZAlert showInfo:@"TargetUpdate成功" underTitle:TARGETS_NAME];
+        if (self.isModification == YES) {
+            [self resetFormData];
+        }
     }else if(manager == self.downLoadManager){
         NSLog(@"下载表单成功");
         [self setCloneFormInfo:data];
@@ -476,6 +503,11 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     CGFloat snapshootViewH = self.isSnapshoot == YES ? 44 : 0;
     [self.snapshootView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(snapshootViewH);
+    }];
+}
+- (void)updateBottomView{
+    [UIView animateWithDuration:0.3 animations:^{
+        self.bottomView.alpha = self.isEditForm == NO ? 0:1;
     }];
 }
 #pragma mark - setter and getter
