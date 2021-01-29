@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) BRDatePickerView *datePickerView;
-
+@property (nonatomic, strong) UIImageView *downImageView;
 @end
 @implementation FormEditCell
 - (instancetype)initWithFrame:(CGRect)frame{
@@ -55,6 +55,10 @@
             [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
         }
         [self showActionSheets];
+    }
+    // url
+    else if(type == 6){
+        [self routerEventWithName:open_form_url userInfo:@{@"url":_formItem[@"instance_value"]}];
     }
 }
 #pragma mark - UITextViewDelegate
@@ -132,11 +136,14 @@
     self.contentView.userInteractionEnabled = YES;
     [self addSubview:self.valueTextView];
     [self addSubview:self.clickButton];
+    
+    [self addSubview:self.downImageView];
+    
     self.clickButton.hidden = YES;
 
     UIView *keyBgView = [[UIView alloc] init];
     [self addSubview:keyBgView];
-
+    
     [keyBgView addSubview:self.keyLabel];
     [keyBgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(0);
@@ -156,11 +163,18 @@
         make.height.greaterThanOrEqualTo(34);
         make.height.lessThanOrEqualTo(34*10);
     }];
+    
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
         make.top.equalTo(5);
         make.left.equalTo(keyBgView.mas_right);
     }];
+    [self.downImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.width.height.equalTo(20);
+        make.right.equalTo(-15);
+    }];
+    self.downImageView.hidden = YES;
 }
 
 #pragma mark - setter and getter
@@ -181,9 +195,18 @@
 - (void)setFormItem:(NSDictionary *)formItem{
     _formItem = formItem;
     self.keyLabel.text = _formItem[@"name"];
+    // 时间选择器
+    if ([_formItem[@"type"] isEqualToNumber:@3]) {
+        self.datePickerView.pickerMode = BRDatePickerModeYMD;
+        self.downImageView.hidden = !self.isFormEdit;
+    }else if([_formItem[@"type"] isEqualToNumber:@4]){
+        self.datePickerView.pickerMode = BRDatePickerModeHMS;
+        self.downImageView.hidden = !self.isFormEdit;
+    }
+    
+    // 数据
     if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
         self.valueTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",_formItem[@"type"]]];
-//        self.valueTextView.placeholder = _formItem[@"placeholderValue"];
     }else{
         if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
             if (![SZUtil isEmptyOrNull:_formItem[@"unit_char"]]) {
@@ -192,7 +215,34 @@
                 self.valueTextView.text = _formItem[@"instance_value"];
             }
         }else{
-            self.valueTextView.text = _formItem[@"instance_value"];
+            NSString *instance_value = _formItem[@"instance_value"];
+            // 日期 YYYY-MM-DD
+            if ([_formItem[@"type"] isEqualToNumber:@3]) {
+                if ([instance_value rangeOfString:@"-"].location == NSNotFound) {
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value intValue]];
+                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"YYYY-MM-DD"];
+                }
+                self.valueTextView.text = instance_value;
+            }
+            // 时间HH:mm:ss
+            else if([_formItem[@"type"] isEqualToNumber:@4]){
+                if ([instance_value rangeOfString:@":"].location == NSNotFound) {
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value intValue]];
+                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"HH:mm:ss"];
+                }
+                self.valueTextView.text = instance_value;
+            }
+            // url
+            else if([_formItem[@"type"] isEqualToNumber:@6]){
+                self.valueTextView.hidden = YES;
+                self.clickButton.hidden = NO;
+                [self.clickButton setTitle:instance_value forState:UIControlStateNormal];
+                NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:instance_value];
+                NSRange titleRange = {0,[title length]};
+                [title addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+                [title addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(5, 125, 255) range:NSMakeRange(0, title.length)];
+                [self.clickButton setAttributedTitle:title forState:UIControlStateNormal];
+            }
         }
     }
 }
@@ -218,6 +268,7 @@
     }
     return _valueTextView;
 }
+
 - (UIButton *)clickButton{
     if (_clickButton == nil) {
         _clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -245,23 +296,27 @@
 - (BRDatePickerView *)datePickerView{
     if (_datePickerView == nil) {
         _datePickerView = [[BRDatePickerView alloc] init];
-        _datePickerView.pickerMode = BRDatePickerModeYMDHM;
         _datePickerView.title = @"请选择时间";
-        _datePickerView.minDate = [NSDate dateWithTimeIntervalSinceNow:60*60];
-        _datePickerView.maxDate = [[NSDate date] br_getNewDate:[NSDate date] addDays:365*3];
+        _datePickerView.selectDate = [NSDate date];
         _datePickerView.isAutoSelect = NO;
         _datePickerView.minuteInterval = 5;
         _datePickerView.numberFullName = YES;
         __weak typeof(self) weakSelf = self;
         _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
             __strong typeof(self) strongSelf = weakSelf;
-            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"indexPath":strongSelf.indexPath,@"value":selectValue}];
-            
+            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]];
+            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"indexPath":strongSelf.indexPath,@"value":time}];
         };
     }
     return _datePickerView;
 }
-
+- (UIImageView *)downImageView{
+    if (_downImageView == nil) {
+        _downImageView = [[UIImageView alloc] init];
+        _downImageView.image = [UIImage imageNamed:@"button_ down"];
+    }
+    return _downImageView;
+}
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

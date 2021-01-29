@@ -11,6 +11,7 @@
 #import "BottomView.h"
 #import "FormHeaderView.h"
 #import "FormEditButton.h"
+#import "WebController.h"
 
 /**
  1:下载当前表单文件form.json,之后调用detail，如果失败，则是快照，不可编辑,直接依据form.json显示app页面，步骤到此结束，否则继续下一步
@@ -177,6 +178,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else if([eventName isEqualToString:add_formItem_image]){
         self.isModification = YES;
         [self addImageToCurrentImageFormItem:userInfo];
+    }else if([eventName isEqualToString:open_form_url]){
+        WebController *web = [[WebController alloc] init];
+        web.loadUrl = userInfo[@"url"];
+        [self.navigationController pushViewController:web animated:YES];
     }
 }
 
