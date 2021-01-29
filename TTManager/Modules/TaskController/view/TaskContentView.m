@@ -15,6 +15,7 @@
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
 @property (nonatomic, strong) UIButton *deleteFileBtn;
 @property (nonatomic, copy) NSString *uid_target;
+@property (nonatomic, copy) NSString *targetType;
 @property (nonatomic,assign) BOOL editPriority;
 @property (nonatomic, copy) NSString *taskContent;
 
@@ -29,6 +30,7 @@
         self.taskContent = @"";
         self.adjunctType = NSNotFound;
         self.uid_target = @"";
+        self.targetType = @"";
         self.editPriority = NO;
         [self addUI];
     }
@@ -109,6 +111,7 @@
     if (![SZUtil isEmptyOrNull:_tools.task.firstTarget.uid_target]) {
         fileName = _tools.task.firstTarget.name;
         self.uid_target = _tools.task.firstTarget.uid_target;
+        self.targetType = INT_32_TO_STRING(_tools.task.firstTarget.type);
         [self hideDelete:NO];
         self.adjunctType = 2;
     }else{
@@ -125,6 +128,7 @@
         ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
         fileName = target.name;
         self.uid_target = target.uid_target;
+        self.targetType = INT_32_TO_STRING(target.type);
         self.adjunctFileBtn.enabled = YES;
         self.adjunctType = 2;
     }else{
@@ -142,6 +146,7 @@
             ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
             fileName = target.name;
             self.uid_target = target.uid_target;
+            self.targetType = INT_32_TO_STRING(target.type);
             self.adjunctType = 2;
             [self hideDelete:NO];
         }else{
@@ -156,6 +161,8 @@
             ZHTarget *target = [_tools.currentSelectedStep.memoDocs allObjects][0];
             fileName = target.name;
             self.uid_target = target.uid_target;
+            self.targetType = INT_32_TO_STRING(target.type);
+
             self.adjunctType = 2;
             [self hideDelete:YES];
             self.adjunctFileBtn.enabled = YES;
@@ -185,7 +192,7 @@
     if (self.adjunctType == 3) {
         return;
     }
-    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":[NSString stringWithFormat:@"%ld",self.adjunctType],@"uid_target":self.uid_target}];
+    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":[NSString stringWithFormat:@"%ld",self.adjunctType],@"uid_target":self.uid_target,@"type":self.targetType}];
 }
 - (void)deleteAdjunctFile:(UIButton *)button{
     NSLog(@"删除当前文档");

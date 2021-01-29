@@ -17,6 +17,7 @@
 #import "DocumentLibController.h"
 #import "UploadFileManager.h"
 #import "WebController.h"
+#import "FormDetailController.h"
 
 @interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,UITextFieldDelegate>
 
@@ -181,12 +182,18 @@
     }
     else if([type isEqualToString:@"2"]){
         NSLog(@"查看附加");
-        ZHUser *user = [DataManager defaultInstance].currentUser;
-        WebController *webVC = [[WebController alloc] init];
-//            webVC.loadUrl = target.link;
-        [webVC fileView:@{@"uid_target":addFileDic[@"uid_target"],@"t":user.token,@"m":@"1",@"f":@"0"}];
-        BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:webVC];
-        [self presentViewController:nav animated:YES completion:nil];
+        
+        if ([addFileDic[@"type"] isEqualToString:@"11"]) {
+            FormDetailController *vc = [[FormDetailController alloc] init];
+            vc.buddy_file = uid_target;
+            [self.navigationController pushViewController:vc animated:YES];
+        }else{
+            ZHUser *user = [DataManager defaultInstance].currentUser;
+            WebController *webVC = [[WebController alloc] init];
+            [webVC fileView:@{@"uid_target":addFileDic[@"uid_target"],@"t":user.token,@"m":@"1",@"f":@"0"}];
+            BaseNavigationController *nav = [[BaseNavigationController alloc] initWithRootViewController:webVC];
+            [self presentViewController:nav animated:YES completion:nil];
+        }
     }
     else if([type isEqualToString:@"4"]){
         NSLog(@"删除附件");
