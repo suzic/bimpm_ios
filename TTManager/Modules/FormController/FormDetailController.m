@@ -169,10 +169,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.isModification = YES;
         [self modifyCurrentDownLoadForm:userInfo];
     }else if ([eventName isEqualToString:delete_formItem_image]) {
-        NSIndexPath *formItemIndex = userInfo[@"formItemIndex"];
-        NSIndexPath *deleteImageIndex = userInfo[@"deleteIndex"];
-        NSLog(@"当前删除的formItem下标 == %ld 当前删除的图片的下标 == %ld",(long)formItemIndex.row,deleteImageIndex.row);
-//        [self modifyCurrentDownLoadForm:userInfo];
         self.isModification = YES;
         [self deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
@@ -182,9 +178,14 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.isModification = YES;
         [self addImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:open_form_url]){
+        self.isModification = YES;
         WebController *web = [[WebController alloc] init];
         web.loadUrl = userInfo[@"url"];
         [self.navigationController pushViewController:web animated:YES];
+    }
+    // 修改了表单内容
+    else if([eventName isEqualToString:change_form_info]){
+        self.isModification = YES;
     }
 }
 - (void)back:(UIBarButtonItem *)item{
@@ -388,7 +389,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                 [self operationsFormFill:nil];
             }else{
                 if (self.isPopVC == YES) {
-                    if (self.isCloneForm == YES) {
+                    if (self.isCloneForm == YES && self.isTaskDetail == YES) {
                         self.selectedTarget(self.instanceBuddy_file);
                     }
                     [self.navigationController popViewControllerAnimated:YES];
@@ -400,9 +401,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
                 
             }
         }];
-    }else{
+    }
+    else{
         if (self.isPopVC == YES) {
-            if (self.isCloneForm == YES) {
+            if (self.isCloneForm == YES && self.isTaskDetail == YES) {
                 self.selectedTarget(self.instanceBuddy_file);
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -464,7 +466,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
             [self resetFormData];
         }
         if (self.isPopVC == YES) {
-            if (self.isCloneForm == YES) {
+            if (self.isCloneForm == YES && self.isTaskDetail == YES) {
                 self.selectedTarget(self.instanceBuddy_file);
             }
             [self.navigationController popViewControllerAnimated:YES];
@@ -531,7 +533,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         UIBarButtonItem *rightCustomView = [[UIBarButtonItem alloc] initWithCustomView:self.editButton];
         self.navigationItem.rightBarButtonItem = rightCustomView;
     }
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""] style:UIBarButtonItemStyleDone target:self action:@selector(back:)];
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStyleDone target:self action:@selector(back:)];
     self.navigationItem.leftBarButtonItem = backButtonItem;
 }
 - (void)updateSnapshootViewLayout{

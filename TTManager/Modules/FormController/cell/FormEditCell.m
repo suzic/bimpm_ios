@@ -77,6 +77,8 @@
     UITableView *tableView = [self tableView];
     [tableView beginUpdates];
     [tableView endUpdates];
+    
+    [self routerEventWithName:change_form_info userInfo:@{}];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
@@ -207,6 +209,7 @@
     // 数据
     if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
         self.valueTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",_formItem[@"type"]]];
+        self.valueTextView.text = @"";
     }else{
         if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
             if (![SZUtil isEmptyOrNull:_formItem[@"unit_char"]]) {

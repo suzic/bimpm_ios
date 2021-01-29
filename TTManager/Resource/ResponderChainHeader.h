@@ -58,7 +58,8 @@
 #define add_formItem_image      @"add_formItem_image"
 // 保存当前编辑的表单内容
 #define save_edit_form          @"save_edit_form"
-
 // 打开表单内的url链接
 #define open_form_url           @"open_form_url"
+// 是否修改表单内容
+#define change_form_info        @"change_form_info"
 #endif /* ResponderChainHeader_h */

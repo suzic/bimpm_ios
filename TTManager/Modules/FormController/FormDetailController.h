@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormDetailController : UIViewController
 
+// 是否来自taskDetail
+@property (nonatomic, assign) BOOL isTaskDetail;
+
 @property (nonatomic, copy) SelectedTarget selectedTarget;
 
 @property (nonatomic, strong) NSString *buddy_file;

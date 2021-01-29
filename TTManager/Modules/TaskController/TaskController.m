@@ -186,6 +186,7 @@
         if ([addFileDic[@"type"] isEqualToString:@"11"]) {
             FormDetailController *vc = [[FormDetailController alloc] init];
             vc.buddy_file = uid_target;
+            vc.isTaskDetail = YES;
             vc.selectedTarget = ^(NSString * _Nullable buddy_file) {
                 if (![SZUtil isEmptyOrNull:buddy_file]) {
                     // 先删除后添加
