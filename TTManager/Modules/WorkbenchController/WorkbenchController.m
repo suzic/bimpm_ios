@@ -105,7 +105,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
-            return 170.0f;
+            return 160.0f;
             break;
         case 1:
             return FunctionCellHeight;
