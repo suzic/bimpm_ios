@@ -57,6 +57,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 @property (nonatomic, assign) BOOL isEditForm;
 // 是否修改过表单数据
 @property (nonatomic, assign) BOOL isModification;
+// 返回上一级
+@property (nonatomic, assign) BOOL isPopVC;
 // 克隆后的buddy_file
 @property (nonatomic, copy) NSString *clone_buddy_file;
 // 获取表单json
@@ -86,6 +88,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     self.canCloneForm = NO;
     self.isSnapshoot = NO;
     self.isModification = NO;
+    self.isPopVC = NO;
     [self addUI];
     [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
     [self updateBottomView];
@@ -184,7 +187,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self.navigationController pushViewController:web animated:YES];
     }
 }
-
+- (void)back:(UIBarButtonItem *)item{
+    self.isPopVC = YES;
+    [self cancelEditCurrentForm];
+}
 #pragma mark - private
 // 获取操作后的提交的参数
 - (NSMutableDictionary *)getOperationsFromParams{
@@ -381,13 +387,28 @@ static NSString *imageCellIndex = @"ImageCellIndex";
             if (buttonIndex == 1) {
                 [self operationsFormFill:nil];
             }else{
-                self.isEditForm = NO;
-                [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
-                [self resetFormData];
+                if (self.isPopVC == YES) {
+                    if (self.isCloneForm == YES) {
+                        self.selectedTarget(self.instanceBuddy_file);
+                    }
+                    [self.navigationController popViewControllerAnimated:YES];
+                }else{
+                    self.isEditForm = NO;
+                    [self downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+                    [self resetFormData];
+                }
+                
             }
         }];
     }else{
-        [self resetFormData];
+        if (self.isPopVC == YES) {
+            if (self.isCloneForm == YES) {
+                self.selectedTarget(self.instanceBuddy_file);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
+            [self resetFormData];
+        }
     }
     [self updateBottomView];
 }
@@ -441,6 +462,12 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [SZAlert showInfo:@"TargetUpdate成功" underTitle:TARGETS_NAME];
         if (self.isModification == YES) {
             [self resetFormData];
+        }
+        if (self.isPopVC == YES) {
+            if (self.isCloneForm == YES) {
+                self.selectedTarget(self.instanceBuddy_file);
+            }
+            [self.navigationController popViewControllerAnimated:YES];
         }
     }else if(manager == self.downLoadManager){
         NSLog(@"下载表单成功");
@@ -502,7 +529,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.navigationItem.rightBarButtonItem = nil;
     }else{
         UIBarButtonItem *rightCustomView = [[UIBarButtonItem alloc] initWithCustomView:self.editButton];
-        self.navigationItem.rightBarButtonItem = rightCustomView;    }
+        self.navigationItem.rightBarButtonItem = rightCustomView;
+    }
+    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@""] style:UIBarButtonItemStyleDone target:self action:@selector(back:)];
+    self.navigationItem.leftBarButtonItem = backButtonItem;
 }
 - (void)updateSnapshootViewLayout{
     CGFloat snapshootViewH = self.isSnapshoot == YES ? 44 : 0;

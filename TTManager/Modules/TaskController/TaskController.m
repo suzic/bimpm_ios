@@ -186,6 +186,15 @@
         if ([addFileDic[@"type"] isEqualToString:@"11"]) {
             FormDetailController *vc = [[FormDetailController alloc] init];
             vc.buddy_file = uid_target;
+            vc.selectedTarget = ^(NSString * _Nullable buddy_file) {
+                if (![SZUtil isEmptyOrNull:buddy_file]) {
+                    // 先删除后添加
+                    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+                    
+                    self.taskParams.uid_target = buddy_file;
+                    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+                }
+            };
             [self.navigationController pushViewController:vc animated:YES];
         }else{
             ZHUser *user = [DataManager defaultInstance].currentUser;
