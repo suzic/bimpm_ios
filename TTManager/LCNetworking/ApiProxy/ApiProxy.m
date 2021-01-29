@@ -14,9 +14,10 @@
 
 @interface ApiProxy ()
 
-@property (nonatomic, strong)NSMutableDictionary *dispatchTable;
-@property (nonatomic, strong)AFHTTPSessionManager *sessionManager;
-@property (nonatomic, strong)NSDictionary *headers;
+@property (nonatomic, strong) NSMutableDictionary *dispatchTable;
+@property (nonatomic, strong) AFHTTPSessionManager *sessionManager;
+@property (nonatomic, strong) NSDictionary *headers;
+@property (nonatomic, strong) MBProgressHUD *hud;
 
 @end
 
@@ -40,6 +41,7 @@
                  success:(APICallback)success
                     fail:(APICallback)fail
 {
+    [self addMBProgressHUD];
     NSNumber *requestID = @0;
     switch (requestType) {
         case REQUEST_TYPE_GET:
@@ -180,6 +182,7 @@
 // 接口返回成功
 - (void)requestSuccessTask:(NSURLSessionDataTask *)task params:(NSDictionary *)params responseObject:(id)responseObject success:(APICallback)success{
     [self removeRequestId:task];
+    [self removeMBProgressHUD];
     task.requestParams = params;
 //    NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)task.response;
     LCURLResponse *response = [[LCURLResponse alloc] initWithResponseData:responseObject requestId:@([task taskIdentifier]) task:task status:LCURLResponseStatusSuccess];
@@ -188,6 +191,7 @@
 // 接口返回失败
 - (void)requestFailureTask:(NSURLSessionDataTask *)task params:(NSDictionary *)params error:(NSError *)error failure:(APICallback)fail{
     [self removeRequestId:task];
+    [self removeMBProgressHUD];
     task.requestParams = params;
     LCURLResponse *response = [[LCURLResponse alloc] initWithResponseData: nil requestId:@([task taskIdentifier]) task:task error:error];
     fail ? fail(response) : nil;
@@ -240,5 +244,44 @@
 - (NSDictionary *)headers{
     _headers = [RequestHeaders requestHeaders];
     return _headers;
+}
+#pragma mark - MBProgressHUD
+- (MBProgressHUD *)hud{
+    if (_hud == nil)
+    {
+        _hud = [[MBProgressHUD alloc] initWithView:[AppDelegate sharedDelegate].window];
+        _hud.bezelView.style = MBProgressHUDBackgroundStyleSolidColor;
+        _hud.bezelView.backgroundColor = RGBA_COLOR(0, 0, 0, 0.5);
+        [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]].color = [UIColor whiteColor];
+        _hud.label.textColor = [UIColor whiteColor];
+        [[AppDelegate sharedDelegate].window addSubview:_hud];
+        _hud.label.text = @"正在加载";
+        [_hud showAnimated:YES];
+    }
+    return _hud;
+}
+- (void)addMBProgressHUD{
+    BOOL mainThread = [NSThread isMainThread];
+    if (mainThread == NO)
+    {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [self.hud showAnimated:YES];
+        });
+    }else
+    {
+        [self.hud showAnimated:YES];
+    }
+}
+- (void)removeMBProgressHUD{
+    BOOL mainThread = [NSThread isMainThread];
+   if (mainThread == YES)
+   {
+       [self.hud hideAnimated:YES];
+   }else
+   {
+       dispatch_sync(dispatch_get_main_queue(), ^{
+               [self.hud hideAnimated:YES];
+       });
+   }
 }
 @end
