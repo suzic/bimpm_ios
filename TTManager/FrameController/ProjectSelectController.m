@@ -145,7 +145,7 @@
     }else if(manager == self.UTPOperations){
         [self reloadData];
     }else if(manager == self.logoutManager){
-        [self dismissViewControllerAnimated:YES completion:^{
+        [self dismissViewControllerAnimated:NO completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
             [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
             [DataManager defaultInstance].currentUser = nil;
