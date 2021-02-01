@@ -12,7 +12,6 @@
 @interface TaskTitleView ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UIView *taskTypeTagView;
-@property (nonatomic, strong) UITextView *taskTitle;
 
 @end
 
@@ -20,6 +19,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.isModification = NO;
         [self addUI];
     }
     return self;
@@ -75,6 +75,7 @@
     self.taskTitle.text = _tools.task.name;
     [self setStepTitleOperations:_tools];
     [self textViewDidChange:self.taskTitle];
+    self.isModification = NO;
     [self setTaskTitleStatusColor:_tools.task.priority];
 }
 - (UIView *)taskTypeTagView{
@@ -98,21 +99,25 @@
 
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
-    
-    NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
-    NSLog(@"当前textView的高度是---%ld",height);
-    if (height > MaxTitleHeight) {
-        textView.scrollEnabled = YES;
-        height = MaxTitleHeight;
-    }else if(height <= 30){
-        height = 30;
+    if (textView == self.taskTitle) {
+        NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
+        NSLog(@"当前textView的高度是---%ld",height);
+        if (height > MaxTitleHeight) {
+            textView.scrollEnabled = YES;
+            height = MaxTitleHeight;
+        }else if(height <= 30){
+            height = 30;
+        }
+        [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
+            make.height.equalTo(height);
+        }];
+        self.isModification = YES;
     }
-    [self.taskTitle updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(height);
-    }];
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    [self routerEventWithName:change_task_title userInfo:@{@"taskTitle":textView.text}];
+    if (textView == self.taskTitle) {
+        [self routerEventWithName:change_task_title userInfo:@{@"taskTitle":textView.text}];
+    }
 }
 #pragma mark - UI
 - (void)addUI{

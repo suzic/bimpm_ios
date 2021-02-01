@@ -13,8 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskTitleView : UIView
 
+@property (nonatomic, strong) UITextView *taskTitle;
+
 @property (nonatomic, strong) OperabilityTools *tools;
 
+@property (nonatomic, assign) BOOL isModification;
 // 改变任务名称前的颜色
 - (void)setTaskTitleStatusColor:(NSInteger)index;
 @end

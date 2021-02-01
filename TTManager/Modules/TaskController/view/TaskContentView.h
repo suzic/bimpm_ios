@@ -18,10 +18,13 @@ typedef NS_ENUM(NSInteger,PriorityType){
 
 @interface TaskContentView : UIView
 
+@property (nonatomic, strong) UITextView *contentView;
+
 @property (nonatomic, strong) OperabilityTools *tools;
 // 当前任务优先级
 @property (nonatomic, assign)PriorityType priorityType;
 
+@property (nonatomic, assign) BOOL isModification;
 @end
 
 NS_ASSUME_NONNULL_END

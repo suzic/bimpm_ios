@@ -11,7 +11,6 @@
 
 @property (nonatomic, strong) UIView *priorityView;
 @property (nonatomic, strong) NSArray *prioritybtnArray;
-@property (nonatomic, strong) UITextView *contentView;
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
 @property (nonatomic, strong) UIButton *deleteFileBtn;
 @property (nonatomic, copy) NSString *uid_target;
@@ -27,6 +26,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.isModification = NO;
         self.taskContent = @"";
         self.adjunctType = NSNotFound;
         self.uid_target = @"";
@@ -221,18 +221,7 @@
         button.selected = (actualIndex == button.tag);
     };
 }
-- (void)setTextViewPlaceholder:(UITextView *)textView{
-    UILabel *placeHolderLabel = [[UILabel alloc] init];
-    placeHolderLabel.text = @"请输入任务内容";
-    placeHolderLabel.numberOfLines = 0;
-    placeHolderLabel.textColor = [UIColor lightGrayColor];
-    [placeHolderLabel sizeToFit];
-    [textView addSubview:placeHolderLabel];
 
-    textView.font = [UIFont systemFontOfSize:13.f];
-    placeHolderLabel.font = [UIFont systemFontOfSize:13.f];
-    [textView setValue:placeHolderLabel forKey:@"_placeholderLabel"];
-}
 #pragma mark - setter and getter
 
 - (void)setPriorityType:(PriorityType)priorityType{
@@ -282,7 +271,7 @@
         _contentView.textColor = RGB_COLOR(51, 51, 51);
         _contentView.font = [UIFont systemFontOfSize:13.0f];
         _contentView.delegate = self;
-        [self setTextViewPlaceholder:_contentView];
+        _contentView.placeholder = @"请输入任务内容";
     }
     return _contentView;
 }
@@ -335,8 +324,16 @@
     }
     return _prioritybtnArray;
 }
+#pragma mark - UITextViewDelegate
+- (void)textViewDidChange:(UITextView *)textView{
+    if (textView == self.contentView) {
+        self.isModification = YES;
+    }
+}
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    [self routerEventWithName:change_task_content userInfo:@{@"taskContent":textView.text}];
+    if (textView == self.contentView) {
+        [self routerEventWithName:change_task_content userInfo:@{@"taskContent":textView.text}];
+    }
 }
 #pragma mark - UI
 - (void)addUI{

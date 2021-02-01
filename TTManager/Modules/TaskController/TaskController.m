@@ -318,6 +318,11 @@
 }
 #pragma mark - Responder Chain
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if (self.taskTitleView.isModification == YES) {
+        [self alterTaskTitleToTask:@{@"taskTitle":self.taskTitleView.taskTitle.text}];
+    }else if(self.taskContentView.isModification == YES){
+        [self alterContentTextToTask:@{@"taskContent":self.taskContentView.contentView.text}];
+    }
     NSInvocation *invocation = self.eventStrategy[eventName];
     [invocation setArgument:&userInfo atIndex:2];
     [invocation invoke];
@@ -352,9 +357,10 @@
         [self setModuleViewOperabilityTools];
     }
     else if(manager == self.taskEditManager){
-        
+        self.taskContentView.isModification = NO;
     }
     else if(manager == self.taskOperationsManager){
+        self.taskTitleView.isModification = NO;
         [self.taskDetailManager loadData];
     }
     else if(manager == self.taskProcessManager){
