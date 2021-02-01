@@ -23,26 +23,31 @@
 
 @implementation ProjectSelectController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     if (@available(iOS 11.0, *))
-        self.projectCollectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        self.projectCollectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     else
-        self.automaticallyAdjustsScrollViewInsets = NO;
+        self.automaticallyAdjustsScrollViewInsets = YES;
     
     self.projectCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadData)];
     _projectList = [NSMutableArray array];
     [self reloadData];
 }
-- (void)reloadData{
+
+- (void)reloadData
+{
     if ([AppDelegate sharedDelegate].isLogin == YES) {
         self.UTPlistManager.pageSize.pageIndex = 0;
         [self.UTPlistManager loadData];
         [self.projectCollectionView reloadData];
     }
 }
+
 #pragma mark - setter and getter
+
 - (NSArray *)projectList{
     _projectList = [NSArray array];
     NSMutableArray *result = [DataManager defaultInstance].currentProjectList;
@@ -52,6 +57,7 @@
     _projectList = [NSArray arrayWithArray:[self sortDefautProjectList:array]];
     return _projectList;
 }
+
 - (NSArray *)sortDefautProjectList:(NSArray *)array{
     NSMutableArray *initArray = [NSMutableArray arrayWithArray:array];
     NSMutableArray *resultArray = [NSMutableArray arrayWithArray:array];
@@ -67,15 +73,19 @@
     }
     return initArray;
 }
+
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
+
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
     return 1;
 }
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.projectList.count;
 }
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ProjectViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"projectIdentifler" forIndexPath:indexPath];
     ZHUserProject *userProject = self.projectList[indexPath.row];
@@ -85,8 +95,9 @@
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((kScreenWidth-15)/2, 300.0f);
+    return CGSizeMake((kScreenWidth - 50) / 2, (kScreenWidth - 50) * 2 / 3);
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
     self.selectedIndex = indexPath.row;
     ZHUserProject *userProject = self.projectList[indexPath.row];
@@ -95,12 +106,15 @@
     }
     [self.UTPDetailManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(userProject.belongProject.id_project)}];
 }
+
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:user_to_project_operations]) {
         [self.UTPOperations loadDataWithParams:userInfo];
     }
 }
+
 #pragma mark - APIManagerParamSource
+
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHUser *user = [DataManager defaultInstance].currentUser;
@@ -109,7 +123,9 @@
     }
     return dic;
 }
+
 #pragma mark - ApiManagerCallBackDelegate
+
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.UTPlistManager) {
         [self.projectCollectionView.mj_header endRefreshing];
@@ -122,12 +138,15 @@
         [self reloadData];
     }
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.UTPlistManager) {
         [self.projectCollectionView.mj_header endRefreshing];
     }
 }
+
 #pragma mark - setter and getter
+
 - (APIUTPListManager *)UTPlistManager{
     if (_UTPlistManager == nil) {
         _UTPlistManager = [[APIUTPListManager alloc] init];
@@ -137,6 +156,7 @@
     }
     return _UTPlistManager;
 }
+
 - (APIUTPDetailManager *)UTPDetailManager{
     if (_UTPDetailManager == nil) {
         _UTPDetailManager = [[APIUTPDetailManager alloc] init];
@@ -145,6 +165,7 @@
     }
     return _UTPDetailManager;
 }
+
 - (APIUTPOperationsManager *)UTPOperations{
     if (_UTPOperations == nil) {
         _UTPOperations = [[APIUTPOperationsManager alloc] init];

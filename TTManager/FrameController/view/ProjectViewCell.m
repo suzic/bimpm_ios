@@ -30,7 +30,10 @@
 
 - (void)layoutSublayersOfLayer:(CALayer *)layer{
     [super layoutSublayersOfLayer:layer];
-    [self.bgView borderForColor:RGB_COLOR(153, 153, 153) borderWidth:0.5 borderType:UIBorderSideTypeAll];
+    self.bgView.layer.shadowColor = [UIColor blackColor].CGColor;
+    self.bgView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+    self.bgView.layer.shadowOpacity = 0.3f;
+    self.bgView.layer.shadowRadius = 4.0f;
 }
 
 - (void)setUserProject:(ZHUserProject *)userProject{
