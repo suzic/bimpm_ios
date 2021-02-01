@@ -237,17 +237,15 @@
     userProject.id_project = [dicData[@"id_project"] intValue];
 //    // 同步并关联对应的用户
     ZHUser *assignUser = [[DataManager defaultInstance] getUserFromCoredataByID:[dicData[@"id_user"] intValue]];
-
-    userProject.belongUser = assignUser;
+    
     
     // 同步并关联对应的项目
     ZHProject *assignProject = [[DataManager defaultInstance] getProjectFromCoredataById:[dicData[@"id_project"] intValue]];
-    userProject.belongProject = assignProject;
+    
     // 同步并关联对应的角色对象
     NSDictionary *roleDic = dicData[@"role"];
     ZHRole *currentRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];
     [[DataManager defaultInstance] syncRole:currentRole withRoleInfo:roleDic];
-    userProject.assignRole = currentRole;
     
     
     for (ZHDepartmentUser *departmentUser in userProject.inDepartments) {
@@ -265,7 +263,9 @@
 //        department.belongProject = assignProject;
         order_index++;
     }
-    
+    userProject.belongUser = assignUser;
+    userProject.belongProject = assignProject;
+    userProject.assignRole = currentRole;
     return userProject;
 }
 
