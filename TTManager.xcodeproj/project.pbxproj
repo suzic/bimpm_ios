@@ -658,9 +658,9 @@
 				402A9F1C25957A4100A9DABA /* Resource */,
 				402A9EFB2595769900A9DABA /* Main.storyboard */,
 				402AA1BB2598762000A9DABA /* Team.storyboard */,
+				402AA2032599E02100A9DABA /* Task.storyboard */,
 				402A9F032595769C00A9DABA /* LaunchScreen.storyboard */,
 				402A9F062595769C00A9DABA /* Info.plist */,
-				402AA2032599E02100A9DABA /* Task.storyboard */,
 				406FCAFA25A4602200636079 /* TTManager.entitlements */,
 			);
 			path = TTManager;

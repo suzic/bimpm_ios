@@ -31,6 +31,7 @@
     self.userName.text = user.name;
 }
 #pragma mark - setting and getter
+
 - (NSArray *)settingArray{
     if (_settingArray == nil) {
         _settingArray = @[
@@ -49,22 +50,29 @@
     }
     return _logoutManager;
 }
+
 #pragma mark - UITableViewDelegate  and UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.settingArray.count;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 60.0f;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 10.0f;
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return nil;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     SettingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"settingCell"];
     NSDictionary *dic = self.settingArray[indexPath.row];
@@ -72,6 +80,7 @@
     cell.settingTitle.text = dic[@"title"];
     return cell;
 }
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     NSLog(@"点击用户设置中心的内容");
     if (indexPath.row == self.settingArray.count -1) {
@@ -82,7 +91,9 @@
 }
 
 #pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+
+- (void)managerCallAPISuccess:(BaseApiManager *)manager
+{
     if (manager == self.logoutManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
         [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
@@ -94,19 +105,11 @@
         [AppDelegate sharedDelegate].initRongCloud = NO;
     }
 }
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.logoutManager) {
-        [SZAlert showInfo:@"退出登录失败" underTitle:TARGETS_NAME];
-    }
-}
-/*
-#pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+- (void)managerCallAPIFailed:(BaseApiManager *)manager
+{
+    if (manager == self.logoutManager)
+        [SZAlert showInfo:@"退出登录失败" underTitle:TARGETS_NAME];
 }
-*/
 
 @end
