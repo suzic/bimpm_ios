@@ -13,11 +13,12 @@
 @property (weak, nonatomic) IBOutlet UICollectionView *projectCollectionView;
 @property (nonatomic, strong) NSArray *projectList;
 @property (nonatomic, assign) NSInteger selectedIndex;
-
+@property (nonatomic, strong) UIBarButtonItem *logOutBarItem;
 // api
 @property (nonatomic, strong) APIUTPListManager *UTPlistManager;
 @property (nonatomic, strong) APIUTPOperationsManager *UTPOperations;
 @property (nonatomic, strong) APIUTPDetailManager *UTPDetailManager;
+@property (nonatomic, strong)APILogoutManager *logoutManager;
 
 @end
 
@@ -31,7 +32,7 @@
         self.projectCollectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentAutomatic;
     else
         self.automaticallyAdjustsScrollViewInsets = YES;
-    
+    self.navigationItem.leftBarButtonItem = self.logOutBarItem;
     self.projectCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadData)];
     _projectList = [NSMutableArray array];
     [self reloadData];
@@ -45,7 +46,14 @@
         [self.projectCollectionView reloadData];
     }
 }
-
+- (void)logout:(UIBarButtonItem *)bar{
+    [self.logoutManager loadDataWithParams:@{}];
+}
+- (void)logoutSuccess{
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
+}
 #pragma mark - setter and getter
 
 - (NSArray *)projectList{
@@ -136,6 +144,17 @@
         [self.frameVC reloadCurrentSelectedProject:userProject.belongProject];
     }else if(manager == self.UTPOperations){
         [self reloadData];
+    }else if(manager == self.logoutManager){
+        [self dismissViewControllerAnimated:YES completion:^{
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
+            [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
+            [DataManager defaultInstance].currentUser = nil;
+            [DataManager defaultInstance].currentProject = nil;
+            [[DataManager defaultInstance].currentProjectList removeLastObject];
+            [DataManager defaultInstance].currentProjectList = nil;
+            [[RCIM sharedRCIM] logout];
+            [AppDelegate sharedDelegate].initRongCloud = NO;
+        }];
     }
 }
 
@@ -166,6 +185,14 @@
     return _UTPDetailManager;
 }
 
+- (APILogoutManager *)logoutManager{
+    if (_logoutManager == nil) {
+        _logoutManager = [[APILogoutManager alloc] init];
+        _logoutManager.delegate = self;
+    }
+    return _logoutManager;
+}
+
 - (APIUTPOperationsManager *)UTPOperations{
     if (_UTPOperations == nil) {
         _UTPOperations = [[APIUTPOperationsManager alloc] init];
@@ -173,6 +200,16 @@
         _UTPOperations.paramSource = self;
     }
     return _UTPOperations;
+}
+
+- (UIBarButtonItem *)logOutBarItem{
+    if (_logOutBarItem == nil) {
+        _logOutBarItem = [[UIBarButtonItem alloc] initWithTitle:@"注销" style:UIBarButtonItemStyleDone target:self action:@selector(logout:)];
+    }
+    return _logOutBarItem;
+}
+-(void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 /*
 #pragma mark - Navigation

@@ -13,7 +13,6 @@
 #define NotiUserLoginFailed             @"NotiUserLoginFailed"
 #define NotiUserLoginNeeded             @"NotiUserLoginNeeded"
 #define NotiUserDeviceCheck             @"NotiUserDeviceCheck"
-
 #define NotiBackToMain                  @"NotiBackToMain"
 
 #define NotiReloadHomeView              @"NotiReloadHomeView"
