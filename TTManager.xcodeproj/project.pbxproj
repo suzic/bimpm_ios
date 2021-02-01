@@ -1501,7 +1501,6 @@
 				402A9EEC2595769900A9DABA /* Frameworks */,
 				402A9EED2595769900A9DABA /* Resources */,
 				9DBEABABEA38409F1E25B250 /* [CP] Copy Pods Resources */,
-				1837CF661D9105E12ED36B26 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1559,23 +1558,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		1837CF661D9105E12ED36B26 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		802C9E3200D3296D66B8549E /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
