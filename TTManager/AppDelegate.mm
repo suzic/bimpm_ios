@@ -83,7 +83,7 @@
 - (void)setAppearanceStyle
 {
     // 定义系统状态栏默认风格
-    [[UIApplication sharedApplication] setStatusBarHidden:NO];
+    [[UIApplication sharedApplication] setStatusBarHidden:YES];
     [[UINavigationBar appearance] setBackgroundImage:[SZUtil createImageWithColor:RGBA_COLOR(5, 125, 255, 1.0)] forBarMetrics:UIBarMetricsDefault];
     [[UINavigationBar appearance] setBackgroundColor:RGB_COLOR(5, 125, 255)];
     [[UINavigationBar appearance] setTintColor:[UIColor whiteColor]];

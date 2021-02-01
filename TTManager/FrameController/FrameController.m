@@ -16,7 +16,6 @@
 
 @property (weak, nonatomic) IBOutlet UIView *homeView;      // 主页面
 @property (weak, nonatomic) IBOutlet UIView *shadowView;    // 遮罩层
-@property (weak, nonatomic) IBOutlet UIView *projectView;   // 项目中心
 @property (weak, nonatomic) IBOutlet UIView *userView;      // 抽屉视图
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *userViewFront;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *userViewWidth;
@@ -75,7 +74,6 @@
     self.shadowView.hidden = YES;
     [self.view insertSubview:self.headerView belowSubview:self.userView];
     
-    self.projectView.hidden = YES;
     [self showProjectListView:NO];
     
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
@@ -302,17 +300,11 @@
 - (void)showProjectListView:(BOOL)show
 {
     if (show == YES) {
-        self.projectView.hidden = NO;
+        [self performSegueWithIdentifier:@"project" sender:self];
     }
-    [UIView animateWithDuration:0.5 animations:^{
-        self.projectTopLayoutConstraint.constant = show ? 0 : kScreenHeight;
-        [self.view layoutIfNeeded];
-    } completion:^(BOOL finished) {
-        if (show == YES) {
-            [self.projectVC reloadData];
-            self.shadowView.hidden = YES;
-        }
-    }];
+    else {
+        [self.projectVC dismissViewControllerAnimated:YES completion:nil];
+    }
     [self.headerView changeTabProjectStyle:show];
 }
 
@@ -466,7 +458,8 @@
     }else if ([segue.identifier isEqualToString:@"setting"]) {
         self.settingVC = (UserSettingController *)[segue destinationViewController];
     }else if([segue.identifier isEqualToString:@"project"]){
-        self.projectVC = (ProjectSelectController *)[segue destinationViewController];
+        UINavigationController *navi = [segue destinationViewController];
+        self.projectVC = (ProjectSelectController *)[navi topViewController] ;
         self.projectVC.frameVC = self;
     }
 }
