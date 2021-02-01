@@ -47,6 +47,10 @@
 - (IBAction)changeTab:(id)sender {
     UIButton *button = (UIButton *)sender;
     NSInteger currentTag = button.tag - 10000;
+    [self reloadTaskListCount:currentTag];
+}
+
+- (void)reloadTaskListCount:(NSInteger)currentTag{
     self.currentSelectedIndex = currentTag;
     
     [self changeSelecteStyle:currentTag];
@@ -109,10 +113,10 @@
     }else{
         x = kScreenWidth/2 + (kScreenWidth/2-self.myTaskBtn.titleLabel.size.width)/2;
     }
-    [self layoutIfNeeded];
     [self.lineView mas_updateConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(x);
     }];
+    [self layoutIfNeeded];
 }
 // 获取跳转任务对应的参数
 - (NSDictionary *)getTaskStatusForTaskList:(NSInteger)selected{
@@ -147,6 +151,9 @@
 // is_starter 是否是发起型任务 0-不是 1-是发起型。
 // is_finished /是否是已经完成/发起的任务 0-未完成/未发起  1-完成/发起
 - (void)requestTaskListCount:(NSInteger)type{
+    if ([DataManager defaultInstance].currentProject == nil) {
+        return;
+    }
     ZHProject *project = [DataManager defaultInstance].currentProject;
     [self.taskunfinishedManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(project.id_project),
                                                @"is_starter":[NSString stringWithFormat:@"%ld",type],

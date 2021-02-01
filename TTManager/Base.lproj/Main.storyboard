@@ -38,7 +38,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Nfj-6z-9bZ">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                                 <connections>
-                                    <segue destination="rYG-Bg-Jzv" kind="embed" id="2BE-bG-H6F"/>
+                                    <segue destination="rYG-Bg-Jzv" kind="embed" identifier="homeTabbarVC" id="2BE-bG-H6F"/>
                                 </connections>
                             </containerView>
                             <view hidden="YES" alpha="0.59999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jyk-20-m19">
@@ -89,7 +89,7 @@
         <!--LOGIN-->
         <scene sceneID="nxJ-PV-xOB">
             <objects>
-                <viewController id="Rzh-BC-Eqo" userLabel="LOGIN" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="login" id="Rzh-BC-Eqo" userLabel="LOGIN" customClass="LoginViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="nFq-96-EP7"/>
                         <viewControllerLayoutGuide type="bottom" id="w1N-Nc-ax8"/>
@@ -771,7 +771,7 @@
         <!--Navigation Controller-->
         <scene sceneID="mWv-BL-gby">
             <objects>
-                <navigationController id="7yk-lc-j1i" sceneMemberID="viewController">
+                <navigationController storyboardIdentifier="projectNav" id="7yk-lc-j1i" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" id="BDQ-s4-r7l">
                         <rect key="frame" x="0.0" y="44" width="428" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>

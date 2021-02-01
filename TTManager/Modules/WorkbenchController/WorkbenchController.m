@@ -38,9 +38,13 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
-    [self reoladNetwork];
-
 }
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self reoladNetwork];
+}
+
 - (void)setCurrentDate{
     self.timeInforLabel.hidden = NO;
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
@@ -49,8 +53,13 @@
     Lunar *lunarDate = solarDate.lunar;
     self.timeInforLabel.text = [NSString stringWithFormat:@"%@%@%@",[lunarDate ganzhiYear],lunarDate.lunarFromatterMonth, lunarDate.lunarFomatterDay];
 }
+
 - (void)reoladNetwork{
-    [self.UTPGanttManager loadData];
+    
+    if ([DataManager defaultInstance].currentProject != nil) {
+        [self.UTPGanttManager loadData];
+        [self.tableView reloadData];
+    }
 }
 
 #pragma mark - UITableViewDelegate and UITableViewDataSource
@@ -88,8 +97,11 @@
         }
             
             break;
-        case 2:
-            cell = [tableView dequeueReusableCellWithIdentifier:@"taskInforCell" forIndexPath:indexPath];
+        case 2:{
+            TaskInforCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"taskInforCell" forIndexPath:indexPath];
+            [infoCell reloadTaskListCount:0];
+            cell = infoCell;
+        }
             break;
         default:
             break;

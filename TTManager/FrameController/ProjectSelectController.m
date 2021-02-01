@@ -35,7 +35,21 @@
     self.navigationItem.leftBarButtonItem = self.logOutBarItem;
     self.projectCollectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reloadData)];
     _projectList = [NSMutableArray array];
-    [self reloadData];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginNeeded:) name:NotiUserLoginNeeded object:nil];
+    
+}
+
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (user == nil || (self.presentLoginAnimated == YES && user.is_login == NO)) {
+        [self presentLoginVC];
+    }else{
+        if (user.is_login == YES) {
+            [self reloadData];
+        }
+    }
 }
 
 - (void)reloadData
@@ -46,14 +60,27 @@
         [self.projectCollectionView reloadData];
     }
 }
+
 - (void)logout:(UIBarButtonItem *)bar{
     [self.logoutManager loadDataWithParams:@{}];
 }
+
 - (void)logoutSuccess{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self presentLoginVC];
 }
+
+- (void)presentLoginVC{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"login"];
+    BaseNavigationController *base = [[BaseNavigationController alloc] initWithRootViewController:vc];
+    base.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:base animated:YES completion:nil];
+}
+
+- (void)userLoginNeeded:(NSNotification *)notification{
+    [self presentLoginVC];
+}
+
 #pragma mark - setter and getter
 
 - (NSArray *)projectList{
@@ -141,6 +168,7 @@
     }else if(manager == self.UTPDetailManager){
         ZHUserProject *userProject = self.projectList[self.selectedIndex];
 //        [self routerEventWithName:selectedProject userInfo:@{@"currentProject":userProject.belongProject}];
+        [self dismissViewControllerAnimated:YES completion:nil];
         [self.frameVC reloadCurrentSelectedProject:userProject.belongProject];
     }else if(manager == self.UTPOperations){
         [self reloadData];
@@ -161,6 +189,9 @@
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.UTPlistManager) {
         [self.projectCollectionView.mj_header endRefreshing];
+    }else if(manager == self.UTPDetailManager){
+//        NSDictionary *dataDic = manager.response.responseData;
+//        NSNumber *status = dataDic[@"code"];
     }
 }
 

@@ -8,7 +8,7 @@
 #import "LoginUserManager.h"
 
 NSString * const CurrentLoginUserPhone = @"CurrentLoginUserPhone";
-NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
+//NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
 
 @implementation LoginUserManager
 
@@ -27,11 +27,11 @@ NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
     _currentLoginUserPhone = phone;
     return _currentLoginUserPhone;
 }
-- (NSString *)currentSelectedProjectId{
-    NSString *id_project = [[NSUserDefaults standardUserDefaults] objectForKey:CurrentSelectedProject];
-    _currentSelectedProjectId = id_project;
-    return _currentSelectedProjectId;
-}
+//- (NSString *)currentSelectedProjectId{
+//    NSString *id_project = [[NSUserDefaults standardUserDefaults] objectForKey:CurrentSelectedProject];
+//    _currentSelectedProjectId = id_project;
+//    return _currentSelectedProjectId;
+//}
 - (void)saveCurrentLoginUserPhone:(NSString *)phone
 {
     [[NSUserDefaults standardUserDefaults] setObject:phone forKey:CurrentLoginUserPhone];
@@ -40,13 +40,13 @@ NSString * const CurrentSelectedProject = @"CurrentSelectedProject";
 - (void)removeCurrentLoginUserPhone
 {
     [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:CurrentLoginUserPhone];
-    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:CurrentSelectedProject];
+//    [[NSUserDefaults standardUserDefaults] setObject:@"" forKey:CurrentSelectedProject];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
-- (void)saveCurrentSelectedProject:(NSString *)id_project{
-    [[NSUserDefaults standardUserDefaults] setObject:id_project forKey:CurrentSelectedProject];
-    [[NSUserDefaults standardUserDefaults] synchronize];
-}
+//- (void)saveCurrentSelectedProject:(NSString *)id_project{
+//    [[NSUserDefaults standardUserDefaults] setObject:id_project forKey:CurrentSelectedProject];
+//    [[NSUserDefaults standardUserDefaults] synchronize];
+//}
 - (ZHUser *)getUserByRongIMId:(NSString *)uid_chat{
     ZHUser *user = nil;
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"ZHUser" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];

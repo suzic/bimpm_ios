@@ -24,6 +24,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UILabel *secondStatusName;
 @property (weak, nonatomic) IBOutlet UILabel *secondStatusCount;
 
+- (void)reloadTaskListCount:(NSInteger)currentTag;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -34,7 +34,8 @@
          NSClassFromString(@"TeamController"),
          */
         _viewControlersList = @[NSClassFromString(@"FileListView"),
-                                NSClassFromString(@"FrameController")];
+                                NSClassFromString(@"FrameController"),
+                                NSClassFromString(@"LoginViewController")];
     }
     return _viewControlersList;
 }

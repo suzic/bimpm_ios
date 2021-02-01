@@ -107,18 +107,18 @@ static NSString *const CoreDataModelFileName = @"bimpm";
     }
     return userLogin;
 }
-- (ZHProject *)currentProject{
-    if (_currentProject == nil) {
-        NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
-        if (id_project == nil || [id_project isEqualToString:@""]) {
-            NSLog(@"当前没有选中的项目");
-        }else{
-            ZHProject *project = [self getProjectFromCoredataById:[id_project intValue]];
-            _currentProject = project;
-        }
-    }
-    return _currentProject;
-}
+//- (ZHProject *)currentProject{
+//    if (_currentProject == nil) {
+////        NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
+//        if (id_project == nil || [id_project isEqualToString:@""]) {
+//            NSLog(@"当前没有选中的项目");
+//        }else{
+//            ZHProject *project = [self getProjectFromCoredataById:[id_project intValue]];
+//            _currentProject = project;
+//        }
+//    }
+//    return _currentProject;
+//}
 // 网络请求缓存字典
 - (NSMutableDictionary *)netwrokParamsCache
 {

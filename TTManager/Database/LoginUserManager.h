@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 当前登录的用户手机号
 @property (nonatomic,copy)NSString *currentLoginUserPhone;
 
-@property (nonatomic,copy)NSString *currentSelectedProjectId;
+//@property (nonatomic,copy)NSString *currentSelectedProjectId;
 
 - (ZHUser *)getUserByRongIMId:(NSString *)uid_chat;
 
@@ -26,7 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 移除当前登录账号(只在退出登录时调用)
 - (void)removeCurrentLoginUserPhone;
 
-- (void)saveCurrentSelectedProject:(NSString *)id_project;
+//- (void)saveCurrentSelectedProject:(NSString *)id_project;
 
 @end
 

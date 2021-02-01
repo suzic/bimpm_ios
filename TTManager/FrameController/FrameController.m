@@ -21,10 +21,10 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *userViewWidth;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *projectTopLayoutConstraint;
 
+@property (nonatomic, strong) UITabBarController *tarbarVC;
 @property (nonatomic, strong) UIViewController *homeVC;     // 主页面VC
 @property (nonatomic, strong) FrameNavView *headerView;     // 导航栏
 @property (nonatomic, strong) UserSettingController *settingVC;
-@property (nonatomic, strong) ProjectSelectController *projectVC;
 @property (nonatomic, strong) UIViewController *userVC;     // 抽屉VC
 
 @property (nonatomic, strong) APILoginManager *loginManager;
@@ -45,23 +45,17 @@
     
     [self initUI];
     [self addNotification];
-    self.inShowLogin = NO;
-    self.bFirst = YES;    
+    self.bFirst = YES;
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if ([AppDelegate sharedDelegate].isLogin == NO && self.bFirst) {
+    if (self.bFirst) {
         self.bFirst = NO;
-        [self userLoginFailed:nil];
+        [self setTabBarViewControllerSelectedIndex:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(YES)}];
     }
-//    if (self.bFirst)
-//    {
-//        self.bFirst = NO;
-//        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-//        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(currentUser.is_login)}];
-//    }
 }
 
 #pragma mark - init
@@ -73,9 +67,7 @@
     
     self.shadowView.hidden = YES;
     [self.view insertSubview:self.headerView belowSubview:self.userView];
-    
-    [self showProjectListView:NO];
-    
+        
     UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
     [self.shadowView addGestureRecognizer:tapGesture];
     UIPanGestureRecognizer *panGesture = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(handleGesture:)];
@@ -154,11 +146,8 @@
 
 - (void)reloadCurrentSelectedProject:(ZHProject *)project
 {
-    NSLog(@"选择项目");
-    [self showProjectListView:NO];
     [DataManager defaultInstance].currentProject = project;
     [self.headerView reloadData];
-    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING(project.id_project)];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
     [self updateFrame];
 }
@@ -251,15 +240,11 @@
 // 执行用户登录失败
 - (void)userLoginFailed:(NSNotification *)notification
 {
-    if (self.inShowLogin == YES)
-        return;
-    self.inShowLogin = YES;
-    
-//    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-//    currentUser.is_login = NO;
-//    [[DataManager defaultInstance] saveContext];
-#warning 登录太麻烦了 暂时注销
-    [self performSegueWithIdentifier:@"tologin" sender:nil];
+    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+    currentUser.is_login = NO;
+    [[DataManager defaultInstance] saveContext];
+    // 需要登录时，先设置tabar 默认选择为1，然后无动画弹出projectVC，在projectVC里动画弹出登录页面
+    [self setTabBarViewControllerSelectedIndex:YES];
 }
 
 // 检查用户设备验证
@@ -276,12 +261,6 @@
 // 执行用户登录成功
 - (void)userLoginSucceed:(NSNotification *)notification
 {
-//    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-//    currentUser.is_login = YES;
-//    [[DataManager defaultInstance] saveContext];
-    
-    // 登录成功后必然会结束登录界面（尽管这里没有明显的指定，可作为Assert理解）
-    self.inShowLogin = NO;
     [self updateFrame];
 }
 
@@ -299,12 +278,7 @@
 
 - (void)showProjectListView:(BOOL)show
 {
-    if (show == YES) {
-        [self performSegueWithIdentifier:@"project" sender:self];
-    }
-    else {
-        [self.projectVC dismissViewControllerAnimated:YES completion:nil];
-    }
+    [self presentProjectListVC:YES];
     [self.headerView changeTabProjectStyle:show];
 }
 
@@ -314,29 +288,42 @@
     self.headerView.hidden = NO;
     [self.headerView reloadData];
     [self.settingVC reloadData];
-    NSString *id_project = [LoginUserManager defaultInstance].currentSelectedProjectId;
-    if ([SZUtil isEmptyOrNull:id_project]) {
-        [self showProjectListView:YES];
-    }else{
-        [self showProjectListView:NO];
-    }
-    [self.projectVC reloadData];
 }
 
+// 没有动画效果的执行 projectView ，然后登录
+- (void)presentProjectListVC:(BOOL)animated{
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    BaseNavigationController *projectNav = (BaseNavigationController *)[sb instantiateViewControllerWithIdentifier:@"projectNav"];
+    ProjectSelectController *projectVC = (ProjectSelectController *)[projectNav topViewController];
+    projectVC.frameVC = self;
+    projectNav.modalPresentationStyle = UIModalPresentationFullScreen;
+    projectVC.presentLoginAnimated = animated;
+    [self presentViewController:projectNav animated:animated completion:nil];
+}
+
+// 设置当前tabbar的默认选择下标
+- (void)setTabBarViewControllerSelectedIndex:(BOOL)presentLogin{
+    // 获取到当前的VC，并且pop到根控制器
+    UINavigationController *vc = self.tarbarVC.viewControllers[self.tarbarVC.selectedIndex];
+    [vc popToRootViewControllerAnimated:NO];
+    if (self.tarbarVC.selectedIndex != 1) {
+        self.tarbarVC.selectedIndex = 1;
+    }
+    if (presentLogin == YES) {
+        [self presentProjectListVC:NO];
+    }
+}
 #pragma mark - FrameNavViewDelegate
 
 - (void)clickShowProjectListView{
-    [self showProjectListView:YES];
+    
+    [self presentProjectListVC:YES];
 }
 
 - (void)frameNavView:(FrameNavView *)navView selected:(NSInteger)currentSelectedIndex{
-    [self showProjectListView:NO];
+    
     ZHUserProject *userProject =  self.headerView.projectList[currentSelectedIndex];
-    
     [DataManager defaultInstance].currentProject = userProject.belongProject;
-    
-    [[LoginUserManager defaultInstance] saveCurrentSelectedProject:INT_32_TO_STRING(userProject.belongProject.id_project)];
-    
     NSLog(@"当前选择的项目名称===%@",userProject.belongProject.name);
     [self updateFrame];
 }
@@ -354,6 +341,7 @@
         }else{
             [self.IMTokenManager loadData];
         }
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
         [self updateFrame];
     }else if(manager == self.IMTokenManager){
@@ -372,6 +360,7 @@
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{@"code":manager.response.responseData[@"code"], @"msg":manager.response.responseData[@"msg"]}];
+//        [self setTabBarViewControllerSelectedIndex:YES];
     }
 }
 
@@ -457,10 +446,10 @@
         self.homeVC = (UIViewController *)[navi topViewController];
     }else if ([segue.identifier isEqualToString:@"setting"]) {
         self.settingVC = (UserSettingController *)[segue destinationViewController];
-    }else if([segue.identifier isEqualToString:@"project"]){
-        UINavigationController *navi = [segue destinationViewController];
-        self.projectVC = (ProjectSelectController *)[navi topViewController] ;
-        self.projectVC.frameVC = self;
+    }else if([segue.identifier isEqualToString:@"homeTabbarVC"]){
+        self.tarbarVC = [segue destinationViewController];
+        self.tarbarVC.selectedIndex = 1;
+        [self setTabBarViewControllerSelectedIndex:NO];
     }
 }
 
