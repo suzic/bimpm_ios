@@ -53,12 +53,16 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    if (self.bFirst)
-    {
+    if ([AppDelegate sharedDelegate].isLogin == NO && self.bFirst) {
         self.bFirst = NO;
-        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(currentUser.is_login)}];
+        [self userLoginFailed:nil];
     }
+//    if (self.bFirst)
+//    {
+//        self.bFirst = NO;
+//        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+//        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginNeeded object:@{@"silenceLogin":@(currentUser.is_login)}];
+//    }
 }
 
 #pragma mark - init

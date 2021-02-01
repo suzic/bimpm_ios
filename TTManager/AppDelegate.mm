@@ -48,6 +48,17 @@
     // 聊天信息本地存储
     [RCIM sharedRCIM].enablePersistentUserInfoCache = YES;
 }
+- (BOOL)isLogin{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    if (user == nil) {
+        return NO;
+    }else{
+        if (user.is_login == NO) {
+            return NO;;
+        }
+    }
+    return YES;
+}
 #pragma mark - initIQKeyBoard
 - (void)initIQKeyBoard
 {

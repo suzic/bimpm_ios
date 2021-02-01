@@ -36,9 +36,11 @@
     [self reloadData];
 }
 - (void)reloadData{
-    self.UTPlistManager.pageSize.pageIndex = 0;
-    [self.UTPlistManager loadData];
-    [self.projectCollectionView reloadData];
+    if ([AppDelegate sharedDelegate].isLogin == YES) {
+        self.UTPlistManager.pageSize.pageIndex = 0;
+        [self.UTPlistManager loadData];
+        [self.projectCollectionView reloadData];
+    }
 }
 #pragma mark - setter and getter
 - (NSArray *)projectList{
