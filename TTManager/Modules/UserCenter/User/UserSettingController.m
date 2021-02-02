@@ -103,14 +103,12 @@
     if (manager == self.logoutManager) {
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
         [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
-        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-        ZHUser *user = [[DataManager defaultInstance] getUserFromCoredataByID:currentUser.id_user];
-        [[DataManager defaultInstance] deleteFromCoreData:user];
-        [[DataManager defaultInstance] saveContext];
+        [DataManager defaultInstance].currentUser = nil;
         [DataManager defaultInstance].currentProject = nil;
         [[DataManager defaultInstance].currentProjectList removeLastObject];
         [DataManager defaultInstance].currentProjectList = nil;
         [[RCIM sharedRCIM] logout];
+        [[DataManager defaultInstance] saveContext];
         [AppDelegate sharedDelegate].initRongCloud = NO;
         // 切换服务器
         if (self.selectedServiceAddress != 0) {

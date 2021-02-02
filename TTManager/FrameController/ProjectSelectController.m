@@ -176,13 +176,12 @@
         [self dismissViewControllerAnimated:NO completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
             [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
-            ZHUser *user = [DataManager defaultInstance].currentUser;
-            [[DataManager defaultInstance] deleteFromCoreData:user];
-            [[DataManager defaultInstance] saveContext];
+            [DataManager defaultInstance].currentUser = nil;
             [DataManager defaultInstance].currentProject = nil;
             [[DataManager defaultInstance].currentProjectList removeLastObject];
             [DataManager defaultInstance].currentProjectList = nil;
             [[RCIM sharedRCIM] logout];
+            [[DataManager defaultInstance] saveContext];
             [AppDelegate sharedDelegate].initRongCloud = NO;
         }];
     }
