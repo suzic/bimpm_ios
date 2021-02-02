@@ -292,13 +292,19 @@
 
 // 没有动画效果的执行 projectView ，然后登录
 - (void)presentProjectListVC:(BOOL)animated{
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    BaseNavigationController *projectNav = (BaseNavigationController *)[sb instantiateViewControllerWithIdentifier:@"projectNav"];
-    ProjectSelectController *projectVC = (ProjectSelectController *)[projectNav topViewController];
-    projectVC.frameVC = self;
-    projectNav.modalPresentationStyle = UIModalPresentationFullScreen;
-    projectVC.presentLoginAnimated = animated;
-    [self presentViewController:projectNav animated:animated completion:nil];
+    // 当前控制器不是项目列表
+    if (![[SZUtil getCurrentVC] isKindOfClass:[ProjectSelectController class]]) {
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        BaseNavigationController *projectNav = (BaseNavigationController *)[sb instantiateViewControllerWithIdentifier:@"projectNav"];
+        ProjectSelectController *projectVC = (ProjectSelectController *)[projectNav topViewController];
+        projectVC.frameVC = self;
+        projectNav.modalPresentationStyle = UIModalPresentationFullScreen;
+        projectVC.presentLoginAnimated = animated;
+        [self presentViewController:projectNav animated:animated completion:nil];
+    }else{
+        ProjectSelectController *projectVC = (ProjectSelectController *)[SZUtil getCurrentVC];
+        [projectVC presentLoginVC];
+    }
 }
 
 // 设置当前tabbar的默认选择下标

@@ -16,7 +16,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign)BOOL presentLoginAnimated;
 
 @property (nonatomic, weak)FrameController *frameVC;
+
 - (void)reloadData;
+
+/// 弹出登录页面
+- (void)presentLoginVC;
 
 @end
 
