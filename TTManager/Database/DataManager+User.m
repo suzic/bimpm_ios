@@ -170,10 +170,16 @@
     
     if (![SZUtil isEmptyOrNull:dicData[@"email"]])
         user.email = dicData[@"email"];
+    else
+        user.email = @"";
+    
     if (![SZUtil isEmptyOrNull:dicData[@"lock_password"]])
         user.lock_password = dicData[@"lock_password"];
     if (![SZUtil isEmptyOrNull:dicData[@"avatar"]])
         user.avatar = dicData[@"avatar"];
+    else
+        user.avatar = @"";
+    
     user.uid_chat = dicData[@"uid_chat"];
     user.status = [dicData[@"status"] intValue];
     user.gender = [dicData[@"gender"] intValue];

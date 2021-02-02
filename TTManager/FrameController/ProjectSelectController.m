@@ -176,7 +176,9 @@
         [self dismissViewControllerAnimated:NO completion:^{
             [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
             [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
-            [DataManager defaultInstance].currentUser = nil;
+            ZHUser *user = [DataManager defaultInstance].currentUser;
+            [[DataManager defaultInstance] deleteFromCoreData:user];
+            [[DataManager defaultInstance] saveContext];
             [DataManager defaultInstance].currentProject = nil;
             [[DataManager defaultInstance].currentProjectList removeLastObject];
             [DataManager defaultInstance].currentProjectList = nil;

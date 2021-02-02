@@ -8,9 +8,38 @@
 #ifndef NetWorkInterface_h
 #define NetWorkInterface_h
 
+#define UserDefaultsNetService          @"userDefaultsNetService"
+#define SelectedService                 ([[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultsNetService])
+
+// @"http://www.suzic.cn:8010"
 // 测试环境
-#define SERVICEADDRESS     @"http://www.suzic.cn:8010"
-#define FILESERVICEADDRESS @"https://www.suzic.cn"
+#if DEBUG
+#define SERVICEADDRESS ({ \
+NSString *service = @"https://www.bim-pm.com/bimpmservice"; \
+if ([SelectedService isEqualToString:@"0"]) { \
+    service =@"http://www.suzic.cn:8010"; \
+}else if([SelectedService isEqualToString:@"1"]){ \
+    service = @"https://www.bim-pm.com/bimpmservice"; \
+} \
+service; \
+})
+#else
+#define SERVICEADDRESS  @"https://www.bim-pm.com/bimpmservice"
+#endif
+
+#if DEBUG
+#define FILESERVICEADDRESS ({ \
+NSString *fileService = @"https://www.bim-pm.com"; \
+if ([SelectedService isEqualToString:@"0"]) { \
+fileService =@"https://www.suzic.cn"; \
+}else if([SelectedService isEqualToString:@"1"]){ \
+fileService = @"https://www.bim-pm.com"; \
+} \
+fileService; \
+})
+#else
+#define FILESERVICEADDRESS @"https://www.bim-pm.com"
+#endif
 
 // 用户登录相关接口
 #define URI_SIGN_IN                             @"/login/signIn"

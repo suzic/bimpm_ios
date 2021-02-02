@@ -25,11 +25,23 @@
     
     [self setAppearanceStyle];
     
+    [self setCurrentService];
+    
     return YES;
 }
 + (AppDelegate *)sharedDelegate
 {
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
+}
+- (void)setCurrentService{
+#if DEBUG
+    NSString *service = [[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultsNetService];
+    if ([SZUtil isEmptyOrNull:service]) {
+        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:UserDefaultsNetService];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+#else
+#endif
 }
 - (void)initRongCloudIM{
     self.initRongCloud = NO;
