@@ -40,11 +40,6 @@
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
 }
 
-- (void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:animated];
-    [self reoladNetwork];
-}
-
 - (void)setCurrentDate{
     self.timeInforLabel.hidden = NO;
     self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
@@ -55,7 +50,6 @@
 }
 
 - (void)reoladNetwork{
-    
     if ([DataManager defaultInstance].currentProject != nil) {
         [self.UTPGanttManager loadData];
         [self.tableView reloadData];
