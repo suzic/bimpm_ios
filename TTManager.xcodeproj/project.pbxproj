@@ -95,6 +95,7 @@
 		402DA0EC25B001A60030E68D /* APIUploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0EB25B001A60030E68D /* APIUploadFileManager.m */; };
 		402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F225B002F60030E68D /* APITargetNewManager.m */; };
 		402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F725B03CB90030E68D /* ServiceIdentifer.m */; };
+		40357C0D25CA94FB003277A4 /* PollingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40357C0C25CA94FB003277A4 /* PollingViewController.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D947E25BFF0CA003B1B60 /* FormHeaderView.m */; };
 		403D948325C10443003B1B60 /* FormEditButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D948225C10443003B1B60 /* FormEditButton.m */; };
@@ -103,7 +104,7 @@
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
 		4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DB25B207240023FC7F /* UploadFileManager.m */; };
 		4054B8E025B3008C0023FC7F /* NSString+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8DF25B3008C0023FC7F /* NSString+Extend.m */; };
-		4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8F225B4071F0023FC7F /* MapViewController.m */; };
+		4054B8F325B4071F0023FC7F /* ClockInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8F225B4071F0023FC7F /* ClockInViewController.m */; };
 		4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4054B8F525B409BB0023FC7F /* Accelerate.framework */; };
 		4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4054B8F725B409D60023FC7F /* SystemConfiguration.framework */; };
 		4054B91025B40E2F0023FC7F /* ZHDepartmentUser+CoreDataProperties.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B90A25B40E2E0023FC7F /* ZHDepartmentUser+CoreDataProperties.m */; };
@@ -374,6 +375,8 @@
 		402DA0F225B002F60030E68D /* APITargetNewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetNewManager.m; sourceTree = "<group>"; };
 		402DA0F725B03CB90030E68D /* ServiceIdentifer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceIdentifer.m; sourceTree = "<group>"; };
 		402DA0F825B03CB90030E68D /* ServiceIdentifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceIdentifer.h; sourceTree = "<group>"; };
+		40357C0B25CA94FB003277A4 /* PollingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PollingViewController.h; sourceTree = "<group>"; };
+		40357C0C25CA94FB003277A4 /* PollingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PollingViewController.m; sourceTree = "<group>"; };
 		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
 		403D947D25BFF0CA003B1B60 /* FormHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormHeaderView.h; sourceTree = "<group>"; };
@@ -389,8 +392,8 @@
 		4054B8DB25B207240023FC7F /* UploadFileManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UploadFileManager.m; sourceTree = "<group>"; };
 		4054B8DE25B3008C0023FC7F /* NSString+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NSString+Extend.h"; sourceTree = "<group>"; };
 		4054B8DF25B3008C0023FC7F /* NSString+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "NSString+Extend.m"; sourceTree = "<group>"; };
-		4054B8F125B4071F0023FC7F /* MapViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		4054B8F225B4071F0023FC7F /* MapViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		4054B8F125B4071F0023FC7F /* ClockInViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClockInViewController.h; sourceTree = "<group>"; };
+		4054B8F225B4071F0023FC7F /* ClockInViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClockInViewController.m; sourceTree = "<group>"; };
 		4054B8F525B409BB0023FC7F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		4054B8F725B409D60023FC7F /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4054B90825B40E2E0023FC7F /* ZHDepartmentUser+CoreDataClass.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "ZHDepartmentUser+CoreDataClass.h"; sourceTree = "<group>"; };
@@ -717,7 +720,6 @@
 				4054B97225B6E4710023FC7F /* FormController */,
 				402AA2022599DE8200A9DABA /* TaskController */,
 				4054B92425B40EB20023FC7F /* UserCenter */,
-				4054B8EF25B407130023FC7F /* MapViewController */,
 				402AA1DA2599717900A9DABA /* WebView */,
 				402AA13A2596D06100A9DABA /* Login */,
 			);
@@ -742,6 +744,10 @@
 				402A9F422595A4CF00A9DABA /* WorkbenchController.m */,
 				402AA1F025998D8500A9DABA /* MoreWorkMsgController.h */,
 				402AA1F125998D8500A9DABA /* MoreWorkMsgController.m */,
+				4054B8F125B4071F0023FC7F /* ClockInViewController.h */,
+				4054B8F225B4071F0023FC7F /* ClockInViewController.m */,
+				40357C0B25CA94FB003277A4 /* PollingViewController.h */,
+				40357C0C25CA94FB003277A4 /* PollingViewController.m */,
 			);
 			path = WorkbenchController;
 			sourceTree = "<group>";
@@ -1219,15 +1225,6 @@
 			path = Service;
 			sourceTree = "<group>";
 		};
-		4054B8EF25B407130023FC7F /* MapViewController */ = {
-			isa = PBXGroup;
-			children = (
-				4054B8F125B4071F0023FC7F /* MapViewController.h */,
-				4054B8F225B4071F0023FC7F /* MapViewController.m */,
-			);
-			path = MapViewController;
-			sourceTree = "<group>";
-		};
 		4054B92425B40EB20023FC7F /* UserCenter */ = {
 			isa = PBXGroup;
 			children = (
@@ -1616,7 +1613,7 @@
 				402AA1652597039800A9DABA /* LoginViewController.m in Sources */,
 				4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */,
 				4081EFC825BBF775004F8BB4 /* PhoneCell.m in Sources */,
-				4054B8F325B4071F0023FC7F /* MapViewController.m in Sources */,
+				4054B8F325B4071F0023FC7F /* ClockInViewController.m in Sources */,
 				406FCAE525A3159B00636079 /* DataManager+Target.m in Sources */,
 				4054B9E625BACEB80023FC7F /* APITargetRenameManager.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
@@ -1734,6 +1731,7 @@
 				402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */,
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
+				40357C0D25CA94FB003277A4 /* PollingViewController.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
 				4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */,
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,

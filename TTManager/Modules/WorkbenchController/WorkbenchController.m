@@ -14,8 +14,9 @@
 #import "TaskListController.h"
 #import "MessageCell.h"
 #import "TaskInforCell.h"
-#import "TaskController.h"
-#import "MapViewController.h"
+#import "ClockInViewController.h"
+#import "PollingViewController.h"
+#import "FormDetailController.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
@@ -23,9 +24,12 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
 @property (nonatomic, strong) NSArray *ganttInfoArray;
-@property (nonatomic, assign) NSInteger currentSelectedTaskType;
+//@property (nonatomic, assign) NSInteger currentSelectedTaskType;
+@property (nonatomic, assign) NSInteger selectedFunctionType;
+
 // api
 @property (nonatomic, strong) APIUTPGanttManager *UTPGanttManager;
+@property (nonatomic, strong) APITargetListManager *filterTargetManager;
 
 @end
 
@@ -38,6 +42,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
+    _selectedFunctionType = NSNotFound;
 }
 
 - (void)setCurrentDate{
@@ -124,7 +129,139 @@
     }
     return 0;
 }
+
+#pragma mark - 筛选表单
+
+- (void)setSelectedFunctionType:(NSInteger)selectedFunctionType{
+    if (selectedFunctionType == NSNotFound) {
+        return;
+    }
+    if (_selectedFunctionType != selectedFunctionType) {
+        _selectedFunctionType = selectedFunctionType;
+        [self filterTargetByType:_selectedFunctionType];
+    }
+}
+
+// 根据选择不同设置不同的筛选参数
+- (void)filterTargetByType:(NSInteger)type{
+    // 打卡
+    switch (type) {
+        // 巡检
+        case 0:
+            [self pushViewControllerToSelectedFunctionVC:@{}];
+            break;
+        // 施工日志
+        case 1:
+            [self setFilterParams:@"RY-SGRZ"];
+            break;
+        // 工作日报
+        case 2:
+            [self setFilterParams:@"RY-GZRB"];
+            break;
+        // 日常打卡
+        case 3:
+            [self setFilterParams:@"RY-RCDK"];
+            break;
+        default:
+            break;
+    }
+}
+
+// 设置打卡的筛选参数
+- (void)setFilterParams:(NSString *)filterValue{
+    // 如果当前存在筛选数据 ，先清空，后添加
+    if (self.filterTargetManager.pageSize.filters.count >0) {
+        [self.filterTargetManager.pageSize.filters removeAllObjects];
+    }
+    NSString *currentTime = [SZUtil getTimeNow];
+    currentTime = [currentTime stringByReplacingOccurrencesOfString:@" " withString:@""];
+    currentTime = [currentTime stringByReplacingOccurrencesOfString:@":" withString:@""];
+    currentTime = [currentTime stringByReplacingOccurrencesOfString:@"-" withString:@""];
+//    ZHUser *user = [DataManager defaultInstance].currentUser;
+    // 以特定开头
+    NSDictionary *fromNameFilter = @{@"key":@"name",
+                             @"operator":@"l:",
+                             @"value":@"RY-RCDK",
+                             @"join":@"and"};
+    // 以时间结尾
+    NSDictionary *endNameFilter = @{@"key":@"name",
+                             @"operator":@":l",
+                             @"value":currentTime,
+                             @"join":@"and"};
+//    // 并且ower 是当前登录用户
+//    NSDictionary *ownerFilter = @{@"key":@"owner",
+//                                  @"operator":@"=",
+//                                  @"value":INT_32_TO_STRING(user.id_user),
+//                                  @"join":@"and"};
+    
+    [self.filterTargetManager.pageSize.filters addObject:fromNameFilter];
+    [self.filterTargetManager.pageSize.filters addObject:endNameFilter];
+//    [self.filterTargetManager.pageSize.filters addObject:ownerFilter];
+    [self.filterTargetManager loadData];
+}
+
+// 筛选成功之后数据的处理
+- (void)filterSuccess:(NSArray *)result{
+    // 没有查询到任务数据 则需要克隆表单
+    if (result == nil || result.count <= 0) {
+        
+    }else{
+        ZHUser *user = [DataManager defaultInstance].currentUser;
+        NSString *buddy_file = nil;
+        for (ZHTarget *target in result) {
+            if (target.owner.id_user == user.id_user) {
+                buddy_file = target.uid_target;
+                break;
+            }
+        }
+        // 没有查询到数据，需要克隆表单
+        if ([SZUtil isEmptyOrNull:buddy_file]) {
+            
+        }
+        // 有数据 直接去填充表单
+        else{
+            
+        }
+    }
+    [self pushViewControllerToSelectedFunctionVC:@{}];
+}
+// 跳转到各个页面以及所需要的参数
+- (void)pushViewControllerToSelectedFunctionVC:(NSDictionary *)params{
+    UIViewController *vc = nil;
+    // 打卡
+    switch (self.selectedFunctionType) {
+        // 巡检
+        case 0:{
+            PollingViewController *pollingVC = [[PollingViewController alloc] init];
+            vc = pollingVC;
+        }
+            break;
+        // 施工日志
+        case 1:{
+            FormDetailController *builderDiaryVC = [[FormDetailController alloc] init];
+            vc = builderDiaryVC;
+        }
+            break;
+        // 工作日报
+        case 2:{
+            FormDetailController *workDailyVC = [[FormDetailController alloc] init];
+            vc = workDailyVC;
+        }
+            break;
+        // 日常打卡
+        case 3:{
+            ClockInViewController *clockInVC = [[ClockInViewController alloc] init];
+            vc = clockInVC;
+        }
+            break;
+        default:
+            break;
+    }
+    vc.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:vc animated:YES];
+}
 #pragma mark - Responder Chain
+
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:MoreMessage])
     {
@@ -136,18 +273,22 @@
     }
     else if([eventName isEqualToString:function_selected])
     {
+        
+        
         NSInteger index = [userInfo[@"index"] integerValue];
-        if (index == 0) {
-            NSLog(@"点击了打卡");
-            [self goMapView];
-        }else{
-            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
-            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
-            nav.modalPresentationStyle = UIModalPresentationFullScreen;
-            TaskController *taskVC = (TaskController *)nav.topViewController;
-            taskVC.taskType = index == 1 ? 1:(index == 3 ? 5:3);
-            [self presentViewController:nav animated:YES completion:nil];
-        }
+        self.selectedFunctionType = index;
+        
+//        if (index == 0) {
+//            NSLog(@"点击了打卡");
+//            [self goMapView];
+//        }else{
+//            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
+//            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
+//            nav.modalPresentationStyle = UIModalPresentationFullScreen;
+//            TaskController *taskVC = (TaskController *)nav.topViewController;
+//            taskVC.taskType = index == 1 ? 1:(index == 3 ? 5:3);
+//            [self presentViewController:nav animated:YES completion:nil];
+//        }
     }
     else if([eventName isEqualToString:push_to_taskList])
     {
@@ -161,11 +302,12 @@
 }
 
 - (void)goMapView{
-    MapViewController *map = [[MapViewController alloc] init];
-    map.hidesBottomBarWhenPushed = YES;
-    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:map];
-//    nav.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:nav animated:YES completion:nil];
+//    MapViewController *map = [[MapViewController alloc] init];
+//    map.hidesBottomBarWhenPushed = YES;
+//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:map];
+////    nav.modalPresentationStyle = UIModalPresentationFullScreen;
+//    [self presentViewController:nav animated:YES completion:nil];
+    [self setFilterParams:@""];
 }
 
 - (TaskStatus)getCurrentSelectedTaskStatus:(NSDictionary *)dic{
@@ -194,6 +336,12 @@
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
                 @"forward_days":@"7",
                 @"gantt_type":@"0"};
+    }else if(manager == self.filterTargetManager){
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"id_module":[NSNull null],
+                @"uid_parent":[NSNull null],
+        };
     }
     return dic;
 }
@@ -203,11 +351,15 @@
     if(manager == self.UTPGanttManager){
         self.ganttInfoArray = manager.response.responseData;
         [self.tableView reloadData];
+    }else if(manager == self.filterTargetManager){
+        [self filterSuccess:(NSArray *)manager.response.responseData];
     }
 }
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     [self.tableView.mj_header endRefreshing];
     if(manager == self.UTPGanttManager){
+        
+    }else if(manager == self.filterTargetManager){
         
     }
 }
@@ -220,6 +372,16 @@
         _UTPGanttManager.paramSource = self;
     }
     return _UTPGanttManager;
+}
+
+- (APITargetListManager *)filterTargetManager{
+    if (_filterTargetManager == nil) {
+        _filterTargetManager = [[APITargetListManager alloc] init];
+        _filterTargetManager.delegate = self;
+        _filterTargetManager.paramSource = self;
+        _filterTargetManager.pageSize.pageIndex = 0;
+    }
+    return _filterTargetManager;
 }
 
 - (NSArray *)ganttInfoArray{

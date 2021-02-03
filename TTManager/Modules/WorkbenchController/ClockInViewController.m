@@ -1,17 +1,17 @@
 //
-//  MapViewController.m
+//  ClockInViewController.m
 //  TTManager
 //
 //  Created by chao liu on 2021/1/17.
 //
 
-#import "MapViewController.h"
+#import "ClockInViewController.h"
 #import <BMKLocationkit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
 #define BaiduKey  @"b8APw3ryF03YG2kwU35T9wuQ8nKaN4pc"
 
-@interface MapViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate>
+@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate>
 
 //@property (nonatomic, strong) BMKMapView *mapView;
 @property (nonatomic, strong) UIView *clockBgView;
@@ -26,7 +26,7 @@
 
 @end
 
-@implementation MapViewController
+@implementation ClockInViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -87,7 +87,12 @@
     self.clockTime.text = [SZUtil getTimeNow];
 }
 - (void)closeView{
-    [self dismissViewControllerAnimated:YES completion:nil];
+    if (self.presentedViewController) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    }else{
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    
     [self stopTimer];
     [self.locationManager stopUpdatingLocation];
 }

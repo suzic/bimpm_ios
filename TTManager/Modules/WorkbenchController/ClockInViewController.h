@@ -1,5 +1,5 @@
 //
-//  MapViewController.h
+//  ClockInViewController.h
 //  TTManager
 //
 //  Created by chao liu on 2021/1/17.
@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface MapViewController : UIViewController
+@interface ClockInViewController : UIViewController
 
 @end
 

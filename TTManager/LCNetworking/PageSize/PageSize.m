@@ -25,7 +25,7 @@
                             @"total_pages":@"",
                             @"current_count":@"",
                             @"orders":self.orders,
-                            @"filter":self.filters};
+                            @"filters":self.filters};
     return dict;
 }
 - (PageSize *)pageDic:(NSDictionary *)page{
