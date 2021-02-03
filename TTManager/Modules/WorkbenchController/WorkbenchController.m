@@ -140,10 +140,8 @@
     if (selectedFunctionType == NSNotFound) {
         return;
     }
-    if (_selectedFunctionType != selectedFunctionType) {
-        _selectedFunctionType = selectedFunctionType;
-        [self filterTargetByType:_selectedFunctionType];
-    }
+    _selectedFunctionType = selectedFunctionType;
+    [self filterTargetByType:_selectedFunctionType];
 }
 
 // 根据选择不同设置不同的筛选参数
