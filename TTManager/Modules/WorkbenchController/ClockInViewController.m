@@ -9,8 +9,6 @@
 #import <BMKLocationkit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
-#define BaiduKey  @"b8APw3ryF03YG2kwU35T9wuQ8nKaN4pc"
-
 @interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate>
 
 //@property (nonatomic, strong) BMKMapView *mapView;
@@ -40,15 +38,17 @@
     [self addTimer];
     
     [[BMKLocationAuth sharedInstance] checkPermisionWithKey:BaiduKey authDelegate:self];
-    
 }
+
 #pragma mark - BMKLocationAuthDelegate
+
 - (void)onCheckPermissionState:(BMKLocationAuthErrorCode)iError{
     if (iError == BMKLocationAuthErrorSuccess) {
         [self.locationManager setLocatingWithReGeocode:YES];
         [self.locationManager startUpdatingLocation];
     }
 }
+
 #pragma mark - BMKLocationManagerDelegate
 
 - (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateLocation:(BMKLocation *)location orError:(NSError *)error{
@@ -59,17 +59,21 @@
         [self distanceCurrentLocation:location];
     }
 }
+
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
     NSLog(@"定位错误");
     [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
 }
+
 #pragma mark - private method
+
 - (void)addTimer{
     if (self.timer == nil) {
         self.timer = [NSTimer timerWithTimeInterval:1.0 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
         [[NSRunLoop currentRunLoop] addTimer:self.timer forMode:NSDefaultRunLoopMode];
     }
 }
+
 - (void)distanceCurrentLocation:(BMKLocation *)location{
     ZHProject *project = [DataManager defaultInstance].currentProject;
     BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(location.location.coordinate.latitude,location.location.coordinate.longitude));
@@ -77,29 +81,34 @@
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     self.clockInfo.text = [NSString stringWithFormat:@"当前距离项目组%.2lf米",distance];
 }
+
 - (void)stopTimer{
     if (self.timer && self.timer.isValid) {
         [self.timer invalidate];
         self.timer = nil;
     }
 }
+
 - (void)updateTime{
     self.clockTime.text = [SZUtil getTimeNow];
 }
+
 - (void)closeView{
     if (self.presentedViewController) {
         [self dismissViewControllerAnimated:YES completion:nil];
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
-    
     [self stopTimer];
     [self.locationManager stopUpdatingLocation];
 }
+
 - (void)clockAction:(UIButton *)button{
     [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
 }
+
 #pragma mark - ui
+
 - (void)addUI{
     [self.view addSubview:self.clockBgView];
     [self.clockBgView addSubview:self.clockInfo];
@@ -125,13 +134,16 @@
         make.top.equalTo(self.clockBtn.mas_bottom).offset(10);
     }];
 }
+
 #pragma mark - setter and getter
+
 - (UIView *)clockBgView{
     if (_clockBgView == nil) {
         _clockBgView = [[UIView alloc] init];
     }
     return _clockBgView;
 }
+
 - (UILabel *)clockInfo{
     if (_clockInfo == nil) {
         _clockInfo = [[UILabel alloc] init];
@@ -141,6 +153,7 @@
     }
     return _clockInfo;
 }
+
 - (UIButton *)clockBtn{
     if (_clockBtn == nil) {
         _clockBtn = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -152,6 +165,7 @@
     }
     return _clockBtn;
 }
+
 - (UILabel *)clockTime{
     if (_clockTime == nil) {
         _clockTime = [[UILabel alloc] init];
@@ -160,12 +174,14 @@
     }
     return _clockTime;
 }
+
 - (UIBarButtonItem *)closeItem{
     if (_closeItem == nil) {
         _closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeView)];
     }
     return _closeItem;
 }
+
 - (BMKLocationManager *)locationManager{
     if (_locationManager == nil) {
         //初始化实例
@@ -191,6 +207,7 @@
     }
     return _locationManager;
 }
+
 - (void)dealloc{
     
 }

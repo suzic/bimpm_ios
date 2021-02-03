@@ -9,7 +9,11 @@
 #define Commons_h
 
 #define RongCloudIMKey     @"y745wfm8yhplv"
+
 #define RongCloudIMSecret  @"Awlfd3KNBBT"
+
+#define BaiduKey  @"b8APw3ryF03YG2kwU35T9wuQ8nKaN4pc"
+
 
 // 添加这个宏，就不用带mas_前缀
 #define MAS_SHORTHAND

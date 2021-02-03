@@ -24,7 +24,6 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
 @property (nonatomic, strong) NSArray *ganttInfoArray;
-//@property (nonatomic, assign) NSInteger currentSelectedTaskType;
 @property (nonatomic, assign) NSInteger selectedFunctionType;
 
 // api
@@ -66,9 +65,11 @@
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 3;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return 1;
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     HeaderCell *cell = nil;
     if (section == 0)
@@ -80,6 +81,7 @@
     }
     return cell;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
     switch (indexPath.section) {
@@ -94,7 +96,6 @@
             FunctionCell *functionCell = (FunctionCell *)[tableView dequeueReusableCellWithIdentifier:@"functionCell" forIndexPath:indexPath];
             cell = functionCell;
         }
-            
             break;
         case 2:{
             TaskInforCell *infoCell = [tableView dequeueReusableCellWithIdentifier:@"taskInforCell" forIndexPath:indexPath];
@@ -107,12 +108,15 @@
     }
     return cell;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return  section == 0 ? 0.1f : 44.0f;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
     return 10.0f;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
@@ -225,6 +229,7 @@
     }
     [self pushViewControllerToSelectedFunctionVC:@{}];
 }
+
 // 跳转到各个页面以及所需要的参数
 - (void)pushViewControllerToSelectedFunctionVC:(NSDictionary *)params{
     UIViewController *vc = nil;
@@ -260,54 +265,27 @@
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 #pragma mark - Responder Chain
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:MoreMessage])
-    {
-        NSLog(@"导航到更多消息页面");
+    if ([eventName isEqualToString:MoreMessage]){
         MoreWorkMsgController *moreVC = [[MoreWorkMsgController alloc] init];
         moreVC.infoArray = self.ganttInfoArray;
         moreVC.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:moreVC animated:YES];
     }
-    else if([eventName isEqualToString:function_selected])
-    {
-        
-        
+    else if([eventName isEqualToString:function_selected]){
         NSInteger index = [userInfo[@"index"] integerValue];
         self.selectedFunctionType = index;
-        
-//        if (index == 0) {
-//            NSLog(@"点击了打卡");
-//            [self goMapView];
-//        }else{
-//            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
-//            UINavigationController *nav = [sb instantiateViewControllerWithIdentifier:@"newTaskNav"];
-//            nav.modalPresentationStyle = UIModalPresentationFullScreen;
-//            TaskController *taskVC = (TaskController *)nav.topViewController;
-//            taskVC.taskType = index == 1 ? 1:(index == 3 ? 5:3);
-//            [self presentViewController:nav animated:YES completion:nil];
-//        }
     }
-    else if([eventName isEqualToString:push_to_taskList])
-    {
-        NSLog(@"跳转任务详情带去的参数======%@",userInfo)
+    else if([eventName isEqualToString:push_to_taskList]){
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
         TaskListController *VC = (TaskListController *)[sb instantiateViewControllerWithIdentifier:@"taskListVC"];
         VC.hidesBottomBarWhenPushed = YES;
         VC.taskStatus = [self getCurrentSelectedTaskStatus:userInfo];
         [self.navigationController pushViewController:VC animated:YES];
     }
-}
-
-- (void)goMapView{
-//    MapViewController *map = [[MapViewController alloc] init];
-//    map.hidesBottomBarWhenPushed = YES;
-//    UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:map];
-////    nav.modalPresentationStyle = UIModalPresentationFullScreen;
-//    [self presentViewController:nav animated:YES completion:nil];
-    [self setFilterParams:@""];
 }
 
 - (TaskStatus)getCurrentSelectedTaskStatus:(NSDictionary *)dic{
@@ -329,6 +307,7 @@
 }
 
 #pragma mark - APIManagerParamSource
+
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHProject *project = [DataManager defaultInstance].currentProject;
@@ -345,7 +324,9 @@
     }
     return dic;
 }
+
 #pragma mark - ApiManagerCallBackDelegate
+
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     [self.tableView.mj_header endRefreshing];
     if(manager == self.UTPGanttManager){
@@ -355,6 +336,7 @@
         [self filterSuccess:(NSArray *)manager.response.responseData];
     }
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     [self.tableView.mj_header endRefreshing];
     if(manager == self.UTPGanttManager){
@@ -363,6 +345,7 @@
         
     }
 }
+
 #pragma mark - setter and getter
 
 - (APIUTPGanttManager *)UTPGanttManager{
