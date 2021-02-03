@@ -225,7 +225,7 @@
 }
 - (NSArray *)newTasTypeklist{
     if (_newTasTypeklist == nil) {
-        _newTasTypeklist = @[@"任务",@"申请",@"通知",@"会审",@"巡检"];
+        _newTasTypeklist = @[@"单独任务",@"审批",@"批量任务",@"会审"];
     }
     return _newTasTypeklist;
 }

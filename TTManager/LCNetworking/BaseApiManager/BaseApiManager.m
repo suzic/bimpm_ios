@@ -154,10 +154,10 @@
             if (self.child && [self.child respondsToSelector:@selector(coreDataCallBackData:)]) {
                self.response.responseData = [self.child coreDataCallBackData:response];
             }
-            [[DataManager defaultInstance] saveContext];
         }
         if (self.delegate && [self.delegate respondsToSelector:@selector(managerCallAPISuccess:)]) {
             [self.delegate managerCallAPISuccess:self];
+            [[DataManager defaultInstance] saveContext];
         }
     }else{
         [self failedOnCallingAPI:response withErrorType:APIManagerErrorTypeNoContent];

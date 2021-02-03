@@ -101,19 +101,24 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 
 #pragma mark - UITableViewDelegate UITableViewDataSource
+
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
     return 1;
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     NSArray *items = self.instanceDownLoadForm[@"items"];
     return items.count;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 0.01;
 }
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     return nil;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
     NSArray *items = self.instanceDownLoadForm[@"items"];
@@ -136,34 +141,42 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return cell;
 }
+
 #pragma mark - network
+
 // 下载当前form表单
 - (void)downLoadCurrentFormJsonByBuddy_file:(NSString *)buddy_file{
     self.downLoadManager.uid_target = buddy_file;
     [self.downLoadManager loadData];
 }
+
 // 查看当前表单详情，如果没有是快照 只读，如果有则继续下一步
 - (void)getFromDetailByBuddy_file:(NSString *)buddy_file{
     [self.formDetailManager loadData];
 }
+
 // 克隆当前表单，克隆成功之后 调用下载clone后的表单
 - (void)cloneCurrentFormByBuddy_file:(NSString *)buddy_file{
     [self.downLoadManager loadData];
 }
+
 // 填充当前表单
 - (void)operationsFormFill:(NSDictionary *)params{
     [self.formOperationsManager loadData];
 }
+
 // 上传填充之后的表单
 - (void)uploadFillSuccessLaterFrom:(NSDictionary *)fillFrom{
     [self.uploadfileManager loadData];
 }
+
 // 通知服务器，我更新了哪个文件
 - (void)informTargetUpdateByBuddy_file:(NSString *)buddy_file{
     [self.targetUpdateManager loadData];
 }
 
 #pragma mark - responsder chain
+
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_edit_item]) {
         self.isModification = YES;
@@ -188,11 +201,14 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.isModification = YES;
     }
 }
+
 - (void)back:(UIBarButtonItem *)item{
     self.isPopVC = YES;
     [self cancelEditCurrentForm];
 }
+
 #pragma mark - private
+
 // 获取操作后的提交的参数
 - (NSMutableDictionary *)getOperationsFromParams{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFromDic[@"instance_ident"],@"id_project":self.instanceFromDic[@"buddy_file"][@"fid_project"]}];
@@ -208,6 +224,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     params[@"info"] = items;
     return params;
 }
+
 // 设置获取的表单详情数据
 - (void)getFormItemInfo:(NSDictionary *)form{
     if (self.isCloneForm == NO) {
@@ -218,6 +235,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.cloneFormDic = [NSMutableDictionary dictionaryWithDictionary: form[@"data"][@"form_info"]];
     }
 }
+
 // 设置当前clong后的表单数据
 - (void)setCloneFormInfo:(NSDictionary *)form{
     if (self.isCloneForm == NO) {
@@ -228,6 +246,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     // 获取表单详情
     [self getFromDetailByBuddy_file:self.instanceBuddy_file];
 }
+
 // 修改当前编辑的数据(包含显示的form和下载的form)
 - (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData{
     // 显示的数据
@@ -248,6 +267,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     
     [self.tableView reloadData];
 }
+
 // 判断当前表单是否可编辑可克隆
 - (void)judgeDownLoadFormIsEditClone{
     
@@ -272,6 +292,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     [self updateSnapshootViewLayout];
     [self.tableView reloadData];
 }
+
 // 添加图片到表单
 - (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
     [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
@@ -326,6 +347,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         }
     }];
 }
+
 // 删除当前表单中的图片数据
 - (void)deleteImageToCurrentImageFormItem:(NSDictionary *)deleteDic{
     // 显示的数据
@@ -365,13 +387,16 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     [self.tableView reloadData];
 }
+
 - (void)resetFormData{
     self.isModification = NO;
     self.isEditForm = NO;
     [self.editButton resetEditButtonStyle:YES];
     [self.tableView reloadData];
 }
+
 #pragma mark - FormEditDelegate
+
 - (void)startEditCurrentForm{
     if (self.canEditForm == NO) {
         [self.targetCloneManager loadData];
@@ -382,6 +407,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     [self updateBottomView];
 }
+
 - (void)cancelEditCurrentForm{
     if (self.isModification == YES) {
         [CNAlertView showWithTitle:@"温馨提示" message:@"是否保存当前修改内容" cancelButtonTitle:@"放弃" otherButtonTitles:@[@"保存"] tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
@@ -414,7 +440,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     [self updateBottomView];
 }
+
 #pragma mark - APIManagerParamSource
+
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *params = @{};
     if (manager == self.formDetailManager) {
@@ -437,7 +465,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return params;
 }
+
 #pragma mark - ApiManagerCallBackDelegate
+
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     NSDictionary *data = (NSDictionary *)manager.response.responseData;
     if (manager == self.formDetailManager) {
@@ -454,8 +484,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.isCloneForm = YES;
         self.isEditForm = YES;
         [self.editButton resetEditButtonStyle:NO];
-        NSDictionary *dic = manager.response.responseData;
-        self.clone_buddy_file = dic[@"data"][@"target_info"][@"uid_target"];
+        self.clone_buddy_file = data[@"data"][@"target_info"][@"uid_target"];
         [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
         
     }else if(manager == self.uploadfileManager){
@@ -476,6 +505,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self setCloneFormInfo:data];
     }
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.formDetailManager) {
     }else if(manager == self.formOperationsManager){
@@ -485,7 +515,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else if(manager == self.downLoadManager){
     }
 }
+
 #pragma mark - UI
+
 - (void)addUI{
     [self.view addSubview:self.snapshootView];
     [self.view addSubview:self.headerView];
@@ -525,6 +557,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     self.headerView.valueTextView.editable = NO;
 }
+
 - (void)changeEditView{
     // 快照直接不显示
     if (self.isSnapshoot == YES) {
@@ -536,18 +569,22 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"back"] style:UIBarButtonItemStyleDone target:self action:@selector(back:)];
     self.navigationItem.leftBarButtonItem = backButtonItem;
 }
+
 - (void)updateSnapshootViewLayout{
     CGFloat snapshootViewH = self.isSnapshoot == YES ? 44 : 0;
     [self.snapshootView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(snapshootViewH);
     }];
 }
+
 - (void)updateBottomView{
     [UIView animateWithDuration:0.3 animations:^{
         self.bottomView.alpha = self.isEditForm == NO ? 0:1;
     }];
 }
+
 #pragma mark - setter and getter
+
 - (FormEditButton *)editButton{
     if (_editButton == nil) {
         _editButton = [[FormEditButton alloc] init];
@@ -556,6 +593,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _editButton;
 }
+
 - (UITableView *)tableView{
     if (_tableView == nil) {
         _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
@@ -575,6 +613,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _snapshootView;
 }
+
 - (FormEditCell *)headerView{
     if (_headerView == nil) {
         _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
@@ -583,36 +622,42 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _headerView;
 }
+
 - (BottomView *)bottomView{
     if (_bottomView == nil) {
         _bottomView = [[BottomView alloc] init];
     }
     return _bottomView;
 }
+
 - (NSMutableDictionary *)downLoadformDic{
     if (_downLoadformDic == nil) {
         _downLoadformDic = [NSMutableDictionary dictionary];
     }
     return _downLoadformDic;
 }
+
 - (NSMutableDictionary *)downLoadCloneformDic{
     if (_downLoadCloneformDic == nil) {
         _downLoadCloneformDic = [NSMutableDictionary dictionary];
     }
     return _downLoadCloneformDic;
 }
+
 - (NSMutableDictionary *)formDic{
     if (_formDic == nil) {
         _formDic = [NSMutableDictionary dictionary];
     }
     return _formDic;
 }
+
 - (NSMutableDictionary *)cloneFormDic{
     if (_cloneFormDic == nil) {
         _cloneFormDic = [NSMutableDictionary dictionary];
     }
     return _cloneFormDic;
 }
+
 - (NSMutableDictionary *)instanceFromDic{
     if (self.isCloneForm == NO) {
         return self.formDic;
@@ -621,6 +666,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return nil;
 }
+
 - (NSMutableDictionary *)instanceDownLoadForm{
     if (self.isEditForm == NO) {
         return self.downLoadformDic;
@@ -631,6 +677,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return nil;
 }
+
 - (NSString *)instanceBuddy_file{
     if (self.isEditForm == NO) {
         return self.buddy_file;
@@ -641,7 +688,9 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         return self.clone_buddy_file;
     }
 }
+
 #pragma mark - api
+
 -(APIFileDownLoadManager *)downLoadManager{
     if (_downLoadManager == nil) {
         _downLoadManager = [[APIFileDownLoadManager alloc] init];
@@ -650,6 +699,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _downLoadManager;
 }
+
 - (APIFormDetailManager *)formDetailManager{
     if (_formDetailManager == nil) {
         _formDetailManager = [[APIFormDetailManager alloc] init];
@@ -658,6 +708,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _formDetailManager;
 }
+
 - (APITargetCloneManager *)targetCloneManager{
     if (_targetCloneManager == nil) {
         _targetCloneManager = [[APITargetCloneManager alloc] init];
@@ -666,6 +717,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _targetCloneManager;
 }
+
 - (APIFormOperationsManager *)formOperationsManager{
     if (_formOperationsManager == nil) {
         _formOperationsManager = [[APIFormOperationsManager alloc] init];
@@ -674,6 +726,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _formOperationsManager;
 }
+
 - (APIUploadFileManager *)uploadfileManager{
     if (_uploadfileManager == nil) {
         _uploadfileManager = [[APIUploadFileManager alloc] init];
@@ -682,6 +735,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _uploadfileManager;
 }
+
 - (APITargetUpdateManager *)targetUpdateManager{
     if (_targetUpdateManager == nil) {
         _targetUpdateManager = [[APITargetUpdateManager alloc] init];
@@ -690,12 +744,14 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return _targetUpdateManager;
 }
+
 - (UploadFileManager *)uploadManager{
     if (_uploadManager == nil) {
         _uploadManager = [[UploadFileManager alloc] init];
     }
     return _uploadManager;
 }
+
 /*
 #pragma mark - Navigation
 

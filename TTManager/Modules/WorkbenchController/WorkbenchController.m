@@ -206,9 +206,10 @@
 
 // 筛选成功之后数据的处理
 - (void)filterSuccess:(NSArray *)result{
+    NSDictionary *params = @{};
     // 没有查询到任务数据 则需要克隆表单
     if (result == nil || result.count <= 0) {
-        
+        params = @{@"isCloneForm":@1};
     }else{
         ZHUser *user = [DataManager defaultInstance].currentUser;
         NSString *buddy_file = nil;
@@ -220,14 +221,14 @@
         }
         // 没有查询到数据，需要克隆表单
         if ([SZUtil isEmptyOrNull:buddy_file]) {
-            
+            params = @{@"isCloneForm":@0};
         }
         // 有数据 直接去填充表单
         else{
-            
+            params = @{@"isCloneForm":@0,@"buddy_file":buddy_file};
         }
     }
-    [self pushViewControllerToSelectedFunctionVC:@{}];
+    [self pushViewControllerToSelectedFunctionVC:params];
 }
 
 // 跳转到各个页面以及所需要的参数
@@ -256,6 +257,8 @@
         // 日常打卡
         case 3:{
             ClockInViewController *clockInVC = [[ClockInViewController alloc] init];
+            clockInVC.isCloneForm = params[@"isCloneForm"];
+            clockInVC.buddy_file = params[@"buddy_file"];
             vc = clockInVC;
         }
             break;

@@ -9,7 +9,7 @@
 #import <BMKLocationkit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
-@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate>
+@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 //@property (nonatomic, strong) BMKMapView *mapView;
 @property (nonatomic, strong) UIView *clockBgView;
@@ -19,6 +19,14 @@
 @property (nonatomic, strong) UIBarButtonItem *closeItem;
 @property (nonatomic, strong) NSTimer *timer;
 
+@property (nonatomic, strong) NSMutableDictionary *clockInDic;
+
+// api表单详情
+@property (nonatomic, strong) APIFormDetailManager *formDetailManager;
+// api克隆表单
+@property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
+// api表单操作
+@property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
 // location
 @property (nonatomic, strong)BMKLocationManager *locationManager;
 
@@ -38,6 +46,8 @@
     [self addTimer];
     
     [[BMKLocationAuth sharedInstance] checkPermisionWithKey:BaiduKey authDelegate:self];
+    
+    [self reloadNetwork];
 }
 
 #pragma mark - BMKLocationAuthDelegate
@@ -65,7 +75,62 @@
     [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
 }
 
+#pragma mark - APIManagerParamSource
+
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *params = @{};
+    if (manager == self.formDetailManager) {
+        params = @{@"buddy_file": self.buddy_file};
+    }else if(manager == self.targetCloneManager){
+        params = @{@"clone_module":[NSNull null],
+                   @"clone_parent":[NSNull null],
+                   @"new_name":[NSNull null],
+                   @"source_target":self.buddy_file};
+    }else if(manager == self.formOperationsManager){
+        params = [self getOperationsFromParams];
+    }
+    return params;
+}
+
+#pragma mark - ApiManagerCallBackDelegate
+
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+    NSDictionary *data = (NSDictionary *)manager.response.responseData;
+    if (manager == self.formDetailManager)
+    {
+        if ([data[@"data"][@"form_info"] isKindOfClass:[NSDictionary class]])
+        {
+            self.clockInDic = [NSMutableDictionary dictionaryWithDictionary: data[@"data"][@"form_info"]];
+        }
+    }else if(manager == self.targetCloneManager){
+        self.buddy_file = data[@"data"][@"target_info"][@"uid_target"];
+        [self.formDetailManager loadData];
+    }else if(manager == self.formOperationsManager){
+        
+    }
+}
+
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    if (manager == self.formDetailManager) {
+        
+    }else if(manager == self.targetCloneManager){
+        
+    }else if(manager == self.formOperationsManager){
+        
+    }
+}
+
 #pragma mark - private method
+
+- (void)reloadNetwork{
+    if (self.isCloneForm == YES) {
+        self.buddy_file = @"basicform-rcdk_105";
+        [self.targetCloneManager loadData];
+    }else{
+        [self.formDetailManager loadData];
+    }
+}
 
 - (void)addTimer{
     if (self.timer == nil) {
@@ -104,9 +169,24 @@
 }
 
 - (void)clockAction:(UIButton *)button{
-    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
+//    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
+    [self.formOperationsManager loadData];
 }
-
+// 获取操作后的提交的参数
+- (NSMutableDictionary *)getOperationsFromParams{
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.clockInDic[@"instance_ident"],@"id_project":self.clockInDic[@"buddy_file"][@"fid_project"]}];
+    NSMutableArray *items = [NSMutableArray array];
+    for (NSDictionary *formItem in self.clockInDic[@"items"]) {
+        NSString *instance_value = formItem[@"instance_value"];
+        if ([SZUtil isEmptyOrNull:instance_value]) {
+            instance_value = @"";
+        }
+        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":instance_value};
+        [items addObject:itemDic];
+    }
+    params[@"info"] = items;
+    return params;
+}
 #pragma mark - ui
 
 - (void)addUI{
@@ -206,6 +286,40 @@
         _locationManager.reGeocodeTimeout = 8;
     }
     return _locationManager;
+}
+
+- (NSMutableDictionary *)clockInDic{
+    if (_clockInDic == nil) {
+        _clockInDic = [NSMutableDictionary dictionary];
+    }
+    return _clockInDic;
+}
+
+#pragma mark - api
+
+- (APIFormDetailManager *)formDetailManager{
+    if (_formDetailManager == nil) {
+        _formDetailManager = [[APIFormDetailManager alloc] init];
+        _formDetailManager.delegate = self;
+        _formDetailManager.paramSource = self;
+    }
+    return _formDetailManager;
+}
+- (APITargetCloneManager *)targetCloneManager{
+    if (_targetCloneManager == nil) {
+        _targetCloneManager = [[APITargetCloneManager alloc] init];
+        _targetCloneManager.delegate = self;
+        _targetCloneManager.paramSource = self;
+    }
+    return _targetCloneManager;
+}
+- (APIFormOperationsManager *)formOperationsManager{
+    if (_formOperationsManager == nil) {
+        _formOperationsManager = [[APIFormOperationsManager alloc] init];
+        _formOperationsManager.delegate = self;
+        _formOperationsManager.paramSource = self;
+    }
+    return _formOperationsManager;
 }
 
 - (void)dealloc{
