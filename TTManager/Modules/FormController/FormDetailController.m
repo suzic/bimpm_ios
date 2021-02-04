@@ -170,9 +170,13 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 // 添加图片到表单
 - (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
     [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
-        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:addDic];
-        dic[@"image"] = imageData;
-        [self.formFlowManager addImageToCurrentImageFormItem:dic];
+        if (imageData.length/1024 <= 100) {
+            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:addDic];
+            dic[@"image"] = imageData;
+            [self.formFlowManager addImageToCurrentImageFormItem:dic];
+        }else{
+            [SZAlert showInfo:@"上传图片不能大于100k" underTitle:TARGETS_NAME];
+        }
     }];
 }
 
