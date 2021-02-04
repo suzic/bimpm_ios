@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
  *打卡即为一个按钮，按下时，获取当前时间填写到对应的时间里，
  *获取当前的位置信息，与项目的位置信息比对（相距离1000m以内视为“公司打卡”，否则是“外出打卡”），
  *并根据地图SDK填写位置信息文字。
+ *basicform-gzrb_43_105 工作日报.form
+ *basicform-rcdk_43_105 日常打卡.form
+ *basicform-sgrz_37_104 施工日志.form
+ *basicform-xjd_20_39_51_103_104 巡检记录单.form
  */
 @interface ClockInViewController : UIViewController
 

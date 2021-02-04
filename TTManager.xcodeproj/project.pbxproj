@@ -194,6 +194,7 @@
 		40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA2259B5CD7008C3518 /* TaskListCell.m */; };
 		40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA6259C16CE008C3518 /* TaskStepView.m */; };
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
+		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
 		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
 		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
@@ -558,6 +559,8 @@
 		40931CA6259C16CE008C3518 /* TaskStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepView.m; sourceTree = "<group>"; };
 		40931CA9259C27DC008C3518 /* TaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskController.h; sourceTree = "<group>"; };
 		40931CAA259C27DC008C3518 /* TaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskController.m; sourceTree = "<group>"; };
+		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
+		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40E334BC25A8AAAE008DBDAB /* SupernatantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupernatantView.h; sourceTree = "<group>"; };
 		40E334BD25A8AAAE008DBDAB /* SupernatantView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupernatantView.m; sourceTree = "<group>"; };
 		40E334C025A978A0008DBDAB /* TaskParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskParams.h; sourceTree = "<group>"; };
@@ -1321,6 +1324,8 @@
 				4054B99B25B719190023FC7F /* APIFormEditManager.m */,
 				4081EFE825BD6153004F8BB4 /* APIFormOperationsManager.h */,
 				4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */,
+				40C7CAB025CB91910059C0C3 /* FormFlowManager.h */,
+				40C7CAB125CB91910059C0C3 /* FormFlowManager.m */,
 			);
 			path = APIFormManager;
 			sourceTree = "<group>";
@@ -1700,6 +1705,7 @@
 				4054B8E025B3008C0023FC7F /* NSString+Extend.m in Sources */,
 				402A9EF42595769900A9DABA /* AppDelegate.mm in Sources */,
 				4054B8DC25B207240023FC7F /* UploadFileManager.m in Sources */,
+				40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */,
 				4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */,
 				402A9F8B2595C65900A9DABA /* PopViewController.m in Sources */,
 				40E73E7125BEB55C00FC98DD /* ImageCell.m in Sources */,
