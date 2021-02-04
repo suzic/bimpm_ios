@@ -269,6 +269,7 @@
     if (self.controllerType == typeLoginRetrieving) {
         return;
     }
+    self.showCaptch = NO;
     self.controllerType = typeLoginRetrieving;
 }
 
@@ -406,7 +407,7 @@
         [self.captchaCell.getVerificationBtn setBackgroundImage:(UIImage *)manager.response.responseData forState:UIControlStateNormal];
     }else if(manager == self.verifyManager){
         [SZAlert showInfo:@"已发送成功，请查收短信。" underTitle:TARGETS_NAME];
-        [self.verifyBtn startCountDown:60 finishTitile:@"发送验证码"];
+        [self.verifyCell.getVerificationBtn startCountDown:60 finishTitile:@"发送验证码"];
     }else if (manager == self.resetManager){
         [SZAlert showInfo:@"重设密码成功！" underTitle:TARGETS_NAME];
         self.controllerType = typeLoginPassword;

@@ -18,7 +18,7 @@
 static NSString *textCellIndex = @"textCellIndex";
 static NSString *imageCellIndex = @"ImageCellIndex";
 
-@interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,ApiManagerCallBackDelegate,APIManagerParamSource,FormEditDelegate,FormFlowManagerDelgate>
+@interface FormDetailController ()<UITableViewDelegate,UITableViewDataSource,FormEditDelegate,FormFlowManagerDelgate>
 
 @property (nonatomic, strong)FormFlowManager *formFlowManager;
 

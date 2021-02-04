@@ -12,7 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface UIButton (Extend)
 
 - (void)startCountDown:(NSInteger)total finishTitile:(NSString *)finishTitle;
-
+//- (void)stopTimer;
 @end
 
 NS_ASSUME_NONNULL_END

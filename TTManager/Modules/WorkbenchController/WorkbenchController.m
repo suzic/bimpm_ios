@@ -16,8 +16,9 @@
 #import "TaskInforCell.h"
 #import "ClockInViewController.h"
 #import "PollingViewController.h"
-#import "FormDetailController.h"
-
+//#import "FormDetailController.h"
+#import "BuilderDiaryController.h"
+#import "WorkDiaryController.h"
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -41,7 +42,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
-    _selectedFunctionType = NSNotFound;
+    self.selectedFunctionType = NSNotFound;
 }
 
 - (void)setCurrentDate{
@@ -175,21 +176,19 @@
     if (self.filterTargetManager.pageSize.filters.count >0) {
         [self.filterTargetManager.pageSize.filters removeAllObjects];
     }
-    NSString *currentTime = [SZUtil getTimeNow];
-    currentTime = [currentTime stringByReplacingOccurrencesOfString:@" " withString:@""];
-    currentTime = [currentTime stringByReplacingOccurrencesOfString:@":" withString:@""];
+    NSString *currentTime = [SZUtil getDateString:[NSDate date]];
     currentTime = [currentTime stringByReplacingOccurrencesOfString:@"-" withString:@""];
 //    ZHUser *user = [DataManager defaultInstance].currentUser;
     // 以特定开头
     NSDictionary *fromNameFilter = @{@"key":@"name",
-                             @"operator":@"l:",
-                             @"value":@"RY-RCDK",
+                             @"operator":@":",
+                             @"value":filterValue,
                              @"join":@"and"};
-    // 以时间结尾
-    NSDictionary *endNameFilter = @{@"key":@"name",
-                             @"operator":@":l",
-                             @"value":currentTime,
-                             @"join":@"and"};
+//    // 以时间结尾
+//    NSDictionary *endNameFilter = @{@"key":@"name",
+//                             @"operator":@":",
+//                             @"value":currentTime,
+//                             @"join":@"and"};
 //    // 并且ower 是当前登录用户
 //    NSDictionary *ownerFilter = @{@"key":@"owner",
 //                                  @"operator":@"=",
@@ -197,7 +196,7 @@
 //                                  @"join":@"and"};
     
     [self.filterTargetManager.pageSize.filters addObject:fromNameFilter];
-    [self.filterTargetManager.pageSize.filters addObject:endNameFilter];
+//    [self.filterTargetManager.pageSize.filters addObject:endNameFilter];
 //    [self.filterTargetManager.pageSize.filters addObject:ownerFilter];
     [self.filterTargetManager loadData];
 }
@@ -207,7 +206,7 @@
     NSDictionary *params = @{};
     // 没有查询到任务数据 则需要克隆表单
     if (result == nil || result.count <= 0) {
-        params = @{@"isCloneForm":@1};
+        params = @{@"buddy_file":[self getTemplateId]};
     }else{
         ZHUser *user = [DataManager defaultInstance].currentUser;
         NSString *buddy_file = nil;
@@ -219,11 +218,11 @@
         }
         // 没有查询到数据，需要克隆表单
         if ([SZUtil isEmptyOrNull:buddy_file]) {
-            params = @{@"isCloneForm":@0};
+            params = @{@"buddy_file":[self getTemplateId]};
         }
         // 有数据 直接去填充表单
         else{
-            params = @{@"isCloneForm":@0,@"buddy_file":buddy_file};
+            params = @{@"buddy_file":buddy_file};
         }
     }
     [self pushViewControllerToSelectedFunctionVC:params];
@@ -242,20 +241,20 @@
             break;
         // 施工日志
         case 1:{
-            FormDetailController *builderDiaryVC = [[FormDetailController alloc] init];
+            BuilderDiaryController *builderDiaryVC = [[BuilderDiaryController alloc] init];
             vc = builderDiaryVC;
         }
             break;
         // 工作日报
         case 2:{
-            FormDetailController *workDailyVC = [[FormDetailController alloc] init];
+            WorkDiaryController *workDailyVC = [[WorkDiaryController alloc] init];
             vc = workDailyVC;
         }
             break;
         // 日常打卡
         case 3:{
             ClockInViewController *clockInVC = [[ClockInViewController alloc] init];
-            clockInVC.isCloneForm = params[@"isCloneForm"];
+//            clock_form_template_id
             clockInVC.buddy_file = params[@"buddy_file"];
             vc = clockInVC;
         }
@@ -266,7 +265,30 @@
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
-
+- (NSString *)getTemplateId{
+    NSString *templateId = @"";
+    switch (_selectedFunctionType) {
+        // 巡检
+        case 0:
+            templateId = inspection_form_template_id;
+            break;
+        // 施工日志
+        case 1:
+            templateId = roadwork_form_template_id;
+            break;
+        // 工作日报
+        case 2:
+            templateId = work_form_template_id;
+            break;
+        // 日常打卡
+        case 3:
+            templateId = clock_form_template_id;
+            break;
+        default:
+            break;
+    }
+    return templateId;
+}
 #pragma mark - Responder Chain
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{

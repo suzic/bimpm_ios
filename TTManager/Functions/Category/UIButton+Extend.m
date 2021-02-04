@@ -8,6 +8,7 @@
 #import "UIButton+Extend.h"
 
 @implementation UIButton (Extend)
+
 - (void)startCountDown:(NSInteger)total finishTitile:(NSString *)finishTitle{
     self.userInteractionEnabled = NO;
     //倒计时时间
@@ -37,4 +38,5 @@
         });
         dispatch_resume(_timer);
 }
+
 @end

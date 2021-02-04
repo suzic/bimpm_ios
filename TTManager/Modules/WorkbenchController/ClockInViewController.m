@@ -9,7 +9,7 @@
 #import <BMKLocationkit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
 
-@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,APIManagerParamSource,ApiManagerCallBackDelegate>
+@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,FormFlowManagerDelgate>
 
 //@property (nonatomic, strong) BMKMapView *mapView;
 @property (nonatomic, strong) UIView *clockBgView;
@@ -21,12 +21,8 @@
 
 @property (nonatomic, strong) NSMutableDictionary *clockInDic;
 
-// api表单详情
-@property (nonatomic, strong) APIFormDetailManager *formDetailManager;
-// api克隆表单
-@property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
-// api表单操作
-@property (nonatomic, strong) APIFormOperationsManager *formOperationsManager;
+@property (nonatomic, strong) FormFlowManager *formflowManager;
+
 // location
 @property (nonatomic, strong)BMKLocationManager *locationManager;
 
@@ -39,7 +35,7 @@
     // Do any additional setup after loading the view.
 //    [self.view addSubview:self.mapView];
     self.view.backgroundColor = [UIColor whiteColor];
-    self.title = @"打卡";
+    self.title = @"日常打卡";
     self.navigationItem.leftBarButtonItem = self.closeItem;
     
     [self addUI];
@@ -75,61 +71,48 @@
     [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
 }
 
-#pragma mark - APIManagerParamSource
-
-- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
-    NSDictionary *params = @{};
-    if (manager == self.formDetailManager) {
-        params = @{@"buddy_file": self.buddy_file};
-    }else if(manager == self.targetCloneManager){
-        params = @{@"clone_module":[NSNull null],
-                   @"clone_parent":[NSNull null],
-                   @"new_name":[NSNull null],
-                   @"source_target":self.buddy_file};
-    }else if(manager == self.formOperationsManager){
-        params = [self getOperationsFromParams];
-    }
-    return params;
-}
-
-#pragma mark - ApiManagerCallBackDelegate
-
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+#pragma mark - FormFlowManagerDelgate
+/// 刷新页面数据
+- (void)reloadView{
     
-    NSDictionary *data = (NSDictionary *)manager.response.responseData;
-    if (manager == self.formDetailManager)
-    {
-        if ([data[@"data"][@"form_info"] isKindOfClass:[NSDictionary class]])
-        {
-            self.clockInDic = [NSMutableDictionary dictionaryWithDictionary: data[@"data"][@"form_info"]];
-        }
-    }else if(manager == self.targetCloneManager){
-        self.buddy_file = data[@"data"][@"target_info"][@"uid_target"];
-        [self.formDetailManager loadData];
-    }else if(manager == self.formOperationsManager){
-        
+}
+/// 获取表单详情成功
+- (void)formDetailResult:(BOOL)success{
+    
+}
+/// 表单下载成功
+- (void)formDownLoadResult:(BOOL)success{
+    if (success == YES) {
+        NSLog(@"当前的表单数据 %@",self.formflowManager.instanceDownLoadForm);
+//        [self.formflowManager cloneCurrentFormByBuddy_file];
     }
 }
-
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.formDetailManager) {
-        
-    }else if(manager == self.targetCloneManager){
-        
-    }else if(manager == self.formOperationsManager){
-        
+/// 克隆表单成功
+- (void)formCloneTargetResult:(BOOL)success{
+    if (success == YES) {
+        NSLog(@"克隆表单成功");
+        [self.formflowManager modifyCurrentDownLoadForm:@{}];
+        [self.formflowManager operationsFormFill];
     }
 }
-
+/// 表单操作完成
+- (void)formOperationsFillResult:(BOOL)success{
+    
+}
+/// 表单更新完成
+- (void)targetUpdateResult:(BOOL)success{
+    
+}
 #pragma mark - private method
 
 - (void)reloadNetwork{
-    if (self.isCloneForm == YES) {
-        self.buddy_file = @"basicform-rcdk_105";
-        [self.targetCloneManager loadData];
-    }else{
-        [self.formDetailManager loadData];
-    }
+//    if (self.isCloneForm == YES) {
+//        self.buddy_file = @"basicform-rcdk_105";
+//        [self.targetCloneManager loadData];
+//    }else{
+//        [self.formDetailManager loadData];
+//    }
+    [self.formflowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
 }
 
 - (void)addTimer{
@@ -169,24 +152,15 @@
 }
 
 - (void)clockAction:(UIButton *)button{
-//    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
-    [self.formOperationsManager loadData];
-}
-// 获取操作后的提交的参数
-- (NSMutableDictionary *)getOperationsFromParams{
-    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.clockInDic[@"instance_ident"],@"id_project":self.clockInDic[@"buddy_file"][@"fid_project"]}];
-    NSMutableArray *items = [NSMutableArray array];
-    for (NSDictionary *formItem in self.clockInDic[@"items"]) {
-        NSString *instance_value = formItem[@"instance_value"];
-        if ([SZUtil isEmptyOrNull:instance_value]) {
-            instance_value = @"";
-        }
-        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":instance_value};
-        [items addObject:itemDic];
+    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
+    if (self.formflowManager.canEditForm == NO) {
+        [self.formflowManager cloneCurrentFormByBuddy_file];
+    }else{
+        [self.formflowManager modifyCurrentDownLoadForm:@{}];
+        [self.formflowManager operationsFormFill];
     }
-    params[@"info"] = items;
-    return params;
 }
+
 #pragma mark - ui
 
 - (void)addUI{
@@ -295,31 +269,13 @@
     return _clockInDic;
 }
 
-#pragma mark - api
-
-- (APIFormDetailManager *)formDetailManager{
-    if (_formDetailManager == nil) {
-        _formDetailManager = [[APIFormDetailManager alloc] init];
-        _formDetailManager.delegate = self;
-        _formDetailManager.paramSource = self;
+-(FormFlowManager *)formflowManager{
+    if (_formflowManager == nil) {
+        _formflowManager = [[FormFlowManager alloc] init];
+        _formflowManager.delegate = self;
+        _formflowManager.buddy_file = self.buddy_file;
     }
-    return _formDetailManager;
-}
-- (APITargetCloneManager *)targetCloneManager{
-    if (_targetCloneManager == nil) {
-        _targetCloneManager = [[APITargetCloneManager alloc] init];
-        _targetCloneManager.delegate = self;
-        _targetCloneManager.paramSource = self;
-    }
-    return _targetCloneManager;
-}
-- (APIFormOperationsManager *)formOperationsManager{
-    if (_formOperationsManager == nil) {
-        _formOperationsManager = [[APIFormOperationsManager alloc] init];
-        _formOperationsManager.delegate = self;
-        _formOperationsManager.paramSource = self;
-    }
-    return _formOperationsManager;
+    return _formflowManager;
 }
 
 - (void)dealloc{

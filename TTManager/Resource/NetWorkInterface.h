@@ -8,11 +8,18 @@
 #ifndef NetWorkInterface_h
 #define NetWorkInterface_h
 
+// 固定模版id
+#define work_form_template_id           @"basicform-gzrb_43_105"
+#define clock_form_template_id          @"basicform-rcdk_43_105"
+#define roadwork_form_template_id       @"basicform-sgrz_37_104"
+#define inspection_form_template_id     @"basicform-xjd_20_39_51_103_104"
+
+// 切换服务器
 #define UserDefaultsNetService          @"userDefaultsNetService"
+// 当前选择的服务器 0 测试 1线上
 #define SelectedService                 ([[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultsNetService])
 
-// @"http://www.suzic.cn:8010"
-// 测试环境
+// 服务器地址
 #if DEBUG
 #define SERVICEADDRESS ({ \
 NSString *service = @"https://www.bim-pm.com/bimpmservice"; \
@@ -27,6 +34,7 @@ service; \
 #define SERVICEADDRESS  @"https://www.bim-pm.com/bimpmservice"
 #endif
 
+// 服务器地址
 #if DEBUG
 #define FILESERVICEADDRESS ({ \
 NSString *fileService = @"https://www.bim-pm.com"; \

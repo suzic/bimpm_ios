@@ -155,7 +155,7 @@
 // 进入编辑模式
 - (void)enterEditModel{
     if (self.canEditForm == NO) {
-        [self.targetCloneManager loadData];
+        [self cloneCurrentFormByBuddy_file];
     }else{
         self.isEditForm = YES;
         [self callReloadViewDelegate];
@@ -291,7 +291,7 @@
 // 下载当前form表单
 - (void)downLoadCurrentFormJsonByBuddy_file:(NSString *)buddy_file
 {
-    self.downLoadManager.uid_target = self.instanceBuddy_file;
+    self.downLoadManager.uid_target = buddy_file;
     [self.downLoadManager loadData];
 }
 
@@ -302,7 +302,7 @@
 
 // 克隆当前表单，克隆成功之后 调用下载clone后的表单
 - (void)cloneCurrentFormByBuddy_file{
-    [self.downLoadManager loadData];
+    [self.targetCloneManager loadData];
 }
 
 // 填充当前表单
@@ -384,6 +384,7 @@
         [self setCloneFormInfo:data];
         // 获取表单详情
         [self getFromDetailByBuddy_file];
+        [self callFormDownLoadResultDelagate:YES];
     }
 }
 
