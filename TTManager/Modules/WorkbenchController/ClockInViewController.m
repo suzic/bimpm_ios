@@ -11,8 +11,20 @@
 
 @interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,FormFlowManagerDelgate>
 
+
 //@property (nonatomic, strong) BMKMapView *mapView;
+
+/// 打卡类型 0 公司打卡 1 外出打卡
+@property (nonatomic, assign) NSInteger clockType;
+@property (nonatomic, copy) NSString *address;
+
+@property (nonatomic, strong) UIView *userView;
+@property (nonatomic, strong) UIImageView *userImageView;
+@property (nonatomic, strong) UILabel *userName;
+
 @property (nonatomic, strong) UIView *clockBgView;
+@property (nonatomic, strong) UIButton *changClockType;
+
 @property (nonatomic, strong) UILabel *clockInfo;
 @property (nonatomic, strong) UIButton *clockBtn;
 @property (nonatomic, strong) UILabel *clockTime;
@@ -24,7 +36,7 @@
 @property (nonatomic, strong) FormFlowManager *formflowManager;
 
 // location
-@property (nonatomic, strong)BMKLocationManager *locationManager;
+@property (nonatomic, strong) BMKLocationManager *locationManager;
 
 @end
 
@@ -34,13 +46,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
 //    [self.view addSubview:self.mapView];
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.title = @"日常打卡";
     self.navigationItem.leftBarButtonItem = self.closeItem;
     
     [self addUI];
     [self addTimer];
-    
+        
     [[BMKLocationAuth sharedInstance] checkPermisionWithKey:BaiduKey authDelegate:self];
     
     [self reloadNetwork];
@@ -91,7 +103,7 @@
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES) {
         NSLog(@"克隆表单成功");
-        [self.formflowManager modifyCurrentDownLoadForm:@{}];
+        [self getClockInInfor];
         [self.formflowManager operationsFormFill];
     }
 }
@@ -101,18 +113,43 @@
 }
 /// 表单更新完成
 - (void)targetUpdateResult:(BOOL)success{
-    
+    [SZAlert showInfo:@"打卡成功" underTitle:TARGETS_NAME];
 }
+
 #pragma mark - private method
 
+// 切换打卡类型
+- (void)changeClockTypeAction:(UIButton *)button{
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择打卡类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    UIAlertAction *type1 = [UIAlertAction actionWithTitle:@"上班打卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.changClockType setTitle:@"上班打卡" forState:UIControlStateNormal];
+    }];
+    UIAlertAction *type2 = [UIAlertAction actionWithTitle:@"下班打卡" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+        [self.changClockType setTitle:@"下班打卡" forState:UIControlStateNormal];
+    }];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    
+    [alert addAction:type1];
+    [alert addAction:type2];
+    [alert addAction:cancel];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
 - (void)reloadNetwork{
-//    if (self.isCloneForm == YES) {
-//        self.buddy_file = @"basicform-rcdk_105";
-//        [self.targetCloneManager loadData];
-//    }else{
-//        [self.formDetailManager loadData];
-//    }
+    
     [self.formflowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    self.userName.text = user.name;
+    [self.userImageView sd_setImageWithURL:[NSURL URLWithString:user.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
+    // 创建日历对象
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    // 获取当前时间
+    NSDate *currentDate = [NSDate date];
+    NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay fromDate:currentDate];
+    NSString *type = (components.hour < 12 ? @"上班打卡" : @"下班打卡");
+    [self.changClockType setTitle:type forState:UIControlStateNormal];
 }
 
 - (void)addTimer{
@@ -128,6 +165,14 @@
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(project.location_lat,project.location_long));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
     self.clockInfo.text = [NSString stringWithFormat:@"当前距离项目组%.2lf米",distance];
+    if (distance <= 1000) {
+        self.clockType = 0;
+    }else{
+        self.clockType = 1;
+    }
+    
+    self.address = [NSString stringWithFormat:@"%@%@%@%@%@",location.rgcData.province,location.rgcData.city,location.rgcData.district,location.rgcData.town,location.rgcData.street];
+    NSLog(@"当前所处位置信息%@",self.address);
 }
 
 - (void)stopTimer{
@@ -152,31 +197,88 @@
 }
 
 - (void)clockAction:(UIButton *)button{
-    [SZAlert showInfo:@"点击了打卡" underTitle:TARGETS_NAME];
+    
     if (self.formflowManager.canEditForm == NO) {
         [self.formflowManager cloneCurrentFormByBuddy_file];
     }else{
-        [self.formflowManager modifyCurrentDownLoadForm:@{}];
+        [self getClockInInfor];
         [self.formflowManager operationsFormFill];
+    }
+}
+// 填充当前需要打卡的数据
+- (void)getClockInInfor{
+    
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+    NSString *time = [NSString stringWithFormat:@"%ld",(long)timeInterval];
+    // 打卡日期
+    NSDictionary *dic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":time};
+    // 打卡人
+    NSDictionary *nameDic = @{@"indexPath":[NSIndexPath indexPathForRow:1 inSection:0],@"value":user.name};
+    // 电话
+    NSDictionary *phoneDic = @{@"indexPath":[NSIndexPath indexPathForRow:2 inSection:0],@"value":user.phone};
+    
+    NSInteger index = 3;
+    if ([self.changClockType.currentTitle isEqualToString:@"下班打卡"]) {
+        index = 6;
+    }
+    
+    // 打卡时间
+    NSDictionary *timeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":time};
+    // 打卡地
+    NSDictionary *addressDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+1 inSection:0],@"value":self.address};
+    // 打卡类型
+    NSDictionary *typeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+2 inSection:0],@"value":self.clockType == 0 ?@"公司打卡":@"外出打卡"};
+    NSArray *array = @[dic,nameDic,phoneDic,timeDic,addressDic,typeDic];
+    for (NSDictionary *itemDic in array) {
+        [self.formflowManager modifyCurrentDownLoadForm:itemDic];
     }
 }
 
 #pragma mark - ui
 
 - (void)addUI{
+    [self.view addSubview:self.userView];
+    [self.userView addSubview:self.userImageView];
+    [self.userView addSubview:self.userName];
+    
     [self.view addSubview:self.clockBgView];
+    [self.clockBgView addSubview:self.changClockType];
     [self.clockBgView addSubview:self.clockInfo];
     [self.clockBgView addSubview:self.clockBtn];
     [self.clockBgView addSubview:self.clockTime];
     
-    [self.clockBgView makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(self.view);
-        make.centerY.equalTo(self.view).offset(-100);
-        make.width.height.equalTo(self.view.mas_width).multipliedBy(0.5);
+    [self.userView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(16);
+        make.right.equalTo(-16);
+        make.height.equalTo(120);
     }];
+    
+    [self.userImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.width.height.equalTo(60);
+        make.left.equalTo(16);
+        make.centerY.equalTo(self.userView.mas_centerY);
+    }];
+    
+    [self.userName makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.userImageView.mas_right).offset(16);
+        make.centerY.equalTo(self.userImageView.mas_centerY);
+    }];
+    
+    [self.clockBgView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.userView.mas_bottom).offset(16);
+        make.left.equalTo(16);
+        make.right.bottom.equalTo(-16);
+    }];
+    [self.changClockType makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(16);
+        make.width.equalTo(self.clockBgView.mas_width).multipliedBy(0.5);
+        make.centerX.equalTo(self.clockBgView.mas_centerX);
+    }];
+    
     [self.clockInfo makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(0);
-        make.top.equalTo(10);
+        make.top.equalTo(200);
     }];
     [self.clockBtn makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.clockInfo.mas_bottom).offset(10);
@@ -194,10 +296,46 @@
 - (UIView *)clockBgView{
     if (_clockBgView == nil) {
         _clockBgView = [[UIView alloc] init];
+        _clockBgView.backgroundColor = [UIColor whiteColor];
+        _clockBgView.layer.cornerRadius = 8.0f;
     }
     return _clockBgView;
 }
-
+- (UIView *)userView{
+    if (_userView == nil) {
+        _userView = [[UIView alloc] init];
+        _userView.backgroundColor = [UIColor whiteColor];
+        _userView.layer.cornerRadius = 8.0f;
+    }
+    return _userView;
+}
+- (UIImageView *)userImageView{
+    if (_userImageView == nil) {
+        _userImageView = [[UIImageView alloc] init];
+        _userImageView.image = [UIImage imageNamed:@"test-1"];
+    }
+    return _userImageView;
+}
+- (UILabel *)userName{
+    if (_userName == nil) {
+        _userName = [[UILabel alloc] init];
+        _userName.font = [UIFont systemFontOfSize:15.0f];
+        _userName.text = @"刘超";
+    }
+    return _userName;
+}
+- (UIButton *)changClockType{
+    if (_changClockType == nil) {
+        _changClockType = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_changClockType setImage:[UIImage imageNamed:@"button_ down"] forState:UIControlStateNormal];
+        [_changClockType setSemanticContentAttribute:UISemanticContentAttributeForceRightToLeft];
+        [_changClockType addTarget:self action:@selector(changeClockTypeAction:) forControlEvents:UIControlEventTouchUpInside];
+        _changClockType.imageEdgeInsets = UIEdgeInsetsMake(0, 15, 0, 0);
+        [_changClockType setTitle:@"上班打卡" forState:UIControlStateNormal];
+        [_changClockType setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }
+    return _changClockType;
+}
 - (UILabel *)clockInfo{
     if (_clockInfo == nil) {
         _clockInfo = [[UILabel alloc] init];
@@ -215,7 +353,7 @@
         [_clockBtn setBackgroundColor:[UIColor orangeColor]];
         _clockBtn.clipsToBounds = YES;
         [_clockBtn addTarget:self action:@selector(clockAction:) forControlEvents:UIControlEventTouchUpInside];
-        _clockBtn.layer.cornerRadius = kScreenWidth/8;
+        _clockBtn.layer.cornerRadius = (kScreenWidth-32)/4;
     }
     return _clockBtn;
 }

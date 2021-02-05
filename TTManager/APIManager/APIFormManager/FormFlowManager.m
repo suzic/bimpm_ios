@@ -334,6 +334,7 @@
                    @"new_name":[NSNull null],
                    @"source_target":self.buddy_file};
     }else if(manager == self.uploadfileManager){
+        [self.uploadfileManager.uploadArray removeAllObjects];
         NSString *data = [SZUtil convertToJsonData:self.instanceDownLoadForm];
         NSDictionary *upload = @{@"name":self.instanceDownLoadForm[@"name"],@"type":@"json",@"data":data};
         [self.uploadfileManager.uploadArray addObject: upload];

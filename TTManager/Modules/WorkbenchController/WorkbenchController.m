@@ -178,26 +178,19 @@
     }
     NSString *currentTime = [SZUtil getDateString:[NSDate date]];
     currentTime = [currentTime stringByReplacingOccurrencesOfString:@"-" withString:@""];
-//    ZHUser *user = [DataManager defaultInstance].currentUser;
     // 以特定开头
     NSDictionary *fromNameFilter = @{@"key":@"name",
                              @"operator":@":",
                              @"value":filterValue,
                              @"join":@"and"};
 //    // 以时间结尾
-//    NSDictionary *endNameFilter = @{@"key":@"name",
-//                             @"operator":@":",
-//                             @"value":currentTime,
-//                             @"join":@"and"};
-//    // 并且ower 是当前登录用户
-//    NSDictionary *ownerFilter = @{@"key":@"owner",
-//                                  @"operator":@"=",
-//                                  @"value":INT_32_TO_STRING(user.id_user),
-//                                  @"join":@"and"};
+    NSDictionary *endNameFilter = @{@"key":@"name",
+                             @"operator":@":",
+                             @"value":currentTime,
+                             @"join":@"and"};
     
     [self.filterTargetManager.pageSize.filters addObject:fromNameFilter];
-//    [self.filterTargetManager.pageSize.filters addObject:endNameFilter];
-//    [self.filterTargetManager.pageSize.filters addObject:ownerFilter];
+    [self.filterTargetManager.pageSize.filters addObject:endNameFilter];
     [self.filterTargetManager loadData];
 }
 
