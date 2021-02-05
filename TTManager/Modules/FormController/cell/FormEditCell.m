@@ -223,7 +223,7 @@
             if ([_formItem[@"type"] isEqualToNumber:@3]) {
                 if ([instance_value rangeOfString:@"-"].location == NSNotFound) {
                     NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value intValue]];
-                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"YYYY-MM-DD"];
+                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"yyyy-MM-dd"];
                 }
                 self.valueTextView.text = instance_value;
             }
@@ -245,6 +245,9 @@
                 [title addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
                 [title addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(5, 125, 255) range:NSMakeRange(0, title.length)];
                 [self.clickButton setAttributedTitle:title forState:UIControlStateNormal];
+            }
+            else{
+                self.valueTextView.text = instance_value;
             }
         }
     }
