@@ -210,7 +210,7 @@
     
     ZHUser *user = [DataManager defaultInstance].currentUser;
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval];
+    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
 
     // 打卡日期
     NSDictionary *dic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":time};

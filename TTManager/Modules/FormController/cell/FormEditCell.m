@@ -227,7 +227,7 @@
             // 日期 YYYY-MM-DD
             if ([_formItem[@"type"] isEqualToNumber:@3]) {
                 if ([instance_value rangeOfString:@"-"].location == NSNotFound) {
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value intValue]];
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value doubleValue]/1000];
                     instance_value = [NSDate br_stringFromDate:date dateFormat:@"yyyy-MM-dd"];
                 }
                 self.valueTextView.text = instance_value;
@@ -235,8 +235,8 @@
             // 时间HH:mm:ss
             else if([_formItem[@"type"] isEqualToNumber:@4]){
                 if ([instance_value rangeOfString:@":"].location == NSNotFound) {
-                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value intValue]];
-                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"HH:mm:ss"];
+                    NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value doubleValue]/1000];
+                    instance_value = [NSDate br_stringFromDate:date dateFormat:@"yyyy-MM-dd HH:mm:ss"];
                 }
                 self.valueTextView.text = instance_value;
             }
@@ -315,7 +315,7 @@
         __weak typeof(self) weakSelf = self;
         _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
             __strong typeof(self) strongSelf = weakSelf;
-            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]];
+            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
             [strongSelf routerEventWithName:form_edit_item userInfo:@{@"indexPath":strongSelf.indexPath,@"value":time}];
         };
     }
