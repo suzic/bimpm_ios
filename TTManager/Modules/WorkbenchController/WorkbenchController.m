@@ -199,7 +199,7 @@
     NSDictionary *params = @{};
     // 没有查询到任务数据 则需要克隆表单
     if (result == nil || result.count <= 0) {
-        params = @{@"buddy_file":[self getTemplateId]};
+        params = @{@"buddy_file":[self getTemplateId],@"needClone":@1};
     }else{
         ZHUser *user = [DataManager defaultInstance].currentUser;
         NSString *buddy_file = nil;
@@ -211,11 +211,11 @@
         }
         // 没有查询到数据，需要克隆表单
         if ([SZUtil isEmptyOrNull:buddy_file]) {
-            params = @{@"buddy_file":[self getTemplateId]};
+            params = @{@"buddy_file":[self getTemplateId],@"needClone":@1};
         }
         // 有数据 直接去填充表单
         else{
-            params = @{@"buddy_file":buddy_file};
+            params = @{@"buddy_file":buddy_file,@"needClone":@0};
         }
     }
     [self pushViewControllerToSelectedFunctionVC:params];
@@ -235,19 +235,22 @@
         // 施工日志
         case 1:{
             BuilderDiaryController *builderDiaryVC = [[BuilderDiaryController alloc] init];
+            builderDiaryVC.isCloneForm = [params[@"needClone"] boolValue];
+            builderDiaryVC.buddy_file = params[@"buddy_file"];
             vc = builderDiaryVC;
         }
             break;
         // 工作日报
         case 2:{
             WorkDiaryController *workDailyVC = [[WorkDiaryController alloc] init];
+            workDailyVC.isCloneForm = [params[@"needClone"] boolValue];
+            workDailyVC.buddy_file = params[@"buddy_file"];
             vc = workDailyVC;
         }
             break;
         // 日常打卡
         case 3:{
             ClockInViewController *clockInVC = [[ClockInViewController alloc] init];
-//            clock_form_template_id
             clockInVC.buddy_file = params[@"buddy_file"];
             vc = clockInVC;
         }

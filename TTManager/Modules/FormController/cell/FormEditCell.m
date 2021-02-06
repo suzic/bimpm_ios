@@ -82,7 +82,9 @@
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
-    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
+    if (![SZUtil isEmptyOrNull:textView.text]) {
+        [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
+    }
 }
 
 #pragma mark - private
@@ -96,13 +98,16 @@
         if (type == 3 ||type == 4||type == 5) {
             self.clickButton.hidden = NO;
             self.valueTextView.editable = NO;
+            self.downImageView.hidden = NO;
         }else{
             self.clickButton.hidden = YES;
             self.valueTextView.editable = YES;
+            self.downImageView.hidden = YES;
         }
     }else{
         self.clickButton.hidden = YES;
         self.valueTextView.editable = NO;
+        self.downImageView.hidden = YES;
     }
 }
 
@@ -181,8 +186,8 @@
 
 #pragma mark - setter and getter
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
-    self.isFormEdit = isFormEdit;
     self.formItem = formItem;
+    self.isFormEdit = isFormEdit;
     self.indexPath = indexPath;
     [self layoutIfNeeded];
     [self textViewDidChange:self.valueTextView];

@@ -28,9 +28,6 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @interface ClockInViewController : UIViewController
 
-/// 是否需要克隆当前表单
-@property (nonatomic, assign) BOOL isCloneForm;
-
 /// 表单buddy_file
 @property (nonatomic, strong) NSString *buddy_file;
 

@@ -150,6 +150,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(targetUpdateResult:)]) {
         [self.delegate targetUpdateResult:success];
     }
+    [self exitEditorModel];
 }
 #pragma mark - public
 // 进入编辑模式
@@ -187,7 +188,8 @@
         currentitems[indexPath.row] = currentitemDic;
         self.instanceFromDic[@"items"] = currentitems;
         
-    }else if([itemDic[@"type"] isEqualToNumber:@8]){
+    }
+    else if([itemDic[@"type"] isEqualToNumber:@8]){
         NSMutableArray *itemImageArray = nil;
         if (![SZUtil isEmptyOrNull:itemDic[@"instance_value"]]) {
             itemImageArray = [NSMutableArray arrayWithArray: [itemDic[@"instance_value"] componentsSeparatedByString:@","]];

@@ -12,7 +12,6 @@
 #import "FormHeaderView.h"
 #import "FormEditButton.h"
 #import "WebController.h"
-#import "FormFlowManager.h"
 
 
 static NSString *textCellIndex = @"textCellIndex";
@@ -147,6 +146,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
+        [self.view endEditing:YES];
         [self.formFlowManager operationsFormFill];
     }else if([eventName isEqualToString:add_formItem_image]){
         [self.formFlowManager addImageToCurrentImageFormItem:userInfo];
@@ -203,6 +203,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     if (self.formFlowManager.isModification == YES) {
         [CNAlertView showWithTitle:@"温馨提示" message:@"是否保存当前修改内容" cancelButtonTitle:@"放弃" otherButtonTitles:@[@"保存"] tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
+                [self.view endEditing:YES];
                 [self.formFlowManager operationsFormFill];
             }else{
                 if (self.isPopVC == YES) {
