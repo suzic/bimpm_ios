@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *keyLabel;
 @property (nonatomic, strong) UITextView *valueTextView;
 
+/// 固定模版类型 1施工日志 2 工作日志
+@property (nonatomic, assign) NSInteger templateType;
+
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem;
 @end
 

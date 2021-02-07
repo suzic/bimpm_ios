@@ -52,6 +52,7 @@
 + (NSString *)getTimeLengthString:(NSTimeInterval)length;
 + (NSString *)getTimeLengthStringNoHour:(NSTimeInterval)length;
 + (NSDate *)dateFromStr:(NSString *)str withFormatterStr:(NSString *)fStr;
++ (NSString*)getCurrentWeekDay;
 /**
  * @abstract 判断邮箱
  */

@@ -88,6 +88,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         if (!editCell) {
             editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
         }
+        editCell.templateType = 1;
         [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
         cell = editCell;
     }
@@ -96,8 +97,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
-//    [self updateBottomView];
-//    [self updateSnapshootViewLayout];
     [self fillHeaderView];
     [self.tableView reloadData];
 }
@@ -106,12 +105,15 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (void)formDetailResult:(BOOL)success{
     if (success == YES && self.isCloneForm == NO) {
         [self.formFlowManager enterEditModel];
+        [self normalFillFormInfo];
+        
     }
 }
 // 表单克隆成功
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES && self.isCloneForm == YES) {
         [self.formFlowManager enterEditModel];
+        [self normalFillFormInfo];
     }
 }
 // 表单下载成功
@@ -157,7 +159,23 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         self.formFlowManager.isModification = YES;
     }
 }
+- (void)normalFillFormInfo{
+    ZHUser *user = [DataManager defaultInstance].currentUser;
+    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
 
+    // 星期
+    NSDictionary *weekDic = @{@"indexPath":[NSIndexPath indexPathForRow:3 inSection:0],@"value":[SZUtil getCurrentWeekDay]};
+    // 日期
+    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:8 inSection:0],@"value":time};
+    // 记录人
+    NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:10 inSection:0],@"value":user.name};
+    NSArray *array = @[weekDic,timedic,userdic];
+
+    for (NSDictionary *itemDic in array) {
+        [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
+    }
+}
 - (void)back:(UIBarButtonItem *)item{
     [self cancelEditCurrentForm];
 }

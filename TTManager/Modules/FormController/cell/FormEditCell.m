@@ -95,14 +95,26 @@
         self.valueTextView.editable = YES;
         NSInteger type = [_formItem[@"type"] intValue];
         // 日期 YYYY-MM-DD
-        if (type == 3 ||type == 4||type == 5) {
-            self.clickButton.hidden = NO;
-            self.valueTextView.editable = NO;
-            self.downImageView.hidden = NO;
+        if (self.templateType == 1) {
+            if (self.indexPath.row == 3 || self.indexPath.row == 8) {
+                self.clickButton.hidden = YES;
+                self.valueTextView.editable = NO;
+                self.downImageView.hidden = YES;
+            }else{
+                self.clickButton.hidden = YES;
+                self.valueTextView.editable = YES;
+                self.downImageView.hidden = YES;
+            }
         }else{
-            self.clickButton.hidden = YES;
-            self.valueTextView.editable = YES;
-            self.downImageView.hidden = YES;
+            if (type == 3 ||type == 4||type == 5) {
+                    self.clickButton.hidden = NO;
+                    self.valueTextView.editable = NO;
+                    self.downImageView.hidden = NO;
+            }else{
+                self.clickButton.hidden = YES;
+                self.valueTextView.editable = YES;
+                self.downImageView.hidden = YES;
+            }
         }
     }else{
         self.clickButton.hidden = YES;
@@ -187,8 +199,8 @@
 #pragma mark - setter and getter
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
     self.formItem = formItem;
-    self.isFormEdit = isFormEdit;
     self.indexPath = indexPath;
+    self.isFormEdit = isFormEdit;
     [self layoutIfNeeded];
     [self textViewDidChange:self.valueTextView];
 }

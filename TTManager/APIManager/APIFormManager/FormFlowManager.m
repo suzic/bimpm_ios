@@ -62,12 +62,12 @@
 - (NSMutableDictionary *)getOperationsFromParams{
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFromDic[@"instance_ident"],@"id_project":self.instanceFromDic[@"buddy_file"][@"fid_project"]}];
     NSMutableArray *items = [NSMutableArray array];
-    for (NSDictionary *formItem in self.instanceFromDic[@"items"]) {
+    for (NSDictionary *formItem in self.instanceDownLoadForm[@"items"]) {
         NSString *instance_value = formItem[@"instance_value"];
         if ([SZUtil isEmptyOrNull:instance_value]) {
             instance_value = @"";
         }
-        NSDictionary *itemDic = @{@"ident":formItem[@"uid_item"],@"instance_value":instance_value};
+        NSDictionary *itemDic = @{@"ident":formItem[@"ident"],@"instance_value":instance_value};
         [items addObject:itemDic];
     }
     params[@"info"] = items;
