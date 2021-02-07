@@ -105,7 +105,18 @@
                 self.valueTextView.editable = YES;
                 self.downImageView.hidden = YES;
             }
-        }else{
+        }else if(self.templateType == 2){
+            if (self.indexPath.row == 0) {
+                self.clickButton.hidden = YES;
+                self.valueTextView.editable = NO;
+                self.downImageView.hidden = YES;
+            }else{
+                self.clickButton.hidden = YES;
+                self.valueTextView.editable = YES;
+                self.downImageView.hidden = YES;
+            }
+        }
+        else{
             if (type == 3 ||type == 4||type == 5) {
                     self.clickButton.hidden = NO;
                     self.valueTextView.editable = NO;
