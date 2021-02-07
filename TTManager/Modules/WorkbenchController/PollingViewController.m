@@ -135,11 +135,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)fillHeaderView{
     self.headerView.keyLabel.text = @"系统编号";
-    if (self.formFlowManager.canEditForm == NO) {
-        self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
-    }else{
-        self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
-    }
+    self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
     self.headerView.valueTextView.editable = NO;
 }
 
