@@ -256,7 +256,7 @@
         self.datePickerView.pickerMode = BRDatePickerModeYMD;
         self.downImageView.hidden = !self.isFormEdit;
     }else if([_formItem[@"type"] isEqualToNumber:@4]){
-        self.datePickerView.pickerMode = BRDatePickerModeHMS;
+        self.datePickerView.pickerMode = BRDatePickerModeYMDHMS;
         self.downImageView.hidden = !self.isFormEdit;
     }
     

@@ -17,6 +17,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 @interface WorkDiaryController ()<UITableViewDelegate,UITableViewDataSource,FormFlowManagerDelgate>
 
+
 @property (nonatomic, strong)FormFlowManager *formFlowManager;
 // 表格内容
 @property (nonatomic, strong) UITableView *tableView;
@@ -94,6 +95,31 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }
     return cell;
 }
+
+#pragma mark - responsder chain
+
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if ([eventName isEqualToString:form_edit_item]) {
+        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
+    }else if ([eventName isEqualToString:delete_formItem_image]) {
+        [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
+    }else if([eventName isEqualToString:save_edit_form]){
+        [self.view endEditing:YES];
+        [self.formFlowManager operationsFormFill];
+    }else if([eventName isEqualToString:add_formItem_image]){
+        [self addImageToCurrentImageFormItem:userInfo];
+    }else if([eventName isEqualToString:open_form_url]){
+        self.formFlowManager.isModification = YES;
+        WebController *web = [[WebController alloc] init];
+        web.loadUrl = userInfo[@"url"];
+        [self.navigationController pushViewController:web animated:YES];
+    }
+    // 修改了表单内容
+    else if([eventName isEqualToString:change_form_info]){
+        self.formFlowManager.isModification = YES;
+    }
+}
+
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
@@ -135,29 +161,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }];
 }
 
-#pragma mark - responsder chain
-
-- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:form_edit_item]) {
-        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
-    }else if ([eventName isEqualToString:delete_formItem_image]) {
-        [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
-    }else if([eventName isEqualToString:save_edit_form]){
-        [self.view endEditing:YES];
-        [self.formFlowManager operationsFormFill];
-    }else if([eventName isEqualToString:add_formItem_image]){
-        [self.formFlowManager addImageToCurrentImageFormItem:userInfo];
-    }else if([eventName isEqualToString:open_form_url]){
-        self.formFlowManager.isModification = YES;
-        WebController *web = [[WebController alloc] init];
-        web.loadUrl = userInfo[@"url"];
-        [self.navigationController pushViewController:web animated:YES];
-    }
-    // 修改了表单内容
-    else if([eventName isEqualToString:change_form_info]){
-        self.formFlowManager.isModification = YES;
-    }
-}
 - (void)normalFillFormInfo{
     ZHUser *user = [DataManager defaultInstance].currentUser;
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];

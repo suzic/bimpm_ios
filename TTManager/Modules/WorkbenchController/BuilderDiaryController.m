@@ -147,7 +147,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
         [self.view endEditing:YES];
         [self.formFlowManager operationsFormFill];
     }else if([eventName isEqualToString:add_formItem_image]){
-        [self.formFlowManager addImageToCurrentImageFormItem:userInfo];
+        [self addImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:open_form_url]){
         self.formFlowManager.isModification = YES;
         WebController *web = [[WebController alloc] init];

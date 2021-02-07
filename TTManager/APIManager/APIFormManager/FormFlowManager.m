@@ -370,8 +370,8 @@
     {
         self.isCloneForm = YES;
         self.isEditForm = YES;
-        [self callFormCloneTargetResultDelagate:YES];
         self.clone_buddy_file = data[@"data"][@"target_info"][@"uid_target"];
+        [self callFormCloneTargetResultDelagate:YES];
         [self downLoadCurrentFormJsonByBuddy_file:self.instanceBuddy_file];
         
     }
