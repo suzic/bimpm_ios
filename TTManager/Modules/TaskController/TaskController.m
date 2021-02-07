@@ -422,37 +422,44 @@
         }];
     }
 }
+
 #pragma mark - setting and getter
+
 - (void)setTaskType:(TaskType)taskType{
     if (_taskType != taskType) {
         _taskType = taskType;
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
     }
 }
+
 - (TaskStepView *)stepView{
     if (_stepView == nil) {
         _stepView = [[TaskStepView alloc] init];
     }
     return _stepView;
 }
+
 - (TaskOperationView *)taskOperationView{
     if (_taskOperationView == nil) {
         _taskOperationView = [[TaskOperationView alloc] init];
     }
     return _taskOperationView;
 }
+
 - (TaskTitleView *)taskTitleView{
     if (_taskTitleView == nil) {
         _taskTitleView = [[TaskTitleView alloc] init];
     }
     return _taskTitleView;
 }
+
 - (TaskContentView *)taskContentView{
     if (_taskContentView == nil) {
         _taskContentView = [[TaskContentView alloc] init];
     }
     return _taskContentView;
 }
+
 - (TaskParams *)taskParams{
     if (_taskParams == nil) {
         _taskParams = [[TaskParams alloc] init];
@@ -462,6 +469,7 @@
     }
     return _taskParams;
 }
+
 - (UIButton *)rightButtonItem{
     if (_rightButtonItem == nil) {
         _rightButtonItem = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -471,7 +479,9 @@
     }
     return _rightButtonItem;
 }
+
 #pragma mark - api init
+
 - (APITaskProcessManager *)taskProcessManager{
     if (_taskProcessManager == nil) {
         _taskProcessManager = [[APITaskProcessManager alloc] init];
@@ -480,6 +490,7 @@
     }
     return _taskProcessManager;
 }
+
 -(APITaskNewManager *)taskNewManager{
     if (_taskNewManager == nil) {
         _taskNewManager = [[APITaskNewManager alloc] init];
@@ -488,6 +499,7 @@
     }
     return _taskNewManager;
 }
+
 - (APITaskEditManager *)taskEditManager{
     if (_taskEditManager == nil) {
         _taskEditManager = [[APITaskEditManager alloc] init];
@@ -496,6 +508,7 @@
     }
     return _taskEditManager;
 }
+
 - (APITaskOperationsManager *)taskOperationsManager{
     if (_taskOperationsManager == nil) {
         _taskOperationsManager = [[APITaskOperationsManager alloc] init];
@@ -504,6 +517,7 @@
     }
     return _taskOperationsManager;
 }
+
 -(APITaskDeatilManager *)taskDetailManager{
     if (_taskDetailManager == nil) {
         _taskDetailManager = [[APITaskDeatilManager alloc] init];
@@ -512,6 +526,7 @@
     }
     return _taskDetailManager;
 }
+
 - (APIVerifyPhoneManager *)verifyPhoneManager{
     if (_verifyPhoneManager == nil) {
         _verifyPhoneManager = [[APIVerifyPhoneManager alloc] init];
@@ -520,12 +535,14 @@
     }
     return _verifyPhoneManager;
 }
+
 - (UploadFileManager *)uploadManager{
     if (_uploadManager == nil) {
         _uploadManager = [[UploadFileManager alloc] init];
     }
     return _uploadManager;
 }
+
 - (NSDictionary<NSString *,NSInvocation *> *)eventStrategy{
     if (_eventStrategy == nil) {
         _eventStrategy = @{
@@ -544,6 +561,7 @@
     }
     return _eventStrategy;
 }
+
 // 消息转发 NSInvocation中保存了方法所属的对象/方法名称/参数/返回值 使用可以传递多个参数
 - (NSInvocation *)createInvocationWithSelector:(SEL)sel{
     NSMethodSignature  *signature = [TaskController instanceMethodSignatureForSelector:sel];
@@ -554,7 +572,9 @@
 //    [invocation setArgument:&way atIndex:2];
     return invocation;
 }
+
 #pragma mark - UI
+
 - (void)addUI{
     // 步骤
     [self.view addSubview:self.stepView];
