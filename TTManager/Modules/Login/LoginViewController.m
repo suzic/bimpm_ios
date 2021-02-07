@@ -473,6 +473,7 @@
             [self tabLoginModeAction:self.tabLoginMode];
             break;
     }
+    [self.verifyCell.getVerificationBtn stopTimer];
     [self.tableView reloadData];
 }
 - (APICaptchManager *)captchManager{
