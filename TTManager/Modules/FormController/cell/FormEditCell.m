@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UIButton *clickButton;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
 @property (nonatomic, strong) NSMutableArray *enum_poolArray;
+@property (nonatomic, strong) UISlider *slider;
 @property (nonatomic, strong) NSDictionary *formItem;
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -61,6 +62,17 @@
         [self routerEventWithName:open_form_url userInfo:@{@"url":_formItem[@"instance_value"]}];
     }
 }
+
+- (void)sliderValueDidChanged:(UISlider *)slider{
+    
+}
+
+- (void)sliderValueDidEnd:(UISlider *)slider{
+    NSLog(@"当前拖动的距离 %f",slider.value);
+    NSString *string = [NSString stringWithFormat:@"%.02f%%",slider.value];
+    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":string}];
+}
+
 #pragma mark - UITextViewDelegate
 -(void)textViewDidChange:(UITextView *)textView{
     NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
@@ -93,6 +105,7 @@
 
     if (isEdit == YES) {
         self.valueTextView.editable = YES;
+        self.slider.hidden = YES;
         NSInteger type = [_formItem[@"type"] intValue];
         // 日期 YYYY-MM-DD
         if (self.templateType == 1) {
@@ -100,7 +113,13 @@
                 self.clickButton.hidden = YES;
                 self.valueTextView.editable = NO;
                 self.downImageView.hidden = YES;
-            }else{
+            }else if(self.indexPath.row == 0){
+                self.slider.hidden = NO;
+                self.clickButton.hidden = YES;
+                self.valueTextView.hidden = YES;
+                self.downImageView.hidden = YES;
+            }
+            else{
                 self.clickButton.hidden = YES;
                 self.valueTextView.editable = YES;
                 self.downImageView.hidden = YES;
@@ -167,6 +186,8 @@
     [self addSubview:self.valueTextView];
     [self addSubview:self.clickButton];
     
+    [self addSubview:self.slider];
+    
     [self addSubview:self.downImageView];
     
     self.clickButton.hidden = YES;
@@ -193,7 +214,11 @@
         make.height.greaterThanOrEqualTo(34);
         make.height.lessThanOrEqualTo(34*10);
     }];
-    
+    [self.slider makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.right.equalTo(-5);
+        make.top.equalTo(5);
+        make.left.equalTo(keyBgView.mas_right);
+    }];
     [self.clickButton makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.right.equalTo(-5);
         make.top.equalTo(5);
@@ -204,13 +229,14 @@
         make.width.height.equalTo(20);
         make.right.equalTo(-15);
     }];
+    self.slider.hidden = YES;
     self.downImageView.hidden = YES;
 }
 
 #pragma mark - setter and getter
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
-    self.formItem = formItem;
     self.indexPath = indexPath;
+    self.formItem = formItem;
     self.isFormEdit = isFormEdit;
     [self layoutIfNeeded];
     [self textViewDidChange:self.valueTextView];
@@ -238,7 +264,8 @@
     if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
         self.valueTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",_formItem[@"type"]]];
         self.valueTextView.text = @"";
-    }else{
+    }
+    else{
         if ([_formItem[@"type"] isEqualToNumber:@1] || [_formItem[@"type"] isEqualToNumber:@2]) {
             if (![SZUtil isEmptyOrNull:_formItem[@"unit_char"]]) {
                 self.valueTextView.text = [NSString stringWithFormat:@"%@%@",_formItem[@"instance_value"],_formItem[@"unit_char"]];
@@ -279,6 +306,13 @@
             }
         }
     }
+    if (self.templateType == 1 && self.indexPath.row == 0) {
+        if ([SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
+            self.slider.value = 0;
+        }else{
+            self.slider.value = [_formItem[@"instance_value"] intValue];
+        }
+    }
 }
 
 - (UILabel *)keyLabel{
@@ -302,7 +336,17 @@
     }
     return _valueTextView;
 }
-
+- (UISlider *)slider{
+    if (_slider == nil) {
+        _slider = [[UISlider alloc] init];
+        _slider.minimumValue = 0;
+        _slider.maximumValue = 100;
+        [_slider setContinuous:YES];
+        [_slider addTarget:self action:@selector(sliderValueDidChanged:) forControlEvents:UIControlEventValueChanged];
+        [_slider addTarget:self action:@selector(sliderValueDidEnd:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _slider;
+}
 - (UIButton *)clickButton{
     if (_clickButton == nil) {
         _clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
