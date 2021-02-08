@@ -14,6 +14,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) UILabel *keyLabel;
 @property (nonatomic, strong) UITextView *valueTextView;
 
+/// 表头系统名称
+/// @param data @{@"name":@"",@"instance_value":@""}
+- (void)setHeaderViewData:(NSDictionary *)data;
+
 /// 固定模版类型 1施工日志 2 工作日志
 @property (nonatomic, assign) NSInteger templateType;
 

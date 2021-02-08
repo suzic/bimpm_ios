@@ -11,7 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormItemImageView : UIView
 
-- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem;
+@property (nonatomic, strong) UICollectionView *imageCollectionView;
+
+@property (nonatomic, strong) NSMutableArray *imagesArray;
 
 /// 设置当前item数据以及是否可编辑
 /// @param edit 是否可编辑

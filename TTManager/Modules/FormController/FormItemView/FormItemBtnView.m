@@ -18,6 +18,8 @@
 
 @property (nonatomic, strong) NSDictionary *formItem;
 
+@property (nonatomic, strong) NSDictionary *itemTypeValueDic;
+
 @end
 
 @implementation FormItemBtnView
@@ -43,8 +45,45 @@
         self.datePickerView.pickerMode = BRDatePickerModeYMDHMS;
         self.downImageView.hidden = !edit;
     }
+    
+    [self fillData:data];
 }
-
+- (void)fillData:(NSDictionary *)data{
+    NSString *instance_value = data[@"instance_value"];
+    if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
+        NSString *title = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
+        [self.button setTitle:title forState:UIControlStateNormal];
+        [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+    }else{
+        [self.button setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
+        // 日期 YYYY-MM-DD
+        if ([data[@"type"] isEqualToNumber:@3]) {
+            if ([instance_value rangeOfString:@"-"].location == NSNotFound) {
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value doubleValue]/1000];
+                instance_value = [NSDate br_stringFromDate:date dateFormat:@"yyyy-MM-dd"];
+            }
+            [self.button setTitle:instance_value forState:UIControlStateNormal];
+        }
+        // 时间HH:mm:ss
+        else if([data[@"type"] isEqualToNumber:@4]){
+            if ([instance_value rangeOfString:@":"].location == NSNotFound) {
+                NSDate *date = [NSDate dateWithTimeIntervalSince1970:[instance_value doubleValue]/1000];
+                instance_value = [NSDate br_stringFromDate:date dateFormat:@"yyyy-MM-dd HH:mm:ss"];
+            }
+            [self.button setTitle:instance_value forState:UIControlStateNormal];
+        }
+        // url
+        else if([data[@"type"] isEqualToNumber:@6]){
+            [self.button setTitle:instance_value forState:UIControlStateNormal];
+            NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:instance_value];
+            NSRange titleRange = {0,[title length]};
+            [title addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+            [title addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(5, 125, 255) range:NSMakeRange(0, title.length)];
+            [self.button setAttributedTitle:title forState:UIControlStateNormal];
+            
+        }
+    }
+}
 #pragma mark - action
 
 - (void)clickButtonAction:(UIButton *)button{
@@ -82,7 +121,7 @@
     for (int i= 0; i < self.enum_poolArray.count; i++) {
         NSString *title = self.enum_poolArray[i];
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-//            [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.enum_poolArray[action.taskType]}];
+            [self routerEventWithName:form_edit_item userInfo:@{@"value":self.enum_poolArray[action.taskType]}];
         }];
         action.taskType = i;
         [alert addAction:action];
@@ -121,7 +160,8 @@
         _button = [UIButton buttonWithType:UIButtonTypeCustom];
         _button.backgroundColor = [UIColor clearColor];
         [_button addTarget:self action:@selector(clickButtonAction:) forControlEvents:UIControlEventTouchUpInside];
-    }
+        _button.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        _button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;    }
     return _button;
 }
 - (UIImageView *)downImageView{
@@ -144,12 +184,27 @@
         _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
             __strong typeof(self) strongSelf = weakSelf;
             NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
-//            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"indexPath":strongSelf.indexPath,@"value":time}];
+            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"value":time}];
         };
     }
     return _datePickerView;
 }
 
+- (NSDictionary *)itemTypeValueDic{
+    if (_itemTypeValueDic == nil) {
+        _itemTypeValueDic = @{@"0":@"字符串",
+                              @"1":@"整数",
+                              @"2":@"实数",
+                              @"3":@"日期",
+                              @"4":@"时间",
+                              @"5":@"枚举",
+                              @"6":@"url",
+                              @"7":@"嵌入图片",
+                              @"8":@"链接图片",
+                              @"10":@"静态文本"};
+    }
+    return _itemTypeValueDic;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

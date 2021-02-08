@@ -7,7 +7,6 @@
 
 #import "FormDetailController.h"
 #import "FormEditCell.h"
-#import "FormImageCell.h"
 #import "BottomView.h"
 #import "FormHeaderView.h"
 #import "FormEditButton.h"
@@ -76,24 +75,16 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     UITableViewCell *cell = nil;
     NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
     NSDictionary *formItem = items[indexPath.row];
-    // 静态图片
-    if ([formItem[@"type"] isEqualToNumber:@7] || [formItem[@"type"] isEqualToNumber:@8]) {
-        FormImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIndex];
-        if (!imageCell) {
-            imageCell = [[FormImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellIndex];
-        }
-        [imageCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
-        cell = imageCell;
-    }else{
-        FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
-        if (!editCell) {
-            editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
-        }
-        [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
-        cell = editCell;
+    
+    FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
+    if (!editCell) {
+        editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
     }
+    [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
+    cell = editCell;
     return cell;
 }
+
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
@@ -266,13 +257,13 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 
 - (void)fillHeaderView{
-    self.headerView.keyLabel.text = @"系统编号";
+    NSString *value = @"";
     if (self.formFlowManager.canEditForm == NO) {
-        self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
+        value = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
     }else{
-        self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+        value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
     }
-    self.headerView.valueTextView.editable = NO;
+    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
 }
 
 - (void)changeEditView{

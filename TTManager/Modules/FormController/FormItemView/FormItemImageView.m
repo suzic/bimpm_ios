@@ -12,9 +12,6 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 @interface FormItemImageView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-@property (nonatomic, strong) UICollectionView *imageCollectionView;
-@property (nonatomic, strong) NSMutableArray *imagesArray;
-
 @property (nonatomic, strong) NSDictionary *formItem;
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
@@ -47,18 +44,12 @@ static NSString *reuseIdentifier = @"ImageCell";
     self.formItem = formItem;
     self.isFormEdit = isFormEdit;
 }
-- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-    if ([eventName isEqualToString:delete_formItem_image]) {
-        decoratedUserInfo[@"formItemIndex"] = self.indexPath;
-    }
-    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
-}
+
 #pragma mark - actions
 
 - (void)addImageAction:(UIButton *)button{
     NSLog(@"添加图片");
-    [self routerEventWithName:add_formItem_image userInfo:@{@"indexPath":self.indexPath}];
+    [self routerEventWithName:add_formItem_image userInfo:@{}];
 }
 
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource
@@ -121,7 +112,7 @@ static NSString *reuseIdentifier = @"ImageCell";
     [self.imageCollectionView makeConstraints:^(MASConstraintMaker *make) {
         make.bottom.equalTo(0);
         make.right.equalTo(0);
-        make.top.equalTo(0);
+        make.top.equalTo(10);
         make.width.equalTo(self);
     }];
     [self.valueTextView makeConstraints:^(MASConstraintMaker *make) {
@@ -168,7 +159,6 @@ static NSString *reuseIdentifier = @"ImageCell";
     _formItem = formItem;
     [self.imagesArray removeAllObjects];
     
-//    self.keyLabel.text = _formItem[@"name"];
     if ([_formItem[@"type"] isEqualToNumber:@7]) {
         self.valueTextView.placeholder = @"小图片";
         self.imageType = 1;
@@ -208,27 +198,27 @@ static NSString *reuseIdentifier = @"ImageCell";
     return _imagesArray;
 }
 
--(CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority{
-    // 在对collectionView进行布局
-    self.imageCollectionView.frame = CGRectMake(0, 0, targetSize.width, 44);
-    [self.imageCollectionView layoutIfNeeded];
-    
-    // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
-    CGSize collectionSize = self.imageCollectionView.collectionViewLayout.collectionViewContentSize;
-    CGFloat cotentViewH = collectionSize.height;
-    if (cotentViewH < 44) {
-        cotentViewH = 44;
-    }else{
-        if (self.isFormEdit == YES) {
-            if(self.imagesArray.count >= 3){
-                cotentViewH = cotentViewH*2+10;
-            }else{
-                cotentViewH = cotentViewH+10;
-            }
-        }
-    }
-    return CGSizeMake([UIScreen mainScreen].bounds.size.width, cotentViewH);
-}
+//-(CGSize)systemLayoutSizeFittingSize:(CGSize)targetSize withHorizontalFittingPriority:(UILayoutPriority)horizontalFittingPriority verticalFittingPriority:(UILayoutPriority)verticalFittingPriority{
+//    // 在对collectionView进行布局
+//    self.imageCollectionView.frame = CGRectMake(0, 0, targetSize.width, 44);
+//    [self.imageCollectionView layoutIfNeeded];
+//    
+//    // 由于这里collection的高度是动态的，这里cell的高度我们根据collection来计算
+//    CGSize collectionSize = self.imageCollectionView.collectionViewLayout.collectionViewContentSize;
+//    CGFloat cotentViewH = collectionSize.height;
+//    if (cotentViewH < 44) {
+//        cotentViewH = 44;
+//    }else{
+//        if (self.isFormEdit == YES) {
+//            if(self.imagesArray.count >= 3){
+//                cotentViewH = cotentViewH*2+10;
+//            }else{
+//                cotentViewH = cotentViewH+10;
+//            }
+//        }
+//    }
+//    return CGSizeMake([UIScreen mainScreen].bounds.size.width, cotentViewH);
+//}
 
 /*
 // Only override drawRect: if you perform custom drawing.

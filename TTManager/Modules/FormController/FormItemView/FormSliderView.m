@@ -28,6 +28,13 @@
 
 - (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
     self.slider.enabled = edit;
+    
+    if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
+        self.slider.value = 0;
+    }else{
+        self.slider.value = [data[@"instance_value"] intValue];
+    }
+    self.sliderValueLabel.text = [NSString stringWithFormat:@"%.02f%%",self.slider.value];
 }
 
 #pragma mark - action
@@ -40,7 +47,7 @@
 - (void)sliderValueDidEnd:(UISlider *)slider{
     NSLog(@"当前拖动的距离 %f",slider.value);
     NSString *string = [NSString stringWithFormat:@"%.02f%%",slider.value];
-//    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":string}];
+    [self routerEventWithName:form_edit_item userInfo:@{@"value":string}];
 }
 
 - (void)addUI{
@@ -53,7 +60,7 @@
     
     [self.sliderValueLabel makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
-        make.width.height.equalTo(60);
+        make.width.height.equalTo(70);
         make.right.equalTo(-15);
         make.left.equalTo(self.slider.mas_right);
     }];

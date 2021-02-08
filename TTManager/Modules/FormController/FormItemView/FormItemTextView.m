@@ -10,7 +10,7 @@
 @interface FormItemTextView ()<UITextViewDelegate>
 
 @property (nonatomic, strong) UITextView *contentTextView;
-
+@property (nonatomic, strong) NSDictionary *itemTypeValueDic;
 @end
 
 @implementation FormItemTextView
@@ -25,7 +25,23 @@
 
 #pragma mark - public
 
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{    self.contentTextView.enableMode = edit;
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
+    self.contentTextView.enableMode = edit;
+    if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
+        self.contentTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
+        self.contentTextView.text = @"";
+    }else{
+        if ([data[@"type"] isEqualToNumber:@1] || [data[@"type"] isEqualToNumber:@2]) {
+            if (![SZUtil isEmptyOrNull:data[@"unit_char"]]) {
+                self.contentTextView.text = [NSString stringWithFormat:@"%@%@",data[@"instance_value"],data[@"unit_char"]];
+            }else{
+                self.contentTextView.text = data[@"instance_value"];
+            }
+        }else{
+            self.contentTextView.text = data[@"instance_value"];
+        }
+    }
+    
 }
 
 - (void)addUI{
@@ -58,8 +74,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-//    NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
-//    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
+    [self routerEventWithName:form_edit_item userInfo:@{@"value":self.contentTextView.text}];
 }
 
 - (UITableView *)tableView {
@@ -80,9 +95,26 @@
         _contentTextView.placeholder = @"数据源";
         _contentTextView.placeholderColor = [UIColor lightGrayColor];
         _contentTextView.delegate = self;
-        _contentTextView.textContainerInset = UIEdgeInsetsMake(12, 0, 8, 8);
+        _contentTextView.textContainerInset = UIEdgeInsetsMake(13, 0, 8, 8);
+//        _contentTextView.backgroundColor = [UIColor redColor];
     }
     return _contentTextView;
+}
+
+- (NSDictionary *)itemTypeValueDic{
+    if (_itemTypeValueDic == nil) {
+        _itemTypeValueDic = @{@"0":@"字符串",
+                              @"1":@"整数",
+                              @"2":@"实数",
+                              @"3":@"日期",
+                              @"4":@"时间",
+                              @"5":@"枚举",
+                              @"6":@"url",
+                              @"7":@"嵌入图片",
+                              @"8":@"链接图片",
+                              @"10":@"静态文本"};
+    }
+    return _itemTypeValueDic;
 }
 
 /*

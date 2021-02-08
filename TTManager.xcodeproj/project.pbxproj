@@ -206,7 +206,6 @@
 		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
 		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
 		40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */; };
-		40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E6C25BEB28800FC98DD /* FormImageCell.m */; };
 		40E73E7125BEB55C00FC98DD /* ImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E7025BEB55C00FC98DD /* ImageCell.m */; };
 		40E73E8A25BF13B500FC98DD /* APIFileDownLoadManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E8925BF13B500FC98DD /* APIFileDownLoadManager.m */; };
 		40E73E8E25BF178C00FC98DD /* APITargetUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E8D25BF178C00FC98DD /* APITargetUpdateManager.m */; };
@@ -590,8 +589,6 @@
 		40E334C525A98E00008DBDAB /* OperabilityTools.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OperabilityTools.m; sourceTree = "<group>"; };
 		40E334C825A99DFF008DBDAB /* UIAlertAction+Extend.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIAlertAction+Extend.h"; sourceTree = "<group>"; };
 		40E334C925A99DFF008DBDAB /* UIAlertAction+Extend.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIAlertAction+Extend.m"; sourceTree = "<group>"; };
-		40E73E6B25BEB28800FC98DD /* FormImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormImageCell.h; sourceTree = "<group>"; };
-		40E73E6C25BEB28800FC98DD /* FormImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormImageCell.m; sourceTree = "<group>"; };
 		40E73E6F25BEB55C00FC98DD /* ImageCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ImageCell.h; sourceTree = "<group>"; };
 		40E73E7025BEB55C00FC98DD /* ImageCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ImageCell.m; sourceTree = "<group>"; };
 		40E73E8825BF13B500FC98DD /* APIFileDownLoadManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APIFileDownLoadManager.h; sourceTree = "<group>"; };
@@ -1323,8 +1320,6 @@
 			children = (
 				4054B9BD25B9188A0023FC7F /* FormEditCell.h */,
 				4054B9BE25B9188A0023FC7F /* FormEditCell.m */,
-				40E73E6B25BEB28800FC98DD /* FormImageCell.h */,
-				40E73E6C25BEB28800FC98DD /* FormImageCell.m */,
 				40E73E6F25BEB55C00FC98DD /* ImageCell.h */,
 				40E73E7025BEB55C00FC98DD /* ImageCell.m */,
 				40E73E9025BF1B3600FC98DD /* BottomView.h */,
@@ -1654,7 +1649,6 @@
 				40E334CA25A99DFF008DBDAB /* UIAlertAction+Extend.m in Sources */,
 				4054B91325B40E2F0023FC7F /* ZHDepartment+CoreDataClass.m in Sources */,
 				40E73E9225BF1B3600FC98DD /* BottomView.m in Sources */,
-				40E73E6D25BEB28800FC98DD /* FormImageCell.m in Sources */,
 				402AA1112595D92E00A9DABA /* ZHForm+CoreDataClass.m in Sources */,
 				402AA1DD2599721400A9DABA /* WebController.m in Sources */,
 				402AA1002595D90400A9DABA /* ZHTask+CoreDataProperties.m in Sources */,

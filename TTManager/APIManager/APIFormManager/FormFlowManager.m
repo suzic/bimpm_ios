@@ -172,7 +172,7 @@
 - (void)deleteImageToCurrentImageFormItem:(NSDictionary *)deleteDic{
     self.isModification = YES;
     // 显示的数据
-    NSIndexPath *indexPath = deleteDic[@"formItemIndex"];
+    NSIndexPath *indexPath = deleteDic[@"indexPath"];
     NSIndexPath *deleteIndex = deleteDic[@"deleteIndex"];
     NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
     NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];

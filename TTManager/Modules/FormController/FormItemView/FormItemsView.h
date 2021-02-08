@@ -27,6 +27,7 @@ typedef NS_ENUM(NSInteger,FormItemType){
 /// @param data 当前表单数据
 - (void)setItemView:(FormItemType)type edit:(BOOL)edit data:(NSDictionary *)data;
 
+- (UIView *)getViewByType:(FormItemType)type;
 
 @end
 

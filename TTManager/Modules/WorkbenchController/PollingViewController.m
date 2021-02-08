@@ -8,7 +8,6 @@
 #import "PollingViewController.h"
 #import "TaskParams.h"
 #import "FormEditCell.h"
-#import "FormImageCell.h"
 #import "BottomView.h"
 #import "FormHeaderView.h"
 #import "WebController.h"
@@ -85,23 +84,15 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     UITableViewCell *cell = nil;
     NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
     NSDictionary *formItem = items[indexPath.row];
-    // 静态图片
-    if ([formItem[@"type"] isEqualToNumber:@7] || [formItem[@"type"] isEqualToNumber:@8]) {
-        FormImageCell *imageCell = [tableView dequeueReusableCellWithIdentifier:imageCellIndex];
-        if (!imageCell) {
-            imageCell = [[FormImageCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:imageCellIndex];
-        }
-        [imageCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
-        cell = imageCell;
-    }else{
-        FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
-        if (!editCell) {
-            editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
-        }
-//        editCell.templateType = 2;
-        [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
-        cell = editCell;
+    
+    FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
+    if (!editCell) {
+        editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
     }
+//        editCell.templateType = 2;
+    [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
+    cell = editCell;
+    
     return cell;
 }
 #pragma mark - responsder chain
@@ -134,9 +125,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 
 - (void)fillHeaderView{
-    self.headerView.keyLabel.text = @"系统编号";
-    self.headerView.valueTextView.text = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
-    self.headerView.valueTextView.editable = NO;
+    NSString *value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
 }
 
 - (void)back:(UIBarButtonItem *)item{

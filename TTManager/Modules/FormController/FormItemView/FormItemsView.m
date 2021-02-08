@@ -33,6 +33,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        [self addUI];
     }
     return self;
 }
@@ -82,12 +83,32 @@
 #pragma mark - public
 
 - (void)setItemView:(FormItemType)type edit:(BOOL)edit data:(NSDictionary *)data{
+    self.formTitleLabel.text = data[@"name"];
     // 设置页面显示
     [self setItemViewByType:type];
     // 设置页面是否可编辑
     [self setItemViewEdit:edit data:data];
 }
-
+- (UIView *)getViewByType:(FormItemType)type{
+    UIView *view = nil;
+    switch (self.itemType) {
+        case formItemType_image:
+            view = self.imageView;
+            break;
+        case formItemType_text:
+            view = self.textView;
+            break;
+        case formItemType_btn:
+            view = self.btnView;
+            break;
+        case formItemType_slider:
+            view = self.sliderView;
+            break;
+        default:
+            break;
+    }
+    return view;
+}
 #pragma mark - private
 
 // 设置页面的显示和隐藏
