@@ -6,8 +6,12 @@
 //
 
 #import "FormEditCell.h"
+#import "FormItemsView.h"
+
 
 @interface FormEditCell ()<UITextViewDelegate>
+
+//@property (nonatomic, strong) FormItemsView *itemsView;
 
 @property (nonatomic, strong) UIButton *clickButton;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
@@ -18,8 +22,11 @@
 @property (nonatomic, strong) NSIndexPath *indexPath;
 @property (nonatomic, strong) BRDatePickerView *datePickerView;
 @property (nonatomic, strong) UIImageView *downImageView;
+
 @end
+
 @implementation FormEditCell
+
 - (instancetype)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
     if (self) {
@@ -27,6 +34,7 @@
     }
     return self;
 }
+
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
@@ -74,6 +82,7 @@
 }
 
 #pragma mark - UITextViewDelegate
+
 -(void)textViewDidChange:(UITextView *)textView{
     NSInteger height = ([self.valueTextView sizeThatFits:CGSizeMake(self.valueTextView.bounds.size.width, MAXFLOAT)].height);
     NSLog(@"当前textView的高度是---%ld",height);
@@ -92,11 +101,10 @@
     
     [self routerEventWithName:change_form_info userInfo:@{}];
 }
+
 - (void)textViewDidEndEditing:(UITextView *)textView{
     NSLog(@"当前的下标是 ==== %ld",self.indexPath.row);
-    if (![SZUtil isEmptyOrNull:textView.text]) {
-        [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
-    }
+    [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.valueTextView.text}];
 }
 
 #pragma mark - private
@@ -173,6 +181,7 @@
     [alert addAction:cancel];
     [[SZUtil getCurrentVC] presentViewController:alert animated:YES completion:nil];
 }
+
 - (UITableView *)tableView {
   UIView *tableView = self.superview;
   while (![tableView isKindOfClass:[UITableView class]] && tableView) {
@@ -180,7 +189,15 @@
   }
   return (UITableView *)tableView;
 }
+
 - (void)addUI{
+    
+//    [self addSubview:self.itemsView];
+//
+//    [self.itemsView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.bottom.right.equalTo(0);
+//    }];
+    
     self.userInteractionEnabled = YES;
     self.contentView.userInteractionEnabled = YES;
     [self addSubview:self.valueTextView];
@@ -234,6 +251,7 @@
 }
 
 #pragma mark - setter and getter
+
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
     self.indexPath = indexPath;
     self.formItem = formItem;
@@ -241,13 +259,16 @@
     [self layoutIfNeeded];
     [self textViewDidChange:self.valueTextView];
 }
+
 - (void)setIsFormEdit:(BOOL)isFormEdit{
     _isFormEdit = isFormEdit;
     [self setValueTextFieldStyleByItemStatus:_isFormEdit];
 }
+
 - (void)setIndexPath:(NSIndexPath *)indexPath{
     _indexPath = indexPath;
 }
+
 - (void)setFormItem:(NSDictionary *)formItem{
     _formItem = formItem;
     self.keyLabel.text = _formItem[@"name"];
@@ -324,6 +345,7 @@
     }
     return _keyLabel;
 }
+
 - (UITextView *)valueTextView{
     if (_valueTextView == nil) {
         _valueTextView = [[UITextView alloc] init];
@@ -336,6 +358,7 @@
     }
     return _valueTextView;
 }
+
 - (UISlider *)slider{
     if (_slider == nil) {
         _slider = [[UISlider alloc] init];
@@ -347,6 +370,7 @@
     }
     return _slider;
 }
+
 - (UIButton *)clickButton{
     if (_clickButton == nil) {
         _clickButton = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -371,6 +395,7 @@
     }
     return _itemTypeValueDic;
 }
+
 - (BRDatePickerView *)datePickerView{
     if (_datePickerView == nil) {
         _datePickerView = [[BRDatePickerView alloc] init];
@@ -388,6 +413,7 @@
     }
     return _datePickerView;
 }
+
 - (UIImageView *)downImageView{
     if (_downImageView == nil) {
         _downImageView = [[UIImageView alloc] init];
@@ -395,6 +421,14 @@
     }
     return _downImageView;
 }
+
+//- (FormItemsView *)itemsView{
+//    if (_itemsView == nil) {
+//        _itemsView = [[FormItemsView alloc] init];
+//    }
+//    return _itemsView;
+//}
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 

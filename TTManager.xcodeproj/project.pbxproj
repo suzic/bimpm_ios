@@ -133,6 +133,11 @@
 		4054B9CC25B9449E0023FC7F /* MonitoringCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9CB25B9449E0023FC7F /* MonitoringCell.m */; };
 		4054B9E625BACEB80023FC7F /* APITargetRenameManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */; };
 		4054B9EC25BACF680023FC7F /* APITargetOperations.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B9EB25BACF680023FC7F /* APITargetOperations.m */; };
+		40618FD725D0E41700DA197E /* FormItemsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FD625D0E41700DA197E /* FormItemsView.m */; };
+		40618FDD25D0E78F00DA197E /* FormItemTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FDC25D0E78F00DA197E /* FormItemTextView.m */; };
+		40618FE125D0E7AA00DA197E /* FormItemBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE025D0E7AA00DA197E /* FormItemBtnView.m */; };
+		40618FE525D0E7BB00DA197E /* FormSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE425D0E7BB00DA197E /* FormSliderView.m */; };
+		40618FE925D0E89B00DA197E /* FormItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE825D0E89B00DA197E /* FormItemImageView.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -453,6 +458,16 @@
 		4054B9E525BACEB80023FC7F /* APITargetRenameManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetRenameManager.m; sourceTree = "<group>"; };
 		4054B9EA25BACF680023FC7F /* APITargetOperations.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APITargetOperations.h; sourceTree = "<group>"; };
 		4054B9EB25BACF680023FC7F /* APITargetOperations.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetOperations.m; sourceTree = "<group>"; };
+		40618FD525D0E41700DA197E /* FormItemsView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemsView.h; sourceTree = "<group>"; };
+		40618FD625D0E41700DA197E /* FormItemsView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemsView.m; sourceTree = "<group>"; };
+		40618FDB25D0E78F00DA197E /* FormItemTextView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemTextView.h; sourceTree = "<group>"; };
+		40618FDC25D0E78F00DA197E /* FormItemTextView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemTextView.m; sourceTree = "<group>"; };
+		40618FDF25D0E7AA00DA197E /* FormItemBtnView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemBtnView.h; sourceTree = "<group>"; };
+		40618FE025D0E7AA00DA197E /* FormItemBtnView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemBtnView.m; sourceTree = "<group>"; };
+		40618FE325D0E7BB00DA197E /* FormSliderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormSliderView.h; sourceTree = "<group>"; };
+		40618FE425D0E7BB00DA197E /* FormSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormSliderView.m; sourceTree = "<group>"; };
+		40618FE725D0E89B00DA197E /* FormItemImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemImageView.h; sourceTree = "<group>"; };
+		40618FE825D0E89B00DA197E /* FormItemImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemImageView.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1295,6 +1310,7 @@
 		4054B97225B6E4710023FC7F /* FormController */ = {
 			isa = PBXGroup;
 			children = (
+				40618FD925D0E71D00DA197E /* FormItemView */,
 				4054B97825B6E7950023FC7F /* cell */,
 				4054B9B925B915270023FC7F /* FormDetailController.h */,
 				4054B9BA25B915270023FC7F /* FormDetailController.m */,
@@ -1358,6 +1374,23 @@
 				402A9F812595B7A500A9DABA /* FrameNavView.m */,
 			);
 			path = view;
+			sourceTree = "<group>";
+		};
+		40618FD925D0E71D00DA197E /* FormItemView */ = {
+			isa = PBXGroup;
+			children = (
+				40618FD525D0E41700DA197E /* FormItemsView.h */,
+				40618FD625D0E41700DA197E /* FormItemsView.m */,
+				40618FDB25D0E78F00DA197E /* FormItemTextView.h */,
+				40618FDC25D0E78F00DA197E /* FormItemTextView.m */,
+				40618FDF25D0E7AA00DA197E /* FormItemBtnView.h */,
+				40618FE025D0E7AA00DA197E /* FormItemBtnView.m */,
+				40618FE325D0E7BB00DA197E /* FormSliderView.h */,
+				40618FE425D0E7BB00DA197E /* FormSliderView.m */,
+				40618FE725D0E89B00DA197E /* FormItemImageView.h */,
+				40618FE825D0E89B00DA197E /* FormItemImageView.m */,
+			);
+			path = FormItemView;
 			sourceTree = "<group>";
 		};
 		406FCA6B25A1912500636079 /* APITargetManager */ = {
@@ -1643,6 +1676,8 @@
 				406FCA51259E360700636079 /* SettingCell.m in Sources */,
 				402AA1F725998E4A00A9DABA /* UIResponder+Router.m in Sources */,
 				4054B92A25B40F430023FC7F /* AboutViewController.m in Sources */,
+				40618FE525D0E7BB00DA197E /* FormSliderView.m in Sources */,
+				40618FD725D0E41700DA197E /* FormItemsView.m in Sources */,
 				4054B91225B40E2F0023FC7F /* ZHDepartmentUser+CoreDataClass.m in Sources */,
 				402AA10F2595D92E00A9DABA /* ZHForm+CoreDataProperties.m in Sources */,
 				402AA1022595D90400A9DABA /* ZHFlow+CoreDataProperties.m in Sources */,
@@ -1685,6 +1720,7 @@
 				402AA1C225987EA600A9DABA /* UserInforController.m in Sources */,
 				406FCA6E25A1915E00636079 /* APITargetListManager.m in Sources */,
 				4054B95B25B5C7C20023FC7F /* ZHUserProject+CoreDataProperties.m in Sources */,
+				40618FE925D0E89B00DA197E /* FormItemImageView.m in Sources */,
 				402AA1402596D09800A9DABA /* LoginValidChecker.m in Sources */,
 				406FCAC425A1F76100636079 /* PageSize.m in Sources */,
 				4054B99725B718C50023FC7F /* APIFormDetailManager.m in Sources */,
@@ -1742,6 +1778,7 @@
 				406FCA8E25A1A47E00636079 /* APIUTPInfoManager.m in Sources */,
 				402AA1B625986FA300A9DABA /* DocumentLibCell.m in Sources */,
 				4081EFEE25BDA67C004F8BB4 /* APITargetCloneManager.m in Sources */,
+				40618FDD25D0E78F00DA197E /* FormItemTextView.m in Sources */,
 				4054B98C25B717AE0023FC7F /* APIFormListManager.m in Sources */,
 				404CC8B025CC3E0000D18CF4 /* WorkDiaryController.m in Sources */,
 				406FCA42259E066300636079 /* ConversationListController.m in Sources */,
@@ -1778,6 +1815,7 @@
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,
+				40618FE125D0E7AA00DA197E /* FormItemBtnView.m in Sources */,
 				4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */,
 				4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,

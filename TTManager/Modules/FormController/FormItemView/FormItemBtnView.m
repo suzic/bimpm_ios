@@ -1,0 +1,161 @@
+//
+//  FormItemBtnView.m
+//  TTManager
+//
+//  Created by chao liu on 2021/2/8.
+//
+
+#import "FormItemBtnView.h"
+
+@interface FormItemBtnView ()
+
+@property (nonatomic, strong) UIButton *button;
+@property (nonatomic, strong) UIImageView *downImageView;
+// 时间选择器
+@property (nonatomic, strong) BRDatePickerView *datePickerView;
+
+@property (nonatomic, strong) NSMutableArray *enum_poolArray;
+
+@property (nonatomic, strong) NSDictionary *formItem;
+
+@end
+
+@implementation FormItemBtnView
+
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        [self addUI];
+    }
+    return self;
+}
+
+#pragma mark - public
+
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
+    self.button.enabled = edit;
+    self.formItem = data;
+    // 时间选择器
+    if ([self.formItem[@"type"] isEqualToNumber:@3]) {
+        self.datePickerView.pickerMode = BRDatePickerModeYMD;
+        self.downImageView.hidden = !edit;
+    }else if([self.formItem[@"type"] isEqualToNumber:@4]){
+        self.datePickerView.pickerMode = BRDatePickerModeYMDHMS;
+        self.downImageView.hidden = !edit;
+    }
+}
+
+#pragma mark - action
+
+- (void)clickButtonAction:(UIButton *)button{
+    NSLog(@"点击了我");
+    [[IQKeyboardManager sharedManager] resignFirstResponder];
+    NSInteger type = [self.formItem[@"type"] intValue];
+    if (type == 3) {
+        [self.datePickerView show];
+    }
+    //HH:mm:ss
+    else if(type == 4){
+        [self.datePickerView show];
+    }
+    // 枚举
+    else if(type == 5){
+        [self.enum_poolArray removeAllObjects];
+        if (![SZUtil isEmptyOrNull:_formItem[@"enum_pool"]]) {
+            [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
+        }
+        [self showActionSheets];
+    }
+    // url
+    else if(type == 6){
+        [self routerEventWithName:open_form_url userInfo:@{@"url":_formItem[@"instance_value"]}];
+    }
+}
+
+- (void)showActionSheets{
+    NSString *title = @"请选择";
+    if (self.enum_poolArray.count<= 0) {
+        title = @"无数据";
+    }
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
+    
+    for (int i= 0; i < self.enum_poolArray.count; i++) {
+        NSString *title = self.enum_poolArray[i];
+        UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+//            [self routerEventWithName:form_edit_item userInfo:@{@"indexPath":self.indexPath,@"value":self.enum_poolArray[action.taskType]}];
+        }];
+        action.taskType = i;
+        [alert addAction:action];
+    }
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+    }];
+    [alert addAction:cancel];
+    [[SZUtil getCurrentVC] presentViewController:alert animated:YES completion:nil];
+}
+
+#pragma mark - UI
+
+- (void)addUI{
+    
+    self.enum_poolArray = [NSMutableArray array];
+    [self addSubview:self.button];
+    [self addSubview:self.downImageView];
+    
+    [self.button makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.bottom.equalTo(0);
+    }];
+    
+    [self.downImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.centerY.equalTo(self);
+        make.width.height.equalTo(20);
+        make.right.equalTo(-15);
+        make.left.equalTo(self.button.mas_right);
+    }];
+    
+}
+
+#pragma mark - setter and getter
+
+- (UIButton *)button{
+    if (_button == nil) {
+        _button = [UIButton buttonWithType:UIButtonTypeCustom];
+        _button.backgroundColor = [UIColor clearColor];
+        [_button addTarget:self action:@selector(clickButtonAction:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _button;
+}
+- (UIImageView *)downImageView{
+    if (_downImageView == nil) {
+        _downImageView = [[UIImageView alloc] init];
+        _downImageView.image = [UIImage imageNamed:@"button_ down"];
+    }
+    return _downImageView;
+}
+
+- (BRDatePickerView *)datePickerView{
+    if (_datePickerView == nil) {
+        _datePickerView = [[BRDatePickerView alloc] init];
+        _datePickerView.title = @"请选择时间";
+        _datePickerView.selectDate = [NSDate date];
+        _datePickerView.isAutoSelect = NO;
+        _datePickerView.minuteInterval = 5;
+        _datePickerView.numberFullName = YES;
+        __weak typeof(self) weakSelf = self;
+        _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
+            __strong typeof(self) strongSelf = weakSelf;
+            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
+//            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"indexPath":strongSelf.indexPath,@"value":time}];
+        };
+    }
+    return _datePickerView;
+}
+
+/*
+// Only override drawRect: if you perform custom drawing.
+// An empty implementation adversely affects performance during animation.
+- (void)drawRect:(CGRect)rect {
+    // Drawing code
+}
+*/
+
+@end
