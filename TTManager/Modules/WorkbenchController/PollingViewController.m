@@ -13,7 +13,6 @@
 #import "WebController.h"
 
 static NSString *textCellIndex = @"textCellIndex";
-static NSString *imageCellIndex = @"ImageCellIndex";
 
 @interface PollingViewController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FormFlowManagerDelgate,UITableViewDelegate,UITableViewDataSource>
 
