@@ -277,7 +277,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     if (_headerView == nil) {
         _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
         _headerView.backgroundColor = [UIColor whiteColor];
-        _headerView.valueTextView.placeholder = @"";
     }
     return _headerView;
 }

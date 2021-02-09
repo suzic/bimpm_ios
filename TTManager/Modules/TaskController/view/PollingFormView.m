@@ -7,8 +7,10 @@
 
 #import "PollingFormView.h"
 #import "FormEditCell.h"
+#import "FormItemSectionView.h"
 
 static NSString *textCellIndex = @"textCellIndex";
+static NSString *headerCell = @"headerCell";
 
 @interface PollingFormView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -37,35 +39,39 @@ static NSString *textCellIndex = @"textCellIndex";
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    NSString *sectionString = [NSString stringWithFormat:@"%ld",section];
+    BOOL isExpand = [self.expandSectionArray containsObject:sectionString];
     switch (section) {
         case 0:
-            return 6;
+            return isExpand == YES ? 6:0;
             break;
         case 1:
-            return 4;
+            return isExpand == YES ? 4:0;
             break;
         case 2:
-            return 2;
+            return isExpand == YES ? 2:0;
             break;
         default:
             break;
     }
     return 0;
 }
-
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 3;
+    return 44;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    FormEditCell *header = (FormEditCell *)[tableView dequeueReusableHeaderFooterViewWithIdentifier:textCellIndex];
     
-    [header setHeaderViewData:@{}];
+    FormItemSectionView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerCell];
+    NSDictionary *dic = @{@"name":@"姓名",@"instance_value":@"liuchao"};
+    [headerView setIsFormEdit:NO indexPath:[NSIndexPath indexPathForRow:0 inSection:section] item:dic];
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandSection:)];
-    header.contentView.tag = section;
-    [header addGestureRecognizer:tap];
-    return header;
+    headerView.tag = section;
+    [headerView addGestureRecognizer:tap];
+    headerView.contentView.backgroundColor = [UIColor lightGrayColor];
+    return headerView;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
 //    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
@@ -87,7 +93,15 @@ static NSString *textCellIndex = @"textCellIndex";
 - (void)expandSection:(UITapGestureRecognizer *)tap{
     UIView *header = tap.view;
     NSInteger section = header.tag;
-    
+    NSString *sectionString = [NSString stringWithFormat:@"%ld",section];
+    // 已经展开点击收起，否则展开
+    if ([self.expandSectionArray containsObject:sectionString]) {
+        [self.expandSectionArray removeObject:sectionString];
+    }else{
+        [self.expandSectionArray addObject:sectionString];
+    }
+    NSIndexSet *reloadSet = [NSIndexSet indexSetWithIndex:section];
+    [self.tableView reloadSections:reloadSet withRowAnimation:UITableViewRowAnimationFade];
 }
 
 #pragma mark - UI
@@ -111,6 +125,7 @@ static NSString *textCellIndex = @"textCellIndex";
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
         _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+        [_tableView registerClass:[FormItemSectionView class] forHeaderFooterViewReuseIdentifier:headerCell];
     }
     return _tableView;
 }

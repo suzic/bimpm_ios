@@ -12,12 +12,18 @@
 #import "FormHeaderView.h"
 #import "WebController.h"
 
+#import "PollingFormView.h"
+
+
 static NSString *textCellIndex = @"textCellIndex";
 
 @interface PollingViewController ()<APIManagerParamSource,ApiManagerCallBackDelegate,FormFlowManagerDelgate,UITableViewDelegate,UITableViewDataSource>
 
 /// 表格内容
-@property (nonatomic, strong) UITableView *tableView;
+//@property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) PollingFormView *pollingFormView;
+
 // 系统名称
 @property (nonatomic, strong) FormEditCell *headerView;
 // 底部操作栏
@@ -51,7 +57,7 @@ static NSString *textCellIndex = @"textCellIndex";
     self.isCloneForm = YES;
     [self addUI];
     [self changeEditView];
-    [self loadData];
+//    [self loadData];
 }
 
 - (void)viewDidAppear:(BOOL)animated{
@@ -60,40 +66,40 @@ static NSString *textCellIndex = @"textCellIndex";
     self.actionSheetType = 3;
 }
 
-#pragma mark - UITableViewDelegate UITableViewDataSource
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 1;
-}
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
-    return items.count;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    return 0.01;
-}
-
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    return nil;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    UITableViewCell *cell = nil;
-    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
-    NSDictionary *formItem = items[indexPath.row];
-    
-    FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
-    if (!editCell) {
-        editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
-    }
-//        editCell.templateType = 2;
-    [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
-    cell = editCell;
-    
-    return cell;
-}
+//#pragma mark - UITableViewDelegate UITableViewDataSource
+//
+//- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+//    return 1;
+//}
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+//    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+//    return items.count;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+//    return 0.01;
+//}
+//
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+//    return nil;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    UITableViewCell *cell = nil;
+//    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+//    NSDictionary *formItem = items[indexPath.row];
+//
+//    FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
+//    if (!editCell) {
+//        editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
+//    }
+////        editCell.templateType = 2;
+//    [editCell setIsFormEdit:self.formFlowManager.isEditForm indexPath:indexPath item:formItem];
+//    cell = editCell;
+//
+//    return cell;
+//}
 #pragma mark - responsder chain
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
@@ -181,7 +187,7 @@ static NSString *textCellIndex = @"textCellIndex";
 // 刷新页面数据
 - (void)reloadView{
     [self fillHeaderView];
-    [self.tableView reloadData];
+//    [self.tableView reloadData];
 }
 
 // 获取表单详情成功
@@ -253,7 +259,7 @@ static NSString *textCellIndex = @"textCellIndex";
 #pragma mark - ui
 - (void)addUI{
     [self.view addSubview:self.headerView];
-    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.pollingFormView];
     [self.view addSubview:self.bottomView];
     
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
@@ -261,13 +267,14 @@ static NSString *textCellIndex = @"textCellIndex";
         make.left.right.equalTo(0);
         make.height.equalTo(44);
     }];
-    [self.tableView makeConstraints:^(MASConstraintMaker *make) {
+    [self.pollingFormView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.headerView.mas_bottom);
         make.left.equalTo(0);
         make.right.equalTo(0);
     }];
+    self.pollingFormView.backgroundColor = [UIColor redColor];
     [self.bottomView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.tableView.mas_bottom);
+        make.top.equalTo(self.pollingFormView.mas_bottom);
         make.height.equalTo(44);
         make.left.right.equalTo(0);
         make.bottom.equalTo(-SafeAreaBottomHeight);
@@ -282,24 +289,28 @@ static NSString *textCellIndex = @"textCellIndex";
 
 #pragma mark - setter and getter
 
-- (UITableView *)tableView{
-    if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        //直接用估算高度
-        _tableView.estimatedRowHeight = 44;
-        _tableView.rowHeight = UITableViewAutomaticDimension;
-        _tableView.backgroundColor = [UIColor whiteColor];
+//- (UITableView *)tableView{
+//    if (_tableView == nil) {
+//        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+//        _tableView.delegate = self;
+//        _tableView.dataSource = self;
+//        //直接用估算高度
+//        _tableView.estimatedRowHeight = 44;
+//        _tableView.rowHeight = UITableViewAutomaticDimension;
+//        _tableView.backgroundColor = [UIColor whiteColor];
+//    }
+//    return _tableView;
+//}
+- (PollingFormView *)pollingFormView{
+    if (_pollingFormView == nil) {
+        _pollingFormView = [[PollingFormView alloc] init];
     }
-    return _tableView;
+    return _pollingFormView;
 }
-
 - (FormEditCell *)headerView{
     if (_headerView == nil) {
         _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
         _headerView.backgroundColor = [UIColor whiteColor];
-        _headerView.valueTextView.placeholder = @"";
     }
     return _headerView;
 }

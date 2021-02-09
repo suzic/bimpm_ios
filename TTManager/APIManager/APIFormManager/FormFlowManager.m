@@ -218,6 +218,9 @@
     // 显示的数据
     NSIndexPath *indexPath = modifyData[@"indexPath"];
     NSString *value = modifyData[@"value"];
+    if (value == nil) {
+        value = @"";
+    }
     NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
     NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
     itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];

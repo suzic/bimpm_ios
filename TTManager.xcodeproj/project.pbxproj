@@ -101,6 +101,7 @@
 		403D948325C10443003B1B60 /* FormEditButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D948225C10443003B1B60 /* FormEditButton.m */; };
 		403D948B25C287B0003B1B60 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 403D948A25C287B0003B1B60 /* MobileCoreServices.framework */; };
 		4043E48325D17B1A00EF0F9F /* PollingFormView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4043E48225D17B1A00EF0F9F /* PollingFormView.m */; };
+		4043E48725D22B5F00EF0F9F /* FormItemSectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4043E48625D22B5F00EF0F9F /* FormItemSectionView.m */; };
 		404CC8B025CC3E0000D18CF4 /* WorkDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 404CC8AF25CC3E0000D18CF4 /* WorkDiaryController.m */; };
 		4054B8C825B15E830023FC7F /* APILogoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8C725B15E830023FC7F /* APILogoutManager.m */; };
 		4054B8D225B197B90023FC7F /* APIUTPDetailManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4054B8D125B197B90023FC7F /* APIUTPDetailManager.m */; };
@@ -394,6 +395,8 @@
 		403D948A25C287B0003B1B60 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4043E48125D17B1A00EF0F9F /* PollingFormView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PollingFormView.h; sourceTree = "<group>"; };
 		4043E48225D17B1A00EF0F9F /* PollingFormView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PollingFormView.m; sourceTree = "<group>"; };
+		4043E48525D22B5F00EF0F9F /* FormItemSectionView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemSectionView.h; sourceTree = "<group>"; };
+		4043E48625D22B5F00EF0F9F /* FormItemSectionView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemSectionView.m; sourceTree = "<group>"; };
 		404CC8AE25CC3E0000D18CF4 /* WorkDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WorkDiaryController.h; sourceTree = "<group>"; };
 		404CC8AF25CC3E0000D18CF4 /* WorkDiaryController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WorkDiaryController.m; sourceTree = "<group>"; };
 		4054B8C625B15E830023FC7F /* APILogoutManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = APILogoutManager.h; sourceTree = "<group>"; };
@@ -1387,6 +1390,8 @@
 				40618FE425D0E7BB00DA197E /* FormSliderView.m */,
 				40618FE725D0E89B00DA197E /* FormItemImageView.h */,
 				40618FE825D0E89B00DA197E /* FormItemImageView.m */,
+				4043E48525D22B5F00EF0F9F /* FormItemSectionView.h */,
+				4043E48625D22B5F00EF0F9F /* FormItemSectionView.m */,
 			);
 			path = FormItemView;
 			sourceTree = "<group>";
@@ -1767,6 +1772,7 @@
 				4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */,
 				4054B9BB25B915270023FC7F /* FormDetailController.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
+				4043E48725D22B5F00EF0F9F /* FormItemSectionView.m in Sources */,
 				40931C94259ACB68008C3518 /* TaskListView.m in Sources */,
 				406FCA59259F060200636079 /* StepUserView.m in Sources */,
 				4054B93325B42C730023FC7F /* APIVerifyPhoneManager.m in Sources */,
