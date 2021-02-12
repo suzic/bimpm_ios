@@ -30,7 +30,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(10);
         make.width.equalTo(self.view);
-        make.bottom.equalTo(-20);
+        make.bottom.equalTo(0);
         make.left.right.equalTo(self.view);
     }];
 }

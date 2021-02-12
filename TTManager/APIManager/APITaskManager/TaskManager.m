@@ -66,6 +66,7 @@
 /// 终止任务发送验证码
 - (void)api_suspendTask:(NSDictionary *)params{
     self.apiTaskType = apiTaskType_suspend;
+    [self.verifyPhoneManager loadDataWithParams:params];
 }
 
 /// 撤销任务附件(当前任务已经有附件了，需要再次上传附件，先撤销后上传)

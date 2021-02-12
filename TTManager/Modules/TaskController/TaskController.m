@@ -107,7 +107,7 @@
             array = @[@"召回",@"终止"];
         }
     }else{
-        if (self.taskType == task_type_detail_initiate) {
+        if (self.taskType != task_type_detail_finished) {
             array = @[@"召回",@"终止"];
         }
     }
@@ -353,6 +353,9 @@
                 break;
             case apiTaskType_set:
                 [self callBackOperation:manager];
+                break;
+            case apiTaskType_suspend:
+                [self callBackSuspend:manager];
                 break;
             default:
                 break;
