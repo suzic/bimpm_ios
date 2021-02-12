@@ -274,7 +274,7 @@ static NSString *textCellIndex = @"textCellIndex";
         make.right.equalTo(0);
         make.bottom.equalTo(0);
     }];
-    self.pollingFormView.backgroundColor = [UIColor redColor];
+//    self.pollingFormView.backgroundColor = [UIColor redColor];
 //    [self.bottomView makeConstraints:^(MASConstraintMaker *make) {
 //        make.top.equalTo(self.pollingFormView.mas_bottom);
 //        make.height.equalTo(44);

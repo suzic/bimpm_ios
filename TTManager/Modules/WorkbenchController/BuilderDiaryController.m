@@ -102,7 +102,6 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES && self.isCloneForm == YES) {
         [self.formFlowManager enterEditModel];
-        [self normalFillFormInfo];
     }
 }
 // 表单下载成功

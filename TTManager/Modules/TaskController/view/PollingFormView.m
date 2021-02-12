@@ -9,6 +9,8 @@
 #import "FormEditCell.h"
 #import "FormItemSectionView.h"
 #import "WebController.h"
+#import "FormQRCodeView.h"
+
 
 static NSString *textCellIndex = @"textCellIndex";
 static NSString *headerCell = @"headerCell";
@@ -16,6 +18,8 @@ static NSString *headerCell = @"headerCell";
 @interface PollingFormView ()<UITableViewDelegate,UITableViewDataSource,FormFlowManagerDelgate>
 
 @property (nonatomic, strong) UITableView *tableView;
+
+@property (nonatomic, strong) FormQRCodeView *QRCodeView;
 
 /// 当前展开的section
 @property (nonatomic, strong) NSMutableArray *expandSectionArray;
@@ -273,14 +277,23 @@ static NSString *headerCell = @"headerCell";
 - (void)addUI{
     [self addSubview:self.headerView];
     [self addSubview:self.tableView];
+    [self addSubview:self.QRCodeView];
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(0);
+        make.top.equalTo(54);
+        make.left.right.equalTo(0);
         make.height.equalTo(44);
     }];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(0);
         make.top.equalTo(self.headerView.mas_bottom);
     }];
+    [self.QRCodeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(10);
+        make.right.equalTo(-10);
+        make.width.height.equalTo(88);
+    }];
+//    self.QRCodeView.backgroundColor = [UIColor blueColor];
+    self.QRCodeView.QRCodeString = @"1111111111111111";
 }
 
 #pragma mark - setter and getter
@@ -298,6 +311,13 @@ static NSString *headerCell = @"headerCell";
         [_tableView registerClass:[FormItemSectionView class] forHeaderFooterViewReuseIdentifier:headerCell];
     }
     return _tableView;
+}
+
+- (FormQRCodeView *)QRCodeView{
+    if (_QRCodeView == nil) {
+        _QRCodeView = [[FormQRCodeView alloc] init];
+    }
+    return _QRCodeView;
 }
 
 - (FormEditCell *)headerView{
@@ -331,6 +351,13 @@ static NSString *headerCell = @"headerCell";
     return _formFlowManager;
 }
 
+- (BOOL)isCloneCurrentForm{
+    return self.formFlowManager.isCloneForm;
+}
+
+- (NSString *)clone_buddy_file{
+    return self.formFlowManager.instanceBuddy_file;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

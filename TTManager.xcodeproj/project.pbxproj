@@ -202,6 +202,7 @@
 		40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA2259B5CD7008C3518 /* TaskListCell.m */; };
 		40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA6259C16CE008C3518 /* TaskStepView.m */; };
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
+		40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5294925D6661C001C23E8 /* FormQRCodeView.m */; };
 		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
@@ -583,6 +584,8 @@
 		40931CA6259C16CE008C3518 /* TaskStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepView.m; sourceTree = "<group>"; };
 		40931CA9259C27DC008C3518 /* TaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskController.h; sourceTree = "<group>"; };
 		40931CAA259C27DC008C3518 /* TaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskController.m; sourceTree = "<group>"; };
+		40A5294825D6661C001C23E8 /* FormQRCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormQRCodeView.h; sourceTree = "<group>"; };
+		40A5294925D6661C001C23E8 /* FormQRCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormQRCodeView.m; sourceTree = "<group>"; };
 		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
 		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuilderDiaryController.h; sourceTree = "<group>"; };
@@ -1392,6 +1395,8 @@
 				40618FE825D0E89B00DA197E /* FormItemImageView.m */,
 				4043E48525D22B5F00EF0F9F /* FormItemSectionView.h */,
 				4043E48625D22B5F00EF0F9F /* FormItemSectionView.m */,
+				40A5294825D6661C001C23E8 /* FormQRCodeView.h */,
+				40A5294925D6661C001C23E8 /* FormQRCodeView.m */,
 			);
 			path = FormItemView;
 			sourceTree = "<group>";
@@ -1744,6 +1749,7 @@
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
+				40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */,
 				406FCA55259F02F700636079 /* TaskStepCell.m in Sources */,
 				406FCA4D259E2D9C00636079 /* UserSettingController.m in Sources */,
 				402AA186259726D700A9DABA /* NSURLSessionTask+RequestParams.m in Sources */,
