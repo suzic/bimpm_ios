@@ -15,10 +15,10 @@
 #import "MessageCell.h"
 #import "TaskInforCell.h"
 #import "ClockInViewController.h"
-#import "PollingViewController.h"
-//#import "FormDetailController.h"
 #import "BuilderDiaryController.h"
 #import "WorkDiaryController.h"
+#import "TaskController.h"
+
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (weak, nonatomic) IBOutlet UILabel *timeLabel;
@@ -228,8 +228,10 @@
     switch (self.selectedFunctionType) {
         // 巡检
         case 0:{
-            PollingViewController *pollingVC = [[PollingViewController alloc] init];
-            vc = pollingVC;
+            UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
+            TaskController *taskVC = (TaskController *)[sb instantiateViewControllerWithIdentifier:@"taskController"];
+            taskVC.taskType = task_type_new_polling;
+            vc = taskVC;
         }
             break;
         // 施工日志

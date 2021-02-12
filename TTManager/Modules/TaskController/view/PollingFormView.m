@@ -168,8 +168,8 @@ static NSString *headerCell = @"headerCell";
 // 表单克隆成功
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES) {
-        [self.formFlowManager enterEditModel];
-        [self normalFillFormInfo];
+//        [self.formFlowManager enterEditModel];
+//        [self normalFillFormInfo];
 //        self.taskParams.uid_target = self.formFlowManager.instanceBuddy_file;
 //        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
     }
@@ -222,7 +222,12 @@ static NSString *headerCell = @"headerCell";
 }
 
 - (void)fillHeaderView{
-    NSString *value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+    NSString *value = @"";
+    if (self.formFlowManager.canEditForm == NO) {
+        value = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
+    }else{
+        value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+    }
     [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
 }
 // 获取当前表单详情

@@ -18,8 +18,10 @@
 #import "UploadFileManager.h"
 #import "WebController.h"
 #import "FormDetailController.h"
+#import "PollingFormView.h"
+#import "TaskManager.h"
 
-@interface TaskController ()<APIManagerParamSource,ApiManagerCallBackDelegate,PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,UITextFieldDelegate>
+@interface TaskController ()<PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,UITextFieldDelegate,TaskApiDelegate>
 
 @property (nonatomic,strong) UIButton *rightButtonItem;
 // 任务步骤
@@ -28,6 +30,9 @@
 @property (nonatomic, strong) TaskTitleView *taskTitleView;
 // 任务内容
 @property (nonatomic, strong) TaskContentView *taskContentView;
+// 巡检表单
+@property (nonatomic, strong) PollingFormView *pollingFormView;
+
 // 任务操作页面
 @property (nonatomic, strong) TaskOperationView *taskOperationView;
 
@@ -39,13 +44,15 @@
 @property (nonatomic, strong) NSDictionary<NSString *, NSInvocation *> *eventStrategy;
 
 // api
-@property (nonatomic, strong) APITaskNewManager *taskNewManager;
-@property (nonatomic, strong) APITaskEditManager *taskEditManager;
-@property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
-@property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
-@property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
+//@property (nonatomic, strong) APITaskNewManager *taskNewManager;
+//@property (nonatomic, strong) APITaskEditManager *taskEditManager;
+//@property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
+//@property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
+//@property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
 @property (nonatomic, strong) UploadFileManager *uploadManager;
-@property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
+//@property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
+
+@property (nonatomic, strong) TaskManager *taskManager;
 
 @end
 
@@ -62,9 +69,9 @@
 #pragma mark - api
 - (void)loadData{
     if (self.operabilityTools.isDetails) {
-        [self.taskDetailManager loadData];
+        [self.taskManager api_getTaskDetail:[self.taskParams getTaskDetailsParams]];
     }else{
-        [self.taskNewManager loadData];
+        [self.taskManager api_newTask:[self.taskParams getNewTaskParams]];
     }
 }
 #pragma mark - private method
@@ -150,10 +157,10 @@
         self.taskParams.id_user = INT_32_TO_STRING(user.id_user);
         
         if ([stepUserLoc isEqualToString:TO]){
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
+            [self.taskManager api_operationsTask:[self.taskParams getToUserParams:YES]];
         }else if([stepUserLoc isEqualToString:ASSIGN]){
             self.taskParams.uid_step = addStepDic[@"uid_step"];
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getAssignUserParams]];
+            [self.taskManager api_operationsTask:[self.taskParams getAssignUserParams]];
         }
     };
     
@@ -175,7 +182,7 @@
             strongSelf.uploadManager.uploadResult = ^(BOOL success, NSDictionary * _Nonnull targetInfo, NSString * _Nonnull id_file) {
                 if (success == YES) {
                     weakSelf.taskParams.uid_target = id_file;
-                    [weakSelf.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+                    [weakSelf.taskManager api_operationsTask:[weakSelf.taskParams getTaskFileParams:YES]];
                 }
             };
         }];
@@ -189,11 +196,7 @@
             vc.isTaskDetail = YES;
             vc.selectedTarget = ^(NSString * _Nullable buddy_file) {
                 if (![SZUtil isEmptyOrNull:buddy_file]) {
-                    // 先删除后添加
-                    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
-                    
-                    self.taskParams.uid_target = buddy_file;
-                    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+                    [self setTaskAdjunctBy:self.taskParams.uid_target newtarget:buddy_file];
                 }
             };
             [self.navigationController pushViewController:vc animated:YES];
@@ -209,7 +212,7 @@
         NSLog(@"删除附件");
         [CNAlertView showWithTitle:@"确认删除当前附件？" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
-                [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:NO]];
+                [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:NO]];
             }
         }];
     }
@@ -217,7 +220,7 @@
 // 设置当前步骤或者任务预计完成时间
 - (void)setStepPlanTimeToTask:(NSDictionary *)planTimeDic{
     self.taskParams.planDate = planTimeDic[@"planDate"];
-    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskDatePlanParams]];
+    [self.taskManager api_operationsTask:[self.taskParams getTaskDatePlanParams]];
 }
 // 修改任务优先级
 - (void)alterFlowPriorityToFlow:(NSDictionary *)priorityDic{
@@ -225,7 +228,8 @@
     NSLog(@"当前选择的任务等级 %@",priority);
     [self.taskTitleView setTaskTitleStatusColor:[priority integerValue]];
     self.taskParams.priority = [priority integerValue];
-    [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskPriorityParams]];
+    [self.taskManager api_operationsTask:[self.taskParams getTaskPriorityParams]];
+
 }
 // 修改任务名称
 - (void)alterTaskTitleToTask:(NSDictionary *)taskTitleDic{
@@ -234,7 +238,7 @@
         return;
     }
     self.taskParams.name = taskTitleDic[@"taskTitle"];
-    [self.taskEditManager loadDataWithParams:[self.taskParams getTaskEditParams]];
+    [self.taskManager api_editTask:[self.taskParams getTaskEditParams]];
 }
 // 修改文本内容（步骤、任务、终止、召回填写的的信息）
 - (void)alterContentTextToTask:(NSDictionary *)contentDic{
@@ -242,7 +246,7 @@
     if (![self.taskParams.memo isEqualToString:contentDic[@"taskContent"]]) {
         self.taskParams.memo = contentDic[@"taskContent"];
         if (self.taskType != task_type_detail_initiate) {
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getMemoParams]];
+            [self.taskManager api_operationsTask:[self.taskParams getMemoParams]];
         }
     }
 }
@@ -254,7 +258,7 @@
     vc.chooseTargetFile = YES;
     vc.targetBlock = ^(ZHTarget * _Nonnull target) {
         self.taskParams.uid_target = target.uid_target;
-        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
+        [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:YES]];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -266,14 +270,14 @@
         [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = @"1";
-                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+                [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
             }
         }];
     }else{
         [CNAlertView showWithTitle:@"确认提交任务进度" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = operation;
-                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+                [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
             }
         }];
         NSLog(@"处理任务进度");
@@ -286,7 +290,7 @@
     [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1) {
             self.taskParams.submitParams = @"1";
-            [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessSubmitParams]];
+            [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
         }
     }];
 }
@@ -308,7 +312,7 @@
     [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
         NSString *code = alertController.textFields[0].text;
         self.taskParams.memo = code;
-        [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+        [self.taskManager api_processTask:[self.taskParams getProcessRecallParams]];
     }]];
     [alertController addTextFieldWithConfigurationHandler:^(UITextField * _Nonnull textField) {
         textField.placeholder = @"请输入验证码";
@@ -328,65 +332,95 @@
     [invocation invoke];
 }
 
-#pragma mark - APIManagerParamSource
-- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
-    NSDictionary *params = @{};
-    if (manager == self.taskNewManager) {
-        params = [self.taskParams getNewTaskParams];
-    }else if(manager == self.taskDetailManager){
-        params = [self.taskParams getTaskDetailsParams];
+#pragma mark - TaskApiDelegate
+- (void)callbackApiTaskSuccess:(BOOL)success data:(BaseApiManager *)manager apiTaskType:(ApiTaskType)type{
+    if (success == YES) {
+        switch (type) {
+            case apiTaskType_detail:
+                [self callBackDetail:manager];
+                break;
+            case apiTaskType_new:
+                [self callBackNew:manager];
+                break;
+            case apiTaskType_edit:
+                [self callBackEdit:manager];
+                break;
+            case apiTaskType_operation:
+                [self callBackOperation:manager];
+                break;
+            case apiTaskType_process:
+                [self callBackProcess:manager];
+                break;
+            case apiTaskType_set:
+                [self callBackOperation:manager];
+                break;
+            default:
+                break;
+        }
+    }else{
+        
     }
-    return params;
 }
-#pragma mark - ApiManagerCallBackDelegate
-- (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if (manager == self.taskNewManager) {
-        ZHTask *task = (ZHTask *)manager.response.responseData;
-        self.taskParams.uid_task = task.uid_task;
-        if (![SZUtil isEmptyOrNull:self.to_uid_user]) {
-            self.taskParams.id_user = self.to_uid_user;
-            [self.taskOperationsManager loadDataWithParams:[self.taskParams getToUserParams:YES]];
-        }else{
-            [self.taskDetailManager loadData];
+- (void)callBackDetail:(BaseApiManager *)manager{
+    ZHTask *task = (ZHTask *)manager.response.responseData;
+    self.operabilityTools.task = task;
+    [self setRequestParams:self.operabilityTools.task];
+    [self setModuleViewOperabilityTools];
+}
+
+- (void)callBackEdit:(BaseApiManager *)manager{
+    self.taskContentView.isModification = NO;
+}
+
+- (void)callBackNew:(BaseApiManager *)manager{
+    ZHTask *task = (ZHTask *)manager.response.responseData;
+    self.taskParams.uid_task = task.uid_task;
+    if (![SZUtil isEmptyOrNull:self.to_uid_user]) {
+        self.taskParams.id_user = self.to_uid_user;
+        [self.taskManager api_operationsTask:[self.taskParams getToUserParams:YES]];
+    }else{
+        if (self.taskType == task_type_new_polling) {
+            [self.pollingFormView getCurrentFormDetail:task.firstTarget.uid_target];
         }
-    }
-    else if(manager == self.taskDetailManager){
-        ZHTask *task = (ZHTask *)manager.response.responseData;
-        self.operabilityTools.task = task;
-        [self setRequestParams:self.operabilityTools.task];
-        [self setModuleViewOperabilityTools];
-    }
-    else if(manager == self.taskEditManager){
-        self.taskContentView.isModification = NO;
-    }
-    else if(manager == self.taskOperationsManager){
-        self.taskTitleView.isModification = NO;
-        [self.taskDetailManager loadData];
-    }
-    else if(manager == self.taskProcessManager){
-        NSDictionary *dic = (NSDictionary *)manager.response.responseData;
-        NSDictionary *result = dic[@"data"][@"results"][0];
-        if (![result[@"sub_code"] isEqualToNumber:@0]) {
-            [SZAlert showInfo:result[@"msg"] underTitle:TARGETS_NAME];
-        }else{
-            UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"操作成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-                [self back];
-            }];
-            [alert addAction:sure];
-            [self presentViewController:alert animated:YES completion:nil];
-        }
-    }else if(manager == self.verifyPhoneManager){
-        [self showRecallTaskAlert];
+        [self.taskManager api_getTaskDetail:[self.taskParams getTaskDetailsParams]];
     }
 }
 
-- (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.taskNewManager) {
-    }else if(manager == self.taskDetailManager){
-    }else if(manager == self.taskEditManager){
-    }else if(manager == self.taskOperationsManager){
-    }else if(manager == self.taskProcessManager){
+- (void)callBackOperation:(BaseApiManager *)manager{
+    self.taskTitleView.isModification = NO;
+    [self.taskManager api_getTaskDetail:[self.taskParams getTaskDetailsParams]];
+}
+
+- (void)callBackProcess:(BaseApiManager *)manager{
+    NSDictionary *dic = (NSDictionary *)manager.response.responseData;
+    NSDictionary *result = dic[@"data"][@"results"][0];
+    if (![result[@"sub_code"] isEqualToNumber:@0]) {
+        [SZAlert showInfo:result[@"msg"] underTitle:TARGETS_NAME];
+    }else{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"操作成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            [self back];
+        }];
+        [alert addAction:sure];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+}
+
+- (void)callBackSuspend:(BaseApiManager *)manager{
+    [self showRecallTaskAlert];
+}
+
+/// 设置当前任务附件
+/// @param uid_target 原始附件如果为空，直接设置，如果存在，先撤销后设置
+/// @param new_uid_target 当前设置的附件
+- (void)setTaskAdjunctBy:(NSString *)uid_target newtarget:(NSString *)new_uid_target{
+    if ([SZUtil isEmptyOrNull:uid_target]) {
+        [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+    }else{
+        [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:NO] callBack:^(BOOL success) {
+            self.taskParams.uid_target = new_uid_target;
+            [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+        }];
     }
 }
 
@@ -403,21 +437,21 @@
         if (self.taskType == task_type_detail_draft) {
             [CNAlertView showWithTitle:@"是否召回当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
-                    [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessRecallParams]];
+                    [self.taskManager api_processTask:[self.taskParams getProcessRecallParams]];
                 }
             }];
         }else{
             [CNAlertView showWithTitle:@"是否召回当前任务" message:@"需要填写手机验证码" tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
                     ZHUser *user = [DataManager defaultInstance].currentUser;
-                    [self.verifyPhoneManager loadDataWithParams:@{@"phone":user.phone,@"type":@"RECALL_TASK"}];
+                    [self.taskManager api_suspendTask:@{@"phone":user.phone,@"type":@"RECALL_TASK"}];
                 }
             }];
         }
     }else{
         [CNAlertView showWithTitle:@"是否终止当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
-                [self.taskProcessManager loadDataWithParams:[self.taskParams getProcessTerminateParams]];
+                [self.taskManager api_processTask:[self.taskParams getProcessTerminateParams]];
             }
         }];
     }
@@ -429,6 +463,8 @@
     if (_taskType != taskType) {
         _taskType = taskType;
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
+        self.pollingFormView.hidden = !(_taskType == task_type_new_polling);
+        self.taskContentView.hidden = _taskType == task_type_new_polling;
     }
 }
 
@@ -480,67 +516,28 @@
     return _rightButtonItem;
 }
 
+- (PollingFormView *)pollingFormView{
+    if (_pollingFormView == nil) {
+        _pollingFormView = [[PollingFormView alloc] init];
+    }
+    return _pollingFormView;
+}
+
 #pragma mark - api init
-
-- (APITaskProcessManager *)taskProcessManager{
-    if (_taskProcessManager == nil) {
-        _taskProcessManager = [[APITaskProcessManager alloc] init];
-        _taskProcessManager.delegate = self;
-        _taskProcessManager.paramSource = self;
-    }
-    return _taskProcessManager;
-}
-
--(APITaskNewManager *)taskNewManager{
-    if (_taskNewManager == nil) {
-        _taskNewManager = [[APITaskNewManager alloc] init];
-        _taskNewManager.delegate = self;
-        _taskNewManager.paramSource = self;
-    }
-    return _taskNewManager;
-}
-
-- (APITaskEditManager *)taskEditManager{
-    if (_taskEditManager == nil) {
-        _taskEditManager = [[APITaskEditManager alloc] init];
-        _taskEditManager.delegate = self;
-        _taskEditManager.paramSource = self;
-    }
-    return _taskEditManager;
-}
-
-- (APITaskOperationsManager *)taskOperationsManager{
-    if (_taskOperationsManager == nil) {
-        _taskOperationsManager = [[APITaskOperationsManager alloc] init];
-        _taskOperationsManager.delegate = self;
-        _taskOperationsManager.paramSource = self;
-    }
-    return _taskOperationsManager;
-}
-
--(APITaskDeatilManager *)taskDetailManager{
-    if (_taskDetailManager == nil) {
-        _taskDetailManager = [[APITaskDeatilManager alloc] init];
-        _taskDetailManager.delegate = self;
-        _taskDetailManager.paramSource = self;
-    }
-    return _taskDetailManager;
-}
-
-- (APIVerifyPhoneManager *)verifyPhoneManager{
-    if (_verifyPhoneManager == nil) {
-        _verifyPhoneManager = [[APIVerifyPhoneManager alloc] init];
-        _verifyPhoneManager.delegate = self;
-        _verifyPhoneManager.paramSource = self;
-    }
-    return _verifyPhoneManager;
-}
 
 - (UploadFileManager *)uploadManager{
     if (_uploadManager == nil) {
         _uploadManager = [[UploadFileManager alloc] init];
     }
     return _uploadManager;
+}
+
+- (TaskManager *)taskManager{
+    if (_taskManager == nil) {
+        _taskManager = [[TaskManager alloc] init];
+        _taskManager.delegate = self;
+    }
+    return _taskManager;
 }
 
 - (NSDictionary<NSString *,NSInvocation *> *)eventStrategy{
@@ -582,6 +579,8 @@
     [self.view addSubview:self.taskTitleView];
     // 任务内容
     [self.view addSubview:self.taskContentView];
+    // 巡检表单
+    [self.view addSubview:self.pollingFormView];
     // 底部操作栏
     [self.view addSubview:self.taskOperationView];
     
@@ -590,16 +589,26 @@
         make.left.right.equalTo(0);
         make.height.equalTo(itemHeight);
     }];
+    
     [self.taskTitleView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(0);
-        make.top.equalTo(self.stepView.mas_bottom).offset(25);
+        make.top.equalTo(self.stepView.mas_bottom).offset(15);
     }];
+    
     [self.taskContentView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskTitleView.mas_bottom);
+        make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
         make.left.right.equalTo(0);
+        make.bottom.equalTo(self.taskOperationView.mas_top);
     }];
+    
+    [self.pollingFormView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(self.taskOperationView.mas_top);
+    }];
+    
     [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskContentView.mas_bottom);
+//        make.top.equalTo(self.taskContentView.mas_bottom);
         make.left.right.equalTo(0);
         make.bottom.equalTo(-SafeAreaBottomHeight);
         make.height.equalTo(88);

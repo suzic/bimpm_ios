@@ -52,7 +52,7 @@
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getTaskDatePlanParams{
-    NSTimeInterval timeInterval = [self.planDate timeIntervalSince1970]*1000;
+    NSTimeInterval timeInterval = [self.planDate timeIntervalSince1970];
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"DATEPLAN",
                           @"param":@"1",

@@ -9,13 +9,13 @@
 
 @interface TaskContentView ()<UITextViewDelegate>
 
-@property (nonatomic, strong) UIView *priorityView;
-@property (nonatomic, strong) NSArray *prioritybtnArray;
+//@property (nonatomic, strong) UIView *priorityView;
+//@property (nonatomic, strong) NSArray *prioritybtnArray;
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
 @property (nonatomic, strong) UIButton *deleteFileBtn;
 @property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic, copy) NSString *targetType;
-@property (nonatomic,assign) BOOL editPriority;
+//@property (nonatomic,assign) BOOL editPriority;
 @property (nonatomic, copy) NSString *taskContent;
 
 // 附件调整类型 1 添加附件 2 查看附件 3没有附件 4 删除附件
@@ -31,7 +31,7 @@
         self.adjunctType = NSNotFound;
         self.uid_target = @"";
         self.targetType = @"";
-        self.editPriority = NO;
+//        self.editPriority = NO;
         [self addUI];
     }
     return self;
@@ -41,53 +41,53 @@
     switch (tools.type) {
         case task_type_new_task:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_new_apply:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_new_noti:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_new_joint:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_new_polling:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_detail_proceeding:
-            self.editPriority = YES;
+//            self.editPriority = YES;
             [self editContentText];
             [self proceedingAdjuctdFile];
             break;
         case task_type_detail_finished:
-            self.editPriority = NO;
+//            self.editPriority = NO;
             self.contentView.editable = NO;
             [self finisheAdjuctdFile];
             break;
         case task_type_detail_draft:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
         case task_type_detail_initiate:
             self.adjunctFileBtn.enabled = YES;
-            self.editPriority = YES;
+//            self.editPriority = YES;
             self.contentView.editable = YES;
             [self newTaskAdjuctFile];
             break;
@@ -198,47 +198,47 @@
     NSLog(@"删除当前文档");
     [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":@"4",@"uid_target":self.uid_target}];
 }
-- (void)priorityAction:(UIButton *)button{
-    if (self.editPriority == NO) {
-        return;
-    }
-    if (_tools.task.belongFlow.state == 1) {
-        return;
-    }
-    self.priorityType = button.tag;
-}
-// 改变当前选择的任务优先级状态
-- (void)changePriorityStatus:(NSInteger)index{
-    NSInteger actualIndex = 999;
-    if (index <= 4) {
-        actualIndex = 1;
-    }else if( index > 5 && index<=9){
-        actualIndex = 7;
-    }else{
-        actualIndex = 5;
-    }
-    for (UIButton *button in self.prioritybtnArray) {
-        button.selected = (actualIndex == button.tag);
-    };
-}
+//- (void)priorityAction:(UIButton *)button{
+//    if (self.editPriority == NO) {
+//        return;
+//    }
+//    if (_tools.task.belongFlow.state == 1) {
+//        return;
+//    }
+//    self.priorityType = button.tag;
+//}
+//// 改变当前选择的任务优先级状态
+//- (void)changePriorityStatus:(NSInteger)index{
+//    NSInteger actualIndex = 999;
+//    if (index <= 4) {
+//        actualIndex = 1;
+//    }else if( index > 5 && index<=9){
+//        actualIndex = 7;
+//    }else{
+//        actualIndex = 5;
+//    }
+//    for (UIButton *button in self.prioritybtnArray) {
+//        button.selected = (actualIndex == button.tag);
+//    };
+//}
 
 #pragma mark - setter and getter
 
-- (void)setPriorityType:(PriorityType)priorityType{
-    if (_priorityType != priorityType) {
-        _priorityType = priorityType;
-        [self changePriorityStatus:_priorityType];
-        NSString *priority = @"1";
-        if (_priorityType == priority_type_low) {
-            priority = @"1";
-        }else if(_priorityType == priority_type_middle){
-            priority = @"5";
-        }else if(_priorityType == priority_type_highGrade){
-            priority = @"7";
-        }
-        [self routerEventWithName:selected_task_priority userInfo:@{@"priority":priority}];
-    }
-}
+//- (void)setPriorityType:(PriorityType)priorityType{
+//    if (_priorityType != priorityType) {
+//        _priorityType = priorityType;
+//        [self changePriorityStatus:_priorityType];
+//        NSString *priority = @"1";
+//        if (_priorityType == priority_type_low) {
+//            priority = @"1";
+//        }else if(_priorityType == priority_type_middle){
+//            priority = @"5";
+//        }else if(_priorityType == priority_type_highGrade){
+//            priority = @"7";
+//        }
+//        [self routerEventWithName:selected_task_priority userInfo:@{@"priority":priority}];
+//    }
+//}
 - (void)setTools:(OperabilityTools *)tools{
     _tools = tools;
     if (_tools.currentSelectedStep != nil) {
@@ -255,16 +255,16 @@
         self.contentView.editable = NO;
     }
     
-    [self changePriorityStatus:_tools.task.priority];
+//    [self changePriorityStatus:_tools.task.priority];
     [self setContentViewOperations:_tools];
 }
 
-- (UIView *)priorityView{
-    if (_priorityView == nil) {
-        _priorityView = [[UIView alloc] init];
-    }
-    return _priorityView;
-}
+//- (UIView *)priorityView{
+//    if (_priorityView == nil) {
+//        _priorityView = [[UIView alloc] init];
+//    }
+//    return _priorityView;
+//}
 - (UITextView *)contentView{
     if (_contentView == nil) {
         _contentView = [[UITextView alloc] init];
@@ -296,34 +296,34 @@
     }
     return _deleteFileBtn;
 }
-- (NSArray *)prioritybtnArray{
-    if (_prioritybtnArray == nil) {
-        NSMutableArray *result = [NSMutableArray array];
-        for (int i = 0; i < 3; i++) {
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            UIColor *normalColor = nil;
-            UIColor *selectColor = nil;
-            if (i == 0) {
-                button.tag = 1;
-                normalColor = RGBA_COLOR(0, 183, 147, 0.3);
-                selectColor = RGB_COLOR(0, 183, 147);
-            }else if(i == 1){
-                button.tag = 5;
-                normalColor = RGBA_COLOR(244, 216, 2, 0.3);
-                selectColor = RGB_COLOR(244, 216, 2);
-            }else{
-                button.tag = 7;
-                normalColor = RGBA_COLOR(255, 77, 77, 0.3);
-                selectColor = RGB_COLOR(255, 77, 77);
-            }
-            [button setBackgroundImage:[SZUtil createImageWithColor:normalColor] forState:UIControlStateNormal];
-            [button setBackgroundImage:[SZUtil createImageWithColor:selectColor] forState:UIControlStateSelected];
-            [result addObject:button];
-        }
-        _prioritybtnArray = result;
-    }
-    return _prioritybtnArray;
-}
+//- (NSArray *)prioritybtnArray{
+//    if (_prioritybtnArray == nil) {
+//        NSMutableArray *result = [NSMutableArray array];
+//        for (int i = 0; i < 3; i++) {
+//            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//            UIColor *normalColor = nil;
+//            UIColor *selectColor = nil;
+//            if (i == 0) {
+//                button.tag = 1;
+//                normalColor = RGBA_COLOR(0, 183, 147, 0.3);
+//                selectColor = RGB_COLOR(0, 183, 147);
+//            }else if(i == 1){
+//                button.tag = 5;
+//                normalColor = RGBA_COLOR(244, 216, 2, 0.3);
+//                selectColor = RGB_COLOR(244, 216, 2);
+//            }else{
+//                button.tag = 7;
+//                normalColor = RGBA_COLOR(255, 77, 77, 0.3);
+//                selectColor = RGB_COLOR(255, 77, 77);
+//            }
+//            [button setBackgroundImage:[SZUtil createImageWithColor:normalColor] forState:UIControlStateNormal];
+//            [button setBackgroundImage:[SZUtil createImageWithColor:selectColor] forState:UIControlStateSelected];
+//            [result addObject:button];
+//        }
+//        _prioritybtnArray = result;
+//    }
+//    return _prioritybtnArray;
+//}
 #pragma mark - UITextViewDelegate
 - (void)textViewDidChange:(UITextView *)textView{
     if (textView == self.contentView) {
@@ -337,9 +337,10 @@
 }
 #pragma mark - UI
 - (void)addUI{
-    [self addSubview:self.priorityView];
+//    [self addSubview:self.priorityView];
     
-    [self addPriorityViewSubViews];
+//    self.backgroundColor = [UIColor redColor];
+//    [self addPriorityViewSubViews];
     
     [self addSubview:self.contentView];
     UIView *bgView = [[UIView alloc] init];
@@ -349,14 +350,14 @@
     
     [bgView addSubview:self.deleteFileBtn];
     
-    [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(6);
-        make.left.equalTo(16);
-        make.right.equalTo(-16);
-        make.height.equalTo(20);
-    }];
+//    [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(0);
+//        make.left.equalTo(16);
+//        make.right.equalTo(-16);
+//        make.height.equalTo(20);
+//    }];
     [bgView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.priorityView.mas_bottom).offset(10);
+        make.top.equalTo(0);
         make.left.equalTo(16);
         make.right.equalTo(-16);
         make.bottom.equalTo(self).offset(-10);
@@ -380,35 +381,35 @@
     [bgView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
     [self hideDelete:YES];
 }
-- (void)addPriorityViewSubViews{
-    UILabel *label = [[UILabel alloc] init];
-    label.text = @"优先级";
-    label.font = [UIFont systemFontOfSize:14.0f];
-    label.textColor = RGB_COLOR(102, 102, 102);
-    [self.priorityView addSubview:label];
-    [label makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(0);
-    }];
-    UIButton *lastBtn = nil;
-    for (int i = 0; i < self.prioritybtnArray.count; i++) {
-        UIButton *btn = self.prioritybtnArray[i];
-        [self.priorityView addSubview:btn];
-        [btn makeConstraints:^(MASConstraintMaker *make) {
-            make.width.height.equalTo(16);
-            make.centerY.equalTo(self.priorityView);
-            if (lastBtn == nil) {
-                make.left.equalTo(label.mas_right).offset(10);
-            }else{
-                make.left.equalTo(lastBtn.mas_right).offset(10);
-            }
-        }];
-        [btn addTarget:self action:@selector(priorityAction:) forControlEvents:UIControlEventTouchUpInside];
-        [self.priorityView layoutIfNeeded];
-        btn.clipsToBounds = YES;
-        btn.layer.cornerRadius = 8.0f;
-        lastBtn = btn;
-    }
-}
+//- (void)addPriorityViewSubViews{
+//    UILabel *label = [[UILabel alloc] init];
+//    label.text = @"优先级";
+//    label.font = [UIFont systemFontOfSize:14.0f];
+//    label.textColor = RGB_COLOR(102, 102, 102);
+//    [self.priorityView addSubview:label];
+//    [label makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.bottom.equalTo(0);
+//    }];
+//    UIButton *lastBtn = nil;
+//    for (int i = 0; i < self.prioritybtnArray.count; i++) {
+//        UIButton *btn = self.prioritybtnArray[i];
+//        [self.priorityView addSubview:btn];
+//        [btn makeConstraints:^(MASConstraintMaker *make) {
+//            make.width.height.equalTo(16);
+//            make.centerY.equalTo(self.priorityView);
+//            if (lastBtn == nil) {
+//                make.left.equalTo(label.mas_right).offset(10);
+//            }else{
+//                make.left.equalTo(lastBtn.mas_right).offset(10);
+//            }
+//        }];
+//        [btn addTarget:self action:@selector(priorityAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [self.priorityView layoutIfNeeded];
+//        btn.clipsToBounds = YES;
+//        btn.layer.cornerRadius = 8.0f;
+//        lastBtn = btn;
+//    }
+//}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

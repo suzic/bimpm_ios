@@ -95,7 +95,6 @@
 		402DA0EC25B001A60030E68D /* APIUploadFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0EB25B001A60030E68D /* APIUploadFileManager.m */; };
 		402DA0F325B002F60030E68D /* APITargetNewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F225B002F60030E68D /* APITargetNewManager.m */; };
 		402DA0F925B03CB90030E68D /* ServiceIdentifer.m in Sources */ = {isa = PBXBuildFile; fileRef = 402DA0F725B03CB90030E68D /* ServiceIdentifer.m */; };
-		40357C0D25CA94FB003277A4 /* PollingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40357C0C25CA94FB003277A4 /* PollingViewController.m */; };
 		403BF301259D792F004D317C /* FileListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403BF300259D792F004D317C /* FileListView.m */; };
 		403D947F25BFF0CA003B1B60 /* FormHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D947E25BFF0CA003B1B60 /* FormHeaderView.m */; };
 		403D948325C10443003B1B60 /* FormEditButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 403D948225C10443003B1B60 /* FormEditButton.m */; };
@@ -203,6 +202,7 @@
 		40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA6259C16CE008C3518 /* TaskStepView.m */; };
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
 		40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5294925D6661C001C23E8 /* FormQRCodeView.m */; };
+		40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5295325D67D7A001C23E8 /* TaskManager.m */; };
 		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
@@ -385,8 +385,6 @@
 		402DA0F225B002F60030E68D /* APITargetNewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetNewManager.m; sourceTree = "<group>"; };
 		402DA0F725B03CB90030E68D /* ServiceIdentifer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServiceIdentifer.m; sourceTree = "<group>"; };
 		402DA0F825B03CB90030E68D /* ServiceIdentifer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServiceIdentifer.h; sourceTree = "<group>"; };
-		40357C0B25CA94FB003277A4 /* PollingViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PollingViewController.h; sourceTree = "<group>"; };
-		40357C0C25CA94FB003277A4 /* PollingViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PollingViewController.m; sourceTree = "<group>"; };
 		403BF2FF259D792F004D317C /* FileListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileListView.h; sourceTree = "<group>"; };
 		403BF300259D792F004D317C /* FileListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileListView.m; sourceTree = "<group>"; };
 		403D947D25BFF0CA003B1B60 /* FormHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormHeaderView.h; sourceTree = "<group>"; };
@@ -586,6 +584,8 @@
 		40931CAA259C27DC008C3518 /* TaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskController.m; sourceTree = "<group>"; };
 		40A5294825D6661C001C23E8 /* FormQRCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormQRCodeView.h; sourceTree = "<group>"; };
 		40A5294925D6661C001C23E8 /* FormQRCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormQRCodeView.m; sourceTree = "<group>"; };
+		40A5295225D67D7A001C23E8 /* TaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskManager.h; sourceTree = "<group>"; };
+		40A5295325D67D7A001C23E8 /* TaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskManager.m; sourceTree = "<group>"; };
 		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
 		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuilderDiaryController.h; sourceTree = "<group>"; };
@@ -778,8 +778,6 @@
 				4054B8F225B4071F0023FC7F /* ClockInViewController.m */,
 				40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */,
 				40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */,
-				40357C0B25CA94FB003277A4 /* PollingViewController.h */,
-				40357C0C25CA94FB003277A4 /* PollingViewController.m */,
 				404CC8AE25CC3E0000D18CF4 /* WorkDiaryController.h */,
 				404CC8AF25CC3E0000D18CF4 /* WorkDiaryController.m */,
 			);
@@ -1469,6 +1467,8 @@
 				406FCA9E25A1A5C800636079 /* APITaskNewManager.m */,
 				406FCA9725A1A58400636079 /* APITaskListManager.h */,
 				406FCA9825A1A58400636079 /* APITaskListManager.m */,
+				40A5295225D67D7A001C23E8 /* TaskManager.h */,
+				40A5295325D67D7A001C23E8 /* TaskManager.m */,
 			);
 			path = APITaskManager;
 			sourceTree = "<group>";
@@ -1798,7 +1798,6 @@
 				402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */,
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
-				40357C0D25CA94FB003277A4 /* PollingViewController.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
 				4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */,
 				402AA0D92595D8A300A9DABA /* ZHModule+CoreDataProperties.m in Sources */,
@@ -1832,6 +1831,7 @@
 				4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,
 				4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
+				40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */,
 				406FCA8325A1A32700636079 /* APIUTPListManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

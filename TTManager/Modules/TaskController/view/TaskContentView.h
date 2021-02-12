@@ -10,11 +10,11 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-typedef NS_ENUM(NSInteger,PriorityType){
-    priority_type_low        = 1,  // 低级
-    priority_type_middle     = 5, // 中级
-    priority_type_highGrade  = 7  // 高级
-};
+//typedef NS_ENUM(NSInteger,PriorityType){
+//    priority_type_low        = 1,  // 低级
+//    priority_type_middle     = 5, // 中级
+//    priority_type_highGrade  = 7  // 高级
+//};
 
 @interface TaskContentView : UIView
 
@@ -22,7 +22,7 @@ typedef NS_ENUM(NSInteger,PriorityType){
 
 @property (nonatomic, strong) OperabilityTools *tools;
 // 当前任务优先级
-@property (nonatomic, assign)PriorityType priorityType;
+//@property (nonatomic, assign)PriorityType priorityType;
 
 @property (nonatomic, assign) BOOL isModification;
 @end
