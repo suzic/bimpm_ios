@@ -14,8 +14,7 @@ NS_ASSUME_NONNULL_BEGIN
 /// 设置当前item数据以及是否可编辑
 /// @param edit 是否可编辑
 /// @param data 页面数据
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data;
-
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath;
 @end
 
 NS_ASSUME_NONNULL_END

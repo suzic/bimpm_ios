@@ -25,9 +25,9 @@ static NSString *textCellIndex = @"textCellIndex";
 @property (nonatomic, strong) PollingFormView *pollingFormView;
 
 // 系统名称
-@property (nonatomic, strong) FormEditCell *headerView;
+//@property (nonatomic, strong) FormEditCell *headerView;
 // 底部操作栏
-@property (nonatomic, strong) BottomView *bottomView;
+//@property (nonatomic, strong) BottomView *bottomView;
 
 /// 是否需要克隆当前表单
 @property (nonatomic, assign) BOOL isCloneForm;
@@ -57,6 +57,7 @@ static NSString *textCellIndex = @"textCellIndex";
     self.isCloneForm = YES;
     [self addUI];
     [self changeEditView];
+    [self.pollingFormView getCurrentFormDetail:@"f0d8c54dac834a8ead2850cdbbfdf52a"];
 //    [self loadData];
 }
 
@@ -102,37 +103,37 @@ static NSString *textCellIndex = @"textCellIndex";
 //}
 #pragma mark - responsder chain
 
-- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    if ([eventName isEqualToString:form_edit_item]) {
-        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
-    }else if ([eventName isEqualToString:delete_formItem_image]) {
-        [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
-    }else if([eventName isEqualToString:save_edit_form]){
-        [self.view endEditing:YES];
-        [self.formFlowManager operationsFormFill];
-    }else if([eventName isEqualToString:add_formItem_image]){
-        [self addImageToCurrentImageFormItem:userInfo];
-    }else if([eventName isEqualToString:open_form_url]){
-        self.formFlowManager.isModification = YES;
-        WebController *web = [[WebController alloc] init];
-        web.loadUrl = userInfo[@"url"];
-        [self.navigationController pushViewController:web animated:YES];
-    }
-    // 修改了表单内容
-    else if([eventName isEqualToString:change_form_info]){
-        self.formFlowManager.isModification = YES;
-    }
-}
+//- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+//    if ([eventName isEqualToString:form_edit_item]) {
+//        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
+//    }else if ([eventName isEqualToString:delete_formItem_image]) {
+//        [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
+//    }else if([eventName isEqualToString:save_edit_form]){
+//        [self.view endEditing:YES];
+//        [self.formFlowManager operationsFormFill];
+//    }else if([eventName isEqualToString:add_formItem_image]){
+//        [self addImageToCurrentImageFormItem:userInfo];
+//    }else if([eventName isEqualToString:open_form_url]){
+//        self.formFlowManager.isModification = YES;
+//        WebController *web = [[WebController alloc] init];
+//        web.loadUrl = userInfo[@"url"];
+//        [self.navigationController pushViewController:web animated:YES];
+//    }
+//    // 修改了表单内容
+//    else if([eventName isEqualToString:change_form_info]){
+//        self.formFlowManager.isModification = YES;
+//    }
+//}
 #pragma mark - private
 
 - (void)loadData{
     [self.taskNewManager loadData];
 }
 
-- (void)fillHeaderView{
-    NSString *value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
-    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
-}
+//- (void)fillHeaderView{
+//    NSString *value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+//    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
+//}
 
 - (void)back:(UIBarButtonItem *)item{
     [self cancelEditCurrentForm];
@@ -170,23 +171,23 @@ static NSString *textCellIndex = @"textCellIndex";
     }
 }
 
-// 添加图片到表单
-- (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
-    [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
-        if (imageData.length/1024 <= 100) {
-            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:addDic];
-            dic[@"image"] = imageData;
-            [self.formFlowManager addImageToCurrentImageFormItem:dic];
-        }else{
-            [SZAlert showInfo:@"上传图片不能大于100k" underTitle:TARGETS_NAME];
-        }
-    }];
-}
+//// 添加图片到表单
+//- (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
+//    [self pickImageWithCompletionHandler:^(NSData * _Nonnull imageData, UIImage * _Nonnull image,NSString * _Nonnull mediaType) {
+//        if (imageData.length/1024 <= 100) {
+//            NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:addDic];
+//            dic[@"image"] = imageData;
+//            [self.formFlowManager addImageToCurrentImageFormItem:dic];
+//        }else{
+//            [SZAlert showInfo:@"上传图片不能大于100k" underTitle:TARGETS_NAME];
+//        }
+//    }];
+//}
 
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
-    [self fillHeaderView];
+//    [self fillHeaderView];
 //    [self.tableView reloadData];
 }
 
@@ -258,27 +259,28 @@ static NSString *textCellIndex = @"textCellIndex";
 
 #pragma mark - ui
 - (void)addUI{
-    [self.view addSubview:self.headerView];
+//    [self.view addSubview:self.headerView];
     [self.view addSubview:self.pollingFormView];
-    [self.view addSubview:self.bottomView];
+//    [self.view addSubview:self.bottomView];
     
-    [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(0);
-        make.left.right.equalTo(0);
-        make.height.equalTo(44);
-    }];
+//    [self.headerView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(0);
+//        make.left.right.equalTo(0);
+//        make.height.equalTo(44);
+//    }];
     [self.pollingFormView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.headerView.mas_bottom);
+        make.top.equalTo(0);
         make.left.equalTo(0);
         make.right.equalTo(0);
+        make.bottom.equalTo(0);
     }];
     self.pollingFormView.backgroundColor = [UIColor redColor];
-    [self.bottomView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.pollingFormView.mas_bottom);
-        make.height.equalTo(44);
-        make.left.right.equalTo(0);
-        make.bottom.equalTo(-SafeAreaBottomHeight);
-    }];
+//    [self.bottomView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.equalTo(self.pollingFormView.mas_bottom);
+//        make.height.equalTo(44);
+//        make.left.right.equalTo(0);
+//        make.bottom.equalTo(-SafeAreaBottomHeight);
+//    }];
 }
 
 - (void)changeEditView{
@@ -304,23 +306,24 @@ static NSString *textCellIndex = @"textCellIndex";
 - (PollingFormView *)pollingFormView{
     if (_pollingFormView == nil) {
         _pollingFormView = [[PollingFormView alloc] init];
+        _pollingFormView.currentStep = 0;
     }
     return _pollingFormView;
 }
-- (FormEditCell *)headerView{
-    if (_headerView == nil) {
-        _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
-        _headerView.backgroundColor = [UIColor whiteColor];
-    }
-    return _headerView;
-}
-
-- (BottomView *)bottomView{
-    if (_bottomView == nil) {
-        _bottomView = [[BottomView alloc] init];
-    }
-    return _bottomView;
-}
+//- (FormEditCell *)headerView{
+//    if (_headerView == nil) {
+//        _headerView = [[FormEditCell alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 44)];
+//        _headerView.backgroundColor = [UIColor whiteColor];
+//    }
+//    return _headerView;
+//}
+//
+//- (BottomView *)bottomView{
+//    if (_bottomView == nil) {
+//        _bottomView = [[BottomView alloc] init];
+//    }
+//    return _bottomView;
+//}
 -(APITaskNewManager *)taskNewManager{
     if (_taskNewManager == nil) {
         _taskNewManager = [[APITaskNewManager alloc] init];

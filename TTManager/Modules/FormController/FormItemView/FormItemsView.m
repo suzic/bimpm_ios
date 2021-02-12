@@ -82,12 +82,12 @@
 
 #pragma mark - public
 
-- (void)setItemView:(FormItemType)type edit:(BOOL)edit data:(NSDictionary *)data{
+- (void)setItemView:(FormItemType)type edit:(BOOL)edit indexPath:(NSIndexPath *)indexPath data:(NSDictionary *)data{
     self.formTitleLabel.text = data[@"name"];
     // 设置页面显示
     [self setItemViewByType:type];
     // 设置页面是否可编辑
-    [self setItemViewEdit:edit data:data];
+    [self setItemViewEdit:edit data:data indexPath:indexPath];
 }
 - (UIView *)getViewByType:(FormItemType)type{
     UIView *view = nil;
@@ -120,19 +120,19 @@
     self.sliderView.hidden = !(type == formItemType_slider);
 }
 // 设置当前item是否可编辑
-- (void)setItemViewEdit:(BOOL)edit data:(NSDictionary *)data{
+- (void)setItemViewEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
     switch (self.itemType) {
         case formItemType_image:
-            [self.imageView setItemEdit:edit data:data];
+            [self.imageView setItemEdit:edit data:data indexPath:indexPath];
             break;
         case formItemType_text:
-            [self.textView setItemEdit:edit data:data];
+            [self.textView setItemEdit:edit data:data indexPath:indexPath];
             break;
         case formItemType_btn:
-            [self.btnView setItemEdit:edit data:data];
+            [self.btnView setItemEdit:edit data:data indexPath:indexPath];
             break;
         case formItemType_slider:
-            [self.sliderView setItemEdit:edit data:data];
+            [self.sliderView setItemEdit:edit data:data indexPath:indexPath];
             break;
         default:
             break;

@@ -12,6 +12,8 @@
 @property (nonatomic, strong) UISlider *slider;
 @property (nonatomic, strong) UILabel *sliderValueLabel;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
 @end
 
 @implementation FormSliderView
@@ -26,7 +28,8 @@
 
 #pragma mark - public
 
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
+    self.indexPath = indexPath;
     self.slider.enabled = edit;
     
     if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
@@ -47,7 +50,7 @@
 - (void)sliderValueDidEnd:(UISlider *)slider{
     NSLog(@"当前拖动的距离 %f",slider.value);
     NSString *string = [NSString stringWithFormat:@"%.02f%%",slider.value];
-    [self routerEventWithName:form_edit_item userInfo:@{@"value":string}];
+    [self routerEventWithName:form_edit_item userInfo:@{@"value":string,@"indexPath":self.indexPath}];
 }
 
 - (void)addUI{

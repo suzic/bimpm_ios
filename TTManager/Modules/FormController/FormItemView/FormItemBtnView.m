@@ -20,6 +20,8 @@
 
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
 
+@property (nonatomic, strong) NSIndexPath *indexPath;
+
 @end
 
 @implementation FormItemBtnView
@@ -34,7 +36,8 @@
 
 #pragma mark - public
 
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
+    self.indexPath = indexPath;
     self.button.enabled = edit;
     self.formItem = data;
     // 时间选择器
@@ -121,7 +124,7 @@
     for (int i= 0; i < self.enum_poolArray.count; i++) {
         NSString *title = self.enum_poolArray[i];
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self routerEventWithName:form_edit_item userInfo:@{@"value":self.enum_poolArray[action.taskType]}];
+            [self routerEventWithName:form_edit_item userInfo:@{@"value":self.enum_poolArray[action.taskType],@"indexPath":self.indexPath}];
         }];
         action.taskType = i;
         [alert addAction:action];
@@ -135,6 +138,9 @@
 #pragma mark - UI
 
 - (void)addUI{
+    
+    [[SZUtil getCurrentVC] initializeImagePicker];
+    [SZUtil getCurrentVC].actionSheetType = 3;
     
     self.enum_poolArray = [NSMutableArray array];
     [self addSubview:self.button];
@@ -184,7 +190,7 @@
         _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
             __strong typeof(self) strongSelf = weakSelf;
             NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
-            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"value":time}];
+            [strongSelf routerEventWithName:form_edit_item userInfo:@{@"value":time,@"indexPath":strongSelf.indexPath}];
         };
     }
     return _datePickerView;

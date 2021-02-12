@@ -34,15 +34,11 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 #pragma mark - public
 
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
-    self.isFormEdit = edit;
-    
-}
-
-- (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
     self.indexPath = indexPath;
-    self.formItem = formItem;
-    self.isFormEdit = isFormEdit;
+    self.formItem = data;
+    self.isFormEdit = edit;
+    [self.imageCollectionView reloadData];
 }
 
 #pragma mark - actions
@@ -50,6 +46,14 @@ static NSString *reuseIdentifier = @"ImageCell";
 - (void)addImageAction:(UIButton *)button{
     NSLog(@"添加图片");
     [self routerEventWithName:add_formItem_image userInfo:@{}];
+}
+
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+    if ([eventName isEqualToString:delete_formItem_image]) {
+        decoratedUserInfo[@"indexPath"] = self.indexPath;
+    }
+    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
 }
 
 #pragma mark - UICollectionViewDelegate and UICollectionViewDataSource

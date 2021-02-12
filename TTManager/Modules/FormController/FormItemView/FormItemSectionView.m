@@ -40,18 +40,18 @@
 
 #pragma mark - public
 - (void)setHeaderViewData:(NSDictionary *)data{
-    [self.itemsView setItemView:formItemType_text edit:NO data:data];
+    [self.itemsView setItemView:formItemType_text edit:NO indexPath:self.indexPath data:data];
 }
 
-- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-    if ([eventName isEqualToString:form_edit_item] ||
-        [eventName isEqualToString:add_formItem_image] ||
-        [eventName isEqualToString:delete_formItem_image]) {
-        decoratedUserInfo[@"indexPath"] = self.indexPath;
-    }
-    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
-}
+//- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+//    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
+//    if ([eventName isEqualToString:form_edit_item] ||
+//        [eventName isEqualToString:add_formItem_image] ||
+//        [eventName isEqualToString:delete_formItem_image]) {
+//        decoratedUserInfo[@"indexPath"] = self.indexPath;
+//    }
+//    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
+//}
 
 #pragma mark - setter and getter
 
@@ -66,11 +66,11 @@
 //    self.keyLabel.text = _formItem[@"name"];
     NSInteger type = [self.formItem[@"type"] intValue];
     if (type == 0 || type == 1 || type == 2) {
-        [self.itemsView setItemView:formItemType_text edit:self.isFormEdit data:self.formItem];
+        [self.itemsView setItemView:formItemType_text edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
     }else if(type == 3 || type == 4 || type == 5 || type == 6){
-        [self.itemsView setItemView:formItemType_btn edit:self.isFormEdit data:self.formItem];
+        [self.itemsView setItemView:formItemType_btn edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
     }else if(type == 7 || type == 8){
-        [self.itemsView setItemView:formItemType_image edit:self.isFormEdit data:self.formItem];
+        [self.itemsView setItemView:formItemType_image edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
     }
 }
 

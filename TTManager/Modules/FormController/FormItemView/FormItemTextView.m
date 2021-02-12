@@ -11,6 +11,7 @@
 
 @property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
+@property (nonatomic, strong) NSIndexPath *indexPath;
 @end
 
 @implementation FormItemTextView
@@ -25,8 +26,9 @@
 
 #pragma mark - public
 
-- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data{
-    self.contentTextView.enableMode = edit;
+- (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
+    self.indexPath = indexPath;
+    [self.contentTextView setEditable:edit];
     if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
         self.contentTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
         self.contentTextView.text = @"";
@@ -74,7 +76,7 @@
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
-    [self routerEventWithName:form_edit_item userInfo:@{@"value":self.contentTextView.text}];
+    [self routerEventWithName:form_edit_item userInfo:@{@"value":self.contentTextView.text,@"indexPath":self.indexPath}];
 }
 
 - (UITableView *)tableView {
