@@ -84,6 +84,8 @@
             [title addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(5, 125, 255) range:NSMakeRange(0, title.length)];
             [self.button setAttributedTitle:title forState:UIControlStateNormal];
             
+        }else if([data[@"type"] isEqualToNumber:@5]){
+            [self.button setTitle:instance_value forState:UIControlStateNormal];
         }
     }
 }

@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 当前进行中的步骤 0，1，2
 @property (nonatomic, assign) NSInteger currentStep;
 
+/// 是否修改了当前表单
+@property (nonatomic, assign) BOOL isModification;
+
 /// 是否克隆当前的表单文件
 @property (nonatomic, assign) BOOL isCloneCurrentForm;
 
@@ -24,6 +27,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param buddy_file 表单id
 - (void)getCurrentFormDetail:(NSString *)buddy_file;
 
+/// 保存表单
+- (void)saveForm;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -271,6 +271,7 @@
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = @"1";
                 [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
+                [self operationPollingForm];
             }
         }];
     }else{
@@ -278,6 +279,7 @@
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = operation;
                 [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
+                [self operationPollingForm];
             }
         }];
         NSLog(@"处理任务进度");
@@ -291,6 +293,7 @@
         if (buttonIndex == 1) {
             self.taskParams.submitParams = @"1";
             [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
+            [self operationPollingForm];
         }
     }];
 }
@@ -303,8 +306,23 @@
 }
 // 修改内容后点击保存
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
-    NSLog(@"点击了保存");
+    [self operationPollingForm];
 }
+
+- (void)operationPollingForm{
+    if (self.taskType == task_type_new_polling) {
+        // 有修改则保存
+        if (self.pollingFormView.isModification == YES) {
+            [self.pollingFormView saveForm];
+        }
+        // 复制表单的话则先取消后上传
+        if (self.pollingFormView.isCloneCurrentForm == YES) {
+            [self setTaskAdjunctBy:self.taskParams.uid_target newtarget:self.pollingFormView.clone_buddy_file];
+        }
+    }
+    [self.taskManager api_operationsTask:[self.taskParams getMemoParams]];
+}
+
 - (void)showRecallTaskAlert{
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:nil message:@"请输入手机验证码" preferredStyle:UIAlertControllerStyleAlert];
     [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

@@ -89,6 +89,7 @@ static NSString *headerCell = @"headerCell";
     headerView.tag = section;
     [headerView addGestureRecognizer:tap];
 //    headerView.contentView.backgroundColor = [UIColor lightGrayColor];
+    headerView.backgroundColor = [UIColor lightGrayColor];
     return headerView;
 }
 
@@ -236,6 +237,11 @@ static NSString *headerCell = @"headerCell";
     self.buddy_file = buddy_file;
     [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
 }
+
+- (void)saveForm{
+    [self.formFlowManager operationsFormFill];
+}
+
 // 默认填充的数据
 - (void)normalFillFormInfo{
     ZHUser *user = [DataManager defaultInstance].currentUser;
@@ -362,6 +368,10 @@ static NSString *headerCell = @"headerCell";
 
 - (NSString *)clone_buddy_file{
     return self.formFlowManager.instanceBuddy_file;
+}
+
+- (BOOL)isModification{
+    return self.formFlowManager.isModification;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
