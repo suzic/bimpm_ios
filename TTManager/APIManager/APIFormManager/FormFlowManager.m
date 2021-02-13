@@ -17,8 +17,6 @@
 @property (nonatomic, strong) NSMutableDictionary *formDic;
 /// 克隆的表单
 @property (nonatomic, strong) NSMutableDictionary *cloneFormDic;
-/// 表单详情获取到的数据(克隆或原始)
-@property (nonatomic, strong) NSMutableDictionary *instanceFromDic;
 /// 克隆后的buddy_file
 @property (nonatomic, copy) NSString *clone_buddy_file;
 
@@ -150,7 +148,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(targetUpdateResult:)]) {
         [self.delegate targetUpdateResult:success];
     }
-    [self exitEditorModel];
+//    [self exitEditorModel];
 }
 #pragma mark - public
 // 进入编辑模式
@@ -457,7 +455,16 @@
     }
     return nil;
 }
-
+//- (NSMutableDictionary *)instanceFormDetail{
+//    if (self.isEditForm == NO) {
+//        return self.formDic;
+//    }else if(self.isEditForm == YES && self.isCloneForm == NO){
+//        return self.formDic;
+//    }else if(self.isEditForm == YES && self.isCloneForm == YES){
+//        return self.cloneFormDic;
+//    }
+//    return nil;
+//}
 - (NSString *)instanceBuddy_file{
     if (self.isEditForm == NO) {
         return self.buddy_file;

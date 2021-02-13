@@ -62,10 +62,10 @@ static NSString *headerIdentifier = @"headerIdentifier";
 //    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
 //        return;
 //    }
-    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
+    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished || _tools.type == task_type_polling_detail) {
         self.currentSelectedStep =  indexPath.row;
         _tools.currentSelectedStep = step;
-        [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
+        [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
         [self.collectionView reloadData];
         return;
     }

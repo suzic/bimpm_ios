@@ -85,10 +85,34 @@
 }
 
 - (void)back{
-    if (self.operabilityTools.isDetails == YES) {
-        [self.navigationController popViewControllerAnimated:YES];
+    
+    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+        if (self.pollingFormView.isModification == YES) {
+            [CNAlertView showWithTitle:@"是否保存当前修改" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+                if (buttonIndex == 1) {
+                    [self.pollingFormView saveForm:^(BOOL success) {
+                        if (self.presentedViewController) {
+                            [self dismissViewControllerAnimated:YES completion:nil];
+                        }else{
+                            [self.navigationController popViewControllerAnimated:YES];
+                        }
+                    }];
+                }
+            }];
+        }
+        else{
+            if (self.presentedViewController) {
+                [self dismissViewControllerAnimated:YES completion:nil];
+            }else{
+                [self.navigationController popViewControllerAnimated:YES];
+            }
+        }
     }else{
-        [self dismissViewControllerAnimated:YES completion:nil];
+        if (self.presentedViewController) {
+            [self dismissViewControllerAnimated:YES completion:nil];
+        }else{
+            [self.navigationController popViewControllerAnimated:YES];
+        }
     }
 }
 
@@ -274,7 +298,6 @@
         [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = @"1";
-                [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
                 [self operationPollingForm];
             }
         }];
@@ -282,7 +305,6 @@
         [CNAlertView showWithTitle:@"确认提交任务进度" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = operation;
-                [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
                 [self operationPollingForm];
             }
         }];
@@ -296,7 +318,6 @@
     [CNAlertView showWithTitle:@"是否发送当前任务" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
         if (buttonIndex == 1) {
             self.taskParams.submitParams = @"1";
-            [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
             [self operationPollingForm];
         }
     }];
@@ -305,8 +326,10 @@
 - (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
     NSLog(@"改变当前选中的步骤");
     self.operabilityTools.currentSelectedStep = stepUserDic[@"step"];
+    NSIndexPath *indexPath = stepUserDic[@"indexPath"];
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
+    [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
 }
 // 修改内容后点击保存
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
@@ -314,21 +337,23 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
-    [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
+    if (self.pollingFormView.isCloneCurrentForm == YES) {
+        [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
+    }
 }
 
 - (void)operationPollingForm{
-    if (self.taskType == task_type_new_polling) {
+    if (self.taskType == task_type_new_polling || self.taskType == task_type_polling_detail) {
         // 有修改则保存
         if (self.pollingFormView.isModification == YES) {
-            [self.pollingFormView saveForm];
+            [self.pollingFormView saveForm:^(BOOL success) {
+                [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
+            }];
         }
-        // 复制表单的话则先取消后上传
-        if (self.pollingFormView.isCloneCurrentForm == YES) {
-            [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
-        }
+    }else{
+        [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
     }
-    [self.taskManager api_operationsTask:[self.taskParams getMemoParams]];
+
 }
 
 - (void)showRecallTaskAlert{
@@ -461,7 +486,15 @@
         ZHTarget *target = self.operabilityTools.task.firstTarget;
         self.pollingFormView.formName = target.name;
         [self.pollingFormView getCurrentFormDetail:target.uid_target];
-        self.pollingFormView.currentStep = 0;
+        if (self.pollingFormView.currentStep == NSNotFound) {
+            self.pollingFormView.currentStep = 0;
+        }
+        NSLog(@"%@",self.operabilityTools.task.end_date);
+        if (self.operabilityTools.task.end_date == nil) {
+            self.pollingFormView.needClone = YES;
+        }else{
+            self.pollingFormView.needClone = NO;
+        }
     }
 }
 

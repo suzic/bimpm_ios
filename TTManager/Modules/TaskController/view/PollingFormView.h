@@ -9,6 +9,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void(^SaveFromBlock)(BOOL success);
+
 @interface PollingFormView : UIView
 
 /// 当前进行中的步骤 0，1，2
@@ -26,6 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 表单名称
 @property (nonatomic, copy) NSString *formName;
 
+/// 已经完成的任务不需要再次去克隆表单，表单默认都是不可编辑的
+@property (nonatomic, assign) BOOL needClone;
+
 /// 获取当前表单详情
 /// @param buddy_file 表单id
 - (void)getCurrentFormDetail:(NSString *)buddy_file;
@@ -37,7 +42,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)setPollingUser:(NSString *)user index:(NSInteger)index;
 
 /// 保存表单
-- (void)saveForm;
+- (void)saveForm:(SaveFromBlock)saveBlock;
 
 @end
 

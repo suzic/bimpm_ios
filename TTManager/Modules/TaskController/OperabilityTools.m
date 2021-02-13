@@ -38,7 +38,7 @@
         self.operabilityContent = YES;
         self.operabilityPriority = YES;
     }
-    if (type == task_type_detail_finished ||type == task_type_detail_initiate || type == task_type_detail_draft ||type == task_type_detail_proceeding ||task_type_polling_detail) {
+    if (type == task_type_detail_finished ||type == task_type_detail_initiate || type == task_type_detail_draft ||type == task_type_detail_proceeding ||type == task_type_polling_detail) {
         self.isDetails = YES;
     }
 }

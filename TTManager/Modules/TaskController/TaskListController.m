@@ -84,7 +84,11 @@
 - (void)pushTaskDetailsViewController:(NSDictionary *)dict{
     self.selectedTaskDic = dict;
     ZHTask *task = dict[@"task"];
-    [self loadTaskTargetDetail:task.firstTarget.uid_target];
+    if ([task.firstTarget.uid_target containsString:inspection_form_template_id]) {
+        [self pushDetai:YES];
+    }else{
+        [self loadTaskTargetDetail:task.firstTarget.uid_target];
+    }
 }
 
 - (void)pushDetai:(BOOL)isPolling{

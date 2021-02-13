@@ -45,6 +45,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, copy) NSString *instanceBuddy_file;
 /// 克隆后的表单数据(克隆或原始,页面显示数据)
 @property (nonatomic, strong) NSMutableDictionary *instanceDownLoadForm;
+/// 表单详情获取到的数据(克隆或原始)
+@property (nonatomic, strong) NSMutableDictionary *instanceFromDic;
 /// 是否修改过表单数据
 @property (nonatomic, assign) BOOL isModification;
 /// 是否是编辑状态

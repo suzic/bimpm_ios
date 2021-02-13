@@ -40,6 +40,8 @@ static NSString *headerCell = @"headerCell";
 /// 已经加载表单成功
 @property (nonatomic, assign) BOOL loadFormSuccess;
 
+@property (nonatomic, copy) SaveFromBlock saveBlock;
+
 @end
 
 @implementation PollingFormView
@@ -47,6 +49,7 @@ static NSString *headerCell = @"headerCell";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.currentStep = NSNotFound;
         self.loadFormSuccess = NO;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -167,13 +170,14 @@ static NSString *headerCell = @"headerCell";
     self.QRCodeView.QRCodeString = [self getDownLoadFormUrl];
     [self fillHeaderView];
     [self getHeaderData];
+    [self fillPollingUser];
     [self.tableView reloadData];
 }
 
 // 获取表单详情成功
 - (void)formDetailResult:(BOOL)success{
     if (success == YES) {
-        if (self.formFlowManager.canEditForm == NO) {
+        if (self.formFlowManager.canEditForm == NO && self.needClone == YES) {
             [self.formFlowManager cloneCurrentFormByBuddy_file];
         }else{
             [self.formFlowManager enterEditModel];
@@ -183,7 +187,12 @@ static NSString *headerCell = @"headerCell";
     }else{
         self.loadFormSuccess = NO;
     }
+    // 如果是克隆则通知页面替换附件
+    if (self.formFlowManager.isCloneForm == YES) {
+        [self routerEventWithName:save_edit_form userInfo:@{}];
+    }
 }
+
 // 表单克隆成功
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES) {
@@ -207,7 +216,10 @@ static NSString *headerCell = @"headerCell";
 
 // 表单更新完成
 - (void)targetUpdateResult:(BOOL)success{
-    
+    if (self.saveBlock) {
+        self.formFlowManager.isModification = NO;
+        self.saveBlock(success);
+    }
 //    [CNAlertView showWithTitle:@"温馨提示" message:@"编辑成功,是否返回" tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
 //        if (buttonIndex == 1) {
 //            [self.navigationController popViewControllerAnimated:YES];
@@ -239,7 +251,6 @@ static NSString *headerCell = @"headerCell";
     UIView *header = tap.view;
     NSInteger section = header.tag;
     NSString *sectionString = [NSString stringWithFormat:@"%ld",section];
-    NSDictionary *sectionItem = self.sectionArray[section];
     
     // 不是当前步骤并且没有负责人不允许展开
     if (self.currentStep != section) {
@@ -249,7 +260,7 @@ static NSString *headerCell = @"headerCell";
             return;
         }
     }
-    
+    self.currentStep = section;
     // 已经展开点击收起，否则展开
     if ([self.expandSectionArray containsObject:sectionString]) {
         [self.expandSectionArray removeObject:sectionString];
@@ -258,7 +269,7 @@ static NSString *headerCell = @"headerCell";
     }
     NSIndexSet *reloadSet = [NSIndexSet indexSetWithIndex:section];
     [self.tableView reloadSections:reloadSet withRowAnimation:UITableViewRowAnimationFade];
-    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":sectionItem[@"instance_value"]} index:section];
+    [self fillPollingUser];
 }
 
 - (NSString *)getDownLoadFormUrl{
@@ -266,14 +277,27 @@ static NSString *headerCell = @"headerCell";
     return url;
 }
 
-- (void)fillHeaderView{
-    NSString *value = @"";
-    if (self.formFlowManager.canEditForm == NO) {
-        value = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
-    }else{
-        value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+- (void)fillPollingUser{
+    NSDictionary *sectionItem = self.sectionArray[self.currentStep];
+    NSString *instance_value = @"";
+    if (![SZUtil isEmptyOrNull:self.formFlowManager.instanceFromDic[@"buddy_file"][@"name"]]) {
+        self.formName = self.formFlowManager.instanceFromDic[@"buddy_file"][@"name"];
     }
-    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
+    if (![SZUtil isEmptyOrNull:sectionItem[@"instance_value"]]) {
+        instance_value = sectionItem[@"instance_value"];
+    }
+    
+    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":instance_value} index:self.currentStep];
+}
+- (void)fillHeaderView{
+//    NSString *value = @"";
+//    if (self.formFlowManager.canEditForm == NO) {
+//        value = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
+//    }else{
+//    }
+    NSString *value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
+
+    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value ==nil ? @"":value}];
 }
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
@@ -284,7 +308,8 @@ static NSString *headerCell = @"headerCell";
     }
 }
 
-- (void)saveForm{
+- (void)saveForm:(SaveFromBlock)saveBlock{
+    self.saveBlock = saveBlock;
     [self.formFlowManager operationsFormFill];
 }
 
@@ -305,9 +330,9 @@ static NSString *headerCell = @"headerCell";
     }
     self.formFlowManager.isModification = NO;
     
-    [self getHeaderData];
-    NSDictionary *sectionItem = self.sectionArray[self.currentStep];
-    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":sectionItem[@"instance_value"]} index:self.currentStep];
+//    [self saveForm];
+    
+    [self fillPollingUser];
 }
 
 - (NSMutableArray *)getHeaderData{
