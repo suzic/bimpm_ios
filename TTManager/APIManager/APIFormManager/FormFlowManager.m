@@ -310,6 +310,9 @@
 
 // 克隆当前表单，克隆成功之后 调用下载clone后的表单
 - (void)cloneCurrentFormByBuddy_file{
+    if (self.isSnapshoot == YES) {
+        return;
+    }
     [self.targetCloneManager loadData];
 }
 
