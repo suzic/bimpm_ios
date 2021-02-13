@@ -220,18 +220,23 @@
         value = @"";
     }
     NSMutableArray *items = [NSMutableArray arrayWithArray:self.instanceDownLoadForm[@"items"]];
-    NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
-    itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
-    items[indexPath.row] = itemDic;
-    self.instanceDownLoadForm[@"items"] = items;
+    if (items.count > 0) {
+        NSMutableDictionary *itemDic = [NSMutableDictionary dictionaryWithDictionary:items[indexPath.row]];
+        itemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
+        items[indexPath.row] = itemDic;
+        self.instanceDownLoadForm[@"items"] = items;
+    }
+    
     
     // fill 的数据
     NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
-    NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
-    currentitemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
-    currentitems[indexPath.row] = currentitemDic;
-    self.instanceFromDic[@"items"] = currentitems;
-    
+    if (currentitems.count > 0) {
+        NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
+        currentitemDic[@"instance_value"] = [NSString stringWithFormat:@"%@",value];
+        currentitems[indexPath.row] = currentitemDic;
+        self.instanceFromDic[@"items"] = currentitems;
+    }
+
     [self callReloadViewDelegate];
 }
 // 添加图片到表单
