@@ -11,13 +11,17 @@
 #import "DragButton.h"
 #import "TaskController.h"
 
-@interface TaskListController ()
+@interface TaskListController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong) TabListView *taskTabView;
 @property (nonatomic, strong) NSArray *listSattusArray;
 @property (nonatomic, strong) NSArray *newTasTypeklist;
-@property (nonatomic,assign) TaskType taskType;
+@property (nonatomic, assign) TaskType taskType;
 @property (nonatomic, strong) NSMutableArray *taskListViewArray;
+
+@property (nonatomic, strong) APITargetListManager *targetListManager;
+
+@property (nonatomic, strong) NSDictionary *selectedTaskDic;
 
 @end
 
@@ -78,19 +82,75 @@
     return listTitle;
 }
 - (void)pushTaskDetailsViewController:(NSDictionary *)dict{
-    NSString *uid_task = dict[@"uid_task"];
-    NSInteger taskStatus = [dict[@"taskStatus"] integerValue];
+    self.selectedTaskDic = dict;
+    ZHTask *task = dict[@"task"];
+    [self loadTaskTargetDetail:task.firstTarget.uid_target];
+}
+
+- (void)pushDetai:(BOOL)isPolling{
+    ZHTask *task = self.selectedTaskDic[@"task"];
+    NSInteger taskStatus = [self.selectedTaskDic[@"taskStatus"] integerValue];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
     TaskController *taskVC = (TaskController *)[sb instantiateViewControllerWithIdentifier:@"taskController"];
-    taskVC.id_task = uid_task;
-    taskVC.taskType = (taskStatus +6);
+    taskVC.id_task = task.uid_task;
+    
+    if (isPolling == YES) {
+        taskVC.taskType = 10;
+    }else{
+        taskVC.taskType = (taskStatus +6);
+    }
     self.taskStatus = taskStatus;
     TaskListView *listView = self.taskListViewArray[self.taskStatus];
     listView.needReloadData = YES;
     [self.navigationController pushViewController:taskVC animated:YES];
 }
 
+// 判断任务附件是不是表单任务（因为任务没有类型区分，必须获取一下targetdetail）
+- (void)loadTaskTargetDetail:(NSString *)uid_target{
+    // 如果当前存在筛选数据 ，先清空，后添加
+    if (self.targetListManager.pageSize.filters.count >0) {
+        [self.targetListManager.pageSize.filters removeAllObjects];
+    }
+    // 以特定开头
+    NSDictionary *name = @{@"key":@"uid_target",
+                             @"operator":@":",
+                             @"value":uid_target,
+                             @"join":@"and"};
+    [self.targetListManager.pageSize.filters addObject:name];
+    [self.targetListManager loadData];
+}
+
+#pragma mark - APIManagerParamSource
+
+- (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
+    NSDictionary *params = [NSDictionary dictionary];
+    if (manager == self.targetListManager) {
+        ZHProject *project = [DataManager defaultInstance].currentProject;
+        params = @{@"id_project":INT_32_TO_STRING(project.id_project),
+                @"id_module":[NSNull null],
+                @"uid_parent":[NSNull null],
+        };
+    }
+    return params;
+}
+
+#pragma mark - ApiManagerCallBackDelegate
+
+- (void)managerCallAPISuccess:(BaseApiManager *)manager{
+    
+    if (manager == self.targetListManager) {
+        NSArray *result = (NSArray *)manager.response.responseData;
+        ZHTarget *target = result[0];
+        [self pushDetai:target.type == 11];
+    }
+}
+
+- (void)managerCallAPIFailed:(BaseApiManager *)manager{
+    
+}
+
 #pragma mark - setter getter
+
 - (TabListView *)taskTabView{
     if (_taskTabView == nil) {
         _taskTabView = [[TabListView alloc] init];
@@ -109,7 +169,19 @@
     }
     return _newTasTypeklist;
 }
+
+- (APITargetListManager *)targetListManager{
+    if (_targetListManager == nil) {
+        _targetListManager = [[APITargetListManager alloc] init];
+        _targetListManager.delegate = self;
+        _targetListManager.paramSource = self;
+        [_targetListManager.pageSize.orders addObject:@{@"key":@"name", @"ascending":@"asc"}];
+    }
+    return _targetListManager;
+}
+
 #pragma mark - Responder Chain
+
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:Task_list_selected]) {
         [self pushTaskDetailsViewController:userInfo];

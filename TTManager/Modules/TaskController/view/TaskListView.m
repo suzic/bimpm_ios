@@ -118,7 +118,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.listType == 1) {
         ZHTask *task = self.listArray[indexPath.row];
-        [self routerEventWithName:Task_list_selected userInfo:@{@"uid_task":task.uid_task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
+        [self routerEventWithName:Task_list_selected userInfo:@{@"task":task,@"taskStatus":[NSString stringWithFormat:@"%ld",self.currentTaskStatus]}];
     }else if(self.listType == 2){
         ZHForm *form = self.listArray[indexPath.row];
         [self routerEventWithName:form_selected_item userInfo:@{@"form":form}];

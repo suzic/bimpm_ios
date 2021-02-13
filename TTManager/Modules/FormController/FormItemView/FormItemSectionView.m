@@ -15,8 +15,6 @@
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
 
-
-
 @end
 
 @implementation FormItemSectionView
@@ -32,6 +30,15 @@
 - (void)addUI{
     
     [self.contentView addSubview:self.itemsView];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = RGB_COLOR(153, 153, 153);
+    [self.contentView addSubview:lineView];
+    
+    [lineView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+        make.height.equalTo(0.5);
+    }];
     
     [self.itemsView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.bottom.right.equalTo(0);
@@ -64,14 +71,15 @@
 
 - (void)setFormItemViewType{
 //    self.keyLabel.text = _formItem[@"name"];
-    NSInteger type = [self.formItem[@"type"] intValue];
-    if (type == 0 || type == 1 || type == 2) {
-        [self.itemsView setItemView:formItemType_text edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
-    }else if(type == 3 || type == 4 || type == 5 || type == 6){
-        [self.itemsView setItemView:formItemType_btn edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
-    }else if(type == 7 || type == 8){
-        [self.itemsView setItemView:formItemType_image edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
-    }
+//    NSInteger type = [self.formItem[@"type"] intValue];
+    [self.itemsView setItemView:formItemType_btn edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
+//    if (type == 0 || type == 1 || type == 2) {
+//        [self.itemsView setItemView:formItemType_text edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
+//    }else if(type == 3 || type == 4 || type == 5 || type == 6){
+//        [self.itemsView setItemView:formItemType_btn edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
+//    }else if(type == 7 || type == 8){
+//        [self.itemsView setItemView:formItemType_image edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];
+//    }
 }
 
 - (FormItemsView *)itemsView{

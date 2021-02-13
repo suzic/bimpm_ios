@@ -76,9 +76,9 @@ static NSString *headerIdentifier = @"headerIdentifier";
             NSLog(@"来自模版,不可修改");
             return;
         }
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO}];
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO,@"indexPath":indexPath}];
     }else{
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step}];
+        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step,@"indexPath":indexPath}];
     }
 }
 #pragma mark - 页面操作
@@ -133,11 +133,12 @@ static NSString *headerIdentifier = @"headerIdentifier";
         }
     }
     if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
-        if (_tools.type != task_type_new_polling) {
+        if (_tools.type != task_type_new_polling && _tools.type != task_type_polling_detail) {
             [self insertEmptyStepToCurrentStep];
         }
     }
 }
+
 // 插入一条空的步骤数据
 - (void)insertEmptyStepToCurrentStep{
     ZHStep *step = (ZHStep *)[[DataManager defaultInstance] getStepFromCoredataByID:[SZUtil getGUID]];

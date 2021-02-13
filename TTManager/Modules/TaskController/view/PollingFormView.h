@@ -23,12 +23,22 @@ NS_ASSUME_NONNULL_BEGIN
 /// 克隆之后的表单id，只有在isCloneCurrentForm = YES时 才有用
 @property (nonatomic, copy) NSString *clone_buddy_file;
 
+/// 表单名称
+@property (nonatomic, copy) NSString *formName;
+
 /// 获取当前表单详情
 /// @param buddy_file 表单id
 - (void)getCurrentFormDetail:(NSString *)buddy_file;
 
+
+/// 设置当前巡检步骤负责人
+/// @param user 用户名称
+/// @param index 负责的步骤
+- (void)setPollingUser:(NSString *)user index:(NSInteger)index;
+
 /// 保存表单
 - (void)saveForm;
+
 @end
 
 NS_ASSUME_NONNULL_END

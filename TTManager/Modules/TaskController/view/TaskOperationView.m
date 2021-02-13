@@ -152,6 +152,7 @@
             [self taskFinishOperations];
             break;
         case task_type_detail_draft:
+        case task_type_polling_detail:
             [self newTaskOperations];
             break;
         case task_type_detail_initiate:
@@ -240,6 +241,11 @@
     _tools = tools;
     [self setBottomToolsOperations:_tools];
     [self setPlanEndTime];
+    if (_tools.type == task_type_polling_detail || _tools.type == task_type_new_polling) {
+        self.saveBtn.hidden = YES;
+    }else{
+        self.saveBtn.hidden = NO;
+    }
 }
 - (UIButton *)saveBtn{
     if (_saveBtn == nil) {

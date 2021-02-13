@@ -86,6 +86,8 @@
             
         }else if([data[@"type"] isEqualToNumber:@5]){
             [self.button setTitle:instance_value forState:UIControlStateNormal];
+        }else{
+            [self.button setTitle:instance_value forState:UIControlStateNormal];
         }
     }
 }

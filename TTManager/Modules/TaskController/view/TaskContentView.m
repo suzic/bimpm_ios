@@ -64,6 +64,7 @@
             [self newTaskAdjuctFile];
             break;
         case task_type_new_polling:
+        case task_type_polling_detail:
             self.adjunctFileBtn.enabled = YES;
 //            self.editPriority = YES;
             self.contentView.editable = YES;

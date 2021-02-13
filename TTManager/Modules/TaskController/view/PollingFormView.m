@@ -10,7 +10,7 @@
 #import "FormItemSectionView.h"
 #import "WebController.h"
 #import "FormQRCodeView.h"
-
+#import "PollingHeaderView.h"
 
 static NSString *textCellIndex = @"textCellIndex";
 static NSString *headerCell = @"headerCell";
@@ -20,6 +20,8 @@ static NSString *headerCell = @"headerCell";
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) FormQRCodeView *QRCodeView;
+
+@property (nonatomic, strong) PollingHeaderView *pollingUser;
 
 /// 当前展开的section
 @property (nonatomic, strong) NSMutableArray *expandSectionArray;
@@ -35,6 +37,9 @@ static NSString *headerCell = @"headerCell";
 /// 当前表单id
 @property (nonatomic, copy) NSString *buddy_file;
 
+/// 已经加载表单成功
+@property (nonatomic, assign) BOOL loadFormSuccess;
+
 @end
 
 @implementation PollingFormView
@@ -42,6 +47,7 @@ static NSString *headerCell = @"headerCell";
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.loadFormSuccess = NO;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     }
@@ -72,23 +78,30 @@ static NSString *headerCell = @"headerCell";
     }
     return 0;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 44;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section{
+    return 0.01;
+}
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    return nil;
+}
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
     
     FormItemSectionView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerCell];
     if (self.sectionArray.count >0) {
         NSDictionary *dic = self.sectionArray[section];
-        NSInteger row = section == 0 ? 0:(section == 7 ? 7 :11);
-        [headerView setIsFormEdit:self.currentStep == section indexPath:[NSIndexPath indexPathForRow:row inSection:0] item:dic];
+        NSInteger row = section == 0 ? 0:(section == 1 ? 7 :11);
+        [headerView setIsFormEdit:NO indexPath:[NSIndexPath indexPathForRow:row inSection:0] item:dic];
         
     }
     UITapGestureRecognizer *tap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(expandSection:)];
     headerView.tag = section;
     [headerView addGestureRecognizer:tap];
-//    headerView.contentView.backgroundColor = [UIColor lightGrayColor];
+    headerView.contentView.backgroundColor = [UIColor lightGrayColor];
     headerView.backgroundColor = [UIColor lightGrayColor];
     return headerView;
 }
@@ -120,6 +133,7 @@ static NSString *headerCell = @"headerCell";
     }else if([eventName isEqualToString:save_edit_form]){
         [self endEditing:YES];
         [self.formFlowManager operationsFormFill];
+        [super routerEventWithName:save_edit_form userInfo:@{}];
     }else if([eventName isEqualToString:add_formItem_image]){
         [self addImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:open_form_url]){
@@ -150,6 +164,7 @@ static NSString *headerCell = @"headerCell";
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
+    self.QRCodeView.QRCodeString = [self getDownLoadFormUrl];
     [self fillHeaderView];
     [self getHeaderData];
     [self.tableView reloadData];
@@ -164,6 +179,9 @@ static NSString *headerCell = @"headerCell";
             [self.formFlowManager enterEditModel];
             [self normalFillFormInfo];
         }
+        self.loadFormSuccess = YES;
+    }else{
+        self.loadFormSuccess = NO;
     }
 }
 // 表单克隆成功
@@ -177,7 +195,9 @@ static NSString *headerCell = @"headerCell";
 }
 // 表单下载成功
 - (void)formDownLoadResult:(BOOL)success{
-    
+    if (success == YES) {
+        
+    }
 }
 
 // 表单操作完成
@@ -195,6 +215,23 @@ static NSString *headerCell = @"headerCell";
 //    }];
 }
 
+#pragma mark - public
+
+- (void)setPollingUser:(NSString *)user index:(NSInteger)index{
+    NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"value":user}];
+    if (index == 0) {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+        dic[@"indexPath"] = indexPath;
+    }else if(index == 1){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:7 inSection:0];
+        dic[@"indexPath"] = indexPath;
+    }else if(index == 2){
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:11 inSection:0];
+        dic[@"indexPath"] = indexPath;
+    }
+    [self.formFlowManager modifyCurrentDownLoadForm:dic];
+}
+
 #pragma mark - private
 
 // 点击展开section
@@ -202,6 +239,7 @@ static NSString *headerCell = @"headerCell";
     UIView *header = tap.view;
     NSInteger section = header.tag;
     NSString *sectionString = [NSString stringWithFormat:@"%ld",section];
+    NSDictionary *sectionItem = self.sectionArray[section];
     
     // 不是当前步骤并且没有负责人不允许展开
     if (self.currentStep != section) {
@@ -220,6 +258,12 @@ static NSString *headerCell = @"headerCell";
     }
     NSIndexSet *reloadSet = [NSIndexSet indexSetWithIndex:section];
     [self.tableView reloadSections:reloadSet withRowAnimation:UITableViewRowAnimationFade];
+    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":sectionItem[@"instance_value"]} index:section];
+}
+
+- (NSString *)getDownLoadFormUrl{
+    NSString *url = [NSString stringWithFormat:@"%@%@",FILESERVICEADDRESS,URL_FILE_DOWNLOAD(self.formFlowManager.instanceBuddy_file)];
+    return url;
 }
 
 - (void)fillHeaderView{
@@ -234,8 +278,10 @@ static NSString *headerCell = @"headerCell";
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
 {
-    self.buddy_file = buddy_file;
-    [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+    if (self.loadFormSuccess == NO) {
+        self.buddy_file = buddy_file;
+        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+    }
 }
 
 - (void)saveForm{
@@ -258,6 +304,10 @@ static NSString *headerCell = @"headerCell";
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
     }
     self.formFlowManager.isModification = NO;
+    
+    [self getHeaderData];
+    NSDictionary *sectionItem = self.sectionArray[self.currentStep];
+    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":sectionItem[@"instance_value"]} index:self.currentStep];
 }
 
 - (NSMutableArray *)getHeaderData{
@@ -286,44 +336,64 @@ static NSString *headerCell = @"headerCell";
 #pragma mark - UI
 
 - (void)addUI{
+    [self addSubview:self.pollingUser];
     [self addSubview:self.headerView];
     [self addSubview:self.tableView];
     [self addSubview:self.QRCodeView];
+    
+    UIView *lineView = [[UIView alloc] init];
+    lineView.backgroundColor = RGB_COLOR(153, 153, 153);
+    [self.headerView addSubview:lineView];
+    
+    [lineView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.equalTo(0);
+        make.right.equalTo(self.QRCodeView.mas_left);
+        make.height.equalTo(0.5);
+    }];
+    
+    [self.pollingUser makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(10);
+        make.left.right.equalTo(0);
+        make.height.equalTo(88);
+    }];
+    [self.QRCodeView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.pollingUser.mas_bottom);
+        make.right.equalTo(-10);
+        make.width.height.equalTo(88);
+    }];
     [self.headerView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(54);
+        make.top.equalTo(142);
         make.left.right.equalTo(0);
         make.height.equalTo(44);
     }];
     [self.tableView makeConstraints:^(MASConstraintMaker *make) {
         make.left.bottom.right.equalTo(0);
         make.top.equalTo(self.headerView.mas_bottom);
-    }];
-    [self.QRCodeView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(10);
-        make.right.equalTo(-10);
-        make.width.height.equalTo(88);
-    }];
-//    self.QRCodeView.backgroundColor = [UIColor blueColor];
-    self.QRCodeView.QRCodeString = @"1111111111111111";
+    }];    
 }
 
 #pragma mark - setter and getter
 
 - (UITableView *)tableView{
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         //直接用估算高度
         _tableView.estimatedRowHeight = 44;
         _tableView.rowHeight = UITableViewAutomaticDimension;
         _tableView.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//        _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         [_tableView registerClass:[FormItemSectionView class] forHeaderFooterViewReuseIdentifier:headerCell];
     }
     return _tableView;
 }
-
+- (PollingHeaderView *)pollingUser{
+    if (_pollingUser == nil) {
+        _pollingUser = [[PollingHeaderView alloc] init];
+    }
+    return _pollingUser;
+}
 - (FormQRCodeView *)QRCodeView{
     if (_QRCodeView == nil) {
         _QRCodeView = [[FormQRCodeView alloc] init];

@@ -12,6 +12,7 @@
 		400B495125A6B653006CBEBB /* AssetsLibrary.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495025A6B653006CBEBB /* AssetsLibrary.framework */; };
 		400B495325A6B660006CBEBB /* Photos.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495225A6B660006CBEBB /* Photos.framework */; };
 		400B495525A6B66D006CBEBB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 400B495425A6B66D006CBEBB /* AVFoundation.framework */; };
+		400FD89B25D7A924000237D6 /* PollingHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 400FD89A25D7A924000237D6 /* PollingHeaderView.m */; };
 		402A9EF42595769900A9DABA /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 402A9EF32595769900A9DABA /* AppDelegate.mm */; };
 		402A9EFD2595769900A9DABA /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 402A9EFB2595769900A9DABA /* Main.storyboard */; };
 		402A9F022595769C00A9DABA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 402A9F012595769C00A9DABA /* Assets.xcassets */; };
@@ -221,6 +222,8 @@
 		400B495025A6B653006CBEBB /* AssetsLibrary.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AssetsLibrary.framework; path = System/Library/Frameworks/AssetsLibrary.framework; sourceTree = SDKROOT; };
 		400B495225A6B660006CBEBB /* Photos.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Photos.framework; path = System/Library/Frameworks/Photos.framework; sourceTree = SDKROOT; };
 		400B495425A6B66D006CBEBB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		400FD89925D7A924000237D6 /* PollingHeaderView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PollingHeaderView.h; sourceTree = "<group>"; };
+		400FD89A25D7A924000237D6 /* PollingHeaderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PollingHeaderView.m; sourceTree = "<group>"; };
 		402A9EEF2595769900A9DABA /* TTManager.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TTManager.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		402A9EF22595769900A9DABA /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		402A9EF32595769900A9DABA /* AppDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = AppDelegate.mm; sourceTree = "<group>"; };
@@ -1522,6 +1525,8 @@
 				406FCA5D259F7DD100636079 /* TaskOperationView.m */,
 				4043E48125D17B1A00EF0F9F /* PollingFormView.h */,
 				4043E48225D17B1A00EF0F9F /* PollingFormView.m */,
+				400FD89925D7A924000237D6 /* PollingHeaderView.h */,
+				400FD89A25D7A924000237D6 /* PollingHeaderView.m */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -1797,6 +1802,7 @@
 				406FCA5E259F7DD100636079 /* TaskOperationView.m in Sources */,
 				402AA18F259727CA00A9DABA /* APICaptchManager.m in Sources */,
 				402A9F472595A4DD00A9DABA /* DocumentLibController.m in Sources */,
+				400FD89B25D7A924000237D6 /* PollingHeaderView.m in Sources */,
 				402AA0FF2595D90400A9DABA /* ZHStep+CoreDataProperties.m in Sources */,
 				402AA1F225998D8500A9DABA /* MoreWorkMsgController.m in Sources */,
 				4054B96F25B6BD5D0023FC7F /* LunarSolarTransform.m in Sources */,

@@ -43,14 +43,7 @@
 // Responder Chain事件处理
 @property (nonatomic, strong) NSDictionary<NSString *, NSInvocation *> *eventStrategy;
 
-// api
-//@property (nonatomic, strong) APITaskNewManager *taskNewManager;
-//@property (nonatomic, strong) APITaskEditManager *taskEditManager;
-//@property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
-//@property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
-//@property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
 @property (nonatomic, strong) UploadFileManager *uploadManager;
-//@property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
 
 @property (nonatomic, strong) TaskManager *taskManager;
 
@@ -74,7 +67,9 @@
         [self.taskManager api_newTask:[self.taskParams getNewTaskParams]];
     }
 }
+
 #pragma mark - private method
+
 - (void)setNavbackItemAndTitle{
     self.navigationController.interactivePopGestureRecognizer.delegate = (id)self;
     self.title = (self.operabilityTools.isDetails ? @"任务详情":@"新任务");
@@ -88,6 +83,7 @@
         self.navigationItem.rightBarButtonItem = rightItem;
     }
 }
+
 - (void)back{
     if (self.operabilityTools.isDetails == YES) {
         [self.navigationController popViewControllerAnimated:YES];
@@ -95,6 +91,7 @@
         [self dismissViewControllerAnimated:YES completion:nil];
     }
 }
+
 - (void)showMenu:(UIButton *)rightBarItem{
     PopViewController *menuView = [[PopViewController alloc] init];
     menuView.delegate = self;
@@ -119,6 +116,7 @@
     menuView.popoverPresentationController.sourceRect = CGRectMake(rightBarItem.frame.origin.x, rightBarItem.frame.origin.y+20, 0, 0);
     [self presentViewController:menuView animated:YES completion:nil];
 }
+
 // 设置view的tools
 - (void)setModuleViewOperabilityTools{
     self.stepView.tools = self.operabilityTools;
@@ -126,6 +124,7 @@
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
 }
+
 // 设置请求参数
 - (void)setRequestParams:(ZHTask *)task{
     self.taskParams.name = task.name;
@@ -137,6 +136,7 @@
     self.taskParams.info = task.info;
     self.taskParams.uid_task = task.uid_task;
 }
+
 // 返回
 - (IBAction)closeVCAction:(id)sender {
     if (self.presentingViewController) {
@@ -145,10 +145,12 @@
         [self.navigationController popViewControllerAnimated:YES];
     }
 }
+
 // 添加或者取消步骤负责人
 - (void)addUserToStep:(NSDictionary *)addStepDic{
     // 0尾步骤 ,1中间用户
     NSString *stepUserLoc = addStepDic[@"addType"];
+    NSIndexPath *indexPath = addStepDic[@"indexPath"];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     TeamController *team = (TeamController *)[sb instantiateViewControllerWithIdentifier:@"teamController"];
     team.selectedUserType = YES;
@@ -162,6 +164,8 @@
             self.taskParams.uid_step = addStepDic[@"uid_step"];
             [self.taskManager api_operationsTask:[self.taskParams getAssignUserParams]];
         }
+        // 表单填充步骤负责人
+        [self setPollingStepUser:user.name index:indexPath.row];
     };
     
     [self.navigationController pushViewController:team animated:YES];
@@ -306,7 +310,11 @@
 }
 // 修改内容后点击保存
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
-    [self operationPollingForm];
+//    [self operationPollingForm];
+}
+
+- (void)savePollingForm:(NSDictionary *)dic{
+    [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
 - (void)operationPollingForm{
@@ -317,7 +325,7 @@
         }
         // 复制表单的话则先取消后上传
         if (self.pollingFormView.isCloneCurrentForm == YES) {
-            [self setTaskAdjunctBy:self.taskParams.uid_target newtarget:self.pollingFormView.clone_buddy_file];
+            [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
         }
     }
     [self.taskManager api_operationsTask:[self.taskParams getMemoParams]];
@@ -387,6 +395,7 @@
     self.operabilityTools.task = task;
     [self setRequestParams:self.operabilityTools.task];
     [self setModuleViewOperabilityTools];
+    [self setPollingFromDetail];
 }
 
 - (void)callBackEdit:(BaseApiManager *)manager{
@@ -400,9 +409,7 @@
         self.taskParams.id_user = self.to_uid_user;
         [self.taskManager api_operationsTask:[self.taskParams getToUserParams:YES]];
     }else{
-        if (self.taskType == task_type_new_polling) {
-            [self.pollingFormView getCurrentFormDetail:task.firstTarget.uid_target];
-        }
+        
         [self.taskManager api_getTaskDetail:[self.taskParams getTaskDetailsParams]];
     }
 }
@@ -436,12 +443,32 @@
 /// @param new_uid_target 当前设置的附件
 - (void)setTaskAdjunctBy:(NSString *)uid_target newtarget:(NSString *)new_uid_target{
     if ([SZUtil isEmptyOrNull:uid_target]) {
+        self.taskParams.uid_target = new_uid_target;
         [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
     }else{
+        self.taskParams.uid_target = uid_target;
         [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:NO] callBack:^(BOOL success) {
             self.taskParams.uid_target = new_uid_target;
             [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
         }];
+    }
+}
+
+#pragma mark - 巡检相关的操作
+// 设置巡检相关的数据
+- (void)setPollingFromDetail{
+    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+        ZHTarget *target = self.operabilityTools.task.firstTarget;
+        self.pollingFormView.formName = target.name;
+        [self.pollingFormView getCurrentFormDetail:target.uid_target];
+        self.pollingFormView.currentStep = 0;
+    }
+}
+
+// 设置巡检负责人
+- (void)setPollingStepUser:(NSString *)user index:(NSInteger)index{
+    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+        [self.pollingFormView setPollingUser:user index:index];
     }
 }
 
@@ -484,8 +511,15 @@
     if (_taskType != taskType) {
         _taskType = taskType;
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
-        self.pollingFormView.hidden = !(_taskType == task_type_new_polling);
-        self.taskContentView.hidden = _taskType == task_type_new_polling;
+        self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||_taskType == task_type_polling_detail);
+        self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||_taskType == task_type_polling_detail);
+        if (_taskType == task_type_new_polling ||_taskType == task_type_polling_detail) {
+            self.pollingFormView.hidden = NO;
+            self.taskContentView.hidden = YES;
+        }else{
+            self.pollingFormView.hidden = YES;
+            self.taskContentView.hidden = NO;
+        }
     }
 }
 
@@ -574,7 +608,8 @@
             task_process_submit:[self createInvocationWithSelector:@selector(bottomToolsOperabilityEvent:)],
             task_send_toUser:[self createInvocationWithSelector:@selector(sengCurrentTask:)],
             current_selected_step:[self createInvocationWithSelector:@selector(changeCurrentSelectedStepUser:)],
-            task_click_save:[self createInvocationWithSelector:@selector(alterContentTexOrTaskTitletSave:)]
+            task_click_save:[self createInvocationWithSelector:@selector(alterContentTexOrTaskTitletSave:)],
+            save_edit_form:[self createInvocationWithSelector:@selector(savePollingForm:)],
         };
     }
     return _eventStrategy;
