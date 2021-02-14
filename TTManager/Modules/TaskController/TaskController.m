@@ -322,6 +322,7 @@
         }
     }];
 }
+
 // 改变当前选中的步骤
 - (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
     NSLog(@"改变当前选中的步骤");
@@ -331,6 +332,7 @@
     self.taskOperationView.tools = self.operabilityTools;
     [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
 }
+
 // 修改内容后点击保存
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
 //    [self operationPollingForm];
@@ -502,6 +504,15 @@
 - (void)setPollingStepUser:(NSString *)user index:(NSInteger)index{
     if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
         [self.pollingFormView setPollingUser:user index:index];
+        NSArray *result = [self.operabilityTools.currentSelectedStep.memoDocs allObjects];
+        if (result.count > 0) {
+            self.pollingFormView.hidden = NO;
+            ZHTarget *target = result[0];
+            self.pollingFormView.formName = target.name;
+            [self.pollingFormView getCurrentFormDetail:target.uid_target];
+        }else{
+            self.pollingFormView.hidden = YES;
+        }
     }
 }
 

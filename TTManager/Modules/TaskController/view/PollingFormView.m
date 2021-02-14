@@ -302,9 +302,12 @@ static NSString *headerCell = @"headerCell";
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
 {
-    if (self.loadFormSuccess == NO) {
+    if (![buddy_file isEqualToString:self.buddy_file]) {
         self.buddy_file = buddy_file;
         [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
+    }
+    if (self.loadFormSuccess == NO) {
+        
     }
 }
 
