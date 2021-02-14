@@ -1,8 +1,8 @@
 //
 //  ZHTask+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/2/14.
 //
 //
 
@@ -27,6 +27,8 @@
 @dynamic start_date;
 @dynamic type;
 @dynamic uid_task;
+@dynamic flow_name;
+@dynamic flow_state;
 @dynamic assignStep;
 @dynamic belongFlow;
 @dynamic currentUsers;

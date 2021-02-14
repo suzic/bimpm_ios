@@ -1,8 +1,8 @@
 //
 //  ZHTask+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/2/14.
 //
 //
 
@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSDate *start_date;
 @property (nonatomic) int32_t type;
 @property (nullable, nonatomic, copy) NSString *uid_task;
+@property (nullable, nonatomic, copy) NSString *flow_name;
+@property (nullable, nonatomic, copy) NSString *flow_state;
 @property (nullable, nonatomic, retain) ZHStep *assignStep;
 @property (nullable, nonatomic, retain) ZHFlow *belongFlow;
 @property (nullable, nonatomic, retain) NSSet<ZHUser *> *currentUsers;

@@ -203,6 +203,7 @@
 - (void)setCurrentTaskStatus:(TaskStatus)currentTaskStatus{
     if (_currentTaskStatus != currentTaskStatus) {
         _currentTaskStatus = currentTaskStatus;
+        [self.taskListManager.pageSize.orders removeAllObjects];
         switch (_currentTaskStatus) {
             case Task_list:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];

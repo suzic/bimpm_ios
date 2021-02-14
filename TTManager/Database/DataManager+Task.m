@@ -65,8 +65,8 @@
     task.name = info[@"name"];
     task.info = info[@"info"];
     task.memo = info[@"memo"];
-//    task.flow_state = info[@"flow_state"];
-//    task.flow_name = info[@"flow_name"];
+    task.flow_state = [NSString stringWithFormat:@"%@",info[@"flow_state"]];
+    task.flow_name = info[@"flow_name"];
 //    task.first_memo = info[@"first_memo"];
     task.priority = [info[@"priority"] intValue];
     if (![SZUtil isEmptyOrNull:info[@"start_date"]]) {

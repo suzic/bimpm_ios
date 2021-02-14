@@ -37,7 +37,7 @@
 }
 - (void)setCurrenttask:(ZHTask *)currenttask{
     _currenttask = currenttask;
-    self.taskName.text = [NSString stringWithFormat:@"%@-%@", _currenttask.name,_currenttask.assignStep.name];
+    self.taskName.text = [NSString stringWithFormat:@"%@-%@",_currenttask.flow_name, _currenttask.name];
 //        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
     self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
