@@ -146,13 +146,13 @@
             [self newTaskOperations];
             break;
         case task_type_detail_proceeding:
+        case task_type_polling_detail:
             [self taskProceedingOperations];
             break;
         case task_type_detail_finished:
             [self taskFinishOperations];
             break;
         case task_type_detail_draft:
-        case task_type_polling_detail:
             [self newTaskOperations];
             break;
         case task_type_detail_initiate:
@@ -181,6 +181,7 @@
     self.agreeBtn.hidden = YES;
     self.predictTimeBtn.enabled = YES;
 }
+
 // 已经完成的任务
 - (void)taskFinishOperations{
     self.saveBtn.enabled = NO;
@@ -192,6 +193,7 @@
     [self.rejectBtn setTitle:text forState:UIControlStateNormal];
     self.predictTimeBtn.enabled = NO;
 }
+
 // 正在进行中的
 - (void)taskProceedingOperations{
     self.saveBtn.enabled = YES;

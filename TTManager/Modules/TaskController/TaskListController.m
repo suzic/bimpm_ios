@@ -115,13 +115,17 @@
     if (self.targetListManager.pageSize.filters.count >0) {
         [self.targetListManager.pageSize.filters removeAllObjects];
     }
-    // 以特定开头
-    NSDictionary *name = @{@"key":@"uid_target",
-                             @"operator":@":",
-                             @"value":uid_target,
-                             @"join":@"and"};
-    [self.targetListManager.pageSize.filters addObject:name];
-    [self.targetListManager loadData];
+    if (![SZUtil isEmptyOrNull:uid_target]) {
+        // 以特定开头
+        NSDictionary *name = @{@"key":@"uid_target",
+                                 @"operator":@":",
+                                 @"value":uid_target,
+                                 @"join":@"and"};
+        [self.targetListManager.pageSize.filters addObject:name];
+        [self.targetListManager loadData];
+    }else{
+        [self pushDetai:NO];
+    }
 }
 
 #pragma mark - APIManagerParamSource

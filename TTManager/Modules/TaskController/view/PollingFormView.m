@@ -310,7 +310,11 @@ static NSString *headerCell = @"headerCell";
 
 - (void)saveForm:(SaveFromBlock)saveBlock{
     self.saveBlock = saveBlock;
-    [self.formFlowManager operationsFormFill];
+    if (self.formFlowManager.isModification == YES && self.formFlowManager.isSnapshoot == NO) {
+        [self.formFlowManager operationsFormFill];
+    }else{
+        self.saveBlock(YES);
+    }
 }
 
 // 默认填充的数据

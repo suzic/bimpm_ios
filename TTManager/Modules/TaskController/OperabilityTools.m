@@ -60,6 +60,7 @@
 - (void)setTask:(ZHTask *)task{
     _task = task;
     self.stepArray = [self getCurrentTaskStep:_task];
+    self.currentSelectedStep = [_task.belongFlow.stepCurrent allObjects][0];
 }
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
     NSLog(@"%@",task.belongFlow.stepFirst);
