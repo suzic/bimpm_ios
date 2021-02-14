@@ -487,16 +487,18 @@
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         ZHTarget *target = self.operabilityTools.task.firstTarget;
         self.pollingFormView.formName = target.name;
-        [self.pollingFormView getCurrentFormDetail:target.uid_target];
-        if (self.pollingFormView.currentStep == NSNotFound) {
-            self.pollingFormView.currentStep = 0;
-        }
-        NSLog(@"%@",self.operabilityTools.task.end_date);
         if (self.operabilityTools.task.end_date == nil) {
             self.pollingFormView.needClone = YES;
         }else{
             self.pollingFormView.needClone = NO;
         }
+        if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
+            self.pollingFormView.needClone = NO;
+        }
+        if (self.pollingFormView.currentStep == NSNotFound) {
+            self.pollingFormView.currentStep = 0;
+        }
+        [self.pollingFormView getCurrentFormDetail:target.uid_target];
     }
 }
 
