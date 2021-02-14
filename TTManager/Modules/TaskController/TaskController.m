@@ -327,10 +327,10 @@
 - (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
     NSLog(@"改变当前选中的步骤");
     self.operabilityTools.currentSelectedStep = stepUserDic[@"step"];
-    NSIndexPath *indexPath = stepUserDic[@"indexPath"];
+//    NSIndexPath *indexPath = stepUserDic[@"indexPath"];
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
-    [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
+//    [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
 }
 
 // 修改内容后点击保存
@@ -339,9 +339,7 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
-    if (self.pollingFormView.isCloneCurrentForm == YES) {
-        [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
-    }
+    [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
 - (void)operationPollingForm{
@@ -410,6 +408,7 @@
             case apiTaskType_suspend:
                 [self callBackSuspend:manager];
                 break;
+            
             default:
                 break;
         }
@@ -509,6 +508,7 @@
             self.pollingFormView.hidden = NO;
             ZHTarget *target = result[0];
             self.pollingFormView.formName = target.name;
+            self.pollingFormView.currentStep = index;
             [self.pollingFormView getCurrentFormDetail:target.uid_target];
         }else{
             self.pollingFormView.hidden = YES;

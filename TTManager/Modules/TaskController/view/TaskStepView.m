@@ -113,6 +113,9 @@ static NSString *headerIdentifier = @"headerIdentifier";
         case task_type_detail_initiate:
 //            [self taskInitiateOperations];
             break;
+        case task_type_polling_detail:
+            [self getCurrentDefaultSelectIndex:_tools];
+            break;
         default:
             break;
     }

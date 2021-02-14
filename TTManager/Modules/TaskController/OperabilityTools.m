@@ -53,25 +53,30 @@
     self.operabilityAdjunct = NO;
     self.operabilityPriority = NO;
 }
+
 #pragma mark - setter and getter
+
 - (void)setCurrentSelectedStep:(ZHStep *)currentSelectedStep{
     _currentSelectedStep = currentSelectedStep;
 }
+
 - (void)setTask:(ZHTask *)task{
     _task = task;
     self.stepArray = [self getCurrentTaskStep:_task];
     self.currentSelectedStep = [_task.belongFlow.stepCurrent allObjects][0];
 }
+
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
-    NSLog(@"%@",task.belongFlow.stepFirst);
     NSMutableArray *middleStepArray = [self allObjects:task.belongFlow.stepFirst];
     return middleStepArray;
 }
+
 - (NSMutableArray *)allObjects:(ZHStep *)step {
     NSMutableArray *result = [NSMutableArray array];
     [self fillArray:step into:result];
     return result;
 }
+
 - (void)fillArray:(ZHStep *)step into:(NSMutableArray *)result {
     [result addObject:step];
     if (step.hasNext.count >1) {
@@ -85,4 +90,5 @@
         }
     }
 }
+
 @end

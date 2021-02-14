@@ -167,7 +167,6 @@ static NSString *headerCell = @"headerCell";
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
-    self.QRCodeView.QRCodeString = [self getDownLoadFormUrl];
     [self fillHeaderView];
     [self getHeaderData];
     [self fillPollingUser];
@@ -187,6 +186,7 @@ static NSString *headerCell = @"headerCell";
     }else{
         self.loadFormSuccess = NO;
     }
+    self.QRCodeView.QRCodeString = [self getDownLoadFormUrl];
     // 如果是克隆则通知页面替换附件
     if (self.formFlowManager.isCloneForm == YES) {
         [self routerEventWithName:save_edit_form userInfo:@{}];
@@ -278,6 +278,9 @@ static NSString *headerCell = @"headerCell";
 }
 
 - (void)fillPollingUser{
+    if (self.currentStep == NSNotFound) {
+        return;
+    }
     NSDictionary *sectionItem = self.sectionArray[self.currentStep];
     NSString *instance_value = @"";
     if (![SZUtil isEmptyOrNull:self.formFlowManager.instanceFromDic[@"buddy_file"][@"name"]]) {
@@ -302,12 +305,9 @@ static NSString *headerCell = @"headerCell";
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
 {
-    if (![buddy_file isEqualToString:self.buddy_file]) {
+    if (![buddy_file isEqualToString:self.buddy_file] && self.loadFormSuccess == NO) {
         self.buddy_file = buddy_file;
-        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
-    }
-    if (self.loadFormSuccess == NO) {
-        
+        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:buddy_file];
     }
 }
 

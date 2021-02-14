@@ -300,6 +300,7 @@
 - (void)downLoadCurrentFormJsonByBuddy_file:(NSString *)buddy_file
 {
     self.downLoadManager.uid_target = buddy_file;
+    self.buddy_file = buddy_file;
     [self.downLoadManager loadData];
 }
 
@@ -463,16 +464,7 @@
     }
     return nil;
 }
-//- (NSMutableDictionary *)instanceFormDetail{
-//    if (self.isEditForm == NO) {
-//        return self.formDic;
-//    }else if(self.isEditForm == YES && self.isCloneForm == NO){
-//        return self.formDic;
-//    }else if(self.isEditForm == YES && self.isCloneForm == YES){
-//        return self.cloneFormDic;
-//    }
-//    return nil;
-//}
+
 - (NSString *)instanceBuddy_file{
     if (self.isEditForm == NO) {
         return self.buddy_file;
