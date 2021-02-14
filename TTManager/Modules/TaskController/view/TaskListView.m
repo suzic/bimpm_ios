@@ -137,7 +137,9 @@
         }
     }
 }
+
 #pragma mark - APIManagerParamSource
+
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     if (manager == self.taskListManager) {
@@ -147,7 +149,9 @@
     }
     return dic;
 }
+
 #pragma mark - ApiManagerCallBackDelegate
+
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     self.needReloadData = NO;
     [self.tableView.mj_header endRefreshing];
@@ -174,13 +178,16 @@
     }
     [self.tableView reloadData];
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.taskListManager || manager == self.formListManager) {
         [self.tableView.mj_header endRefreshing];
         [self.tableView.mj_footer endRefreshing];
     }
 }
+
 #pragma mark - setter and getter
+
 - (APITaskListManager *)taskListManager{
     if (_taskListManager == nil) {
         _taskListManager = [[APITaskListManager alloc] init];
@@ -192,6 +199,7 @@
     }
     return _taskListManager;
 }
+
 - (APIFormListManager *)formListManager{
     if (_formListManager == nil) {
         _formListManager = [[APIFormListManager alloc] init];
@@ -200,6 +208,7 @@
     }
     return _formListManager;
 }
+
 - (void)setCurrentTaskStatus:(TaskStatus)currentTaskStatus{
     if (_currentTaskStatus != currentTaskStatus) {
         _currentTaskStatus = currentTaskStatus;
@@ -222,12 +231,14 @@
        }
     }
 }
+
 -(void)setFormType:(NSInteger)formType{
     if (_formType != formType) {
         _formType = formType;
         [self.formListManager.pageSize.orders addObject:@{@"key":@"create_date",@"ascending":@"desc"}];
     }
 }
+
 - (NSDictionary *)getCurrentFormParam:(NSInteger)type{
     NSDictionary *params = @{};
     switch (type) {
@@ -243,12 +254,14 @@
     }
     return params;
 }
+
 - (NSMutableArray *)listArray{
     if (_listArray == nil) {
         _listArray = [NSMutableArray array];
     }
     return _listArray;
 }
+
 - (NSDictionary *)getCurrentParamSource:(TaskStatus)taskStatus{
     ZHProject *project = [DataManager defaultInstance].currentProject;
     NSString *is_starter = @"";
