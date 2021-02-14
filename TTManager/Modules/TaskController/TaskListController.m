@@ -97,12 +97,8 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Task" bundle:nil];
     TaskController *taskVC = (TaskController *)[sb instantiateViewControllerWithIdentifier:@"taskController"];
     taskVC.id_task = task.uid_task;
-    
-    if (isPolling == YES) {
-        taskVC.taskType = 10;
-    }else{
-        taskVC.taskType = (taskStatus +6);
-    }
+    taskVC.isPolling = isPolling;
+    taskVC.taskType = (taskStatus +6);
     self.taskStatus = taskStatus;
     TaskListView *listView = self.taskListViewArray[self.taskStatus];
     listView.needReloadData = YES;

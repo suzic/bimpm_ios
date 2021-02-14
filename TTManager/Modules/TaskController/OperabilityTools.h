@@ -15,6 +15,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (instancetype)initWithType:(TaskType)type;
 
+@property (nonatomic, assign) BOOL isPolling;
+
 @property (nonatomic, assign) TaskType type;
 
 @property (nonatomic, strong) ZHTask *task;

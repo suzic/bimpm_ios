@@ -48,7 +48,6 @@
         case task_type_new_noti:
         case task_type_new_joint:
         case task_type_new_polling:
-        case task_type_polling_detail:
         case task_type_detail_initiate:
             self.taskTitle.editable = YES;
             self.editPriority = YES;

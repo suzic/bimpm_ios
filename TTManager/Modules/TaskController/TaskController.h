@@ -27,13 +27,15 @@ typedef NS_ENUM(NSInteger,TaskType){
     task_type_detail_finished     = 7,// 已经完成
     task_type_detail_draft        = 8,// 我起草的
     task_type_detail_initiate     = 9,// 已经发起
-    task_type_polling_detail      = 10,// 巡检详情
 };
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface TaskController : UIViewController
 
+/// 是否是巡检任务
+@property (nonatomic, assign) BOOL isPolling;
+/// 任务类型
 @property (nonatomic, assign) TaskType taskType;
 // 当前任务id_task
 @property (nonatomic, copy) NSString *id_task;

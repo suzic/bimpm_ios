@@ -62,7 +62,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 //    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
 //        return;
 //    }
-    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished || _tools.type == task_type_polling_detail) {
+    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
         self.currentSelectedStep =  indexPath.row;
         _tools.currentSelectedStep = step;
         [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
@@ -113,9 +113,6 @@ static NSString *headerIdentifier = @"headerIdentifier";
         case task_type_detail_initiate:
 //            [self taskInitiateOperations];
             break;
-        case task_type_polling_detail:
-            [self getCurrentDefaultSelectIndex:_tools];
-            break;
         default:
             break;
     }
@@ -136,7 +133,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
         }
     }
     if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
-        if (_tools.type != task_type_new_polling && _tools.type != task_type_polling_detail) {
+        if (_tools.type != task_type_new_polling && _tools.isPolling == NO) {
             [self insertEmptyStepToCurrentStep];
         }
     }

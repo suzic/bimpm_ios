@@ -146,7 +146,6 @@
             [self newTaskOperations];
             break;
         case task_type_detail_proceeding:
-        case task_type_polling_detail:
             [self taskProceedingOperations];
             break;
         case task_type_detail_finished:
@@ -243,7 +242,7 @@
     _tools = tools;
     [self setBottomToolsOperations:_tools];
     [self setPlanEndTime];
-    if (_tools.type == task_type_polling_detail || _tools.type == task_type_new_polling) {
+    if (_tools.type == task_type_new_polling || _tools.isPolling == YES) {
         self.saveBtn.hidden = YES;
     }else{
         self.saveBtn.hidden = NO;

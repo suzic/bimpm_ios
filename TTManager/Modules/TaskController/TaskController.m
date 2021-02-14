@@ -86,7 +86,7 @@
 
 - (void)back{
     
-    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+    if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         if (self.pollingFormView.isModification == YES) {
             [CNAlertView showWithTitle:@"是否保存当前修改" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
@@ -343,17 +343,18 @@
 }
 
 - (void)operationPollingForm{
-    if (self.taskType == task_type_new_polling || self.taskType == task_type_polling_detail) {
+    if (self.taskType == task_type_new_polling || self.isPolling == YES) {
         // 有修改则保存
         if (self.pollingFormView.isModification == YES) {
             [self.pollingFormView saveForm:^(BOOL success) {
                 [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
             }];
+        }else{
+            [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
         }
     }else{
         [self.taskManager api_processTask:[self.taskParams getProcessSubmitParams]];
     }
-
 }
 
 - (void)showRecallTaskAlert{
@@ -483,7 +484,7 @@
 #pragma mark - 巡检相关的操作
 // 设置巡检相关的数据
 - (void)setPollingFromDetail{
-    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+    if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         ZHTarget *target = self.operabilityTools.task.firstTarget;
         self.pollingFormView.formName = target.name;
         [self.pollingFormView getCurrentFormDetail:target.uid_target];
@@ -501,7 +502,7 @@
 
 // 设置巡检负责人
 - (void)setPollingStepUser:(NSString *)user index:(NSInteger)index{
-    if (self.taskType == task_type_new_polling ||self.taskType == task_type_polling_detail) {
+    if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         [self.pollingFormView setPollingUser:user index:index];
         NSArray *result = [self.operabilityTools.currentSelectedStep.memoDocs allObjects];
         if (result.count > 0) {
@@ -555,9 +556,10 @@
     if (_taskType != taskType) {
         _taskType = taskType;
         self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
-        self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||_taskType == task_type_polling_detail);
-        self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||_taskType == task_type_polling_detail);
-        if (_taskType == task_type_new_polling ||_taskType == task_type_polling_detail) {
+        self.operabilityTools.isPolling = self.isPolling;
+        self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||self.isPolling == YES);
+        self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||self.isPolling == YES);
+        if (_taskType == task_type_new_polling ||self.isPolling == YES) {
             self.pollingFormView.hidden = NO;
             self.taskContentView.hidden = YES;
         }else{
