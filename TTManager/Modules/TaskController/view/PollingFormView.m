@@ -242,6 +242,7 @@ static NSString *headerCell = @"headerCell";
         dic[@"indexPath"] = indexPath;
     }
     [self.formFlowManager modifyCurrentDownLoadForm:dic];
+    [self saveForm:nil];
 }
 
 #pragma mark - private

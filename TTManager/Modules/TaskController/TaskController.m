@@ -514,7 +514,7 @@
             self.pollingFormView.currentStep = index;
             [self.pollingFormView getCurrentFormDetail:target.uid_target];
         }else{
-            self.pollingFormView.hidden = YES;
+//            self.pollingFormView.hidden = YES;
         }
     }
 }
