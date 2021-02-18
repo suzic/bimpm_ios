@@ -236,7 +236,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     }else{
         value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
     }
-    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value}];
+    [self.headerView setHeaderViewData:@{@"name":@"系统编号",@"instance_value":value == nil ? @"":value}];
 }
 
 - (void)changeEditView{
