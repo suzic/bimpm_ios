@@ -43,8 +43,7 @@
     return YES;
 }
 - (id)coreDataCallBackData:(LCURLResponse *)response{
-//    return [self taskEditCoreData:response];
-    return nil;
+    return [self taskEditCoreData:response];
 }
 // 本地数据库
 - (id)taskEditCoreData:(LCURLResponse *)response{

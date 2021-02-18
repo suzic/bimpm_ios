@@ -339,7 +339,9 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
-    [self setTaskAdjunctBy:self.operabilityTools.task.firstTarget.uid_target newtarget:self.pollingFormView.clone_buddy_file];
+    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+    ZHTarget *target = [currentStep.memoDocs allObjects][0];
+    [self setTaskAdjunctBy:target.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
 - (void)operationPollingForm{
@@ -475,8 +477,10 @@
     }else{
         self.taskParams.uid_target = uid_target;
         [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:NO] callBack:^(BOOL success) {
-            self.taskParams.uid_target = new_uid_target;
-            [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+            if (success == YES) {
+                self.taskParams.uid_target = new_uid_target;
+                [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+            }
         }];
     }
 }
@@ -485,7 +489,9 @@
 // 设置巡检相关的数据
 - (void)setPollingFromDetail{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
-        ZHTarget *target = self.operabilityTools.task.firstTarget;
+        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+        ZHTarget *target = [currentStep.memoDocs allObjects][0];
+        
         self.pollingFormView.formName = target.name;
         if (self.operabilityTools.task.end_date == nil) {
             self.pollingFormView.needClone = YES;
