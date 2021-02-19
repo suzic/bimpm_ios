@@ -150,8 +150,7 @@
     [DataManager defaultInstance].currentProject = project;
     [self.headerView reloadData];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
-    [self changeTabbarCount];
-    [self setTabBarViewControllerSelectedIndex:NO];
+    
     [self updateFrame];
 }
 
@@ -289,6 +288,8 @@
 - (void)updateFrame
 {
     self.headerView.hidden = NO;
+    [self changeTabbarCount];
+    [self setTabBarViewControllerSelectedIndex:NO];
     [self.headerView reloadData];
     [self.settingVC reloadData];
 }
