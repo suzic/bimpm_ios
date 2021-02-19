@@ -29,6 +29,12 @@
     
     return YES;
 }
+
+- (void)application:(UIApplication *)application
+    didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[RCIMClient sharedRCIMClient] setDeviceTokenData:deviceToken];
+}
+
 + (AppDelegate *)sharedDelegate
 {
     return (AppDelegate *)[UIApplication sharedApplication].delegate;
