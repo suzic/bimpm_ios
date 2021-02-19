@@ -50,6 +50,7 @@
     NSLog(@"%@",user.uid_chat);
     if (user.uid_chat) {
         [[RCIM sharedRCIM] connectWithToken:user.uid_chat dbOpened:^(RCDBErrorCode code) {
+            NSLog(@"本地消息数据库打开的回调 %ld",code);
             } success:^(NSString *userId) {
                 NSLog(@"连接融云IM成功");
                 self.initRongCloud = YES;

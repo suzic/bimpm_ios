@@ -182,9 +182,9 @@
             [DataManager defaultInstance].currentProject = nil;
             [[DataManager defaultInstance].currentProjectList removeLastObject];
             [DataManager defaultInstance].currentProjectList = nil;
+            [[RCIM sharedRCIM] logout];
             [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHProject"];
             [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHUserProject"];
-            [[RCIM sharedRCIM] logout];
             [[DataManager defaultInstance] saveContext];
             [AppDelegate sharedDelegate].initRongCloud = NO;
         }];

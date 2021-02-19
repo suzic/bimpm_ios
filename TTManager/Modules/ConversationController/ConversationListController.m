@@ -14,19 +14,38 @@
 
 @implementation ConversationListController
 
+- (instancetype)initWithCoder:(NSCoder *)coder{
+    self = [super initWithCoder:coder];
+    if (self) {
+        [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
+        [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
+    }
+    return self;
+}
+- (instancetype)init{
+    self = [super init];
+    if (self) {
+        [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
+        [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
+    }
+    return self;
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [[RCIM sharedRCIM] setUserInfoDataSource:self];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
-    
+    [RCIM sharedRCIM];
 }
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_GROUP),@(ConversationType_SYSTEM)]];
+    [[RCIM sharedRCIM] setUserInfoDataSource:self];
+    
 }
+
 - (void)reoladNetwork{
-    [self refreshConversationTableViewIfNeeded];
+//    [self refreshConversationTableViewIfNeeded];
+    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE)]];
 }
 #pragma mark - 
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
