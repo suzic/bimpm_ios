@@ -22,6 +22,7 @@
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *projectTopLayoutConstraint;
 
 @property (nonatomic, strong) UITabBarController *tarbarVC;
+@property (nonatomic, strong) NSMutableArray *tabbarVCArray;
 @property (nonatomic, strong) UIViewController *homeVC;     // 主页面VC
 @property (nonatomic, strong) FrameNavView *headerView;     // 导航栏
 @property (nonatomic, strong) UserSettingController *settingVC;
@@ -149,6 +150,8 @@
     [DataManager defaultInstance].currentProject = project;
     [self.headerView reloadData];
     [[NSNotificationCenter defaultCenter] postNotificationName:NotiReloadHomeView object:nil];
+    [self changeTabbarCount];
+    [self setTabBarViewControllerSelectedIndex:NO];
     [self updateFrame];
 }
 
@@ -312,13 +315,47 @@
     // 获取到当前的VC，并且pop到根控制器
     UINavigationController *vc = self.tarbarVC.viewControllers[self.tarbarVC.selectedIndex];
     [vc popToRootViewControllerAnimated:NO];
-    if (self.tarbarVC.selectedIndex != 1) {
-        self.tarbarVC.selectedIndex = 1;
+    if (self.tarbarVC.viewControllers.count == 5) {
+        if (self.tarbarVC.selectedIndex != 1) {
+            self.tarbarVC.selectedIndex = 1;
+        }
+    }else{
+        if (self.tarbarVC.selectedIndex != 0) {
+            self.tarbarVC.selectedIndex = 0;
+        }
     }
+    
     if (presentLogin == YES) {
         [self presentProjectListVC:NO];
     }
 }
+
+- (void)changeTabbarCount{
+    
+    ZHProject *currentProject = [DataManager defaultInstance].currentProject;
+    // 正式服 项目id为53时显示监控
+    if (currentProject != nil && currentProject.id_project == 53 && [SelectedService isEqualToString:@"1"]) {
+        [self.tarbarVC setViewControllers:self.tabbarVCArray];
+    }else{
+        NSMutableArray *tabbarViewControllers= [NSMutableArray arrayWithArray: [self.tarbarVC viewControllers]];
+        if (tabbarViewControllers.count == 5) {
+            [tabbarViewControllers removeObjectAtIndex:0];
+            [self.tarbarVC setViewControllers:tabbarViewControllers];
+        }
+    }
+#warning 测试动态改变tabbar的个数
+//    ZHUser *user = [DataManager defaultInstance].currentUser;
+//    if ([user.phone isEqualToString:@"13844440001"]) {
+//        NSMutableArray *tabbarViewControllers= [NSMutableArray arrayWithArray: [self.tarbarVC viewControllers]];
+//        if (tabbarViewControllers.count == 5) {
+//            [tabbarViewControllers removeObjectAtIndex:0];
+//            [self.tarbarVC setViewControllers: tabbarViewControllers ];
+//        }
+//    }else{
+//        [self.tarbarVC setViewControllers:self.tabbarVCArray];
+//    }
+}
+
 #pragma mark - FrameNavViewDelegate
 
 - (void)clickShowProjectListView{
@@ -455,6 +492,7 @@
     }else if([segue.identifier isEqualToString:@"homeTabbarVC"]){
         self.tarbarVC = [segue destinationViewController];
         self.tarbarVC.selectedIndex = 1;
+        self.tabbarVCArray = [NSMutableArray arrayWithArray:[self.tarbarVC viewControllers]];
         [self setTabBarViewControllerSelectedIndex:NO];
     }
 }

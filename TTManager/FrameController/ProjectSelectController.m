@@ -168,7 +168,9 @@
     }else if(manager == self.UTPDetailManager){
         ZHUserProject *userProject = self.projectList[self.selectedIndex];
 //        [self routerEventWithName:selectedProject userInfo:@{@"currentProject":userProject.belongProject}];
-        [self dismissViewControllerAnimated:YES completion:nil];
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
         [self.frameVC reloadCurrentSelectedProject:userProject.belongProject];
     }else if(manager == self.UTPOperations){
         [self reloadData];
