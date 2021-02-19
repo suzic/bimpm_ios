@@ -92,14 +92,14 @@
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"RECALL",
                           @"param":@"",
-                          @"info":self.memo};
+                          @"info":self.memo == nil ?@"召回":self.memo};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSMutableDictionary *)getProcessTerminateParams{
     NSDictionary *dic = @{@"task_list":@[self.uid_task],
                           @"code":@"TERMINATE",
                           @"param":@"1",
-                          @"info":self.memo};
+                          @"info":self.memo == nil ? @"中止":self.memo};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
 - (NSDictionary *)getUserInfo{

@@ -339,8 +339,19 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
+//    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+//    ZHStep *currentStep = self.operabilityTools.currentSelectedStep;
+//    ZHTarget *target = [currentStep.memoDocs allObjects][0];
+//    ZHTarget *target = self.operabilityTools.task.firstTarget;
+    
     ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-    ZHTarget *target = [currentStep.memoDocs allObjects][0];
+    ZHTarget *target = nil;
+    if ([currentStep.memoDocs allObjects].count <= 0) {
+        target = self.operabilityTools.task.firstTarget;
+    }else{
+        target = [currentStep.memoDocs allObjects][0];
+    }
+    
     [self setTaskAdjunctBy:target.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
@@ -490,7 +501,12 @@
 - (void)setPollingFromDetail{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-        ZHTarget *target = [currentStep.memoDocs allObjects][0];
+        ZHTarget *target = nil;
+        if ([currentStep.memoDocs allObjects].count <= 0) {
+            target = self.operabilityTools.task.firstTarget;
+        }else{
+            target = [currentStep.memoDocs allObjects][0];
+        }
         
         self.pollingFormView.formName = target.name;
         if (self.operabilityTools.task.end_date == nil) {
