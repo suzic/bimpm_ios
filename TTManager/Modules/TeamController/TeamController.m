@@ -44,7 +44,8 @@
     [super viewWillAppear:animated];
 }
 - (void)reoladNetwork{
-    self.departmentUserArray = nil;
+    _departmentUserArray = nil;
+    _departmentList = nil;
     self.dmDetailsManager.pageSize.pageIndex = 1;
     self.dmDetailsManager.pageSize.pageSize = 20;
     [self.dmDetailsManager loadData];

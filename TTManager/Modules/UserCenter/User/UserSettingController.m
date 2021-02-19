@@ -105,6 +105,8 @@
         [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
         [DataManager defaultInstance].currentUser = nil;
         [DataManager defaultInstance].currentProject = nil;
+        [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHProject"];
+        [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHUserProject"];
         [[DataManager defaultInstance].currentProjectList removeLastObject];
         [DataManager defaultInstance].currentProjectList = nil;
         [[RCIM sharedRCIM] logout];
