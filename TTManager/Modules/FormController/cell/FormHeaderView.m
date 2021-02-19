@@ -76,6 +76,14 @@
 //    }];
 //}
 #pragma mark - setter and getter
+
+- (void)setUpdate_date:(NSString *)update_date{
+    if (_update_date != update_date) {
+        _update_date = update_date;
+        self.updateTimeLabel.text = _update_date;
+    }
+}
+
 //- (void)setShowTextView:(BOOL)showTextView{
 //    _showTextView = showTextView;
 //    if (_showTextView == YES) {
@@ -116,7 +124,6 @@
         _updateTimeLabel = [[UILabel alloc] init];
         _updateTimeLabel.font = [UIFont systemFontOfSize:16];
         _updateTimeLabel.textColor = RGB_COLOR(25, 107, 248);
-        _updateTimeLabel.text = [SZUtil getTimeNow];
         _updateTimeLabel.textAlignment = NSTextAlignmentRight;
     }
     return _updateTimeLabel;

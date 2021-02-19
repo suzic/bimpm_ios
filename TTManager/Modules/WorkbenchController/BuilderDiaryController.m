@@ -246,6 +246,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)updateSnapshootViewLayout{
     CGFloat snapshootViewH = self.formFlowManager.isSnapshoot == YES ? 44 : 0;
+    self.snapshootView.update_date = self.formFlowManager.instanceDownLoadForm[@"update_date"];
     [self.snapshootView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(snapshootViewH);
     }];

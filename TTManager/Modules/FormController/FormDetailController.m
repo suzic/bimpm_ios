@@ -258,7 +258,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)fillHeaderView{
     NSString *value = @"";
-    if (self.formFlowManager.canEditForm == NO) {
+    if (self.formFlowManager.canEditForm == NO && self.formFlowManager.isSnapshoot == NO) {
         value = self.formFlowManager.instanceDownLoadForm[@"uid_ident"];
     }else{
         value = self.formFlowManager.instanceDownLoadForm[@"instance_ident"];
@@ -280,6 +280,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)updateSnapshootViewLayout{
     CGFloat snapshootViewH = self.formFlowManager.isSnapshoot == YES ? 44 : 0;
+    self.snapshootView.update_date = self.formFlowManager.instanceDownLoadForm[@"update_date"];
     [self.snapshootView updateConstraints:^(MASConstraintMaker *make) {
             make.height.equalTo(snapshootViewH);
     }];

@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormHeaderView : UIView
 
+@property (nonatomic, copy) NSString *update_date;
+
 @end
 
 NS_ASSUME_NONNULL_END
