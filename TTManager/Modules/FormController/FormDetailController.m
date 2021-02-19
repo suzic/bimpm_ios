@@ -191,7 +191,8 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 
 - (void)cancelEditCurrentForm{
-    if (self.formFlowManager.isModification == YES) {
+    
+    if (self.formFlowManager.isModification == YES && self.formFlowManager.isSnapshoot == NO) {
         [CNAlertView showWithTitle:@"温馨提示" message:@"是否保存当前修改内容" cancelButtonTitle:@"放弃" otherButtonTitles:@[@"保存"] tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 [self.view endEditing:YES];

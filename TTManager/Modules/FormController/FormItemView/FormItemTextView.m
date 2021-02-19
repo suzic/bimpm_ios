@@ -12,6 +12,7 @@
 @property (nonatomic, strong) UITextView *contentTextView;
 @property (nonatomic, strong) NSDictionary *itemTypeValueDic;
 @property (nonatomic, strong) NSIndexPath *indexPath;
+@property (nonatomic, assign) BOOL isEdit;
 @end
 
 @implementation FormItemTextView
@@ -19,6 +20,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.isEdit = NO;
         [self addUI];
     }
     return self;
@@ -27,6 +29,7 @@
 #pragma mark - public
 
 - (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
+    self.isEdit = edit;
     self.indexPath = indexPath;
     [self.contentTextView setEditable:edit];
     if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
@@ -43,36 +46,43 @@
             self.contentTextView.text = data[@"instance_value"];
         }
     }
-    
+    [self textViewDidChange:self.contentTextView];
 }
 
 - (void)addUI{
     [self addSubview:self.contentTextView];
     [self.contentTextView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.right.equalTo(0);
-        make.height.greaterThanOrEqualTo(44);
-        make.height.lessThanOrEqualTo(44*6);
+        make.left.bottom.right.equalTo(0);
+        make.top.equalTo(12);
+        make.height.greaterThanOrEqualTo(32);
+        make.height.lessThanOrEqualTo(32*6);
     }];
 }
 
 #pragma mark - UITextViewDelegate
 
 -(void)textViewDidChange:(UITextView *)textView{
-    NSInteger height = ([self.contentTextView sizeThatFits:CGSizeMake(self.contentTextView.bounds.size.width, MAXFLOAT)].height);
-    if (height <= 44) {
-        height = 44;
-    }else if(height > 44*6){
+//    NSInteger height = ([self.contentTextView sizeThatFits:CGSizeMake(self.contentTextView.bounds.size.width, MAXFLOAT)].height);
+    CGFloat currentHeight = [self heightFromString:textView.text withFont:[UIFont systemFontOfSize:16.0f] constraintToWidth:kScreenWidth*0.75-10];
+    NSLog(@"%f",currentHeight);
+    if (currentHeight+12 < 44) {
+        currentHeight = 32;
+    }else if(currentHeight > 32*6){
         textView.scrollEnabled = YES;
-        height = 44*6;
+        currentHeight = 34*6;
+    }else{
+        currentHeight = currentHeight+10;
     }
+    
     [self.contentTextView updateConstraints:^(MASConstraintMaker *make) {
-        make.height.equalTo(height);
+        make.height.equalTo(currentHeight);
     }];
     UITableView *tableView = [self tableView];
     [tableView beginUpdates];
     [tableView endUpdates];
-    
-    [self routerEventWithName:change_form_info userInfo:@{}];
+    if (self.isEdit == YES) {
+        [self routerEventWithName:change_form_info userInfo:@{}];
+    }
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView{
@@ -97,7 +107,7 @@
         _contentTextView.placeholder = @"数据源";
         _contentTextView.placeholderColor = [UIColor lightGrayColor];
         _contentTextView.delegate = self;
-        _contentTextView.textContainerInset = UIEdgeInsetsMake(13, 0, 8, 8);
+        _contentTextView.textContainerInset = UIEdgeInsetsMake(0, -5, 0, 0);
 //        _contentTextView.backgroundColor = [UIColor redColor];
     }
     return _contentTextView;
@@ -117,6 +127,20 @@
                               @"10":@"静态文本"};
     }
     return _itemTypeValueDic;
+}
+
+- (CGFloat)heightFromString:(NSString*)text withFont:(UIFont*)font constraintToWidth:(CGFloat)width
+{
+    CGRect rect;
+    
+    // only support iOS 7+
+    rect = [text boundingRectWithSize:CGSizeMake(width, 10000000)
+                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                           attributes:@{NSFontAttributeName:font}
+                              context:nil];
+    
+    NSLog(@"%@: W: %.f, H: %.f", self, rect.size.width, rect.size.height);
+    return rect.size.height;
 }
 
 /*
