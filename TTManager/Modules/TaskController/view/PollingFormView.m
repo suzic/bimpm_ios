@@ -71,7 +71,7 @@ static NSString *headerCell = @"headerCell";
             return isExpand == YES ? 6:0;
             break;
         case 1:
-            return isExpand == YES ? 4:0;
+            return isExpand == YES ? 3:0;
             break;
         case 2:
             return isExpand == YES ? 2:0;
@@ -112,13 +112,13 @@ static NSString *headerCell = @"headerCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = nil;
     NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
-    NSDictionary *formItem = items[indexPath.row+1];
+    NSIndexPath *currentIndexPath = [self getCurrentFormItemIndex:indexPath];
+    NSDictionary *formItem = items[currentIndexPath.row];
     
     FormEditCell *editCell = [tableView dequeueReusableCellWithIdentifier:textCellIndex];
     if (!editCell) {
         editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
     }
-    NSIndexPath *currentIndexPath = [NSIndexPath indexPathForRow:indexPath.row+1 inSection:0];
     BOOL isEdit = [self getCurrentSectionEdit:indexPath.section itemData:formItem];
     [editCell setIsFormEdit:isEdit indexPath:currentIndexPath item:formItem];
     cell = editCell;
@@ -370,7 +370,18 @@ static NSString *headerCell = @"headerCell";
     }
     return edit;
 }
-
+// 获取真实的表单index
+- (NSIndexPath *)getCurrentFormItemIndex:(NSIndexPath *)indexPath{
+    NSInteger index = 0;
+    if (indexPath.section == 0) {
+        index = indexPath.row+1;
+    }else if(indexPath.section == 1){
+        index = indexPath.row+8;
+    }else if(indexPath.section == 2){
+        index =indexPath.row +12;
+    }
+    return  [NSIndexPath indexPathForRow:index inSection:0];
+}
 #pragma mark - UI
 
 - (void)addUI{

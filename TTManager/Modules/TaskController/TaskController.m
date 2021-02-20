@@ -344,15 +344,17 @@
 //    ZHTarget *target = [currentStep.memoDocs allObjects][0];
 //    ZHTarget *target = self.operabilityTools.task.firstTarget;
     
-    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-    ZHTarget *target = nil;
-    if ([currentStep.memoDocs allObjects].count <= 0) {
-        target = self.operabilityTools.task.firstTarget;
-    }else{
-        target = [currentStep.memoDocs allObjects][0];
+//    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+    NSString *id_target = self.operabilityTools.task.firstTarget.uid_target;
+//    if ([currentStep.memoDocs allObjects].count <= 0) {
+//        id_target = @"";
+//    }else{
+//        ZHTarget *target = [currentStep.memoDocs allObjects][0];
+//        id_target = target.uid_target;
+//    }
+    if ([id_target isEqualToString:inspection_form_template_id]) {
+        [self setTaskAdjunctBy:id_target newtarget:self.pollingFormView.clone_buddy_file];
     }
-
-    [self setTaskAdjunctBy:target.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
 - (void)operationPollingForm{
@@ -507,17 +509,18 @@
 //        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
         ZHTarget *target  = self.operabilityTools.task.firstTarget;;
 //        if ([currentStep.memoDocs allObjects].count <= 0) {
-//
+//            self.pollingFormView.needClone = YES;
 //        }else{
 //            target = [currentStep.memoDocs allObjects][0];
+//            self.pollingFormView.needClone = NO;
 //        }
         
         self.pollingFormView.formName = target.name;
-        if (self.operabilityTools.task.end_date == nil) {
-            self.pollingFormView.needClone = YES;
-        }else{
-            self.pollingFormView.needClone = NO;
-        }
+//        if (self.operabilityTools.task.end_date == nil) {
+//            self.pollingFormView.needClone = YES;
+//        }else{
+//            self.pollingFormView.needClone = NO;
+//        }
         if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
             self.pollingFormView.needClone = NO;
         }

@@ -56,6 +56,8 @@
     [dateFormatter setDateFormat:@"yyyy-MM-dd HH:mm:ss"];
     
     ZHTask *task = [self getTaskFromCoredataByID:[info[@"uid_task"] intValue]];
+    
+    
     [self cleanTaskRelation:task];
     NSLog(@"%@",task.belongFlow.stepFirst);
     task.uid_task = info[@"uid_task"];
@@ -112,12 +114,20 @@
             ZHTarget *first_memo_target = [self syncTargetWithInfoItem:target];
             task.firstTarget = first_memo_target;
         }
+    }else{
+        [self deleteFromCoreData:task.firstTarget];
     }
     // flow 默认只有一个
     NSArray *flowArray = info[@"flow"];
     ZHFlow *flow = nil;
-    
     if (flowArray.count >0) {
+        flow = [self getFlowStepFromCoredataByID:[flowArray[0][@"uid_flow"] intValue]];
+        for (ZHStep *oldStep in flow.stepCurrent) {
+            for (ZHTarget *target in oldStep.memoDocs) {
+                [self deleteFromCoreData:target];
+            }
+        }
+        
         flow = [self syncFlowWithFlowDic:flowArray[0]];
     }
     ////flow_step
@@ -161,6 +171,7 @@
     flow.stepFirst = [self syncStep:nil withStepDic:flowDic[@"first_step"]];
     //last_step
     flow.stepLast = [self syncStep:nil withStepDic:flowDic[@"last_step"]];
+    
     // current_step
     if ([flowDic[@"current_step"] isKindOfClass:[NSArray class]]) {
         for (NSDictionary *stepitem in flowDic[@"current_step"]) {
@@ -219,6 +230,10 @@
     if (![SZUtil isEmptyOrNull:stepDic[@"interrupt_date"]]) {
         step.interrupt_date = [dateFormatter dateFromString:stepDic[@"interrupt_date"]];
     }
+    for (ZHTarget *stepTarget in step.memoDocs) {
+        [self deleteFromCoreData:stepTarget];
+    }
+    
     // memo_target_list
     if ([stepDic[@"memo_target_list"] isKindOfClass:[NSArray class]]) {
         for (NSDictionary *targetDic in stepDic[@"memo_target_list"]) {
@@ -259,7 +274,9 @@
     }
     [self deleteFromCoreData:task.belongFlow.stepFirst];
     [self deleteFromCoreData:task.belongFlow.stepLast];
-    [self deleteFromCoreData:task.belongFlow];
+    if (task.belongFlow) {
+        [self deleteFromCoreData:task.belongFlow];
+    }
     
     task.belongFlow = nil;
     [self deleteFromCoreData:task.endUser];
