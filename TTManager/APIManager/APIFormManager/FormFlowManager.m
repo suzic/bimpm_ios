@@ -58,6 +58,9 @@
 
 // 获取操作后的提交的参数
 - (NSMutableDictionary *)getOperationsFromParams{
+    if (self.instanceFromDic.allKeys.count <= 0) {
+        return [NSMutableDictionary dictionary];
+    }
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithDictionary: @{@"code":@"FILL",@"instance_ident":self.instanceFromDic[@"instance_ident"],@"id_project":self.instanceFromDic[@"buddy_file"][@"fid_project"]}];
     NSMutableArray *items = [NSMutableArray array];
     for (NSDictionary *formItem in self.instanceDownLoadForm[@"items"]) {
