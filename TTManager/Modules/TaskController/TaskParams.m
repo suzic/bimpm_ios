@@ -59,10 +59,10 @@
                           @"info":[NSString stringWithFormat:@"%ld",(long)timeInterval]};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }
-- (NSMutableDictionary *)getTaskFileParams:(BOOL)add{
+- (NSMutableDictionary *)getTaskFileParams:(NSString *)param{
     NSDictionary *dic = @{@"id_task":self.uid_task,
                           @"code":@"FILE",
-                          @"param":add == YES ?@"1":@"0",
+                          @"param":param,
                           @"info":self.uid_target};
     return [NSMutableDictionary dictionaryWithDictionary:dic];
 }

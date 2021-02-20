@@ -210,7 +210,7 @@
             strongSelf.uploadManager.uploadResult = ^(BOOL success, NSDictionary * _Nonnull targetInfo, NSString * _Nonnull id_file) {
                 if (success == YES) {
                     weakSelf.taskParams.uid_target = id_file;
-                    [weakSelf.taskManager api_operationsTask:[weakSelf.taskParams getTaskFileParams:YES]];
+                    [weakSelf.taskManager api_operationsTask:[weakSelf.taskParams getTaskFileParams:@"1"]];
                 }
             };
         }];
@@ -240,7 +240,7 @@
         NSLog(@"删除附件");
         [CNAlertView showWithTitle:@"确认删除当前附件？" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
-                [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:NO]];
+                [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:@"0"]];
             }
         }];
     }
@@ -286,7 +286,7 @@
     vc.chooseTargetFile = YES;
     vc.targetBlock = ^(ZHTarget * _Nonnull target) {
         self.taskParams.uid_target = target.uid_target;
-        [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:YES]];
+        [self.taskManager api_operationsTask:[self.taskParams getTaskFileParams:@"1"]];
     };
     [self.navigationController pushViewController:vc animated:YES];
 }
@@ -351,7 +351,7 @@
     }else{
         target = [currentStep.memoDocs allObjects][0];
     }
-    
+
     [self setTaskAdjunctBy:target.uid_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
@@ -482,15 +482,19 @@
 /// @param uid_target 原始附件如果为空，直接设置，如果存在，先撤销后设置
 /// @param new_uid_target 当前设置的附件
 - (void)setTaskAdjunctBy:(NSString *)uid_target newtarget:(NSString *)new_uid_target{
+    BOOL polling = NO;
+    if (self.taskType == task_type_new_polling || self.isPolling == YES) {
+        polling = YES;
+    }
     if ([SZUtil isEmptyOrNull:uid_target]) {
         self.taskParams.uid_target = new_uid_target;
-        [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+        [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:polling == YES ?@"2":@"1"]];
     }else{
         self.taskParams.uid_target = uid_target;
-        [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:NO] callBack:^(BOOL success) {
+        [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:@"0"] callBack:^(BOOL success) {
             if (success == YES) {
                 self.taskParams.uid_target = new_uid_target;
-                [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:YES]];
+                [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:polling == YES ?@"2":@"1"]];
             }
         }];
     }
@@ -500,13 +504,13 @@
 // 设置巡检相关的数据
 - (void)setPollingFromDetail{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
-        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-        ZHTarget *target = nil;
-        if ([currentStep.memoDocs allObjects].count <= 0) {
-            target = self.operabilityTools.task.firstTarget;
-        }else{
-            target = [currentStep.memoDocs allObjects][0];
-        }
+//        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+        ZHTarget *target  = self.operabilityTools.task.firstTarget;;
+//        if ([currentStep.memoDocs allObjects].count <= 0) {
+//
+//        }else{
+//            target = [currentStep.memoDocs allObjects][0];
+//        }
         
         self.pollingFormView.formName = target.name;
         if (self.operabilityTools.task.end_date == nil) {

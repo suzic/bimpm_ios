@@ -43,7 +43,7 @@
 }
 
 - (void)saveFormAction:(UIButton *)button{
-    [self routerEventWithName:save_edit_form userInfo:@{}];
+    [self routerEventWithName:save_edit_form userInfo:@{@"save":@(1)}];
 }
 - (void)addUI{
     UIView *bgView = [[UIView alloc] init];

@@ -39,7 +39,7 @@ NS_ASSUME_NONNULL_BEGIN
 // 获取任务预计完成时间
 - (NSMutableDictionary *)getTaskDatePlanParams;
 // 获取附件的的参数
-- (NSMutableDictionary *)getTaskFileParams:(BOOL)add;
+- (NSMutableDictionary *)getTaskFileParams:(NSString *)param;
 // 获取目标人参数
 - (NSMutableDictionary *)getToUserParams:(BOOL)to;
 // 获取中间人参数

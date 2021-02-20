@@ -136,7 +136,9 @@ static NSString *headerCell = @"headerCell";
     }else if([eventName isEqualToString:save_edit_form]){
         [self endEditing:YES];
         [self.formFlowManager operationsFormFill];
-        [super routerEventWithName:save_edit_form userInfo:@{}];
+        if ([SZUtil isEmptyOrNull:userInfo[@"sava"]]) {
+            [super routerEventWithName:save_edit_form userInfo:@{}];
+        }
     }else if([eventName isEqualToString:add_formItem_image]){
         [self addImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:open_form_url]){
@@ -187,6 +189,7 @@ static NSString *headerCell = @"headerCell";
         self.loadFormSuccess = NO;
     }
     self.QRCodeView.QRCodeString = [self getDownLoadFormUrl];
+    
     // 如果是克隆则通知页面替换附件
     if (self.formFlowManager.isCloneForm == YES) {
         [self routerEventWithName:save_edit_form userInfo:@{}];
