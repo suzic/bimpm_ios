@@ -64,7 +64,6 @@
 -(void)textViewDidChange:(UITextView *)textView{
 //    NSInteger height = ([self.contentTextView sizeThatFits:CGSizeMake(self.contentTextView.bounds.size.width, MAXFLOAT)].height);
     CGFloat currentHeight = [self heightFromString:textView.text withFont:[UIFont systemFontOfSize:16.0f] constraintToWidth:kScreenWidth*0.75-10];
-    NSLog(@"%f",currentHeight);
     if (currentHeight+12 < 44) {
         currentHeight = 32;
     }else if(currentHeight > 32*6){

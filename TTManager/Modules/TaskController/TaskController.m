@@ -493,7 +493,7 @@
         [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:polling == YES ?@"2":@"1"]];
     }else{
         self.taskParams.uid_target = uid_target;
-        [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:@"0"] callBack:^(BOOL success) {
+        [self.taskManager api_repealTaskAdjunct:[self.taskParams getTaskFileParams:@"0"] callBack:^(BOOL success, id response) {
             if (success == YES) {
                 self.taskParams.uid_target = new_uid_target;
                 [self.taskManager api_setTaskAdjunct:[self.taskParams getTaskFileParams:polling == YES ?@"2":@"1"]];
@@ -506,8 +506,40 @@
 // 设置巡检相关的数据
 - (void)setPollingFromDetail{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
-//        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-        ZHTarget *target  = self.operabilityTools.task.firstTarget;;
+        // 获取当前步骤
+        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+        // 没有附件
+        if ([currentStep.memoDocs allObjects].count <= 0) {
+            // 获取上一步
+            ZHStep *stepPrevious = [self.operabilityTools getPreviousStep];
+            if (stepPrevious) {
+                // 获取上一步的附件
+                ZHTarget *targetPrevious = nil;
+                if (stepPrevious.memoDocs.count >0) {
+                    targetPrevious = [stepPrevious.memoDocs allObjects][0];
+                }
+                if (targetPrevious) {
+                    [self.taskManager cloneForm:targetPrevious.uid_target callBack:^(BOOL success, id response) {
+                        NSString *clone_uid_Target = (NSString *)response;
+                        if (success == YES && ![SZUtil isEmptyOrNull:clone_uid_Target]) {
+                            [self setTaskAdjunctBy:@"" newtarget:clone_uid_Target];
+                        }
+                    }];
+                }
+            }
+        }else{
+            ZHTarget *target = [currentStep.memoDocs allObjects][0];
+            self.pollingFormView.formName = target.name;
+            if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
+                self.pollingFormView.needClone = NO;
+            }
+//            if (self.pollingFormView.currentStep == NSNotFound) {
+//                self.pollingFormView.currentStep = 0;
+//            }
+            self.pollingFormView.currentStep = self.operabilityTools.currentIndex;
+            [self.pollingFormView getCurrentFormDetail:target.uid_target];
+        }
+//        ZHTarget *target  = self.operabilityTools.task.firstTarget;
 //        if ([currentStep.memoDocs allObjects].count <= 0) {
 //            self.pollingFormView.needClone = YES;
 //        }else{
@@ -515,19 +547,12 @@
 //            self.pollingFormView.needClone = NO;
 //        }
         
-        self.pollingFormView.formName = target.name;
+        
 //        if (self.operabilityTools.task.end_date == nil) {
 //            self.pollingFormView.needClone = YES;
 //        }else{
 //            self.pollingFormView.needClone = NO;
 //        }
-        if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
-            self.pollingFormView.needClone = NO;
-        }
-        if (self.pollingFormView.currentStep == NSNotFound) {
-            self.pollingFormView.currentStep = 0;
-        }
-        [self.pollingFormView getCurrentFormDetail:target.uid_target];
     }
 }
 
@@ -537,7 +562,7 @@
         [self.pollingFormView setPollingUser:user index:index];
         NSArray *result = [self.operabilityTools.currentSelectedStep.memoDocs allObjects];
         if (result.count > 0) {
-            self.pollingFormView.hidden = NO;
+//            self.pollingFormView.hidden = NO;
             ZHTarget *target = result[0];
             self.pollingFormView.formName = target.name;
             self.pollingFormView.currentStep = index;
@@ -591,10 +616,10 @@
         self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||self.isPolling == YES);
         self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||self.isPolling == YES);
         if (_taskType == task_type_new_polling ||self.isPolling == YES) {
-            self.pollingFormView.hidden = NO;
+//            self.pollingFormView.hidden = NO;
             self.taskContentView.hidden = YES;
         }else{
-            self.pollingFormView.hidden = YES;
+//            self.pollingFormView.hidden = YES;
             self.taskContentView.hidden = NO;
         }
     }

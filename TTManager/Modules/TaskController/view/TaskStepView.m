@@ -147,23 +147,25 @@ static NSString *headerIdentifier = @"headerIdentifier";
 }
 
 - (void)getCurrentDefaultSelectIndex:(OperabilityTools *)tools{
-    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-    for (int i = 0; i < _tools.stepArray.count; i++) {
-        ZHStep *step = _tools.stepArray[i];
-        // 发起人不算
-        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
-            self.currentSelectedStep = i;
-            self.selfStepIndex = i;
-            NSLog(@"当前任务的备注信息%@",step.memo);
-            _tools.currentSelectedStep = step;
-            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
-            break;
-        }
-    }
-    if (_tools.currentSelectedStep == nil) {
-        _tools.currentSelectedStep = _tools.stepArray[0];
-        self.selfStepIndex = 0;
-    }
+    self.selfStepIndex = tools.currentIndex;
+    
+//    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+//    for (int i = 0; i < _tools.stepArray.count; i++) {
+//        ZHStep *step = _tools.stepArray[i];
+//        // 发起人不算
+//        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
+//            self.currentSelectedStep = i;
+//            self.selfStepIndex = i;
+//            NSLog(@"当前任务的备注信息%@",step.memo);
+//            _tools.currentSelectedStep = step;
+//            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
+//            break;
+//        }
+//    }
+//    if (_tools.currentSelectedStep == nil) {
+//        _tools.currentSelectedStep = _tools.stepArray[0];
+//        self.selfStepIndex = 0;
+//    }
 }
 #pragma mark - setting and getter
 

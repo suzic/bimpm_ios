@@ -26,6 +26,8 @@ NS_ASSUME_NONNULL_BEGIN
 // 当前选中的步骤(包含默认步骤)
 @property (nonatomic, strong) ZHStep *currentSelectedStep;
 
+@property (nonatomic, assign) NSInteger currentIndex;
+
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤
 @property (nonatomic,assign) BOOL operabilityStep;
@@ -41,6 +43,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic,assign) BOOL operabilityAdjunct;
 // 操作保存
 @property (nonatomic,assign) BOOL operabilitySave;
+
+/// 获取上一步的数据
+- (ZHStep *)getPreviousStep;
+
 @end
 
 NS_ASSUME_NONNULL_END

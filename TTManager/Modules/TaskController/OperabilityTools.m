@@ -63,7 +63,7 @@
 - (void)setTask:(ZHTask *)task{
     _task = task;
     self.stepArray = [self getCurrentTaskStep:_task];
-    self.currentSelectedStep = [_task.belongFlow.stepCurrent allObjects][0];
+    [self getCurrentIndex];
 }
 
 - (NSMutableArray *)getCurrentTaskStep:(ZHTask *)task{
@@ -89,6 +89,42 @@
             [self fillArray:stepItem into:result];
         }
     }
+}
+
+// 获取当前进行中的任务步骤和下标
+- (void)getCurrentIndex{
+    NSArray *stepCurrent = [_task.belongFlow.stepCurrent allObjects];
+    if (stepCurrent.count == 1) {
+        self.currentIndex = 1;
+        self.currentSelectedStep = stepCurrent[0];
+    }else{
+        ZHStep *step = nil;
+        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+        for (ZHStep *currentStepItem in stepCurrent) {
+            if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state != 1) {
+                step = currentStepItem;
+                break;
+            }
+        }
+        if (step != nil) {
+            for (int i = 0; i< self.stepArray.count; i++) {
+                ZHStep *stepItem = self.stepArray[i];
+                if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state != 1) {
+                    self.currentIndex = i;
+                    self.currentSelectedStep = stepItem;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+- (ZHStep *)getPreviousStep{
+    ZHStep *resultStep = nil;
+    if (self.currentIndex >=1) {
+        resultStep = self.stepArray[self.currentIndex -1];
+    }
+    return resultStep;
 }
 
 @end

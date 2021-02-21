@@ -7,7 +7,7 @@
 
 #import <Foundation/Foundation.h>
 
-typedef void(^RepealBlock)(BOOL success);
+typedef void(^TaskManagerBlock)(BOOL success,id _Nullable response);
 
 typedef NS_ENUM(NSInteger,ApiTaskType){
     /// 任务详情
@@ -26,6 +26,8 @@ typedef NS_ENUM(NSInteger,ApiTaskType){
     apiTaskType_repeal,
     /// 设置一个附件
     apiTaskType_set,
+    /// 克隆一个表单
+    clone_target_form,
 };
 
 @protocol TaskApiDelegate <NSObject>
@@ -70,11 +72,16 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 撤销任务附件(当前任务已经有附件了，需要再次上传附件，先撤销后上传)
 /// @param params 参数
-- (void)api_repealTaskAdjunct:(NSDictionary *)params callBack:(RepealBlock)callBack;
+- (void)api_repealTaskAdjunct:(NSDictionary *)params callBack:(TaskManagerBlock)callBack;
 
 /// 设置任务附件,如果不需要撤销附件 直接调用api_operationsTask效果一样
 /// @param params 参数
 - (void)api_setTaskAdjunct:(NSDictionary *)params;
+
+/// 克隆表单
+/// @param uid_target 需要克隆的表单文件id
+/// @param callBack 返回参数
+- (void)cloneForm:(NSString *)uid_target callBack:(TaskManagerBlock)callBack;
 
 @end
 

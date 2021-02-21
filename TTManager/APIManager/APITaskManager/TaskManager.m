@@ -14,13 +14,14 @@
 @property (nonatomic, strong) APITaskOperationsManager *taskOperationsManager;
 @property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
 @property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
+@property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
 //@property (nonatomic, strong) UploadFileManager *uploadManager;
 @property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
 
 /// 当前请求类型
 @property (nonatomic, assign) ApiTaskType apiTaskType;
 
-@property (nonatomic, copy) RepealBlock block;
+@property (nonatomic, copy) TaskManagerBlock block;
 
 @end
 
@@ -70,7 +71,7 @@
 }
 
 /// 撤销任务附件(当前任务已经有附件了，需要再次上传附件，先撤销后上传)
-- (void)api_repealTaskAdjunct:(NSDictionary *)params callBack:(RepealBlock)callBack
+- (void)api_repealTaskAdjunct:(NSDictionary *)params callBack:(TaskManagerBlock)callBack
 {
     self.block = [callBack copy];
     self.apiTaskType = apiTaskType_repeal;
@@ -83,13 +84,33 @@
     [self.taskOperationsManager loadDataWithParams:params];
 }
 
+- (void)cloneForm:(NSString *)uid_target callBack:(TaskManagerBlock)callBack{
+    if ([SZUtil isEmptyOrNull:uid_target]) {
+        [SZAlert showInfo:@"克隆的uid_target为空" underTitle:TARGETS_NAME];
+        return;
+    }
+    self.block = callBack;
+    self.apiTaskType = clone_target_form;
+    NSDictionary *params = @{@"clone_module":[NSNull null],
+               @"clone_parent":[NSNull null],
+               @"new_name":[NSNull null],
+               @"source_target":uid_target};
+    [self.targetCloneManager loadDataWithParams:params];
+}
+
 #pragma mark - set delegate
 - (void)setDelegateResult:(BOOL)success data:(BaseApiManager *)manager{
     if (self.apiTaskType == apiTaskType_repeal) {
         if (self.block) {
-            self.block(success);
+            self.block(success,nil);
         }
-    }else{
+    }else if(self.apiTaskType == clone_target_form){
+        if (self.block) {
+            NSDictionary *data = (NSDictionary *)manager.response.responseData;
+            self.block(success, success == YES ? data[@"data"][@"target_info"][@"uid_target"]:@"网络错误,请稍后重试");
+        }
+    }
+    else{
         if (self.delegate && [self.delegate respondsToSelector:@selector(callbackApiTaskSuccess:data:apiTaskType:)]) {
             [self.delegate callbackApiTaskSuccess:success data:manager apiTaskType:self.apiTaskType];
         }
@@ -167,7 +188,14 @@
     }
     return _verifyPhoneManager;
 }
-
+- (APITargetCloneManager *)targetCloneManager{
+    if (_targetCloneManager == nil) {
+        _targetCloneManager = [[APITargetCloneManager alloc] init];
+        _targetCloneManager.delegate = self;
+        _targetCloneManager.paramSource = self;
+    }
+    return _targetCloneManager;
+}
 //- (UploadFileManager *)uploadManager{
 //    if (_uploadManager == nil) {
 //        _uploadManager = [[UploadFileManager alloc] init];

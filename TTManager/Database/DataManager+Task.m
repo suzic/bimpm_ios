@@ -119,15 +119,14 @@
     }
     // flow 默认只有一个
     NSArray *flowArray = info[@"flow"];
-    ZHFlow *flow = nil;
+    ZHFlow *flow  = [self getFlowStepFromCoredataByID:[flowArray[0][@"uid_flow"] intValue]];;
+//    for (ZHStep *oldStep in flow.stepCurrent) {
+//        for (ZHTarget *target in oldStep.memoDocs) {
+//            [self deleteFromCoreData:target];
+//        }
+//    }
+    
     if (flowArray.count >0) {
-        flow = [self getFlowStepFromCoredataByID:[flowArray[0][@"uid_flow"] intValue]];
-        for (ZHStep *oldStep in flow.stepCurrent) {
-            for (ZHTarget *target in oldStep.memoDocs) {
-                [self deleteFromCoreData:target];
-            }
-        }
-        
         flow = [self syncFlowWithFlowDic:flowArray[0]];
     }
     ////flow_step
@@ -240,6 +239,8 @@
             ZHTarget *target = [self syncTargetWithInfoItem:targetDic];
             [step addMemoDocsObject:target];
         }
+    }else{
+        step.memoDocs = nil;
     }
     
     //response_user

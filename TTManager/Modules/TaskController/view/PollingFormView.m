@@ -53,6 +53,7 @@ static NSString *headerCell = @"headerCell";
         self.loadFormSuccess = NO;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
+        [self.tableView showDataCount:0 type:1];
     }
     return self;
 }
@@ -169,9 +170,11 @@ static NSString *headerCell = @"headerCell";
 #pragma mark - FormFlowManagerDelgate
 // 刷新页面数据
 - (void)reloadView{
+    self.hidden = NO;
     [self fillHeaderView];
     [self getHeaderData];
     [self fillPollingUser];
+    [self.tableView showDataCount:self.sectionArray.count type:1];
     [self.tableView reloadData];
 }
 
