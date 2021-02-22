@@ -47,6 +47,8 @@
 - (IBAction)changeTab:(id)sender {
     UIButton *button = (UIButton *)sender;
     NSInteger currentTag = button.tag - 10000;
+    self.firstCount = 0;
+    self.secondCount = 0;
     [self reloadTaskListCount:currentTag];
 }
 
@@ -95,7 +97,11 @@
     self.secondItembgView.backgroundColor = secondColor;
     self.secondStatusName.text = second;
     self.secondStatusCount.text = self.secondCount;
+    
+    self.secondStatusCount.textAlignment = NSTextAlignmentRight;
+    self.firstStatusCount.textAlignment = NSTextAlignmentRight;
 }
+
 - (void)changeSelecteStyle:(NSInteger)currentTag{
     if (currentTag == 0) {
         [self.myTaskBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
@@ -154,6 +160,8 @@
     if ([DataManager defaultInstance].currentProject == nil) {
         return;
     }
+    [self.firstStatusCount startActivityIndicatorView];
+    [self.secondStatusCount startActivityIndicatorView];
     ZHProject *project = [DataManager defaultInstance].currentProject;
     [self.taskunfinishedManager loadDataWithParams:@{@"id_project":INT_32_TO_STRING(project.id_project),
                                                @"is_starter":[NSString stringWithFormat:@"%ld",type],
@@ -162,28 +170,34 @@
                                                @"is_starter":[NSString stringWithFormat:@"%ld",type],
                                                @"is_finished":@"1"}];
 }
+
 #pragma mark - APIManagerParamSource
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     return @{};
 }
+
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     if (manager == self.taskfinishManager) {
         self.secondCount = [NSString stringWithFormat:@"%ld",self.taskfinishManager.responsePageSize.total_row];
         [self changeTaskInfor:self.currentSelectedIndex];
+        [self.secondStatusCount stopActivityIndicatorView];
     }else if(manager == self.taskunfinishedManager){
         self.firstCount = [NSString stringWithFormat:@"%ld",self.taskunfinishedManager.responsePageSize.total_row];
         [self changeTaskInfor:self.currentSelectedIndex];
+        [self.firstStatusCount stopActivityIndicatorView];
+
     }
-    
 }
+
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.taskfinishManager) {
-        
+        [self.firstStatusCount stopActivityIndicatorView];
     }else if(manager == self.taskunfinishedManager){
-        
+        [self.secondStatusCount stopActivityIndicatorView];
     }
 }
+
 #pragma mark - setter and getter
 // 包含派发给我的 和我派发的
 - (APITaskListManager *)taskfinishManager{

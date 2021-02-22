@@ -315,9 +315,9 @@ static NSString *headerCell = @"headerCell";
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
 {
-    if (![buddy_file isEqualToString:self.buddy_file] && self.loadFormSuccess == NO) {
+    if (![buddy_file isEqualToString:self.buddy_file]) {
         self.buddy_file = buddy_file;
-        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:buddy_file];
+        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
     }
 }
 
@@ -356,11 +356,25 @@ static NSString *headerCell = @"headerCell";
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
     }
-    self.formFlowManager.isModification = NO;
+//    self.formFlowManager.isModification = NO;
     
-//    [self saveForm];
+    [self.expandSectionArray removeAllObjects];
+    
+    BOOL expand = [self.expandSectionArray containsObject:[NSString stringWithFormat:@"%ld",self.currentStep]];
+    if (expand == NO) {
+        if (self.currentStep == 2) {
+            [self.expandSectionArray addObject:@"0"];
+            [self.expandSectionArray addObject:@"1"];
+            [self.expandSectionArray addObject:@"2"];
+        }else{
+            [self.expandSectionArray addObject:[NSString stringWithFormat:@"%ld",self.currentStep]];
+        }
+        [self.tableView reloadData];
+        [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:self.currentStep] atScrollPosition:UITableViewScrollPositionNone animated:YES];
+    }
     
     [self fillPollingUser];
+
 }
 
 - (NSMutableArray *)getHeaderData{
@@ -377,10 +391,12 @@ static NSString *headerCell = @"headerCell";
 
 - (BOOL)getCurrentSectionEdit:(NSInteger)section itemData:(NSDictionary *)formItem{
     BOOL edit = NO;
-    NSInteger type = [formItem[@"type"] intValue];
-    if (section == self.currentStep) {
-        if (type != 3 && type != 4) {
-            edit = YES;
+    if (self.formFlowManager.isSnapshoot == NO) {
+        NSInteger type = [formItem[@"type"] intValue];
+        if (section == self.currentStep) {
+            if (type != 3 && type != 4) {
+                edit = YES;
+            }
         }
     }
     return edit;
@@ -440,7 +456,7 @@ static NSString *headerCell = @"headerCell";
 
 - (UITableView *)tableView{
     if (_tableView == nil) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+        _tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
         _tableView.delegate = self;
         _tableView.dataSource = self;
         //直接用估算高度

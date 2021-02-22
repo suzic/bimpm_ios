@@ -25,6 +25,9 @@ typedef NS_OPTIONS(NSUInteger, UIBorderSideType) {
 /// @param borderType 添加为止
 - (UIView *)borderForColor:(UIColor *)color borderWidth:(CGFloat)borderWidth borderType:(UIBorderSideType)borderType;
 
+- (void)startActivityIndicatorView;
+- (void)stopActivityIndicatorView;
+
 @end
 
 NS_ASSUME_NONNULL_END

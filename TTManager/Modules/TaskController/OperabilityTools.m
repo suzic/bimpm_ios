@@ -93,6 +93,14 @@
 
 // 获取当前进行中的任务步骤和下标
 - (void)getCurrentIndex{
+    
+    NSString *end_date = [NSDate br_stringFromDate:self.task.end_date dateFormat:@"yyyy-MM-dd HH:mm"];
+    if (![SZUtil isEmptyOrNull:end_date]) {
+        self.currentIndex = 0;
+        self.currentSelectedStep = self.stepArray[0];
+        return;
+    }
+    
     NSArray *stepCurrent = [_task.belongFlow.stepCurrent allObjects];
     ZHStep *currentStep = nil;
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;

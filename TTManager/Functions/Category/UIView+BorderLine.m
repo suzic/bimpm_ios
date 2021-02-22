@@ -7,6 +7,15 @@
 
 #import "UIView+BorderLine.h"
 
+static void *HUD = @"HUD";
+
+
+@interface UIView ()
+
+@property (nonatomic, strong) UIActivityIndicatorView *hud;
+
+@end
+
 @implementation UIView (BorderLine)
 - (UIView *)borderForColor:(UIColor *)color borderWidth:(CGFloat)borderWidth borderType:(UIBorderSideType)borderType
 {
@@ -56,5 +65,60 @@
     /// 线宽度
     shapeLayer.lineWidth = borderWidth;
     return shapeLayer;
+}
+
+- (void)startActivityIndicatorView{
+    [self initHUD];
+    BOOL mainThread = [NSThread isMainThread];
+    if (mainThread == NO)
+    {
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if (self.hud) {
+                [self.hud startAnimating];
+                self.hud.hidden = NO;
+            }
+        });
+    }else{
+        if (self.hud) {
+            [self.hud startAnimating];
+            self.hud.hidden = NO;
+        }
+    }
+}
+
+- (void)stopActivityIndicatorView{
+    BOOL mainThread = [NSThread isMainThread];
+   if (mainThread == YES){
+       [self.hud stopAnimating];
+       self.hud.hidden = YES;
+   }else
+   {
+       dispatch_sync(dispatch_get_main_queue(), ^{
+           [self.hud stopAnimating];
+           self.hud.hidden = YES;
+       });
+   }
+}
+
+- (MBProgressHUD *)hud{
+    return objc_getAssociatedObject(self, HUD);
+}
+
+- (void)setHud:(UIActivityIndicatorView *)hud{
+    objc_setAssociatedObject(self, HUD, hud, OBJC_ASSOCIATION_RETAIN);
+}
+- (void)initHUD{
+    if (!self.hud) {
+//         = [[MBProgressHUD alloc] initWithView:self];
+        self.hud = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.width-10, (self.height-10)/2, 10, 10)];
+//        self.hud.frame = CGRectMake(0, 0, 10, 10);
+//        self.hud.center = self.center;
+//        self.hud.style = MBProgressHUDBackgroundStyleSolidColor;
+//        self.hud.bezelView.backgroundColor = RGBA_COLOR(0, 0, 0, 0.5);
+        [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]].color = [UIColor whiteColor];
+        [self addSubview:self.hud];
+    }else{
+        [self.hud stopAnimating];
+    }
 }
 @end

@@ -265,10 +265,12 @@
     if (mainThread == NO)
     {
         dispatch_sync(dispatch_get_main_queue(), ^{
+            [[AppDelegate sharedDelegate].window bringSubviewToFront:self.hud];
             [self.hud showAnimated:YES];
         });
     }else
     {
+        [[AppDelegate sharedDelegate].window bringSubviewToFront:self.hud];
         [self.hud showAnimated:YES];
     }
 }
