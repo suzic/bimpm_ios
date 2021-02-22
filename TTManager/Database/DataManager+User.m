@@ -248,6 +248,10 @@
     // 同步并关联对应的项目
     ZHProject *assignProject = [[DataManager defaultInstance] getProjectFromCoredataById:[dicData[@"id_project"] intValue]];
     
+    for (ZHUserProject *itemUserProject in assignProject.hasUsers) {
+        [self deleteFromCoreData:itemUserProject];
+    }
+    
     // 同步并关联对应的角色对象
     NSDictionary *roleDic = dicData[@"role"];
     ZHRole *currentRole = [[DataManager defaultInstance] getRoleFromCoredataById:[roleDic[@"id_role"] intValue]];

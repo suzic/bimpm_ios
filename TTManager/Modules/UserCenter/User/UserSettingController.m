@@ -108,9 +108,6 @@
         [[DataManager defaultInstance].currentProjectList removeLastObject];
         [DataManager defaultInstance].currentProjectList = nil;
         [[RCIM sharedRCIM] logout];
-        [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHProject"];
-        [[DataManager defaultInstance] cleanCoreDatabyEntityName:@"ZHUserProject"];
-        [[DataManager defaultInstance] saveContext];
         [AppDelegate sharedDelegate].initRongCloud = NO;
         // 切换服务器
         if (self.selectedServiceAddress != 0) {
