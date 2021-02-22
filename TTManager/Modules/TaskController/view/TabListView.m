@@ -42,10 +42,21 @@
     [self.lineView updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(x);
     }];
+//    [self.tabToolView layoutIfNeeded];
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if(decelerate == NO){
+        [self scrollViewDidEndDecelerating:scrollView];
+    }
+}
+
+- (void)scrollViewDidEndDecelerating:(nonnull UIScrollView *)scrollView {
+    CGFloat offsetX = scrollView.contentOffset.x;
+    CGFloat w = CGRectGetWidth(self.frame);
     _selectedTaskIndex = offsetX/w;
     [self changeTabSelected:_selectedTaskIndex];
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
-    [self.tabToolView layoutIfNeeded];
 }
 
 #pragma mark - public
@@ -159,6 +170,7 @@
         return;
     }
     self.selectedTaskIndex = button.tag - 10000;
+    [self changeTabSelected:_selectedTaskIndex];
 }
 
 - (void)setSelectedTaskIndex:(NSInteger)selectedTaskIndex{
@@ -168,6 +180,7 @@
     _selectedTaskIndex = selectedTaskIndex;
     [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
+    [self changeTabSelected:_selectedTaskIndex];
 }
 
 - (void)changeTabSelected:(NSInteger)index{
@@ -176,11 +189,13 @@
     }
     [self routerEventWithName:form_tab_type userInfo:@{@"index":@(index)}];
 }
+
 // 获取当前显示的tasklist 并且reloaddata
 - (void)getCurrentdisplayTaskListView:(NSInteger)index{
     TaskListView *currentListView = self.taskListViewArray[index];
     [currentListView reloadDataFromNetwork];
 }
+
 #pragma mark - setter and getter
 
 - (UIView *)tabToolView{

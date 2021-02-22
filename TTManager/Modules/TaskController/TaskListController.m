@@ -209,7 +209,6 @@
         view.needReloadData = YES;
         [self.taskListViewArray addObject:view];
     }
-    [self.view layoutIfNeeded];
     [self.taskTabView setChildrenViewList:self.taskListViewArray];
     DragButton *dragBtn = [DragButton initDragButtonVC:self];
     [dragBtn makeConstraints:^(MASConstraintMaker *make) {
