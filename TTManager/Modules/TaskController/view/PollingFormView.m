@@ -335,11 +335,22 @@ static NSString *headerCell = @"headerCell";
     ZHUser *user = [DataManager defaultInstance].currentUser;
     NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
     NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
-
+    NSInteger index = NSNotFound;
+    NSInteger index2 = NSNotFound;
+    if (self.currentStep == 0) {
+        index = 0;
+        index2 = 2;
+    }else if(self.currentStep == 1){
+        index = 7;
+        index2 = 8;
+    }else if(self.currentStep == 2){
+        index = 11;
+        index2 = 12;
+    }
     // 日期
-    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:2 inSection:0],@"value":time};
+    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":time};
     // 记录人
-    NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":user.name};
+    NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":user.name};
     NSArray *array = @[timedic,userdic];
 
     for (NSDictionary *itemDic in array) {

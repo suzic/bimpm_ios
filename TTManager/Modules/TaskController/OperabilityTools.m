@@ -101,7 +101,7 @@
         currentStep = stepCurrent[0];
     }else{
         for (ZHStep *currentStepItem in stepCurrent) {
-            if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state != 1) {
+            if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state == 2) {
                 currentStep = currentStepItem;
                 break;
             }
@@ -110,7 +110,7 @@
     if (currentStep != nil) {
         for (int i = 0; i< self.stepArray.count; i++) {
             ZHStep *stepItem = self.stepArray[i];
-            if (stepItem.responseUser.id_user == currentUser.id_user && currentStep.state != 1) {
+            if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
                 self.currentIndex = i;
                 self.currentSelectedStep = stepItem;
                 break;
@@ -121,8 +121,8 @@
 
 - (ZHStep *)getPreviousStep{
     ZHStep *resultStep = nil;
-    if (self.currentIndex >=1) {
-        resultStep = self.stepArray[self.currentIndex -1];
+    if (self.currentIndex) {
+        resultStep = self.stepArray[self.currentIndex-1];
     }
     return resultStep;
 }

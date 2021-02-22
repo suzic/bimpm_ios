@@ -20,7 +20,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 // 当前选中的item
 @property (nonatomic, assign) NSInteger currentSelectedStep;
-@property (nonatomic, assign) NSInteger selfStepIndex;
+
 @end
 
 @implementation TaskStepView
@@ -62,7 +62,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 //    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
 //        return;
 //    }
-    if (step.state == 1 || indexPath.row == self.selfStepIndex ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
+    if (step.state == 1 || indexPath.row == self.currentSelectedStep ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
         self.currentSelectedStep =  indexPath.row;
         _tools.currentSelectedStep = step;
         [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
@@ -148,7 +148,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
 }
 
 - (void)getCurrentDefaultSelectIndex:(OperabilityTools *)tools{
-    self.selfStepIndex = tools.currentIndex;
+    self.currentSelectedStep = tools.currentIndex;
     
 //    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
 //    for (int i = 0; i < _tools.stepArray.count; i++) {

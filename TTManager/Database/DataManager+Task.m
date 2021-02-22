@@ -13,8 +13,12 @@
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"uid_task = %d", uid_task];
     NSArray *result = [self arrayFromCoreData:@"ZHTask" predicate:predicate limit:1 offset:0 orderBy:nil];
     ZHTask *task = nil;
-    if (result != nil && result.count > 0)
+    if (result != nil && result.count > 0){
         task = result[0];
+        [self deleteFromCoreData:task];
+        task = (ZHTask *)[self insertIntoCoreData:@"ZHTask"];
+        task.uid_task = INT_32_TO_STRING(uid_task);
+    }
     else
     {
         task = (ZHTask *)[self insertIntoCoreData:@"ZHTask"];
@@ -119,7 +123,7 @@
     }
     // flow 默认只有一个
     NSArray *flowArray = info[@"flow"];
-    ZHFlow *flow  = [self getFlowStepFromCoredataByID:[flowArray[0][@"uid_flow"] intValue]];;
+    ZHFlow *flow  = nil;
 //    for (ZHStep *oldStep in flow.stepCurrent) {
 //        for (ZHTarget *target in oldStep.memoDocs) {
 //            [self deleteFromCoreData:target];
@@ -127,6 +131,7 @@
 //    }
     
     if (flowArray.count >0) {
+        flow.stepCurrent = nil;
         flow = [self syncFlowWithFlowDic:flowArray[0]];
     }
     ////flow_step
@@ -170,6 +175,7 @@
     flow.stepFirst = [self syncStep:nil withStepDic:flowDic[@"first_step"]];
     //last_step
     flow.stepLast = [self syncStep:nil withStepDic:flowDic[@"last_step"]];
+    
     
     // current_step
     if ([flowDic[@"current_step"] isKindOfClass:[NSArray class]]) {
@@ -275,6 +281,9 @@
     }
     [self deleteFromCoreData:task.belongFlow.stepFirst];
     [self deleteFromCoreData:task.belongFlow.stepLast];
+    for (ZHStep *currentStep in task.belongFlow.stepCurrent) {
+        [self deleteFromCoreData:currentStep];
+    }
     if (task.belongFlow) {
         [self deleteFromCoreData:task.belongFlow];
     }

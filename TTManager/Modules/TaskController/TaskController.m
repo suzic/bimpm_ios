@@ -507,7 +507,7 @@
 - (void)setPollingFromDetail{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
         // 获取当前步骤
-        ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
+        ZHStep *currentStep = self.operabilityTools.currentSelectedStep;
         // 没有附件
         if ([currentStep.memoDocs allObjects].count <= 0) {
             // 获取上一步
