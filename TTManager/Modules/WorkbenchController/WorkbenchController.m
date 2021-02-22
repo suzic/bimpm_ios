@@ -121,7 +121,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
-            return 160.0f;
+            return 240.0f;
             break;
         case 1:
             return FunctionCellHeight;
@@ -287,6 +287,7 @@
     }
     return templateId;
 }
+
 #pragma mark - Responder Chain
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
