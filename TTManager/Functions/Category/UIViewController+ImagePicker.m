@@ -60,8 +60,8 @@ static void *sheetType = @"actionSheetType";
     self.cameraPicker.delegate = self;
     self.cameraPicker.sourceType = UIImagePickerControllerSourceTypeCamera;
     NSString *requiredMediaType = (NSString *)kUTTypeImage;
-    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
-    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType, requiredMediaType1,nil];
+//    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
+    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType,nil];
     [self.cameraPicker setMediaTypes:arrMediaTypes];
 }
 - (void)setUpPhotoPickControllerIsEdit:(BOOL)isEdit {
@@ -72,8 +72,8 @@ static void *sheetType = @"actionSheetType";
     self.photoLibraryPicker.navigationBar.translucent = NO;
     self.photoLibraryPicker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     NSString *requiredMediaType = (NSString *)kUTTypeImage;
-    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
-    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType, requiredMediaType1,nil];
+//    NSString *requiredMediaType1 = (NSString *)kUTTypeMovie;
+    NSArray *arrMediaTypes=[NSArray arrayWithObjects:requiredMediaType,nil];
     [self.photoLibraryPicker setMediaTypes:arrMediaTypes];
 }
 - (void)presentChoseActionSheet {
