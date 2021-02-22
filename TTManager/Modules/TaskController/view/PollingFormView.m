@@ -356,7 +356,7 @@ static NSString *headerCell = @"headerCell";
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
     }
-    self.formFlowManager.isModification = NO;
+//    self.formFlowManager.isModification = NO;
     
     [self.expandSectionArray removeAllObjects];
     

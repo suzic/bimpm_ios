@@ -129,6 +129,7 @@
 }
 #pragma mark - 页面操作
 - (void)setBottomToolsOperations:(OperabilityTools *)tools{
+    
     switch (tools.type) {
         case task_type_new_task:
             [self newTaskOperations];
@@ -163,6 +164,16 @@
 }
 // 新建任务(包含起草的)
 - (void)newTaskOperations{
+    NSString *end_date = [NSDate br_stringFromDate:_tools.task.end_date dateFormat:@"yyyy-MM-dd HH:mm"];
+    if (![SZUtil isEmptyOrNull:end_date]) {
+        self.saveBtn.enabled = NO;
+        self.rejectBtn.hidden = NO;
+        self.agreeBtn.hidden = YES;
+        self.rejectBtn.enabled = NO;
+        [self.rejectBtn setTitle:@"已完成" forState:UIControlStateNormal];
+        self.predictTimeBtn.enabled = NO;
+        return;
+    }
     self.saveBtn.enabled = YES;
     self.rejectBtn.hidden = NO;
     [self.rejectBtn setTitle:@"发送任务" forState:UIControlStateNormal];
@@ -183,6 +194,16 @@
 
 // 已经完成的任务
 - (void)taskFinishOperations{
+    NSString *end_date = [NSDate br_stringFromDate:_tools.task.end_date dateFormat:@"yyyy-MM-dd HH:mm"];
+    if (![SZUtil isEmptyOrNull:end_date]) {
+        self.saveBtn.enabled = NO;
+        self.rejectBtn.hidden = NO;
+        self.agreeBtn.hidden = YES;
+        self.rejectBtn.enabled = NO;
+        [self.rejectBtn setTitle:@"已完成" forState:UIControlStateNormal];
+        self.predictTimeBtn.enabled = NO;
+        return;
+    }
     self.saveBtn.enabled = NO;
     ZHStep *step = _tools.currentSelectedStep;
     self.rejectBtn.hidden = NO;
