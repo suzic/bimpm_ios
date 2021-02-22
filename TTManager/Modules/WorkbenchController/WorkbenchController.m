@@ -18,12 +18,11 @@
 #import "BuilderDiaryController.h"
 #import "WorkDiaryController.h"
 #import "TaskController.h"
+#import "DateCell.h"
 
 @interface WorkbenchController ()<UITableViewDelegate,UITableViewDataSource,APIManagerParamSource,ApiManagerCallBackDelegate>
 
-@property (weak, nonatomic) IBOutlet UILabel *timeLabel;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (weak, nonatomic) IBOutlet UILabel *timeInforLabel;
 @property (nonatomic, strong) NSArray *ganttInfoArray;
 @property (nonatomic, assign) NSInteger selectedFunctionType;
 
@@ -38,20 +37,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self setCurrentDate];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
     self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingTarget:self refreshingAction:@selector(reoladNetwork)];
     self.selectedFunctionType = NSNotFound;
-}
-
-- (void)setCurrentDate{
-    self.timeInforLabel.hidden = NO;
-    self.timeLabel.text = [SZUtil getDateString:[NSDate date]];
-    NSDate *date = [NSDate date];
-    Solar *solarDate = [[Solar alloc] initWithDate:date];
-    Lunar *lunarDate = solarDate.lunar;
-    self.timeInforLabel.text = [NSString stringWithFormat:@"%@%@%@",[lunarDate ganzhiYear],lunarDate.lunarFromatterMonth, lunarDate.lunarFomatterDay];
 }
 
 - (void)reoladNetwork{
@@ -68,6 +57,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
+    switch (section) {
+        case 0:
+            return 2;
+            break;
+        default:
+            return 1;
+            break;
+    }
     return 1;
 }
 
@@ -88,9 +85,14 @@
     switch (indexPath.section) {
         case 0:
         {
-            MessageCell *msgCell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
-            msgCell.ganntInfoList = self.ganttInfoArray;
-            cell = msgCell;
+            if (indexPath.row == 0) {
+                DateCell *dateCell = (DateCell *)[tableView dequeueReusableCellWithIdentifier:@"DateCell" forIndexPath:indexPath];
+                cell = dateCell;
+            }else if(indexPath.row == 1){
+                MessageCell *msgCell = (MessageCell *)[tableView dequeueReusableCellWithIdentifier:@"messageCell" forIndexPath:indexPath];
+                msgCell.ganntInfoList = self.ganttInfoArray;
+                cell = msgCell;
+            }
         }
             break;
         case 1:{
@@ -121,7 +123,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     switch (indexPath.section) {
         case 0:
-            return 240.0f;
+            return indexPath.row == 0 ? 80.0f : 240.0f;
             break;
         case 1:
             return FunctionCellHeight;

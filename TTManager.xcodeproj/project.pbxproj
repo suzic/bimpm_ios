@@ -204,6 +204,7 @@
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
 		40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5294925D6661C001C23E8 /* FormQRCodeView.m */; };
 		40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5295325D67D7A001C23E8 /* TaskManager.m */; };
+		40A888D025E3F26E0044F1FE /* DateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888CF25E3F26E0044F1FE /* DateCell.m */; };
 		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
@@ -589,6 +590,8 @@
 		40A5294925D6661C001C23E8 /* FormQRCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormQRCodeView.m; sourceTree = "<group>"; };
 		40A5295225D67D7A001C23E8 /* TaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskManager.h; sourceTree = "<group>"; };
 		40A5295325D67D7A001C23E8 /* TaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskManager.m; sourceTree = "<group>"; };
+		40A888CE25E3F26E0044F1FE /* DateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateCell.h; sourceTree = "<group>"; };
+		40A888CF25E3F26E0044F1FE /* DateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateCell.m; sourceTree = "<group>"; };
 		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
 		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuilderDiaryController.h; sourceTree = "<group>"; };
@@ -1213,6 +1216,8 @@
 				402AA1ED2599815700A9DABA /* MessageView.m */,
 				402AA1FE2599ACCE00A9DABA /* FuncatioCollectionCell.h */,
 				402AA1FF2599ACCE00A9DABA /* FuncatioCollectionCell.m */,
+				40A888CE25E3F26E0044F1FE /* DateCell.h */,
+				40A888CF25E3F26E0044F1FE /* DateCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1715,6 +1720,7 @@
 				402AA1D02598AD0100A9DABA /* FunctionCell.m in Sources */,
 				402A9F622595B12A00A9DABA /* SZModalAlert.m in Sources */,
 				402A9F432595A4CF00A9DABA /* WorkbenchController.m in Sources */,
+				40A888D025E3F26E0044F1FE /* DateCell.m in Sources */,
 				402A9F3E2595A4B800A9DABA /* MonitoringController.m in Sources */,
 				4081EFD425BBF7D9004F8BB4 /* OperationCell.m in Sources */,
 				40E73E8E25BF178C00FC98DD /* APITargetUpdateManager.m in Sources */,
