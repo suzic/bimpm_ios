@@ -171,6 +171,12 @@
 
 // 删除当前表单中的图片数据
 - (void)deleteImageToCurrentImageFormItem:(NSDictionary *)deleteDic{
+    
+    if (self.isSnapshoot == YES) {
+        [self callReloadViewDelegate];
+        return;;
+    }
+    
     self.isModification = YES;
     // 显示的数据
     NSIndexPath *indexPath = deleteDic[@"indexPath"];
@@ -215,6 +221,12 @@
 }
 // 修改当前编辑的数据(包含显示的form和下载的form)
 - (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData{
+    
+    if (self.isSnapshoot == YES) {
+        [self callReloadViewDelegate];
+        return;;
+    }
+    
     self.isModification = YES;
     // 显示的数据
     NSIndexPath *indexPath = modifyData[@"indexPath"];
@@ -244,6 +256,12 @@
 }
 // 添加图片到表单
 - (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic{
+    
+    if (self.isSnapshoot == YES) {
+        [self callReloadViewDelegate];
+        return;
+    }
+    
     self.isModification = YES;
     // 显示的数据
     NSIndexPath *indexPath = addDic[@"indexPath"];

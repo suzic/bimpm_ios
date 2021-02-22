@@ -315,9 +315,9 @@ static NSString *headerCell = @"headerCell";
 // 获取当前表单详情
 - (void)getCurrentFormDetail:(NSString *)buddy_file
 {
-    if (![buddy_file isEqualToString:self.buddy_file] && self.loadFormSuccess == NO) {
+    if (![buddy_file isEqualToString:self.buddy_file]) {
         self.buddy_file = buddy_file;
-        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:buddy_file];
+        [self.formFlowManager downLoadCurrentFormJsonByBuddy_file:self.buddy_file];
     }
 }
 
@@ -358,7 +358,7 @@ static NSString *headerCell = @"headerCell";
     }
     self.formFlowManager.isModification = NO;
     
-    [self fillPollingUser];
+    [self.expandSectionArray removeAllObjects];
     
     BOOL expand = [self.expandSectionArray containsObject:[NSString stringWithFormat:@"%ld",self.currentStep]];
     if (expand == NO) {
@@ -372,6 +372,9 @@ static NSString *headerCell = @"headerCell";
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:self.currentStep] atScrollPosition:UITableViewScrollPositionNone animated:YES];
     }
+    
+    [self fillPollingUser];
+
 }
 
 - (NSMutableArray *)getHeaderData{
@@ -388,10 +391,12 @@ static NSString *headerCell = @"headerCell";
 
 - (BOOL)getCurrentSectionEdit:(NSInteger)section itemData:(NSDictionary *)formItem{
     BOOL edit = NO;
-    NSInteger type = [formItem[@"type"] intValue];
-    if (section == self.currentStep) {
-        if (type != 3 && type != 4) {
-            edit = YES;
+    if (self.formFlowManager.isSnapshoot == NO) {
+        NSInteger type = [formItem[@"type"] intValue];
+        if (section == self.currentStep) {
+            if (type != 3 && type != 4) {
+                edit = YES;
+            }
         }
     }
     return edit;

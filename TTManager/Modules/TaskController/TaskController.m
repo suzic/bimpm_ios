@@ -331,6 +331,7 @@
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
 //    [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
+    [self setPollingFromDetail];
 }
 
 // 修改内容后点击保存
