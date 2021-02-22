@@ -205,6 +205,9 @@
 		40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5294925D6661C001C23E8 /* FormQRCodeView.m */; };
 		40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5295325D67D7A001C23E8 /* TaskManager.m */; };
 		40A888D025E3F26E0044F1FE /* DateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888CF25E3F26E0044F1FE /* DateCell.m */; };
+		40A888D825E405AE0044F1FE /* EmptyConversationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888D725E405AE0044F1FE /* EmptyConversationView.m */; };
+		40A888F825E410250044F1FE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A888F625E410250044F1FE /* libssl.a */; };
+		40A888F925E410250044F1FE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A888F725E410250044F1FE /* libcrypto.a */; };
 		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
@@ -592,6 +595,10 @@
 		40A5295325D67D7A001C23E8 /* TaskManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskManager.m; sourceTree = "<group>"; };
 		40A888CE25E3F26E0044F1FE /* DateCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DateCell.h; sourceTree = "<group>"; };
 		40A888CF25E3F26E0044F1FE /* DateCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DateCell.m; sourceTree = "<group>"; };
+		40A888D625E405AE0044F1FE /* EmptyConversationView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EmptyConversationView.h; sourceTree = "<group>"; };
+		40A888D725E405AE0044F1FE /* EmptyConversationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmptyConversationView.m; sourceTree = "<group>"; };
+		40A888F625E410250044F1FE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Pods/BaiduMapKit/BaiduMapKit/thirdlibs/libssl.a; sourceTree = "<group>"; };
+		40A888F725E410250044F1FE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Pods/BaiduMapKit/BaiduMapKit/thirdlibs/libcrypto.a; sourceTree = "<group>"; };
 		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
 		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuilderDiaryController.h; sourceTree = "<group>"; };
@@ -622,6 +629,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40A888F825E410250044F1FE /* libssl.a in Frameworks */,
+				40A888F925E410250044F1FE /* libcrypto.a in Frameworks */,
 				403D948B25C287B0003B1B60 /* MobileCoreServices.framework in Frameworks */,
 				4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */,
 				4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */,
@@ -809,6 +818,8 @@
 				406FCA41259E066300636079 /* ConversationListController.m */,
 				406BF1A825ADE0C400A12DC3 /* ConversationController.h */,
 				406BF1A925ADE0C400A12DC3 /* ConversationController.m */,
+				40A888D625E405AE0044F1FE /* EmptyConversationView.h */,
+				40A888D725E405AE0044F1FE /* EmptyConversationView.m */,
 			);
 			path = ConversationController;
 			sourceTree = "<group>";
@@ -862,6 +873,8 @@
 		402A9F672595B1B500A9DABA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				40A888F725E410250044F1FE /* libcrypto.a */,
+				40A888F625E410250044F1FE /* libssl.a */,
 				403D948A25C287B0003B1B60 /* MobileCoreServices.framework */,
 				4054B8F725B409D60023FC7F /* SystemConfiguration.framework */,
 				4054B8F525B409BB0023FC7F /* Accelerate.framework */,
@@ -1787,6 +1800,7 @@
 				402AA2002599ACCE00A9DABA /* FuncatioCollectionCell.m in Sources */,
 				4054B92025B40E560023FC7F /* ZHTarget+CoreDataClass.m in Sources */,
 				4054B99225B7186D0023FC7F /* APIFormNewManager.m in Sources */,
+				40A888D825E405AE0044F1FE /* EmptyConversationView.m in Sources */,
 				4054B9BB25B915270023FC7F /* FormDetailController.m in Sources */,
 				406FCAE125A2F09200636079 /* NSDictionary+Extend.m in Sources */,
 				4043E48725D22B5F00EF0F9F /* FormItemSectionView.m in Sources */,
@@ -2006,6 +2020,10 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -2027,6 +2045,10 @@
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;

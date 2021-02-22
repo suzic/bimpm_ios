@@ -16,21 +16,36 @@
     }
     
     UIView *backgroundView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, self.width, self.height)];
+    if (type == 3) {
+        [self noticeEmptyView:backgroundView];
+    }else{
+        UIImageView *showImageView = [[UIImageView alloc]init];
+        showImageView.contentMode = UIViewContentModeScaleAspectFill;
+        [backgroundView addSubview:showImageView];
+        showImageView.image = [UIImage imageNamed:[self emptyImageName:type]];
+        [showImageView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(backgroundView);
+            make.centerY.equalTo(backgroundView);
+            make.width.height.equalTo(200);
+        }];
+    }
     
-    UIImageView *showImageView = [[UIImageView alloc]init];
-    showImageView.contentMode = UIViewContentModeScaleAspectFill;
-    [backgroundView addSubview:showImageView];
-    
-    showImageView.image = [UIImage imageNamed:[self emptyImageName:type]];
- 
-    [showImageView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.centerX.equalTo(backgroundView);
-        make.centerY.equalTo(backgroundView);
-        make.width.height.equalTo(200);
-    }];
-   
     self.backgroundView = backgroundView;
 }
+
+- (void)noticeEmptyView:(UIView *)bgView{
+    UILabel *label = [[UILabel alloc] init];
+    label.textAlignment = NSTextAlignmentCenter;
+    label.font = [UIFont systemFontOfSize:24.0f];
+    label.textColor = [UIColor blackColor];
+    label.text = @"暂无公告";
+    [bgView addSubview:label];
+    [label makeConstraints:^(MASConstraintMaker *make) {
+        make.centerX.equalTo(bgView);
+        make.centerY.equalTo(bgView);
+    }];
+}
+
 - (NSString *)emptyImageName:(NSInteger)type{
     NSString *empty_image = @"empty_image";
     switch (type) {

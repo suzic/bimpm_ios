@@ -7,6 +7,7 @@
 
 #import "ConversationListController.h"
 #import "ConversationController.h"
+#import "EmptyConversationView.h"
 
 @interface ConversationListController ()<RCIMUserInfoDataSource>
 
@@ -18,6 +19,7 @@
     self = [super initWithCoder:coder];
     if (self) {
         [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
+//        [self setCollectionConversationType:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
         [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
     }
     return self;
@@ -26,28 +28,36 @@
     self = [super init];
     if (self) {
         [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
+//        [self setCollectionConversationType:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
         [self setConversationAvatarStyle:RC_USER_AVATAR_CYCLE];
     }
     return self;
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reoladNetwork) name:NotiReloadHomeView object:nil];
-    [RCIM sharedRCIM];
+    self.emptyConversationView = [[EmptyConversationView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [[RCIM sharedRCIM] setUserInfoDataSource:self];
-    
+    if (self.conversationListDataSource.count > 0) {
+        self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }else{
+        self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
 }
 
 - (void)reoladNetwork{
 //    [self refreshConversationTableViewIfNeeded];
-    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE)]];
+    [self setDisplayConversationTypeArray:@[@(ConversationType_PRIVATE),@(ConversationType_DISCUSSION),@(ConversationType_GROUP),@(ConversationType_CHATROOM),@(ConversationType_RTC)]];
 }
-#pragma mark - 
+
+#pragma mark - 融云会话列表代理
+
 - (void)onSelectedTableRow:(RCConversationModelType)conversationModelType
          conversationModel:(RCConversationModel *)model
                atIndexPath:(NSIndexPath *)indexPath{
@@ -55,6 +65,14 @@
     conversationVC.title = model.conversationTitle;
     conversationVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:conversationVC animated:YES];
+}
+
+- (void)didDeleteConversationCell:(RCConversationModel *)model{
+    if (self.conversationListDataSource.count > 0) {
+        self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    }else{
+        self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    }
 }
 
 - (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{

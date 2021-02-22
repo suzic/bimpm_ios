@@ -35,7 +35,7 @@
 - (void)setMessageArray:(NSArray *)messageArray{
     if (_messageArray != messageArray) {
         _messageArray = messageArray;
-        [self.tableView showDataCount:_messageArray.count type:0];
+        [self.tableView showDataCount:_messageArray.count type:3];
         [self.tableView reloadData];
     }
 }

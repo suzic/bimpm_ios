@@ -8,11 +8,13 @@
 #import "ClockInViewController.h"
 #import <BMKLocationkit/BMKLocationComponent.h>
 #import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>//引入base相关所有的头文件
+@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,BMKMapViewDelegate,FormFlowManagerDelgate>
 
-@interface ClockInViewController ()<BMKLocationAuthDelegate,BMKLocationManagerDelegate,FormFlowManagerDelgate>
 
-
-//@property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) BMKMapView *mapView;
+@property (nonatomic, strong) BMKUserLocation *userLocation; //当前位置对象
 
 /// 打卡类型 0 公司打卡 1 外出打卡
 @property (nonatomic, assign) NSInteger clockType;
@@ -45,10 +47,17 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-//    [self.view addSubview:self.mapView];
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.title = @"日常打卡";
     self.navigationItem.leftBarButtonItem = self.closeItem;
+    
+    // 要使用百度地图，请先启动BaiduMapManager
+    BMKMapManager *mapManager = [[BMKMapManager alloc] init];
+    // 如果要关注网络及授权验证事件，请设定generalDelegate参数
+    BOOL ret = [mapManager start:BaiduKey  generalDelegate:nil];
+    if (!ret) {
+        NSLog(@"启动引擎失败");
+    }
     
     [self addUI];
     [self addTimer];
@@ -56,6 +65,16 @@
     [[BMKLocationAuth sharedInstance] checkPermisionWithKey:BaiduKey authDelegate:self];
     
     [self reloadNetwork];
+}
+
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [_mapView viewWillAppear];
+}
+
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    [_mapView viewWillDisappear];
 }
 
 #pragma mark - BMKLocationAuthDelegate
@@ -71,17 +90,40 @@
 
 - (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateLocation:(BMKLocation *)location orError:(NSError *)error{
     if (error) {
+        NSLog(@"locError:{%ld - %@};", (long)error.code, error.localizedDescription);
         [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
     }else{
-        NSLog(@"定位成功");
         [self distanceCurrentLocation:location];
     }
+    if (!location) {
+        return;
+    }
+    if (!self.userLocation) {
+        self.userLocation = [[BMKUserLocation alloc] init];
+    }
+    self.userLocation.location = location.location;
+    [self.mapView updateLocationData:self.userLocation];
 }
 
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
     NSLog(@"定位错误");
     [SZAlert showInfo:error.localizedDescription underTitle:TARGETS_NAME];
 }
+
+// 定位SDK中，方向变更的回调
+- (void)BMKLocationManager:(BMKLocationManager *)manager didUpdateHeading:(CLHeading *)heading {
+    if (!heading) {
+    return;
+    }
+    if (!self.userLocation) {
+    self.userLocation = [[BMKUserLocation alloc] init];
+    }
+    self.userLocation.heading = heading;
+    [self.mapView updateLocationData:self.userLocation];
+}
+
+#pragma mark - BMKMapViewDelegate
+
 
 #pragma mark - FormFlowManagerDelgate
 /// 刷新页面数据
@@ -239,6 +281,9 @@
 #pragma mark - ui
 
 - (void)addUI{
+    
+    [self.view addSubview:self.mapView];
+    
     [self.view addSubview:self.userView];
     [self.userView addSubview:self.userImageView];
     [self.userView addSubview:self.userName];
@@ -249,8 +294,14 @@
     [self.clockBgView addSubview:self.clockBtn];
     [self.clockBgView addSubview:self.clockTime];
     
+//    [self.mapView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.right.equalTo(0);
+//        make.height.equalTo(300);
+//    }];
+    
     [self.userView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.equalTo(16);
+        make.top.equalTo(300);
+        make.left.equalTo(16);
         make.right.equalTo(-16);
         make.height.equalTo(120);
     }];
@@ -373,6 +424,15 @@
         _closeItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemStop target:self action:@selector(closeView)];
     }
     return _closeItem;
+}
+
+- (BMKMapView *)mapView{
+    if (_mapView == nil) {
+        _mapView = [[BMKMapView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, 300)];
+        _mapView.delegate = self;
+        _mapView.showsUserLocation = YES;
+    }
+    return _mapView;
 }
 
 - (BMKLocationManager *)locationManager{

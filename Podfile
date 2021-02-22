@@ -12,7 +12,8 @@ pod 'RongCloudIM/IMLib'
 pod 'Aspects'
 pod 'BRPickerView'
 pod 'BMKLocationKit'
-pod 'BaiduMapKit/Utils'
+#pod 'BaiduMapKit/Utils'
+pod 'BaiduMapKit'
 pod 'UITextView+Placeholder'
 
 # Uncomment the next line if you're using Swift or would like to use dynamic frameworks
