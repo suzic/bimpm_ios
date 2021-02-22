@@ -42,8 +42,9 @@
 - (void)setCurrentService{
 #if DEBUG
     NSString *service = [[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultsNetService];
+    // debug模式下默认是正式服务器
     if ([SZUtil isEmptyOrNull:service]) {
-        [[NSUserDefaults standardUserDefaults] setObject:@"0" forKey:UserDefaultsNetService];
+        [[NSUserDefaults standardUserDefaults] setObject:@"1" forKey:UserDefaultsNetService];
         [[NSUserDefaults standardUserDefaults] synchronize];
     }
 #else
