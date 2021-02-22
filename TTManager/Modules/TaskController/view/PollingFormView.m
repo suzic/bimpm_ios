@@ -19,6 +19,8 @@ static NSString *headerCell = @"headerCell";
 
 @property (nonatomic, strong) UITableView *tableView;
 
+@property (nonatomic, assign) NSInteger currentSelectedIndex;
+
 @property (nonatomic, strong) FormQRCodeView *QRCodeView;
 
 @property (nonatomic, strong) PollingHeaderView *pollingUser;
@@ -49,7 +51,8 @@ static NSString *headerCell = @"headerCell";
 - (instancetype)init{
     self = [super init];
     if (self) {
-        self.currentStep = NSNotFound;
+        _currentStep = NSNotFound;
+        self.currentSelectedIndex = NSNotFound;
         self.loadFormSuccess = NO;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -261,15 +264,13 @@ static NSString *headerCell = @"headerCell";
     NSInteger section = header.tag;
     NSString *sectionString = [NSString stringWithFormat:@"%ld",section];
     
-    // 不是当前步骤并且没有负责人不允许展开
-    if (self.currentStep != section) {
-        NSDictionary *sectionItem = self.sectionArray[section];
-        // 如果当前没有对应负责人，不允许展开
-        if ([SZUtil isEmptyOrNull:sectionItem[@"instance_value"]]) {
-            return;
-        }
+    NSDictionary *sectionItem = self.sectionArray[section];
+    // 如果当前没有对应负责人，不允许展开
+    if ([SZUtil isEmptyOrNull:sectionItem[@"instance_value"]]) {
+        return;
     }
-    self.currentStep = section;
+    
+    self.currentSelectedIndex = section;
     // 已经展开点击收起，否则展开
     if ([self.expandSectionArray containsObject:sectionString]) {
         [self.expandSectionArray removeObject:sectionString];
@@ -287,10 +288,10 @@ static NSString *headerCell = @"headerCell";
 }
 
 - (void)fillPollingUser{
-    if (self.currentStep == NSNotFound) {
+    if (self.currentSelectedIndex == NSNotFound) {
         return;
     }
-    NSDictionary *sectionItem = self.sectionArray[self.currentStep];
+    NSDictionary *sectionItem = self.sectionArray[self.currentSelectedIndex];
     NSString *instance_value = @"";
     if (![SZUtil isEmptyOrNull:self.formFlowManager.instanceFromDic[@"buddy_file"][@"name"]]) {
         self.formName = self.formFlowManager.instanceFromDic[@"buddy_file"][@"name"];
@@ -299,7 +300,7 @@ static NSString *headerCell = @"headerCell";
         instance_value = sectionItem[@"instance_value"];
     }
     
-    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":instance_value} index:self.currentStep];
+    [self.pollingUser setFormHeaderData:@{@"code":self.formName,@"name":instance_value} index:self.currentSelectedIndex];
 }
 - (void)fillHeaderView{
 //    NSString *value = @"";
@@ -440,6 +441,14 @@ static NSString *headerCell = @"headerCell";
     }
     return _tableView;
 }
+
+- (void)setCurrentStep:(NSInteger)currentStep{
+    if (_currentStep != currentStep) {
+        _currentStep = currentStep;
+        self.currentSelectedIndex = _currentStep;
+    }
+}
+
 - (PollingHeaderView *)pollingUser{
     if (_pollingUser == nil) {
         _pollingUser = [[PollingHeaderView alloc] init];

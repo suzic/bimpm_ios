@@ -94,26 +94,26 @@
 // 获取当前进行中的任务步骤和下标
 - (void)getCurrentIndex{
     NSArray *stepCurrent = [_task.belongFlow.stepCurrent allObjects];
+    ZHStep *currentStep = nil;
+    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
+
     if (stepCurrent.count == 1) {
-        self.currentIndex = 1;
-        self.currentSelectedStep = stepCurrent[0];
+        currentStep = stepCurrent[0];
     }else{
-        ZHStep *step = nil;
-        ZHUser *currentUser = [DataManager defaultInstance].currentUser;
         for (ZHStep *currentStepItem in stepCurrent) {
             if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state != 1) {
-                step = currentStepItem;
+                currentStep = currentStepItem;
                 break;
             }
         }
-        if (step != nil) {
-            for (int i = 0; i< self.stepArray.count; i++) {
-                ZHStep *stepItem = self.stepArray[i];
-                if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state != 1) {
-                    self.currentIndex = i;
-                    self.currentSelectedStep = stepItem;
-                    break;
-                }
+    }
+    if (currentStep != nil) {
+        for (int i = 0; i< self.stepArray.count; i++) {
+            ZHStep *stepItem = self.stepArray[i];
+            if (stepItem.responseUser.id_user == currentUser.id_user && currentStep.state != 1) {
+                self.currentIndex = i;
+                self.currentSelectedStep = stepItem;
+                break;
             }
         }
     }

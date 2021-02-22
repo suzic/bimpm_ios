@@ -98,6 +98,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
             break;
         case task_type_new_polling:
 //            [self checkCurrentStepHasEmptyUserStep];
+            [self getCurrentDefaultSelectIndex:_tools];
             break;
         case task_type_detail_proceeding:
             [self getCurrentDefaultSelectIndex:_tools];
