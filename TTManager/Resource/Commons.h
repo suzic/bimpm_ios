@@ -20,7 +20,7 @@
 // 添加这个宏，equalTo就等价于mas_equalTo
 #define MAS_SHORTHAND_GLOBALS
 
-#define FunctionCellHeight 94
+#define FunctionCellHeight 128
 #define ItemRowHeight  44
 
 

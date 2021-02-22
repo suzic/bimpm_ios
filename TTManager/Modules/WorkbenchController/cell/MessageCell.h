@@ -10,9 +10,11 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface MessageCell : UITableViewCell
+
 @property (weak, nonatomic) IBOutlet UIView *bgView;
 @property (weak, nonatomic) IBOutlet UIButton *moreButton;
 @property (nonatomic,strong) NSArray *ganntInfoList;
+
 @end
 
 NS_ASSUME_NONNULL_END
