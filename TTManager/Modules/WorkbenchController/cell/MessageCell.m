@@ -34,10 +34,8 @@
     
     [self.logsView insertSubview:self.msgView atIndex:0];
     [self.msgView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.leading.equalTo(self.bgView);
-        make.trailing.equalTo(self.bgView);
-        make.top.equalTo(self.bgView);
-        make.bottom.equalTo(self.bgView);
+        make.top.left.right.equalTo(0);
+        make.bottom.equalTo(-48);
     }];
 }
 

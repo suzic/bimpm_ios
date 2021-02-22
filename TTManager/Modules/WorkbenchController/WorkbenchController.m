@@ -27,7 +27,7 @@
 @property (nonatomic, assign) NSInteger selectedFunctionType;
 
 // api
-@property (nonatomic, strong) APIUTPGanttManager *UTPGanttManager;
+@property (nonatomic, strong) APIUTPInfoManager *UTPInfoManager;
 @property (nonatomic, strong) APITargetListManager *filterTargetManager;
 
 @end
@@ -45,8 +45,7 @@
 
 - (void)reoladNetwork{
     if ([DataManager defaultInstance].currentProject != nil) {
-        [self.UTPGanttManager loadData];
-        [self.tableView reloadData];
+        [self.UTPInfoManager loadData];
     }
 }
 
@@ -335,10 +334,10 @@
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
     NSDictionary *dic = @{};
     ZHProject *project = [DataManager defaultInstance].currentProject;
-    if(manager == self.UTPGanttManager){
+    if(manager == self.UTPInfoManager){
+        NSString *edit_date = [NSString stringWithFormat:@"%@ 00:00:00",[SZUtil getDateString:[NSDate date]]];
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
-                @"forward_days":@"7",
-                @"gantt_type":@"0"};
+                @"edit_date":edit_date};
     }else if(manager == self.filterTargetManager){
         ZHProject *project = [DataManager defaultInstance].currentProject;
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
@@ -353,7 +352,7 @@
 
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
     [self.tableView.mj_header endRefreshing];
-    if(manager == self.UTPGanttManager){
+    if(manager == self.UTPInfoManager){
         self.ganttInfoArray = manager.response.responseData;
         [self.tableView reloadData];
     }else if(manager == self.filterTargetManager){
@@ -363,7 +362,7 @@
 
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     [self.tableView.mj_header endRefreshing];
-    if(manager == self.UTPGanttManager){
+    if(manager == self.UTPInfoManager){
         
     }else if(manager == self.filterTargetManager){
         
@@ -372,13 +371,13 @@
 
 #pragma mark - setter and getter
 
-- (APIUTPGanttManager *)UTPGanttManager{
-    if (_UTPGanttManager == nil) {
-        _UTPGanttManager = [[APIUTPGanttManager alloc] init];
-        _UTPGanttManager.delegate = self;
-        _UTPGanttManager.paramSource = self;
+- (APIUTPInfoManager *)UTPInfoManager{
+    if (_UTPInfoManager == nil) {
+        _UTPInfoManager = [[APIUTPInfoManager alloc] init];
+        _UTPInfoManager.delegate = self;
+        _UTPInfoManager.paramSource = self;
     }
-    return _UTPGanttManager;
+    return _UTPInfoManager;
 }
 
 - (APITargetListManager *)filterTargetManager{

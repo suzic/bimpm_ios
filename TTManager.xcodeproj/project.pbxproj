@@ -1204,6 +1204,8 @@
 		402AA1C92598ACAF00A9DABA /* cell */ = {
 			isa = PBXGroup;
 			children = (
+				40A888CE25E3F26E0044F1FE /* DateCell.h */,
+				40A888CF25E3F26E0044F1FE /* DateCell.m */,
 				402AA1CA2598ACDD00A9DABA /* MessageCell.h */,
 				402AA1CB2598ACDD00A9DABA /* MessageCell.m */,
 				402AA1CE2598AD0100A9DABA /* FunctionCell.h */,
@@ -1216,8 +1218,6 @@
 				402AA1ED2599815700A9DABA /* MessageView.m */,
 				402AA1FE2599ACCE00A9DABA /* FuncatioCollectionCell.h */,
 				402AA1FF2599ACCE00A9DABA /* FuncatioCollectionCell.m */,
-				40A888CE25E3F26E0044F1FE /* DateCell.h */,
-				40A888CF25E3F26E0044F1FE /* DateCell.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";

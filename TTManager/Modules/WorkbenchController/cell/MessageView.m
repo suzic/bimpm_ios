@@ -56,8 +56,8 @@
         ZHProjectMemo *memo = (ZHProjectMemo *)data;
         name = memo.line;
     }
-    CGRect frame = [name boundingRectWithSize:CGSizeMake(CGFLOAT_MAX, 30) options:(NSStringDrawingUsesLineFragmentOrigin) attributes:[NSDictionary dictionaryWithObjectsAndKeys:[UIFont systemFontOfSize:14.0f],NSFontAttributeName, nil] context:nil];
-    return frame.size.height < 30 ? 30:frame.size.height;
+    CGFloat textHeight = [NSString heightFromString:name withFont:[UIFont systemFontOfSize:14.0f] constraintToWidth:self.frame.size.width];
+    return textHeight < 30 ? 30:textHeight;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -69,6 +69,7 @@
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor = [UIColor clearColor];
     id data = self.messageArray[indexPath.row];
+    cell.textLabel.numberOfLines = 0;
     cell.imageView.image = [UIImage imageNamed:@"delete_password"];
     if ([data isKindOfClass:[NSString class]])
     {
@@ -77,7 +78,7 @@
     }else if([data isKindOfClass:[ZHProjectMemo class]]){
         ZHProjectMemo *memo = (ZHProjectMemo *)data;
         cell.textLabel.text = memo.line;
-        cell.textLabel.textColor = [SZUtil colorWithHex:@"#999999"];
+        cell.textLabel.textColor = [SZUtil colorWithHex:@"#333333"];
         cell.detailTextLabel.text = [SZUtil getTimeString:memo.edit_date];
     }
     cell.textLabel.font = [UIFont systemFontOfSize:14.0f];

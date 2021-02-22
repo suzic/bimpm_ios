@@ -63,7 +63,7 @@
 
 -(void)textViewDidChange:(UITextView *)textView{
 //    NSInteger height = ([self.contentTextView sizeThatFits:CGSizeMake(self.contentTextView.bounds.size.width, MAXFLOAT)].height);
-    CGFloat currentHeight = [self heightFromString:textView.text withFont:[UIFont systemFontOfSize:16.0f] constraintToWidth:kScreenWidth*0.75-10];
+    CGFloat currentHeight = [NSString heightFromString:textView.text withFont:[UIFont systemFontOfSize:16.0f] constraintToWidth:kScreenWidth*0.75-10];
     if (currentHeight+12 < 44) {
         currentHeight = 32;
     }else if(currentHeight > 32*6){
@@ -126,20 +126,6 @@
                               @"10":@"静态文本"};
     }
     return _itemTypeValueDic;
-}
-
-- (CGFloat)heightFromString:(NSString*)text withFont:(UIFont*)font constraintToWidth:(CGFloat)width
-{
-    CGRect rect;
-    
-    // only support iOS 7+
-    rect = [text boundingRectWithSize:CGSizeMake(width, 10000000)
-                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
-                           attributes:@{NSFontAttributeName:font}
-                              context:nil];
-    
-    NSLog(@"%@: W: %.f, H: %.f", self, rect.size.width, rect.size.height);
-    return rect.size.height;
 }
 
 /*

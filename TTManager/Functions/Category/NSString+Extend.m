@@ -49,4 +49,20 @@
     NSData *data = [[NSData alloc] initWithBase64EncodedString:self options:0];
     return [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
+
++ (CGFloat)heightFromString:(NSString*)text withFont:(UIFont*)font constraintToWidth:(CGFloat)width
+{
+    CGRect rect;
+    
+    // only support iOS 7+
+    rect = [text boundingRectWithSize:CGSizeMake(width, 10000000)
+                              options:NSStringDrawingUsesLineFragmentOrigin | NSStringDrawingUsesFontLeading
+                           attributes:@{NSFontAttributeName:font}
+                              context:nil];
+    
+    NSLog(@"%@: W: %.f, H: %.f", self, rect.size.width, rect.size.height);
+    return rect.size.height;
+}
+
+
 @end

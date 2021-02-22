@@ -21,6 +21,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 // Base64解码方法2
 - (NSString *)base64DecodingString;
+
++ (CGFloat)heightFromString:(NSString*)text withFont:(UIFont*)font constraintToWidth:(CGFloat)width;
+
 @end
 
 NS_ASSUME_NONNULL_END
