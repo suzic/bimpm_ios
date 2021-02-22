@@ -394,6 +394,7 @@
     {
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         if ([dic[@"code"] isEqualToNumber:@0]) {
+            self.isModification = NO;
             [self uploadFillSuccessLaterFrom];
             [self callFormOperationsFillResultDelagate:YES];
         }
