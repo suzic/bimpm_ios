@@ -66,6 +66,7 @@
     if (iError == BMKLocationAuthErrorSuccess) {
         [self.locationManager setLocatingWithReGeocode:YES];
         [self.locationManager startUpdatingLocation];
+        [self.locationManager startUpdatingHeading];
     }
 }
 
@@ -86,6 +87,7 @@
     }
     self.userLocation.location = location.location;
     [self.mapView updateLocationData:self.userLocation];
+//    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(location.location.coordinate.latitude,location.location.coordinate.longitude) animated:YES];
 }
 
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
@@ -131,6 +133,7 @@
         _mapView.zoomLevel = 15.0f;
         _mapView.showMapScaleBar = YES;
         _mapView.showsUserLocation = YES;
+        _mapView.userTrackingMode = BMKUserTrackingModeFollowWithHeading;
     }
     return _mapView;
 }
