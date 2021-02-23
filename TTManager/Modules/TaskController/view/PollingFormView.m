@@ -64,7 +64,7 @@ static NSString *headerCell = @"headerCell";
 #pragma mark - UITableViewDelegate && UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
-    return 3;
+    return self.sectionArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -72,7 +72,7 @@ static NSString *headerCell = @"headerCell";
     BOOL isExpand = [self.expandSectionArray containsObject:sectionString];
     switch (section) {
         case 0:
-            return isExpand == YES ? 6:0;
+            return isExpand == YES ? 5:0;
             break;
         case 1:
             return isExpand == YES ? 3:0;
@@ -101,7 +101,7 @@ static NSString *headerCell = @"headerCell";
     FormItemSectionView *headerView = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerCell];
     if (self.sectionArray.count >0) {
         NSDictionary *dic = self.sectionArray[section];
-        NSInteger row = section == 0 ? 0:(section == 1 ? 7 :11);
+        NSInteger row = section == 0 ? 0:(section == 1 ? 6 :10);
         [headerView setIsFormEdit:NO indexPath:[NSIndexPath indexPathForRow:row inSection:0] item:dic];
         
     }
@@ -244,10 +244,10 @@ static NSString *headerCell = @"headerCell";
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
         dic[@"indexPath"] = indexPath;
     }else if(index == 1){
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:7 inSection:0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:6 inSection:0];
         dic[@"indexPath"] = indexPath;
     }else if(index == 2){
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:11 inSection:0];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:10 inSection:0];
         dic[@"indexPath"] = indexPath;
     }
     [self.formFlowManager modifyCurrentDownLoadForm:dic];
@@ -339,13 +339,13 @@ static NSString *headerCell = @"headerCell";
     NSInteger index2 = NSNotFound;
     if (self.currentStep == 0) {
         index = 0;
-        index2 = 2;
+        index2 = 1;
     }else if(self.currentStep == 1){
-        index = 7;
-        index2 = 8;
+        index = 6;
+        index2 = 7;
     }else if(self.currentStep == 2){
-        index = 11;
-        index2 = 12;
+        index = 10;
+        index2 = 11;
     }
     // 日期
     NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":time};
@@ -382,8 +382,8 @@ static NSString *headerCell = @"headerCell";
     if (items && items.count > 0) {
         [self.sectionArray removeAllObjects];
         [self.sectionArray addObject:items[0]];
-        [self.sectionArray addObject:items[7]];
-        [self.sectionArray addObject:items[11]];
+        [self.sectionArray addObject:items[6]];
+        [self.sectionArray addObject:items[10]];
     }
     return self.sectionArray;
     
@@ -407,9 +407,9 @@ static NSString *headerCell = @"headerCell";
     if (indexPath.section == 0) {
         index = indexPath.row+1;
     }else if(indexPath.section == 1){
-        index = indexPath.row+8;
+        index = indexPath.row+7;
     }else if(indexPath.section == 2){
-        index =indexPath.row +12;
+        index =indexPath.row +11;
     }
     return  [NSIndexPath indexPathForRow:index inSection:0];
 }
