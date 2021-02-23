@@ -118,23 +118,28 @@
     cell.textLabel.attributedText = [self changTextColor:titleText changText:@[@"中我是"]];
     return cell;
 }
+
 #pragma mark - Action
+
 - (IBAction)goConversationAction:(id)sender {
     NSLog(@"融云im%@",self.user.uid_chat);
-    if (![SZUtil isEmptyOrNull:self.user.uid_chat]) {
-        [self goConversationView];
-    }else{
-        [self.IMTokenManager loadData];
-    }
+    [self goConversationView];
+//    if (![SZUtil isEmptyOrNull:self.user.id_user]) {
+//
+//    }else{
+//        [self.IMTokenManager loadData];
+//    }
 }
+
 - (void)goConversationView{
-    NSString *targetId = self.user.uid_chat;
-    NSArray *resultArray = [targetId componentsSeparatedByString:@"@"];
-    targetId = resultArray[0];
+    NSString *targetId = [NSString stringWithFormat:@"%d",self.user.id_user];
+//    NSArray *resultArray = [targetId componentsSeparatedByString:@"@"];
+//    targetId = resultArray[0];
     ConversationController *conversationVC = [[ConversationController alloc] initWithConversationType:ConversationType_PRIVATE targetId:targetId];
     conversationVC.title = self.user.name;
     [self.navigationController pushViewController:conversationVC animated:YES];
 }
+
 - (IBAction)goTaskAction:(id)sender {
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"选择任务类型" message:nil preferredStyle:UIAlertControllerStyleActionSheet];
     int i = 1;

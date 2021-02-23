@@ -51,7 +51,7 @@ NSString * const CurrentLoginUserPhone = @"CurrentLoginUserPhone";
     ZHUser *user = nil;
     NSArray *result = [[DataManager defaultInstance] arrayFromCoreData:@"ZHUser" predicate:nil limit:NSIntegerMax offset:0 orderBy:nil];
     for (ZHUser *userItem in result) {
-        if ([userItem.uid_chat containsString:uid_chat]) {
+        if (userItem.id_user == [uid_chat intValue]) {
             user = userItem;
             break;
         }
