@@ -208,6 +208,8 @@
 		40A888D825E405AE0044F1FE /* EmptyConversationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888D725E405AE0044F1FE /* EmptyConversationView.m */; };
 		40A888F825E410250044F1FE /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A888F625E410250044F1FE /* libssl.a */; };
 		40A888F925E410250044F1FE /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40A888F725E410250044F1FE /* libcrypto.a */; };
+		40A8890025E495C50044F1FE /* BimpmMapView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888FF25E495C50044F1FE /* BimpmMapView.m */; };
+		40A8890425E495EA0044F1FE /* ClockInView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A8890325E495EA0044F1FE /* ClockInView.m */; };
 		40C7CAB225CB91910059C0C3 /* FormFlowManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB125CB91910059C0C3 /* FormFlowManager.m */; };
 		40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40C7CAB725CC3D950059C0C3 /* BuilderDiaryController.m */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
@@ -599,6 +601,10 @@
 		40A888D725E405AE0044F1FE /* EmptyConversationView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = EmptyConversationView.m; sourceTree = "<group>"; };
 		40A888F625E410250044F1FE /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libssl.a; path = Pods/BaiduMapKit/BaiduMapKit/thirdlibs/libssl.a; sourceTree = "<group>"; };
 		40A888F725E410250044F1FE /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = Pods/BaiduMapKit/BaiduMapKit/thirdlibs/libcrypto.a; sourceTree = "<group>"; };
+		40A888FE25E495C50044F1FE /* BimpmMapView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BimpmMapView.h; sourceTree = "<group>"; };
+		40A888FF25E495C50044F1FE /* BimpmMapView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BimpmMapView.m; sourceTree = "<group>"; };
+		40A8890225E495EA0044F1FE /* ClockInView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClockInView.h; sourceTree = "<group>"; };
+		40A8890325E495EA0044F1FE /* ClockInView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClockInView.m; sourceTree = "<group>"; };
 		40C7CAB025CB91910059C0C3 /* FormFlowManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormFlowManager.h; sourceTree = "<group>"; };
 		40C7CAB125CB91910059C0C3 /* FormFlowManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormFlowManager.m; sourceTree = "<group>"; };
 		40C7CAB625CC3D950059C0C3 /* BuilderDiaryController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BuilderDiaryController.h; sourceTree = "<group>"; };
@@ -784,6 +790,7 @@
 		402A9F382595A3E100A9DABA /* WorkbenchController */ = {
 			isa = PBXGroup;
 			children = (
+				40A888FD25E495410044F1FE /* views */,
 				402AA1C92598ACAF00A9DABA /* cell */,
 				402A9F412595A4CF00A9DABA /* WorkbenchController.h */,
 				402A9F422595A4CF00A9DABA /* WorkbenchController.m */,
@@ -1558,6 +1565,17 @@
 			path = DragButton;
 			sourceTree = "<group>";
 		};
+		40A888FD25E495410044F1FE /* views */ = {
+			isa = PBXGroup;
+			children = (
+				40A888FE25E495C50044F1FE /* BimpmMapView.h */,
+				40A888FF25E495C50044F1FE /* BimpmMapView.m */,
+				40A8890225E495EA0044F1FE /* ClockInView.h */,
+				40A8890325E495EA0044F1FE /* ClockInView.m */,
+			);
+			path = views;
+			sourceTree = "<group>";
+		};
 		40E334BB25A8AA91008DBDAB /* SupernatantView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1852,6 +1870,7 @@
 				402AA1CC2598ACDD00A9DABA /* MessageCell.m in Sources */,
 				40931CAB259C27DC008C3518 /* TaskController.m in Sources */,
 				402A9F7C2595B60900A9DABA /* NSTimer+Addition.m in Sources */,
+				40A8890425E495EA0044F1FE /* ClockInView.m in Sources */,
 				40618FE125D0E7AA00DA197E /* FormItemBtnView.m in Sources */,
 				4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */,
 				4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */,
@@ -1859,6 +1878,7 @@
 				4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
 				40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */,
 				406FCA8325A1A32700636079 /* APIUTPListManager.m in Sources */,
+				40A8890025E495C50044F1FE /* BimpmMapView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

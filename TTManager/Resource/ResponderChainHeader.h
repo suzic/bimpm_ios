@@ -16,6 +16,10 @@
 #define new_task_action         @"new_task_action"
 // 首页 常用模块点击
 #define function_selected       @"function_selected"
+/// 打卡距离
+#define punch_card_distance     @"punch_card_distance"
+// 打卡事件
+#define punch_card_action       @"punch_card_action"
 // 打开文件库
 #define open_document_library   @"open_document_library"
 
