@@ -109,14 +109,14 @@ static void *HUD = @"HUD";
 }
 - (void)initHUD{
     if (!self.hud) {
-//         = [[MBProgressHUD alloc] initWithView:self];
         self.hud = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(self.width-10, (self.height-10)/2, 10, 10)];
-//        self.hud.frame = CGRectMake(0, 0, 10, 10);
-//        self.hud.center = self.center;
-//        self.hud.style = MBProgressHUDBackgroundStyleSolidColor;
-//        self.hud.bezelView.backgroundColor = RGBA_COLOR(0, 0, 0, 0.5);
         [UIActivityIndicatorView appearanceWhenContainedInInstancesOfClasses:@[[MBProgressHUD class]]].color = [UIColor whiteColor];
         [self addSubview:self.hud];
+        [self.hud makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self);
+            make.width.height.equalTo(10);
+            make.right.equalTo(0);
+        }];
     }else{
         [self.hud stopAnimating];
     }
