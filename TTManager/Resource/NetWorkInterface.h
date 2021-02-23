@@ -59,6 +59,9 @@ fileService; \
 
 // 获取IM的token
 #define URL_CHAT_TOKEN                          @"/user/UserChat"
+// 用户基础信息
+#define URL_USER_DETAIL                         @"/user/UserDetail"
+
 // 用户对项目操作
 #define URL_USER_PROJECT_INFO                   @"/user/UserToProjectInfo"
 #define URL_USER_PROJECT_GANTT                  @"/user/UserToProjectGantt"

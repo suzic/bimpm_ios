@@ -9,7 +9,7 @@
 #import "ConversationController.h"
 #import "EmptyConversationView.h"
 
-@interface ConversationListController ()<RCIMUserInfoDataSource>
+@interface ConversationListController ()
 
 @end
 
@@ -43,7 +43,6 @@
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [[RCIM sharedRCIM] setUserInfoDataSource:self];
     if (self.conversationListDataSource.count > 0) {
         self.conversationListTableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     }else{
@@ -75,22 +74,6 @@
     }
 }
 
-- (void)getUserInfoWithUserId:(NSString *)userId completion:(void (^)(RCUserInfo *))completion{
-    ZHUser *user = [[LoginUserManager defaultInstance] getUserByRongIMId:userId];
-    if (user != nil) {
-        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-        userInfo.userId = userId;
-        userInfo.name = user.name;
-        userInfo.portraitUri = user.avatar;
-        return completion(userInfo);
-    }else{
-        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
-        userInfo.name = @"未知用户";
-        userInfo.userId = userId;
-        return completion(userInfo);
-    }
-    return completion(nil);
-}
 /*
 #pragma mark - Navigation
 

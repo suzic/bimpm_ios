@@ -6,6 +6,7 @@
 //
 
 #import "AppDelegate.h"
+#import "IMDelegateManager.h"
 
 @interface AppDelegate ()
 
@@ -54,6 +55,9 @@
     self.initRongCloud = NO;
     [[RCIM sharedRCIM] initWithAppKey:RongCloudIMKey];
     ZHUser *user = [DataManager defaultInstance].currentUser;
+    
+    [[RCIM sharedRCIM] setUserInfoDataSource:[IMDelegateManager manager]];
+    
     NSLog(@"%@",user.uid_chat);
     if (user.uid_chat) {
         [[RCIM sharedRCIM] connectWithToken:user.uid_chat dbOpened:^(RCDBErrorCode code) {
