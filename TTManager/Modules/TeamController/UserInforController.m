@@ -123,12 +123,11 @@
 
 - (IBAction)goConversationAction:(id)sender {
     NSLog(@"融云im%@",self.user.uid_chat);
-    [self goConversationView];
-//    if (![SZUtil isEmptyOrNull:self.user.id_user]) {
-//
-//    }else{
-//        [self.IMTokenManager loadData];
-//    }
+    if (![SZUtil isEmptyOrNull:self.user.uid_chat]) {
+        [self goConversationView];
+    }else{
+        [self.IMTokenManager loadData];
+    }
 }
 
 - (void)goConversationView{
