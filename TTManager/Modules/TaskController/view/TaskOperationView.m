@@ -91,14 +91,15 @@
         decision = @"驳回";
         [self setOperationStyle:1 button:self.rejectBtn];
     }else if(step.process_type == 5 && step.decision == 1){
-        if (step.hasNext.count >0) {
+
+        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
             decision = @"通过";
         }else{
             decision = @"确认";
         }
         [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 6 && step.decision == 1){
-        if (step.hasNext.count >0) {
+        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
             decision = @"通过";
         }else{
             decision = @"完成";
@@ -231,10 +232,22 @@
          [self.rejectBtn setTitle:@"驳回" forState:UIControlStateNormal];
          [self.agreeBtn setTitle:@"通过" forState:UIControlStateNormal];
      }else if(step.process_type == 5){
-         [self.rejectBtn setTitle:@"确认" forState:UIControlStateNormal];
+         NSString *decision = @"确认";
+         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+             decision = @"通过";
+         }else{
+             decision = @"确认";
+         }
+         [self.rejectBtn setTitle:decision forState:UIControlStateNormal];
          self.agreeBtn.hidden = YES;
      }else if(step.process_type == 6){
-         [self.rejectBtn setTitle:@"完成" forState:UIControlStateNormal];
+         NSString *decision = @"完成";
+         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+             decision = @"通过";
+         }else{
+             decision = @"完成";
+         }
+         [self.rejectBtn setTitle:decision forState:UIControlStateNormal];
          self.agreeBtn.hidden = YES;
      }
     ZHUser *user = [DataManager defaultInstance].currentUser;

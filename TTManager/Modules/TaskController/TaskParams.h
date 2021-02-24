@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "OperabilityTools.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -25,6 +26,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *memo;
 @property (nonatomic, strong) NSString *submitParams;
 @property (nonatomic, copy) NSString *uid_target;
+@property (nonatomic, strong) OperabilityTools *tools;
 
 // 获取新建任务的请求参数
 - (NSMutableDictionary *)getNewTaskParams;

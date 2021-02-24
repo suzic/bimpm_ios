@@ -535,32 +535,15 @@
             if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
                 self.pollingFormView.needClone = NO;
             }
-//            if (self.pollingFormView.currentStep == NSNotFound) {
-//                self.pollingFormView.currentStep = 0;
-//            }
             [self.pollingFormView getCurrentFormDetail:target.uid_target];
         }
-//        ZHTarget *target  = self.operabilityTools.task.firstTarget;
-//        if ([currentStep.memoDocs allObjects].count <= 0) {
-//            self.pollingFormView.needClone = YES;
-//        }else{
-//            target = [currentStep.memoDocs allObjects][0];
-//            self.pollingFormView.needClone = NO;
-//        }
-        
-        
-//        if (self.operabilityTools.task.end_date == nil) {
-//            self.pollingFormView.needClone = YES;
-//        }else{
-//            self.pollingFormView.needClone = NO;
-//        }
     }
 }
 
 // 设置巡检负责人
 - (void)setPollingStepUser:(NSString *)user index:(NSInteger)index{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
-        [self.pollingFormView setPollingUser:user index:index];
+//        [self.pollingFormView setPollingUser:user index:index];
         NSArray *result = [self.operabilityTools.currentSelectedStep.memoDocs allObjects];
         if (result.count > 0) {
 //            self.pollingFormView.hidden = NO;
