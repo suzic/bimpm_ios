@@ -34,7 +34,16 @@
             completion(userInfo);
         }
     }
-    // 2:从服务器获取用户信息
+    // 2:从本地数据库查询
+    ZHUser *user = [[LoginUserManager defaultInstance] getUserByRongIMId:userId];
+    if (user && ![SZUtil isEmptyOrNull:user.name]) {
+        RCUserInfo *userInfo = [[RCUserInfo alloc] init];
+        userInfo.name = user.name;
+        userInfo.userId = [NSString stringWithFormat:@"%d",user.id_user];
+        userInfo.portraitUri = user.avatar;
+        completion(userInfo);
+    }
+    // 3:从服务器获取用户信息
     else{
         [RCDUserInfoManager getUserInfoFromServer:userId
                                              complete:^(RCUserInfo *userInfo) {
