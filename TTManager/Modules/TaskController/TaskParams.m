@@ -83,10 +83,10 @@
 }
 - (NSMutableDictionary *)getProcessSubmitParams{
     NSString *next_uid_target = @"";
-    if (self.tools.currentSelectedStep) {
-        if (self.tools.currentSelectedStep.process_type == 0 ||self.tools.currentSelectedStep.process_type == 6) {
-            if (self.tools.currentSelectedStep.memoDocs.count >0) {
-                ZHTarget *target = [self.tools.currentSelectedStep.memoDocs allObjects][0];
+    if (self.tools.currentStep) {
+        if (self.tools.currentStep.process_type == 0 ||self.tools.currentStep.process_type == 6) {
+            if (self.tools.currentStep.memoDocs.count >0) {
+                ZHTarget *target = [self.tools.currentStep.memoDocs allObjects][0];
                 next_uid_target = target.uid_target;
             }
         }

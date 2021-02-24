@@ -1,8 +1,8 @@
 //
 //  ZHStep+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/2/24.
 //
 //
 
@@ -32,6 +32,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, copy) NSDate *start_date;
 @property (nonatomic) int32_t state;
 @property (nullable, nonatomic, copy) NSString *uid_step;
+@property (nonatomic) BOOL memo_target_list_fixed;
 @property (nullable, nonatomic, retain) ZHFlow *asCurrent;
 @property (nullable, nonatomic, retain) ZHFlow *asFirst;
 @property (nullable, nonatomic, retain) ZHFlow *asLast;

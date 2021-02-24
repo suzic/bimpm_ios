@@ -98,6 +98,7 @@
     if (![SZUtil isEmptyOrNull:end_date]) {
         self.currentIndex = 0;
         self.currentSelectedStep = self.stepArray[0];
+        self.currentStep = self.stepArray[0];
         return;
     }
     
@@ -121,6 +122,7 @@
             if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
                 self.currentIndex = i;
                 self.currentSelectedStep = stepItem;
+                self.currentStep = stepItem;
                 break;
             }
         }

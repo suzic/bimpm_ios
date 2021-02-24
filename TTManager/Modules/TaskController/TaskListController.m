@@ -145,7 +145,14 @@
     if (manager == self.targetListManager) {
         NSArray *result = (NSArray *)manager.response.responseData;
         ZHTarget *target = result[0];
-        [self pushDetai:target.type == 11];
+        ZHTask *task = self.selectedTaskDic[@"task"];
+        // 是表单类型 并且name符合巡检单命名规则 并且是附件不允许用户变更附件，则是巡检任务
+        NSLog(@"当前任务的memo_target_list_fixed == %d",task.assignStep.memo_target_list_fixed);
+        if (target.type == 11 && [target.name containsString:@"XC-XJD"] && task.assignStep.memo_target_list_fixed == YES) {
+            [self pushDetai:YES];
+        }else{
+            [self pushDetai:NO];
+        }
     }
 }
 

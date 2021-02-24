@@ -203,7 +203,7 @@
     if (![SZUtil isEmptyOrNull:stepDic[@"info"]]) {
         step.info = stepDic[@"info"];
     }
-    step.memo_uid_doc_fixed = stepDic[@"memo_target_list_fixed"];
+    step.memo_target_list_fixed = [stepDic[@"memo_target_list_fixed"] integerValue];
     // 存在覆盖的情况 step_to设置了内容，lastStep覆盖了
     if (![SZUtil isEmptyOrNull:stepDic[@"memo"]]) {
         step.memo = stepDic[@"memo"];

@@ -340,22 +340,14 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
-//    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-//    ZHStep *currentStep = self.operabilityTools.currentSelectedStep;
-//    ZHTarget *target = [currentStep.memoDocs allObjects][0];
-//    ZHTarget *target = self.operabilityTools.task.firstTarget;
     
-//    ZHStep *currentStep = [self.operabilityTools.task.belongFlow.stepCurrent allObjects][0];
-    NSString *id_target = self.operabilityTools.task.firstTarget.uid_target;
-//    if ([currentStep.memoDocs allObjects].count <= 0) {
-//        id_target = @"";
-//    }else{
-//        ZHTarget *target = [currentStep.memoDocs allObjects][0];
-//        id_target = target.uid_target;
-//    }
-    if ([id_target isEqualToString:inspection_form_template_id]) {
-        [self setTaskAdjunctBy:id_target newtarget:self.pollingFormView.clone_buddy_file];
+    NSArray *memoDocs = [self.operabilityTools.currentStep.memoDocs allObjects];
+    NSString *id_target = @"";
+    if (memoDocs.count >0) {
+        ZHTarget *target = memoDocs[0];
+        id_target = target.uid_target;
     }
+    [self setTaskAdjunctBy:id_target newtarget:self.pollingFormView.clone_buddy_file];
 }
 
 - (void)operationPollingForm{
@@ -437,6 +429,7 @@
     ZHTask *task = (ZHTask *)manager.response.responseData;
     self.operabilityTools.task = task;
     [self setRequestParams:self.operabilityTools.task];
+    self.taskParams.tools = self.operabilityTools;
     [self setModuleViewOperabilityTools];
     [self setPollingFromDetail];
 }

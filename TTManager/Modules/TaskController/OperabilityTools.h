@@ -23,9 +23,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray *stepArray;
 
+/// 当前进行中的任务步骤
+@property (nonatomic, strong) ZHStep *currentStep;
 // 当前选中的步骤(包含默认步骤)
 @property (nonatomic, strong) ZHStep *currentSelectedStep;
-
+/// 当前默认选择的index
 @property (nonatomic, assign) NSInteger currentIndex;
 
 @property (nonatomic,assign) BOOL isDetails;
@@ -46,6 +48,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 获取上一步的数据
 - (ZHStep *)getPreviousStep;
+/// 获取当前进行中的任务步骤
+- (ZHStep *)getCurrentStep;
 
 @end
 
