@@ -92,7 +92,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 // 获取表单详情成功
 - (void)formDetailResult:(BOOL)success{
-    if (success == YES && self.isCloneForm == NO) {
+    if (success == YES) {
         [self.formFlowManager enterEditModel];
         [self normalFillFormInfo];
         
@@ -100,10 +100,10 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 // 表单克隆成功
 - (void)formCloneTargetResult:(BOOL)success{
-    if (success == YES && self.isCloneForm == YES) {
-        [self.formFlowManager enterEditModel];
-        [self normalFillFormInfo];
-    }
+//    if (success == YES && self.isCloneForm == YES) {
+//        [self.formFlowManager enterEditModel];
+//        [self normalFillFormInfo];
+//    }
 }
 // 表单下载成功
 - (void)formDownLoadResult:(BOOL)success{
