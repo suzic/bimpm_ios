@@ -92,14 +92,14 @@
         [self setOperationStyle:1 button:self.rejectBtn];
     }else if(step.process_type == 5 && step.decision == 1){
 
-        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count-1) {
             decision = @"通过";
         }else{
             decision = @"确认";
         }
         [self setOperationStyle:2 button:self.rejectBtn];
     }else if(step.process_type == 6 && step.decision == 1){
-        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+        if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count-1) {
             decision = @"通过";
         }else{
             decision = @"完成";
@@ -225,7 +225,7 @@
      }else if(step.process_type == 2){
          [self.rejectBtn setTitle:@"通过" forState:UIControlStateNormal];
          self.agreeBtn.hidden = YES;
-     }else if(step.process_type == 3 && step.decision == 1){
+     }else if(step.process_type == 3 ){
          [self.rejectBtn setTitle:@"反对" forState:UIControlStateNormal];
          [self.agreeBtn setTitle:@"赞同" forState:UIControlStateNormal];
      }else if(step.process_type == 4){
@@ -233,7 +233,7 @@
          [self.agreeBtn setTitle:@"通过" forState:UIControlStateNormal];
      }else if(step.process_type == 5){
          NSString *decision = @"确认";
-         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count-1) {
              decision = @"通过";
          }else{
              decision = @"确认";
@@ -242,7 +242,7 @@
          self.agreeBtn.hidden = YES;
      }else if(step.process_type == 6){
          NSString *decision = @"完成";
-         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count) {
+         if (_tools.currentIndex >0 && _tools.currentIndex < _tools.stepArray.count-1) {
              decision = @"通过";
          }else{
              decision = @"完成";

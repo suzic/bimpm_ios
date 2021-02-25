@@ -49,6 +49,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
     cell.currentStep = _tools.stepArray[indexPath.row];
     cell.isSelected = self.currentSelectedStep == indexPath.row;
     cell.type = _tools.type;
+    cell.tools = _tools;
     return cell;
 }
 

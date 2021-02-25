@@ -59,6 +59,14 @@
         }
     }
 }
+- (void)setTools:(OperabilityTools *)tools{
+    _tools = tools;
+    if ([_tools.task.belongFlow.stepCurrent allObjects].count >1 && self.index != 0 && self.index != _tools.stepArray.count-1) {
+        self.contentView.backgroundColor = [SZUtil colorWithHex:@"#999999"];
+    }else{
+        self.contentView.backgroundColor = [UIColor whiteColor];
+    }
+}
 //- (void)setFlowStatus:(ZHStep *)step{
 //    NSInteger flowStatus = step.asCurrent.state;
 //    if (flowStatus == 0) {

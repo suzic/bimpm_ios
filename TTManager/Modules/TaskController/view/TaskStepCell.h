@@ -6,6 +6,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OperabilityTools.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -14,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ZHStep *currentStep;
 @property (nonatomic, assign) NSInteger index;
 @property (nonatomic, assign) TaskType type;
+@property (nonatomic, strong) OperabilityTools *tools;
 @property (nonatomic, assign) BOOL isSelected;
 
 @end
