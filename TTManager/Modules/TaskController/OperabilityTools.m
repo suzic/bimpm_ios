@@ -98,28 +98,36 @@
     ZHStep *currentStep = nil;
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;
 
-    if ([_task.flow_state intValue] == 2) {
-        if (stepCurrent.count == 1) {
-            currentStep = stepCurrent[0];
+    if ([_task.flow_state intValue] == 2 ) {
+        if (_task.assignStep.state == 1) {
+            self.currentIndex = 0;
+            self.currentStep = self.stepArray[0];
+            self.currentSelectedStep = self.stepArray[0];
         }else{
-            for (ZHStep *currentStepItem in stepCurrent) {
-                if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state == 2) {
-                    currentStep = currentStepItem;
-                    break;
+            if (stepCurrent.count == 1) {
+                currentStep = stepCurrent[0];
+            }
+            else{
+                for (ZHStep *currentStepItem in stepCurrent) {
+                    if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state == 2) {
+                        currentStep = currentStepItem;
+                        break;
+                    }
+                }
+            }
+            if (currentStep != nil) {
+                for (int i = 0; i< self.stepArray.count; i++) {
+                    ZHStep *stepItem = self.stepArray[i];
+                    if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
+                        self.currentIndex = i;
+                        self.currentSelectedStep = stepItem;
+                        self.currentStep = stepItem;
+                        break;
+                    }
                 }
             }
         }
-        if (currentStep != nil) {
-            for (int i = 0; i< self.stepArray.count; i++) {
-                ZHStep *stepItem = self.stepArray[i];
-                if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
-                    self.currentIndex = i;
-                    self.currentSelectedStep = stepItem;
-                    self.currentStep = stepItem;
-                    break;
-                }
-            }
-        }
+        
     }else{
         self.currentIndex = 0;
         self.currentStep = self.stepArray[0];

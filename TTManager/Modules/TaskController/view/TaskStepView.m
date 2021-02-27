@@ -74,6 +74,12 @@ static NSString *headerIdentifier = @"headerIdentifier";
             [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step,@"indexPath":indexPath}];
         }
     }else{
+        if ([_tools.task.flow_state intValue] == 2  && _tools.task.assignStep.state == 1) {
+            if (step.state == 2 || step.state == 4) {
+                return;
+            }
+        }
+        
         //已完成和已中断的才可以查看详情
         if (step.state == 1 || step.state == 3 || step.state == 2) {
             self.currentSelectedStep =  indexPath.row;
