@@ -94,38 +94,36 @@
 // 获取当前进行中的任务步骤和下标
 - (void)getCurrentIndex{
     
-    NSString *end_date = [NSDate br_stringFromDate:self.task.end_date dateFormat:@"yyyy-MM-dd HH:mm"];
-    if (![SZUtil isEmptyOrNull:end_date]) {
-        self.currentIndex = 0;
-        self.currentSelectedStep = self.stepArray[0];
-        self.currentStep = self.stepArray[0];
-        return;
-    }
-    
     NSArray *stepCurrent = [_task.belongFlow.stepCurrent allObjects];
     ZHStep *currentStep = nil;
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;
 
-    if (stepCurrent.count == 1) {
-        currentStep = stepCurrent[0];
+    if ([_task.flow_state intValue] == 2) {
+        if (stepCurrent.count == 1) {
+            currentStep = stepCurrent[0];
+        }else{
+            for (ZHStep *currentStepItem in stepCurrent) {
+                if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state == 2) {
+                    currentStep = currentStepItem;
+                    break;
+                }
+            }
+        }
+        if (currentStep != nil) {
+            for (int i = 0; i< self.stepArray.count; i++) {
+                ZHStep *stepItem = self.stepArray[i];
+                if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
+                    self.currentIndex = i;
+                    self.currentSelectedStep = stepItem;
+                    self.currentStep = stepItem;
+                    break;
+                }
+            }
+        }
     }else{
-        for (ZHStep *currentStepItem in stepCurrent) {
-            if (currentStepItem.responseUser.id_user == currentUser.id_user && currentStepItem.state == 2) {
-                currentStep = currentStepItem;
-                break;
-            }
-        }
-    }
-    if (currentStep != nil) {
-        for (int i = 0; i< self.stepArray.count; i++) {
-            ZHStep *stepItem = self.stepArray[i];
-            if (stepItem.responseUser.id_user == currentUser.id_user && stepItem.state == 2) {
-                self.currentIndex = i;
-                self.currentSelectedStep = stepItem;
-                self.currentStep = stepItem;
-                break;
-            }
-        }
+        self.currentIndex = 0;
+        self.currentStep = self.stepArray[0];
+        self.currentSelectedStep = self.stepArray[0];
     }
 }
 

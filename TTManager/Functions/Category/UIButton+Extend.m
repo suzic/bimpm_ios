@@ -60,4 +60,49 @@ static void *timerKey = @"timerKey";
 - (void)setTimer:(dispatch_source_t)timer{
     objc_setAssociatedObject(self, timerKey, timer, OBJC_ASSOCIATION_RETAIN);
 }
+
+/// 发送任务
+- (void)sengType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(247, 181, 0);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = YES;
+    self.hidden = NO;
+}
+/// 赞同任务样式
+- (void)approvalType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(0, 203, 105);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = YES;
+    self.hidden = NO;
+}
+/// 反对的样式
+- (void)opposeType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(239, 89, 95);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = YES;
+    self.hidden = NO;
+}
+
+/// 发送任务样式
+- (void)sengFinishType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(247, 181, 0);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = NO;
+    self.hidden = NO;
+}
+/// 赞同任务样式
+- (void)approvalFinishType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(0, 203, 105);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = NO;
+    self.hidden = NO;
+}
+/// 反对的样式
+- (void)opposeFinishType:(NSString *)text{
+    self.backgroundColor = RGB_COLOR(239, 89, 95);
+    [self setTitle:text forState:UIControlStateNormal];
+    self.enabled = NO;
+    self.hidden = NO;
+}
+
 @end

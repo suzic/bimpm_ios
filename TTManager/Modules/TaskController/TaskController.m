@@ -527,6 +527,8 @@
             self.pollingFormView.currentStep = self.operabilityTools.currentIndex;
             if (self.operabilityTools.currentSelectedStep.state == 1 ||self.operabilityTools.currentSelectedStep.state == 3 ) {
                 self.pollingFormView.needClone = NO;
+            }else{
+                self.pollingFormView.needClone = YES;
             }
             [self.pollingFormView getCurrentFormDetail:target.uid_target];
         }

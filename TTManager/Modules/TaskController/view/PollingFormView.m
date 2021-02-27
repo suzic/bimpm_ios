@@ -187,7 +187,8 @@ static NSString *headerCell = @"headerCell";
         if (self.formFlowManager.canEditForm == NO && self.needClone == YES) {
             [self.formFlowManager cloneCurrentFormByBuddy_file];
         }else{
-            [self.formFlowManager enterEditModel];
+//            [self.formFlowManager enterEditModel];
+            self.formFlowManager.isEditForm = YES;
             [self normalFillFormInfo];
         }
         self.loadFormSuccess = YES;

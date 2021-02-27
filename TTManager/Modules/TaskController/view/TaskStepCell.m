@@ -44,8 +44,6 @@
         self.stepView.hidden = YES;
         self.addImageView.hidden = NO;
     }
-//    [self setFlowStatus:_currentStep];
-//    [self setStepStatus:_currentStep];
     self.stepView.stepUserDispose.text = _currentStep.name;
     self.stepView.stepStatus.text = [self getDecisionText:_currentStep];
 }
@@ -67,57 +65,9 @@
         self.contentView.backgroundColor = [UIColor whiteColor];
     }
 }
-//- (void)setFlowStatus:(ZHStep *)step{
-//    NSInteger flowStatus = step.asCurrent.state;
-//    if (flowStatus == 0) {
-//        NSLog(@"当前流程未开始");
-//    }else if(flowStatus == 1){
-//        NSLog(@"当前流程已经完成");
-//    }else if(flowStatus == 2){
-//        NSLog(@"当前流程进行中");
-//    }else if(flowStatus == 3){
-//        NSLog(@"当前流程中断");
-//    }else if(flowStatus == 4){
-//        NSLog(@"当前流程等待前置流程");
-//    }
-//}
-//- (void)setStepStatus:(ZHStep *)step{
-//    NSInteger status = step.state;
-//    if (status == 0) {
-//        NSLog(@"当前步骤未开始");
-//    }else if(status == 1){
-//        NSLog(@"当前步骤已经完成");
-//    }else if(status == 2){
-//        NSLog(@"当前步骤进行中");
-//    }else if(status == 3){
-//        NSLog(@"当前步骤中断");
-//    }
-//}
-//- (void)setType:(TaskType)type{
-//    _type = type;
-//    if (_type == task_type_detail_proceeding) {
-//        self.stepView.stepStatus.text = [self getDecisionText:self.currentStep];
-//    }
-//    switch (_type) {
-//        case task_type_new_task:
-//        case task_type_new_apply:
-//        case task_type_new_noti:
-//        case task_type_new_joint:
-//        case task_type_new_polling:
-//            break;
-//        case task_type_detail_proceeding:
-//            break;
-//        case task_type_detail_finished:
-//            break;
-//        case task_type_detail_draft:
-//            break;
-//        case task_type_detail_initiate:
-//            break;
-//        default:
-//            break;
-//    }
-//}
+
 #pragma mark - 页面显示
+
 - (NSString *)getDecisionText:(ZHStep *)step{
     NSString *decision = @"";
     if (self.index == 0) {
@@ -158,7 +108,7 @@
                 decision = @"驳回";
                 self.statsStyle = 1;
             }else if(step.process_type == 5 && step.decision == 1){
-                if (step.hasNext.count >0) {
+                if (self.index > 0 && self.index< _tools.stepArray.count-1) {
                     decision = @"通过";
                     self.statsStyle = 3;
                 }else{
@@ -166,7 +116,7 @@
                     self.statsStyle = 3;
                 }
             }else if(step.process_type == 6 && step.decision == 1){
-                if (step.hasNext.count >0) {
+                if (self.index > 0 && self.index< _tools.stepArray.count-1) {
                     decision = @"通过";
                     self.statsStyle = 3;
                 }else{
@@ -249,8 +199,8 @@
     
     [self.addImageView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(5);
-        make.right.equalTo(-10);
-        make.left.equalTo(0);
+        make.right.equalTo(-5);
+        make.left.equalTo(5);
         make.height.equalTo(self.addImageView.mas_width);
     }];
     

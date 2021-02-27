@@ -12,8 +12,9 @@
 @property (nonatomic, strong)UIView *lineView;
 @property (nonatomic, strong)UIImageView *userImage;
 
+@property (nonatomic, strong) UILabel *flowStatusLabel;
 @property (nonatomic, strong) UILabel *taskName;
-//@property (nonatomic, strong) UILabel *predictTime;
+@property (nonatomic, strong) UILabel *predictTime;
 
 @end
 
@@ -37,8 +38,31 @@
 }
 - (void)setCurrenttask:(ZHTask *)currenttask{
     _currenttask = currenttask;
-    self.taskName.text = [NSString stringWithFormat:@"%@-%@",_currenttask.flow_name, _currenttask.name];
-//        self.predictTime.text = [SZUtil getDateString:_currenttask.assignStep.plan_end];
+    
+    if ([_currenttask.flow_state intValue] == 0 || ([_currenttask.flow_state intValue] == 1 && _currenttask.assignStep.state == 2)) {
+        self.taskName.text = [NSString stringWithFormat:@"%@",_currenttask.name];
+    }else{
+        self.taskName.text = [NSString stringWithFormat:@"%@-%@",_currenttask.flow_name, _currenttask.name];
+    }
+    NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
+    if ([SZUtil isEmptyOrNull:endDate]) {
+        endDate = @"暂无完成时间";
+    }
+    self.predictTime.text = endDate;
+    
+    NSString *flowText = @"";
+    if ([_currenttask.flow_state intValue] == 0) {
+        flowText = @"流程未开始";
+    }else if([_currenttask.flow_state intValue] == 1){
+        flowText = @"流程已完成";
+    }else if([_currenttask.flow_state intValue] == 2){
+        flowText = @"流程进行中";
+    }else if([_currenttask.flow_state intValue] == 3){
+        flowText = @"流程已中断";
+    }else if([_currenttask.flow_state intValue] == 4){
+        flowText = @"流程等待中";
+    }
+    self.flowStatusLabel.text = flowText;
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
     self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
 }
@@ -58,13 +82,12 @@
     bgView.backgroundColor = [UIColor whiteColor];
     [self.contentView addSubview:bgView];
     [self.contentView addSubview:self.lineView];
+    [self.contentView addSubview:self.flowStatusLabel];
     [self.contentView addSubview:self.taskName];
-//    [self.contentView addSubview:self.predictTime];
+    [self.contentView addSubview:self.predictTime];
     [self.contentView addSubview:self.userImage];
-//    self.userImage.image = [UIImage imageNamed:@"test-1"];
     self.lineView.backgroundColor = [SZUtil colorWithHex:@"#04BA90"];
-//    self.taskName.text = @"临时任务";
-//    self.predictTime.text = @"预计于2020-12-31 12:00完成";
+
     [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.bottom.equalTo(0);
     }];
@@ -74,19 +97,20 @@
         make.bottom.equalTo(-12);
         make.width.equalTo(4);
     }];
-    
-    [self.taskName makeConstraints:^(MASConstraintMaker *make) {
+    [self.flowStatusLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.lineView.mas_top);
         make.left.equalTo(self.lineView.mas_right).offset(15);
-        make.height.equalTo(self.lineView.mas_height).multipliedBy(1);
+    }];
+    [self.taskName makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(self.flowStatusLabel.mas_bottom);
+        make.left.equalTo(self.lineView.mas_right).offset(15);
+        make.centerY.equalTo(self.lineView.mas_centerY);
     }];
     
-//    [self.predictTime makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.taskName.mas_bottom);
-//        make.left.equalTo(self.lineView.mas_right).offset(15);
-//        make.height.equalTo(self.taskName.mas_height);
-//        make.bottom.equalTo(self.lineView.mas_bottom);
-//    }];
+    [self.predictTime makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.lineView.mas_right).offset(15);
+        make.bottom.equalTo(self.lineView.mas_bottom);
+    }];
     
     [self.userImage makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.taskName.mas_right).offset(15);
@@ -96,7 +120,6 @@
         make.bottom.equalTo(-15);
         make.width.equalTo(self.userImage.mas_height).multipliedBy(1);
     }];
-//    [self layoutIfNeeded];
     
     bgView.layer.cornerRadius = 5;
     bgView.layer.shadowColor = [UIColor colorWithRed:0/255.0 green:9/255.0 blue:25/255.0 alpha:0.1].CGColor;
@@ -120,14 +143,26 @@
     }
     return _taskName;;
 }
-//- (UILabel *)predictTime{
-//    if (_predictTime == nil) {
-//        _predictTime = [[UILabel alloc] init];
-//        _predictTime.textColor = [SZUtil colorWithHex:@"#666666"];
-//        _predictTime.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:13.0f];
-//    }
-//    return _predictTime;;
-//}
+- (UILabel *)predictTime{
+    if (_predictTime == nil) {
+        _predictTime = [[UILabel alloc] init];
+        _predictTime.textColor = [SZUtil colorWithHex:@"#666666"];
+        _predictTime.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:13.0f];
+    }
+    return _predictTime;;
+}
+
+- (UILabel *)flowStatusLabel{
+    if (_flowStatusLabel == nil) {
+        _flowStatusLabel = [[UILabel alloc] init];
+        _flowStatusLabel.font = [UIFont fontWithName:@"STHeitiTC-Medium" size:13.0f];
+        //  #00CB69
+        _flowStatusLabel.textColor = [SZUtil colorWithHex:@"#196BF8"];
+        
+    }
+    return _flowStatusLabel;
+}
+
 - (UIImageView *)userImage{
     if (_userImage == nil) {
         _userImage = [[UIImageView alloc] init];

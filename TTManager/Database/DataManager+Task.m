@@ -124,11 +124,6 @@
     // flow 默认只有一个
     NSArray *flowArray = info[@"flow"];
     ZHFlow *flow  = nil;
-//    for (ZHStep *oldStep in flow.stepCurrent) {
-//        for (ZHTarget *target in oldStep.memoDocs) {
-//            [self deleteFromCoreData:target];
-//        }
-//    }
     
     if (flowArray.count >0) {
         flow.stepCurrent = nil;
@@ -154,6 +149,7 @@
 // 同步flow
 - (ZHFlow *)syncFlowWithFlowDic:(NSDictionary *)flowDic{
     ZHFlow *flow = [self getFlowStepFromCoredataByID:[flowDic[@"uid_flow"] intValue]];
+    flow.stepCurrent = nil;
     
     ZHProject *project = [self getProjectFromCoredataById:[flowDic[@"fid_project"] intValue]];
     flow.belongProject = project;
@@ -275,7 +271,7 @@
 - (void)cleanTaskRelation:(ZHTask *)task{
     [self deleteFromCoreData:task.assignStep];
     task.assignStep = nil;
-    
+
     for (ZHStep *step in task.belongFlow.stepFirst.hasNext) {
         [self deleteFromCoreData:step];
     }
@@ -287,7 +283,7 @@
     if (task.belongFlow) {
         [self deleteFromCoreData:task.belongFlow];
     }
-    
+
     task.belongFlow = nil;
     [self deleteFromCoreData:task.endUser];
     task.endUser = nil;

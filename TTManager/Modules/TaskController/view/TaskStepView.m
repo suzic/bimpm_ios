@@ -46,10 +46,10 @@ static NSString *headerIdentifier = @"headerIdentifier";
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     TaskStepCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:reuseIdentifier forIndexPath:indexPath];
     cell.index = indexPath.row;
+    cell.tools = _tools;
     cell.currentStep = _tools.stepArray[indexPath.row];
     cell.isSelected = self.currentSelectedStep == indexPath.row;
     cell.type = _tools.type;
-    cell.tools = _tools;
     return cell;
 }
 
@@ -58,77 +58,48 @@ static NSString *headerIdentifier = @"headerIdentifier";
     return CGSizeMake(itemWidth, itemHeight);
 }
 
-- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
     ZHStep *step = _tools.stepArray[indexPath.row];
-//    if (_tools.type == task_type_detail_initiate || indexPath.row == 0) {
-//        return;
-//    }
-    if (step.state == 1) {
-        self.currentSelectedStep =  indexPath.row;
-        _tools.currentSelectedStep = step;
-        _tools.currentIndex = indexPath.row;
-        [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
-        [self.collectionView reloadData];
-        return;
-    }
-    
-    if (indexPath.row == self.currentSelectedStep ||_tools.type == task_type_detail_initiate || _tools.type == task_type_detail_finished) {
-        self.currentSelectedStep =  indexPath.row;
-        _tools.currentSelectedStep = step;
-        _tools.currentIndex = indexPath.row;
-        [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
-        [self.collectionView reloadData];
-        return;
-    }
-    NSLog(@"当前选择的步骤类型 %d",step.state);
-    if (indexPath.row == _tools.stepArray.count-1)
-    {
-        if (step.response_user_fixed == 1) {
-            NSLog(@"来自模版,不可修改");
-            return;
+    // flow_status = 0 流程未开始，step_status = 2,进行中
+    if (_tools.task.belongFlow.state == 0 && _tools.task.belongFlow.stepFirst.state == 2) {
+        if (indexPath.row == _tools.stepArray.count-1)
+        {
+            if (step.response_user_fixed == 1) {
+                NSLog(@"来自模版,不可修改");
+                return;
+            }
+            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO,@"indexPath":indexPath}];
+        }else{
+            [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step,@"indexPath":indexPath}];
         }
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":TO,@"indexPath":indexPath}];
     }else{
-        [self routerEventWithName:selected_taskStep_user userInfo:@{@"addType":ASSIGN,@"uid_step":step.uid_step,@"indexPath":indexPath}];
+        //已完成和已中断的才可以查看详情
+        if (step.state == 1 || step.state == 3 || step.state == 2) {
+            self.currentSelectedStep =  indexPath.row;
+            _tools.currentSelectedStep = step;
+            _tools.currentIndex = indexPath.row;
+            [self routerEventWithName:current_selected_step userInfo:@{@"step":step,@"indexPath":indexPath}];
+            [self.collectionView reloadData];
+        }
     }
 }
+
 #pragma mark - 页面操作
+
 - (void)setStepViewOperations:(OperabilityTools *)tools{
+    self.currentSelectedStep = tools.currentIndex;
     switch (tools.type) {
-        case task_type_new_task:
-//            [self checkCurrentStepHasEmptyUserStep];
-            break;
-        case task_type_new_apply:
-//            [self checkCurrentStepHasEmptyUserStep];
-            break;
         case task_type_new_noti:
-            [self checkCurrentStepHasEmptyUserStep];
-            break;
         case task_type_new_joint:
-            [self checkCurrentStepHasEmptyUserStep];
-            break;
-        case task_type_new_polling:
-//            [self checkCurrentStepHasEmptyUserStep];
-            [self getCurrentDefaultSelectIndex:_tools];
-            break;
-        case task_type_detail_proceeding:
-            [self getCurrentDefaultSelectIndex:_tools];
-            break;
-        case task_type_detail_finished:
-//            [self taskFinishOperations];
-            [self getCurrentDefaultSelectIndex:_tools];
-            break;
         case task_type_detail_draft:
-//            [self newTaskOperations];
             [self checkCurrentStepHasEmptyUserStep];
-            break;
-        case task_type_detail_initiate:
-//            [self taskInitiateOperations];
             break;
         default:
             break;
     }
 }
+
 #pragma mark - private method
 - (void)scrollToOffside{
     CGPoint rightOffset = CGPointMake(self.collectionView.contentSize.width - self.collectionView.frame.size.width + itemWidth, 0);
@@ -145,7 +116,7 @@ static NSString *headerIdentifier = @"headerIdentifier";
         }
     }
     if (_tools.stepArray.count>= 3 && emptyCount <= 1) {
-        if (_tools.type != task_type_new_polling && _tools.isPolling == NO) {
+        if (_tools.type != task_type_new_polling && _tools.isPolling == NO && _tools.task.belongFlow.state != 1) {
             [self insertEmptyStepToCurrentStep];
         }
     }
@@ -160,25 +131,8 @@ static NSString *headerIdentifier = @"headerIdentifier";
 
 - (void)getCurrentDefaultSelectIndex:(OperabilityTools *)tools{
     self.currentSelectedStep = tools.currentIndex;
-    
-//    ZHUser *currentUser = [DataManager defaultInstance].currentUser;
-//    for (int i = 0; i < _tools.stepArray.count; i++) {
-//        ZHStep *step = _tools.stepArray[i];
-//        // 发起人不算
-//        if (i > 0 && step.responseUser.id_user == currentUser.id_user) {
-//            self.currentSelectedStep = i;
-//            self.selfStepIndex = i;
-//            NSLog(@"当前任务的备注信息%@",step.memo);
-//            _tools.currentSelectedStep = step;
-//            [self routerEventWithName:current_selected_step userInfo:@{@"step":step}];
-//            break;
-//        }
-//    }
-//    if (_tools.currentSelectedStep == nil) {
-//        _tools.currentSelectedStep = _tools.stepArray[0];
-//        self.selfStepIndex = 0;
-//    }
 }
+
 #pragma mark - setting and getter
 
 - (void)setTools:(OperabilityTools *)tools{
@@ -211,11 +165,9 @@ static NSString *headerIdentifier = @"headerIdentifier";
 #pragma mark - UI
 - (void)addUI{
     
-//    self.backgroundColor = [UIColor redColor];
     
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = RGB_COLOR(153, 153, 153);
-//    [self addSubview:lineView];
     
     // 中间人
     [self addSubview:self.collectionView];

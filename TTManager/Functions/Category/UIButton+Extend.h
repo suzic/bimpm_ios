@@ -14,6 +14,20 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)startCountDown:(NSInteger)total finishTitile:(NSString *)finishTitle;
 - (void)stopTimer;
 
+/// 发送任务样式
+- (void)sengType:(NSString *)text;
+/// 赞同任务样式
+- (void)approvalType:(NSString *)text;
+/// 反对的样式
+- (void)opposeType:(NSString *)text;
+
+/// 发送任务样式
+- (void)sengFinishType:(NSString *)text;
+/// 赞同任务样式
+- (void)approvalFinishType:(NSString *)text;
+/// 反对的样式
+- (void)opposeFinishType:(NSString *)text;
+
 @end
 
 NS_ASSUME_NONNULL_END
