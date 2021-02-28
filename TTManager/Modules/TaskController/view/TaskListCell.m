@@ -39,11 +39,12 @@
 - (void)setCurrenttask:(ZHTask *)currenttask{
     _currenttask = currenttask;
     
-    if ([_currenttask.flow_state intValue] == 0 || ([_currenttask.flow_state intValue] == 1 && _currenttask.assignStep.state == 2)) {
-        self.taskName.text = [NSString stringWithFormat:@"%@",_currenttask.name];
-    }else{
+    if (self.type == 0 || self.type == 1) {
         self.taskName.text = [NSString stringWithFormat:@"%@-%@",_currenttask.flow_name, _currenttask.name];
+    }else{
+        self.taskName.text = [NSString stringWithFormat:@"%@",_currenttask.name];
     }
+
     NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
     if ([SZUtil isEmptyOrNull:endDate]) {
         endDate = @"暂无完成时间";

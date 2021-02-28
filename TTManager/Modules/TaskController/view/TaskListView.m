@@ -101,6 +101,7 @@
         if (!cell) {
             cell =[[TaskListCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:indentifier];
         }
+        cell.type = self.currentTaskStatus;
         cell.currenttask = self.listArray[indexPath.row];
         itemCell = cell;
     }else if(self.listType == 2){
