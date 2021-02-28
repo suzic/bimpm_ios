@@ -15,11 +15,9 @@
 @property (nonatomic, strong) APITaskProcessManager *taskProcessManager;
 @property (nonatomic, strong) APITaskDeatilManager *taskDetailManager;
 @property (nonatomic, strong) APITargetCloneManager *targetCloneManager;
-//@property (nonatomic, strong) UploadFileManager *uploadManager;
 @property (nonatomic, strong) APIVerifyPhoneManager *verifyPhoneManager;
-
-/// 当前请求类型
-@property (nonatomic, assign) ApiTaskType apiTaskType;
+@property (nonatomic, strong) APITaskOperationsManager *repealOperationManager;
+@property (nonatomic, strong) APITaskOperationsManager *setOperationManager;
 
 @property (nonatomic, copy) TaskManagerBlock block;
 
@@ -38,35 +36,35 @@
 #pragma api network
 /// 新建任务
 - (void)api_newTask:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_new;
+//    self.apiTaskType = apiTaskType_new;
     [self.taskNewManager loadDataWithParams:params];
 }
 /// 获取任务详情
 - (void)api_getTaskDetail:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_detail;
+//    self.apiTaskType = apiTaskType_detail;
     [self.taskDetailManager loadDataWithParams:params];
 }
 
 /// 编辑任务
 - (void)api_editTask:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_edit;
+//    self.apiTaskType = apiTaskType_edit;
     [self.taskEditManager loadDataWithParams:params];
 }
 /// 任务操作
 - (void)api_operationsTask:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_operation;
+//    self.apiTaskType = apiTaskType_operation;
     [self.taskOperationsManager loadDataWithParams:params];
 }
 
 /// 任务进度处理
 - (void)api_processTask:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_process;
+//    self.apiTaskType = apiTaskType_process;
     [self.taskProcessManager loadDataWithParams:params];
 }
 
 /// 终止任务发送验证码
 - (void)api_suspendTask:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_suspend;
+//    self.apiTaskType = apiTaskType_suspend;
     [self.verifyPhoneManager loadDataWithParams:params];
 }
 
@@ -74,14 +72,14 @@
 - (void)api_repealTaskAdjunct:(NSDictionary *)params callBack:(TaskManagerBlock)callBack
 {
     self.block = [callBack copy];
-    self.apiTaskType = apiTaskType_repeal;
-    [self.taskOperationsManager loadDataWithParams:params];
+//    self.apiTaskType = apiTaskType_repeal;
+    [self.repealOperationManager loadDataWithParams:params];
 }
 
 /// 设置任务附件,如果不需要撤销附件 直接调用api_operationsTask效果一样
 - (void)api_setTaskAdjunct:(NSDictionary *)params{
-    self.apiTaskType = apiTaskType_set;
-    [self.taskOperationsManager loadDataWithParams:params];
+//    self.apiTaskType = apiTaskType_set;
+    [self.setOperationManager loadDataWithParams:params];
 }
 
 - (void)cloneForm:(NSString *)uid_target callBack:(TaskManagerBlock)callBack{
@@ -90,7 +88,7 @@
         return;
     }
     self.block = callBack;
-    self.apiTaskType = clone_target_form;
+//    self.apiTaskType = clone_target_form;
     NSDictionary *params = @{@"clone_module":[NSNull null],
                @"clone_parent":[NSNull null],
                @"new_name":[NSNull null],
@@ -100,11 +98,11 @@
 
 #pragma mark - set delegate
 - (void)setDelegateResult:(BOOL)success data:(BaseApiManager *)manager{
-    if (self.apiTaskType == apiTaskType_repeal) {
+    if (manager == self.repealOperationManager) {
         if (self.block) {
             self.block(success,nil);
         }
-    }else if(self.apiTaskType == clone_target_form){
+    }else if(manager == self.targetCloneManager){
         if (self.block) {
             NSDictionary *data = (NSDictionary *)manager.response.responseData;
             self.block(success, success == YES ? data[@"data"][@"target_info"][@"uid_target"]:@"网络错误,请稍后重试");
@@ -112,11 +110,29 @@
     }
     else{
         if (self.delegate && [self.delegate respondsToSelector:@selector(callbackApiTaskSuccess:data:apiTaskType:)]) {
-            [self.delegate callbackApiTaskSuccess:success data:manager apiTaskType:self.apiTaskType];
+            [self.delegate callbackApiTaskSuccess:success data:manager apiTaskType:[self getApiTaskType:manager]];
         }
     }
 }
-
+- (ApiTaskType)getApiTaskType:(BaseApiManager *)manager{
+    ApiTaskType type = NSNotFound;
+    if(manager == self.taskNewManager){
+        type = apiTaskType_new;
+    }else if(manager == self.taskEditManager){
+        type = apiTaskType_edit;
+    }else if(manager == self.taskDetailManager){
+        type = apiTaskType_detail;
+    }else if(manager == self.taskProcessManager){
+        type = apiTaskType_process;
+    }else if(manager == self.taskOperationsManager){
+        type = apiTaskType_operation;
+    }else if(manager == self.setOperationManager){
+        type = apiTaskType_set;
+    }else if(manager == self.verifyPhoneManager){
+        type = apiTaskType_suspend;
+    }
+    return type;
+}
 #pragma mark - APIManagerParamSource
 
 - (NSDictionary *)paramsForApi:(BaseApiManager *)manager{
@@ -195,6 +211,22 @@
         _targetCloneManager.paramSource = self;
     }
     return _targetCloneManager;
+}
+- (APITaskOperationsManager *)repealOperationManager{
+    if (_repealOperationManager == nil) {
+        _repealOperationManager = [[APITaskOperationsManager alloc] init];
+        _repealOperationManager.delegate = self;
+        _repealOperationManager.paramSource = self;
+    }
+    return _repealOperationManager;
+}
+- (APITaskOperationsManager *)setOperationManager{
+    if (_setOperationManager == nil) {
+        _setOperationManager = [[APITaskOperationsManager alloc] init];
+        _setOperationManager.delegate = self;
+        _setOperationManager.paramSource = self;
+    }
+    return _setOperationManager;
 }
 //- (UploadFileManager *)uploadManager{
 //    if (_uploadManager == nil) {
