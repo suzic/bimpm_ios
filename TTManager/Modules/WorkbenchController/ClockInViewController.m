@@ -77,8 +77,14 @@
 }
 /// 获取表单详情成功
 - (void)formDetailResult:(BOOL)success{
-    
+    NSLog(@"当前获取的表单详情");
+    if (success == YES) {
+        if (self.formflowManager.isCloneForm == NO && self.formflowManager.canEditForm == NO) {
+            [self.formflowManager cloneCurrentFormByBuddy_file];
+        }
+    }
 }
+
 /// 表单下载成功
 - (void)formDownLoadResult:(BOOL)success{
     if (success == YES) {
@@ -90,8 +96,6 @@
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES) {
         NSLog(@"克隆表单成功");
-        [self getClockInInfor];
-        [self.formflowManager operationsFormFill];
     }
 }
 /// 表单操作完成
@@ -126,12 +130,13 @@
 //        [SZAlert showInfo:@"不在打卡范围之内" underTitle:TARGETS_NAME];
 //        return;
 //    }
-    if (self.formflowManager.canEditForm == NO) {
-        [self.formflowManager cloneCurrentFormByBuddy_file];
-    }else{
-        [self getClockInInfor];
-        [self.formflowManager operationsFormFill];
-    }
+    [self getClockInInfor];
+    [self.formflowManager operationsFormFill];
+//    if (self.formflowManager.canEditForm == NO) {
+//        [self.formflowManager cloneCurrentFormByBuddy_file];
+//    }else{
+//
+//    }
 }
 
 // 填充当前需要打卡的数据

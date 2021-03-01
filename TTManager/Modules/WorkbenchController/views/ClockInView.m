@@ -112,7 +112,7 @@
 
 - (UISegmentedControl *)clockInTypeView{
     if (_clockInTypeView == nil) {
-        _clockInTypeView = [[UISegmentedControl alloc] initWithItems:@[@"上班打卡",@"下班打卡",@"外出打卡"]];
+        _clockInTypeView = [[UISegmentedControl alloc] initWithItems:@[@"上班打卡",@"下班打卡"]];
         _clockInTypeView.selectedSegmentIndex = 0;
 //        _clockInTypeView.selectedSegmentTintColor = [UIColor grayColor];
         _clockInTypeView.tintColor = [UIColor whiteColor];
