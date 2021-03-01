@@ -195,7 +195,6 @@
 		4081EFEA25BD6153004F8BB4 /* APIFormOperationsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFE925BD6153004F8BB4 /* APIFormOperationsManager.m */; };
 		4081EFEE25BDA67C004F8BB4 /* APITargetCloneManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */; };
 		40931C87259A3DF6008C3518 /* FileCatalogCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C86259A3DF6008C3518 /* FileCatalogCell.m */; };
-		40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C8F259ACB53008C3518 /* TaskSearchView.m */; };
 		40931C94259ACB68008C3518 /* TaskListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C93259ACB68008C3518 /* TaskListView.m */; };
 		40931C99259ACDA0008C3518 /* TabListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C98259ACDA0008C3518 /* TabListView.m */; };
 		40931C9D259B33C4008C3518 /* DragButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931C9C259B33C4008C3518 /* DragButton.m */; };
@@ -580,8 +579,6 @@
 		4081EFED25BDA67C004F8BB4 /* APITargetCloneManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = APITargetCloneManager.m; sourceTree = "<group>"; };
 		40931C85259A3DF6008C3518 /* FileCatalogCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FileCatalogCell.h; sourceTree = "<group>"; };
 		40931C86259A3DF6008C3518 /* FileCatalogCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FileCatalogCell.m; sourceTree = "<group>"; };
-		40931C8E259ACB53008C3518 /* TaskSearchView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskSearchView.h; sourceTree = "<group>"; };
-		40931C8F259ACB53008C3518 /* TaskSearchView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskSearchView.m; sourceTree = "<group>"; };
 		40931C92259ACB68008C3518 /* TaskListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskListView.h; sourceTree = "<group>"; };
 		40931C93259ACB68008C3518 /* TaskListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskListView.m; sourceTree = "<group>"; };
 		40931C97259ACDA0008C3518 /* TabListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TabListView.h; sourceTree = "<group>"; };
@@ -1540,8 +1537,6 @@
 		40931C8D259ACB36008C3518 /* view */ = {
 			isa = PBXGroup;
 			children = (
-				40931C8E259ACB53008C3518 /* TaskSearchView.h */,
-				40931C8F259ACB53008C3518 /* TaskSearchView.m */,
 				40931C92259ACB68008C3518 /* TaskListView.h */,
 				40931C93259ACB68008C3518 /* TaskListView.m */,
 				40931C97259ACDA0008C3518 /* TabListView.h */,
@@ -1739,7 +1734,6 @@
 				4054B9E625BACEB80023FC7F /* APITargetRenameManager.m in Sources */,
 				406FCAF725A400C000636079 /* DataManager+Task.m in Sources */,
 				40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */,
-				40931C90259ACB53008C3518 /* TaskSearchView.m in Sources */,
 				402AA0D82595D8A300A9DABA /* ZHRole+CoreDataClass.m in Sources */,
 				406FCA7E25A195B600636079 /* APIDMDetailManager.m in Sources */,
 				402A9F822595B7A500A9DABA /* FrameNavView.m in Sources */,

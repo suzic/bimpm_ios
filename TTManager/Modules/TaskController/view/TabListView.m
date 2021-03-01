@@ -7,15 +7,14 @@
 
 #import "TabListView.h"
 #import "TaskListView.h"
-#import "TaskSearchView.h"
 
-@interface TabListView ()<UIScrollViewDelegate>
+@interface TabListView ()<UIScrollViewDelegate,UISearchBarDelegate>
 
 @property (nonatomic, strong) UIView *tabToolView;
-@property (nonatomic, strong) TaskSearchView *searchView;
 @property (nonatomic, strong) UIView *lineView;
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, strong) UISearchBar *searchBar;
 
 // 任务列表的集合
 @property (nonatomic, strong) NSMutableArray *taskListViewArray;
@@ -42,7 +41,7 @@
     [self.lineView updateConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(x);
     }];
-//    [self.tabToolView layoutIfNeeded];
+    self.searchBar.text = @"";
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
@@ -57,8 +56,40 @@
     _selectedTaskIndex = offsetX/w;
     [self changeTabSelected:_selectedTaskIndex];
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
+    self.searchBar.text = @"";
 }
 
+#pragma mark - UISearchBarDelegate
+
+- (void)searchBarTextDidBeginEditing:(UISearchBar *)searchBar{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    [self updateSearchBarViewLayout:YES];
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    searchBar.text = @"";
+    [searchBar resignFirstResponder];
+    [self updateSearchBarViewLayout:NO];
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
+    NSLog(@"搜索");
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar resignFirstResponder];
+    [self updateSearchBarViewLayout:NO];
+    
+}
+- (void)updateSearchBarViewLayout:(BOOL)show{
+    [self setNeedsUpdateConstraints];
+    [UIView animateWithDuration:0.3 animations:^{
+             [self.searchBar updateConstraints:^(MASConstraintMaker *make) {
+                 make.top.equalTo(self.tabToolView.mas_bottom).offset(show== YES ? -44:0);
+
+             }];
+            [self layoutIfNeeded];
+      }];
+}
 #pragma mark - public
 
 - (void)setChildrenViewList:(NSArray *)listView{
@@ -69,8 +100,8 @@
         make.top.left.right.equalTo(self);
         make.height.equalTo(44);
     }];
-    [self addSubview:self.searchView];
-    [self.searchView makeConstraints:^(MASConstraintMaker *make) {
+    [self addSubview:self.searchBar];
+    [self.searchBar makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.tabToolView.mas_bottom);
         make.left.equalTo(15);
         make.right.equalTo(-15);
@@ -78,7 +109,7 @@
     }];
     [self addSubview:self.scrollView];
     [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(self.searchView.mas_bottom);
+        make.top.mas_equalTo(self.searchBar.mas_bottom);
         make.right.left.mas_equalTo(0);
         make.bottom.mas_equalTo(0);
     }];
@@ -211,12 +242,7 @@
     }
     return _lineView;
 }
-- (TaskSearchView *)searchView{
-    if (_searchView == nil) {
-        _searchView = [[TaskSearchView alloc] init];
-    }
-    return _searchView;
-}
+
 - (UIScrollView *)scrollView{
     if (_scrollView == nil) {
         _scrollView = [[UIScrollView alloc] init];
@@ -230,6 +256,17 @@
         _contentView = [[UIView alloc] init];
     }
     return _contentView;
+}
+- (UISearchBar *)searchBar{
+    if (_searchBar == nil) {
+        _searchBar = [[UISearchBar alloc] init];
+        _searchBar.placeholder = @"搜索任务";
+        _searchBar.delegate = self;
+        _searchBar.showsCancelButton = NO;
+//        _searchBar.showsSearchResultsButton = YES;
+        _searchBar.showsBookmarkButton = YES;
+    }
+    return _searchBar;
 }
 /*
 // Only override drawRect: if you perform custom drawing.
