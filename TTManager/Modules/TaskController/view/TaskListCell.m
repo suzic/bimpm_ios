@@ -54,14 +54,19 @@
     NSString *flowText = @"";
     if ([_currenttask.flow_state intValue] == 0) {
         flowText = @"流程未开始";
+        self.flowStatusLabel.textColor = [UIColor lightGrayColor];
     }else if([_currenttask.flow_state intValue] == 1){
         flowText = @"流程已完成";
+        self.flowStatusLabel.textColor = [SZUtil colorWithHex:@"#00CB69"];
     }else if([_currenttask.flow_state intValue] == 2){
         flowText = @"流程进行中";
+        self.flowStatusLabel.textColor = [SZUtil colorWithHex:@"#196BF8"];
     }else if([_currenttask.flow_state intValue] == 3){
         flowText = @"流程已中断";
+        self.flowStatusLabel.textColor = [UIColor redColor];
     }else if([_currenttask.flow_state intValue] == 4){
         flowText = @"流程等待中";
+        self.flowStatusLabel.textColor = [SZUtil colorWithHex:@"#196BF8"];
     }
     self.flowStatusLabel.text = flowText;
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
