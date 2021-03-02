@@ -44,6 +44,13 @@ typedef void(^SaveFromBlock)(BOOL success);
 /// 保存表单
 - (void)saveForm:(SaveFromBlock)saveBlock;
 
+/// 改变当前巡检单状态
+/// @param index 当前进行中的index
+- (void)changPollingFormStatus:(NSInteger)index;
+
+/// 表单必填参数检查
+/// @param index 当前进行中的index
+- (BOOL)checkPollinFormParams:(NSInteger)index;
 @end
 
 NS_ASSUME_NONNULL_END

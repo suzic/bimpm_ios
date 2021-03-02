@@ -75,6 +75,7 @@
 - (void)setFormItemViewType{
 //    self.keyLabel.text = _formItem[@"name"];
     NSInteger type = [self.formItem[@"type"] intValue];
+    self.itemsView.isPollingTask = self.isPollingTask;
     if (self.templateType == 1) {
         if (self.indexPath.row == 0) {
             [self.itemsView setItemView:formItemType_slider edit:self.isFormEdit indexPath:self.indexPath data:self.formItem];

@@ -123,6 +123,7 @@ static NSString *headerCell = @"headerCell";
     if (!editCell) {
         editCell = [[FormEditCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:textCellIndex];
     }
+    editCell.isPollingTask = YES;
     BOOL isEdit = [self getCurrentSectionEdit:indexPath.section itemData:formItem];
     [editCell setIsFormEdit:isEdit indexPath:currentIndexPath item:formItem];
     cell = editCell;
@@ -185,7 +186,11 @@ static NSString *headerCell = @"headerCell";
 - (void)formDetailResult:(BOOL)success{
     if (success == YES) {
         if (self.formFlowManager.canEditForm == NO && self.needClone == YES) {
-            [self.formFlowManager cloneCurrentFormByBuddy_file];
+            if ([self startPollingFormStatus] == YES) {
+                [self.formFlowManager cloneCurrentFormByBuddy_file];
+            }else{
+                [self normalFillFormInfo];
+            }
         }else{
             self.formFlowManager.isEditForm = YES;
             [self normalFillFormInfo];
@@ -205,10 +210,6 @@ static NSString *headerCell = @"headerCell";
 // 表单克隆成功
 - (void)formCloneTargetResult:(BOOL)success{
     if (success == YES) {
-//        [self.formFlowManager enterEditModel];
-//        [self normalFillFormInfo];
-//        self.taskParams.uid_target = self.formFlowManager.instanceBuddy_file;
-//        [self.taskOperationsManager loadDataWithParams:[self.taskParams getTaskFileParams:YES]];
     }
 }
 // 表单下载成功
@@ -229,11 +230,6 @@ static NSString *headerCell = @"headerCell";
         self.formFlowManager.isModification = NO;
         self.saveBlock(success);
     }
-//    [CNAlertView showWithTitle:@"温馨提示" message:@"编辑成功,是否返回" tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
-//        if (buttonIndex == 1) {
-//            [self.navigationController popViewControllerAnimated:YES];
-//        }
-//    }];
 }
 
 #pragma mark - public
@@ -254,6 +250,53 @@ static NSString *headerCell = @"headerCell";
     [self saveForm:^(BOOL success) {
         
     }];
+}
+// 改变巡检单的状态
+- (void)changPollingFormStatus:(NSInteger)index{
+    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+    NSDictionary *statusDic = items[5];
+    NSString *text = statusDic[@"instance_value"];
+    if (![text isEqualToString:@"未发现问题"]) {
+        if (index == 0) {
+            text = @"整改中";
+        }else if(index == 1){
+            text = @"审批中";
+        }else if(index == 2){
+            text = @"审批完成";
+        }
+        NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"value":text}];
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:5 inSection:0];
+        dic[@"indexPath"] = indexPath;
+        [self.formFlowManager modifyCurrentDownLoadForm:dic];
+    }
+}
+
+- (BOOL)checkPollinFormParams:(NSInteger)index{
+    BOOL isPass = YES;
+    if (index == 0) {
+        NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+        NSDictionary *statusDic = items[5];
+        if ([SZUtil isEmptyOrNull: statusDic[@"instance_value"]]) {
+            isPass = NO;
+            [SZAlert showInfo:@"巡检状态不能为空" underTitle:TARGETS_NAME];
+        }
+    }
+    return isPass;
+}
+
+// 判断当前巡检单是否需要整改
+- (BOOL)startPollingFormStatus{
+    BOOL isStartPolling = YES;
+    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+    NSDictionary *statusDic = items[5];
+    if (self.currentStep == 0) {
+        isStartPolling = YES;
+    }else{
+        if ([statusDic[@"instance_value"] isEqualToString:@"未发现问题"]) {
+            isStartPolling = NO;
+        }
+    }
+    return isStartPolling;
 }
 
 #pragma mark - private
@@ -356,7 +399,6 @@ static NSString *headerCell = @"headerCell";
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
     }
-//    self.formFlowManager.isModification = NO;
     
     [self.expandSectionArray removeAllObjects];
     
@@ -391,16 +433,19 @@ static NSString *headerCell = @"headerCell";
 
 - (BOOL)getCurrentSectionEdit:(NSInteger)section itemData:(NSDictionary *)formItem{
     BOOL edit = NO;
-    if (self.formFlowManager.isSnapshoot == NO) {
-        NSInteger type = [formItem[@"type"] intValue];
-        if (section == self.currentStep) {
-            if (type != 3 && type != 4) {
-                edit = YES;
+    if ([self startPollingFormStatus] == YES) {
+        if (self.formFlowManager.isSnapshoot == NO) {
+            NSInteger type = [formItem[@"type"] intValue];
+            if (section == self.currentStep) {
+                if (type != 3 && type != 4) {
+                    edit = YES;
+                }
             }
         }
     }
     return edit;
 }
+
 // 获取真实的表单index
 - (NSIndexPath *)getCurrentFormItemIndex:(NSIndexPath *)indexPath{
     NSInteger index = 0;

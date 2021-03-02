@@ -65,16 +65,16 @@
     NSString *listTitle = @"";
     switch (status) {
         case Task_list:
-            listTitle = @"进行中";
+            listTitle = @"我的任务";
             break;
         case Task_finish:
-            listTitle = @"已完成";
+            listTitle = @"已完成任务";
             break;
         case Task_sponsoring:
-            listTitle = @"起草中";
+            listTitle = @"发起任务";
             break;
         case Task_sponsored:
-            listTitle = @"已发起";
+            listTitle = @"已发起任务";
             break;
         default:
             break;

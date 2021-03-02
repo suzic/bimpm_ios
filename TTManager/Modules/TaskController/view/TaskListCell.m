@@ -44,7 +44,7 @@
     }else{
         self.taskName.text = [NSString stringWithFormat:@"%@",_currenttask.name];
     }
-
+    
     NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
     if ([SZUtil isEmptyOrNull:endDate]) {
         endDate = @"暂无完成时间";
@@ -72,6 +72,7 @@
     [self.userImage sd_setImageWithURL:[NSURL URLWithString:_currenttask.responseUser.avatar] placeholderImage:[UIImage imageNamed:@"test-1"]];
     self.lineView.backgroundColor = [self setLineViewColor:_currenttask];
 }
+
 - (UIColor *)setLineViewColor:(ZHTask *)task{
     UIColor *color = nil;
     if (task.priority <= 4) {

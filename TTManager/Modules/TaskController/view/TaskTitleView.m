@@ -189,7 +189,6 @@
 -(void)textViewDidChange:(UITextView *)textView{
     if (textView == self.taskTitle) {
         NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
-        NSLog(@"当前textView的高度是---%ld",height);
         if (height > MaxTitleHeight) {
             textView.scrollEnabled = YES;
             height = MaxTitleHeight;

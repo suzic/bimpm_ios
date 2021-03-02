@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormItemBtnView : UIView
 
+/// 巡检任务中的巡检单
+@property (nonatomic, assign) BOOL isPollingTask;
+
 /// 设置当前item数据以及是否可编辑
 /// @param edit 是否可编辑
 /// @param data 页面数据

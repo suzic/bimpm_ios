@@ -14,6 +14,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// 固定模版类型 1施工日志 2 工作日志
 @property (nonatomic, assign) NSInteger templateType;
 
+/// 巡检任务中的巡检单
+@property (nonatomic, assign) BOOL isPollingTask;
+
 /// 表头系统名称
 /// @param data @{@"name":@"",@"instance_value":@""}
 - (void)setHeaderViewData:(NSDictionary *)data;

@@ -18,6 +18,9 @@ typedef NS_ENUM(NSInteger,FormItemType){
 
 @interface FormItemsView : UIView
 
+/// 巡检任务中的巡检单
+@property (nonatomic, assign) BOOL isPollingTask;
+
 /// 当前item的下标
 @property (nonatomic, strong) NSIndexPath *indexPath;
 

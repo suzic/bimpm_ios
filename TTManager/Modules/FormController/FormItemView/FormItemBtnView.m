@@ -124,8 +124,8 @@
         title = @"无数据";
     }
     UIAlertController *alert = [UIAlertController alertControllerWithTitle:title message:nil preferredStyle:UIAlertControllerStyleActionSheet];
-    
-    for (int i= 0; i < self.enum_poolArray.count; i++) {
+    NSInteger count = self.isPollingTask == YES ? 2 :self.enum_poolArray.count;
+    for (int i= 0; i < count; i++) {
         NSString *title = self.enum_poolArray[i];
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
             [self routerEventWithName:form_edit_item userInfo:@{@"value":self.enum_poolArray[action.taskType],@"indexPath":self.indexPath}];

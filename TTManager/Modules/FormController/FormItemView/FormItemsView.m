@@ -117,7 +117,9 @@
     self.imageView.hidden = !(type == formItemType_image);
     self.textView.hidden = !(type == formItemType_text);
     self.btnView.hidden = !(type == formItemType_btn);
+    self.btnView.isPollingTask = self.isPollingTask;
     self.sliderView.hidden = !(type == formItemType_slider);
+    
 }
 // 设置当前item是否可编辑
 - (void)setItemViewEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{

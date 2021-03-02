@@ -352,6 +352,15 @@
 
 - (void)operationPollingForm{
     if (self.taskType == task_type_new_polling || self.isPolling == YES) {
+        
+        // 未开始或者进行中的，修改巡检单状态
+        if (self.operabilityTools.task.belongFlow.state == 0 ||self.operabilityTools.task.belongFlow.state == 2) {
+            BOOL isPass = [self.pollingFormView checkPollinFormParams:self.operabilityTools.currentIndex];
+            if (isPass == NO) {
+                return;
+            }
+            [self.pollingFormView changPollingFormStatus:self.operabilityTools.currentIndex];
+        }
         // 有修改则保存
         if (self.pollingFormView.isModification == YES) {
             [self.pollingFormView saveForm:^(BOOL success) {

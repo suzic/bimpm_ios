@@ -180,7 +180,7 @@
     if (hide == YES) {
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
     }else{
-        [_adjunctFileBtn setImage:[UIImage imageNamed:@""] forState:UIControlStateNormal];
+        [_adjunctFileBtn setImage:[UIImage new] forState:UIControlStateNormal];
     }
     [self.deleteFileBtn updateConstraints:^(MASConstraintMaker *make) {
         make.right.equalTo(hide == YES ? 15 :-10);
