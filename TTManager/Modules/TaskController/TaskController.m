@@ -91,29 +91,32 @@
             [CNAlertView showWithTitle:@"是否保存当前修改" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
                 if (buttonIndex == 1) {
                     [self.pollingFormView saveForm:^(BOOL success) {
-                        if (self.presentedViewController) {
-                            [self dismissViewControllerAnimated:YES completion:nil];
-                        }else{
-                            [self.navigationController popViewControllerAnimated:YES];
-                        }
+                        [self backViewVC];
                     }];
                 }
             }];
         }
         else{
-            if (self.presentedViewController) {
-                [self dismissViewControllerAnimated:YES completion:nil];
-            }else{
-                [self.navigationController popViewControllerAnimated:YES];
-            }
+            [self backViewVC];
         }
     }else{
-        if (self.presentedViewController) {
-            [self dismissViewControllerAnimated:YES completion:nil];
-        }else{
+        [self backViewVC];
+    }
+}
+
+- (void)backViewVC{
+    NSArray *viewcontrollers=self.navigationController.viewControllers;
+    if (viewcontrollers.count>1) {
+        if ([viewcontrollers objectAtIndex:viewcontrollers.count-1]==self) {
+            //push方式
             [self.navigationController popViewControllerAnimated:YES];
         }
     }
+    else{
+        //present方式
+        [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+    }
+
 }
 
 - (void)showMenu:(UIButton *)rightBarItem{

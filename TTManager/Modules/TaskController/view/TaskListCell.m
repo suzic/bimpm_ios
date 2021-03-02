@@ -45,11 +45,35 @@
         self.taskName.text = [NSString stringWithFormat:@"%@",_currenttask.name];
     }
     
-    NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
-    if ([SZUtil isEmptyOrNull:endDate]) {
-        endDate = @"暂无完成时间";
+    if (self.type == 0) {
+        NSString *plan_end = [SZUtil getTimeString:_currenttask.assignStep.plan_end];
+        if ([SZUtil isEmptyOrNull:plan_end]) {
+            self.predictTime.text = @"暂无预计完成时间";
+        }else{
+            self.predictTime.text = [NSString stringWithFormat:@"预计完成于 %@",plan_end];
+        }
+    }else if(self.type == 1){
+        NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
+        self.predictTime.text = [NSString stringWithFormat:@"已完成于 %@",endDate];
+    }else if(self.type == 2){
+        if ([_currenttask.flow_state intValue] == 0) {
+            NSString *endDate = [SZUtil getTimeString:_currenttask.assignStep.start_date];
+            self.predictTime.text = [NSString stringWithFormat:@"创建于 %@",endDate];
+        }else if([_currenttask.flow_state intValue] == 1){
+            NSString *endDate = [SZUtil getTimeString:_currenttask.assignStep.end_date];
+            self.predictTime.text = [NSString stringWithFormat:@"已完成于 %@",endDate];
+        }
+    }else if(self.type == 3){
+        NSString *endDate = [SZUtil getTimeString:_currenttask.assignStep.end_date];
+        self.predictTime.text = [NSString stringWithFormat:@"已发起于 %@",endDate];
     }
-    self.predictTime.text = endDate;
+    
+    
+//    NSString *endDate = [SZUtil getTimeString:_currenttask.end_date];
+//    if ([SZUtil isEmptyOrNull:endDate]) {
+//        endDate = @"暂无完成时间";
+//    }
+//    self.predictTime.text = endDate;
     
     NSString *flowText = @"";
     if ([_currenttask.flow_state intValue] == 0) {
