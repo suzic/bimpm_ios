@@ -83,6 +83,13 @@
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
 }
 
+- (void)doneAction:(UITextField*)TF{
+    [self.searchBar setShowsCancelButton:NO animated:YES];
+    [self.searchBar resignFirstResponder];
+    [self updateSearchBarViewLayout:NO];
+    [self getCurrentdisplayTaskListView:_selectedTaskIndex];
+}
+
 - (void)updateSearchBarViewLayout:(BOOL)show{
     [self setNeedsUpdateConstraints];
     [UIView animateWithDuration:0.3 animations:^{
@@ -267,8 +274,9 @@
         _searchBar.placeholder = @"搜索任务";
         _searchBar.delegate = self;
         _searchBar.showsCancelButton = NO;
-//        _searchBar.showsSearchResultsButton = YES;
-        _searchBar.showsBookmarkButton = YES;
+//        _searchBar.showsBookmarkButton = YES;
+//        [_searchBar positionAdjustmentForSearchBarIcon:UISearchBarIconSearch];
+        [_searchBar.keyboardToolbar.doneBarButton setTarget:self action:@selector(doneAction:)];
     }
     return _searchBar;
 }
