@@ -23,7 +23,6 @@ NS_ASSUME_NONNULL_BEGIN
 
 - (void)reloadDataFromNetwork;
 
-
 /// 任务搜索
 /// @param searchText 搜索文本
 - (void)searchTask:(NSString *)searchText;

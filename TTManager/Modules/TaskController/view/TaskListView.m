@@ -66,9 +66,21 @@
 
 - (void)searchTask:(NSString *)searchText{
     self.searchText = searchText;
-    [self refresData];
+    [self reloadDataFromNetwork];
 }
 
+- (void)reloadDataFromNetwork{
+    
+    if (self.listType == 1) {
+        self.taskListManager.pageSize.pageIndex = 1;
+        [self.tableView.mj_footer resetNoMoreData];
+        [self.taskListManager loadData];
+    }else if(self.listType == 2){
+        self.formListManager.pageSize.pageIndex = 1;
+        [self.tableView.mj_footer resetNoMoreData];
+        [self.formListManager loadData];
+    }
+}
 #pragma mark - setter and getter
 - (UITableView *)tableView{
     if (_tableView == nil) {
@@ -131,19 +143,6 @@
     }else if(self.listType == 2){
         ZHForm *form = self.listArray[indexPath.row];
         [self routerEventWithName:form_selected_item userInfo:@{@"form":form}];
-    }
-}
-- (void)reloadDataFromNetwork{
-    if (self.needReloadData == YES) {
-        if (self.listType == 1) {
-            self.taskListManager.pageSize.pageIndex = 1;
-            [self.tableView.mj_footer resetNoMoreData];
-            [self.taskListManager loadData];
-        }else if(self.listType == 2){
-            self.formListManager.pageSize.pageIndex = 1;
-            [self.tableView.mj_footer resetNoMoreData];
-            [self.formListManager loadData];
-        }
     }
 }
 

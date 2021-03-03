@@ -213,6 +213,7 @@
     }
     _selectedTaskIndex = selectedTaskIndex;
     [self.scrollView setContentOffset:CGPointMake(_selectedTaskIndex*CGRectGetWidth(self.scrollView.frame),0) animated:YES];
+    self.searchBar.text = @"";
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
     [self changeTabSelected:_selectedTaskIndex];
 }
@@ -228,7 +229,6 @@
 - (void)getCurrentdisplayTaskListView:(NSInteger)index{
     TaskListView *currentListView = self.taskListViewArray[index];
     [currentListView searchTask:self.searchBar.text];
-    [currentListView reloadDataFromNetwork];
 }
 
 #pragma mark - setter and getter
