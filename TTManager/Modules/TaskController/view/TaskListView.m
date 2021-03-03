@@ -16,6 +16,7 @@
 @property (nonatomic, strong) APITaskListManager *taskListManager;
 @property (nonatomic, strong) APIFormListManager *formListManager;
 @property (nonatomic, strong) NSMutableArray *listArray;
+@property (nonatomic, copy) NSString *searchText;
 
 @end
 
@@ -24,6 +25,7 @@
 - (instancetype)init{
     self = [super init];
     if (self) {
+        self.searchText = @"";
         self.needReloadData = YES;
         [self addUI];
         self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
@@ -61,6 +63,12 @@
         [self.formListManager loadData];
     }
 }
+
+- (void)searchTask:(NSString *)searchText{
+    self.searchText = searchText;
+    [self refresData];
+}
+
 #pragma mark - setter and getter
 - (UITableView *)tableView{
     if (_tableView == nil) {
@@ -214,25 +222,44 @@
     if (_currentTaskStatus != currentTaskStatus) {
         _currentTaskStatus = currentTaskStatus;
         [self.taskListManager.pageSize.orders removeAllObjects];
+        [self.taskListManager.pageSize.filters removeAllObjects];
         switch (_currentTaskStatus) {
             case Task_list:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
+                [self addFilter];
                 break;
             case Task_finish:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
+                [self addFilter];
                 break;
             case Task_sponsoring:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
+                [self addFilter];
                 break;
             case Task_sponsored:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
+                [self addFilter];
                 break;
             default:
                 break;
        }
     }
 }
-
+- (void)addFilter{
+    if (![SZUtil isEmptyOrNull:self.searchText]) {
+        
+        NSDictionary *filter1 = @{@"key":@"name",
+                                 @"operator":@":",
+                                 @"value":self.searchText,
+                                 @"join":@"or"};
+        NSDictionary *filter2 = @{@"key":@"memo",
+                                 @"operator":@":",
+                                 @"value":self.searchText,
+                                 @"join":@"or"};
+        [self.taskListManager.pageSize.filters addObject:filter1];
+        [self.taskListManager.pageSize.filters addObject:filter2];
+    }
+}
 -(void)setFormType:(NSInteger)formType{
     if (_formType != formType) {
         _formType = formType;
@@ -289,12 +316,13 @@
     }
     NSDictionary *dic = @{@"id_project":INT_32_TO_STRING(project.id_project),
                           @"is_starter":is_starter,
-                          @"other_user_name":@"",
+                          @"other_user_name":self.searchText,
                           @"flow_state":@"null",
                           @"id_user":@"",
                           @"is_finished":is_finished};
     return dic;
 }
+
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.

@@ -181,4 +181,6 @@
 /// @param jsonString 字符串
 + (NSDictionary *)dictionaryWithJsonString:(NSString *)jsonString;
 
++ (BOOL)inputShouldNumber:(NSString *)inputString;
+
 @end

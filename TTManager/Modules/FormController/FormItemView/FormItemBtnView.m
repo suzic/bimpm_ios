@@ -40,20 +40,25 @@
     self.indexPath = indexPath;
     self.button.enabled = edit;
     self.formItem = data;
+    self.downImageView.hidden = !edit;
     // 时间选择器
     if ([self.formItem[@"type"] isEqualToNumber:@3]) {
         self.datePickerView.pickerMode = BRDatePickerModeYMD;
-        self.downImageView.hidden = !edit;
     }else if([self.formItem[@"type"] isEqualToNumber:@4]){
         self.datePickerView.pickerMode = BRDatePickerModeYMDHMS;
-        self.downImageView.hidden = !edit;
+    }else if([self.formItem[@"type"] isEqualToNumber:@5]){
+        [self.enum_poolArray removeAllObjects];
+        if (![SZUtil isEmptyOrNull:_formItem[@"enum_pool"]]) {
+            [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
+        }
     }
     
     [self fillData:data];
 }
 - (void)fillData:(NSDictionary *)data{
-    NSString *instance_value = data[@"instance_value"];
-    if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
+    NSString *instance_value = [data[@"instance_value"] description];
+    
+    if ([SZUtil isEmptyOrNull:instance_value]) {
         NSString *title = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
         [self.button setTitle:title forState:UIControlStateNormal];
         [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
@@ -84,8 +89,27 @@
             [title addAttribute:NSForegroundColorAttributeName value:RGB_COLOR(5, 125, 255) range:NSMakeRange(0, title.length)];
             [self.button setAttributedTitle:title forState:UIControlStateNormal];
             
-        }else if([data[@"type"] isEqualToNumber:@5]){
-            [self.button setTitle:instance_value forState:UIControlStateNormal];
+        }
+        // 枚举
+        else if([data[@"type"] isEqualToNumber:@5]){
+            if ([SZUtil inputShouldNumber:instance_value] == YES) {
+                NSString *text = self.enum_poolArray[[instance_value intValue]];
+                if (![SZUtil isEmptyOrNull:text]) {
+                    [self.button setTitle:text forState:UIControlStateNormal];
+                }else{
+                    NSString *title = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
+                    [self.button setTitle:title forState:UIControlStateNormal];
+                    [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+                }
+            }else{
+                if (![SZUtil isEmptyOrNull:instance_value]) {
+                    [self.button setTitle:instance_value forState:UIControlStateNormal];
+                }else{
+                    NSString *title = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
+                    [self.button setTitle:title forState:UIControlStateNormal];
+                    [self.button setTitleColor:[UIColor lightGrayColor] forState:UIControlStateNormal];
+                }
+            }
         }else{
             [self.button setTitle:instance_value forState:UIControlStateNormal];
         }
@@ -106,10 +130,6 @@
     }
     // 枚举
     else if(type == 5){
-        [self.enum_poolArray removeAllObjects];
-        if (![SZUtil isEmptyOrNull:_formItem[@"enum_pool"]]) {
-            [self.enum_poolArray addObjectsFromArray:[_formItem[@"enum_pool"] componentsSeparatedByString:@","]];
-        }
         [self showActionSheets];
     }
     // url
@@ -128,7 +148,7 @@
     for (int i= 0; i < count; i++) {
         NSString *title = self.enum_poolArray[i];
         UIAlertAction *action = [UIAlertAction actionWithTitle:title style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
-            [self routerEventWithName:form_edit_item userInfo:@{@"value":self.enum_poolArray[action.taskType],@"indexPath":self.indexPath}];
+            [self routerEventWithName:form_edit_item userInfo:@{@"value":[NSString stringWithFormat:@"%ld",action.taskType],@"indexPath":self.indexPath}];
         }];
         action.taskType = i;
         [alert addAction:action];

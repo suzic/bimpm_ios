@@ -20,7 +20,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) TaskStatus currentTaskStatus;
 
 @property (nonatomic, assign) NSInteger formType;
+
 - (void)reloadDataFromNetwork;
+
+
+/// 任务搜索
+/// @param searchText 搜索文本
+- (void)searchTask:(NSString *)searchText;
 
 @end
 

@@ -54,9 +54,9 @@
     CGFloat offsetX = scrollView.contentOffset.x;
     CGFloat w = CGRectGetWidth(self.frame);
     _selectedTaskIndex = offsetX/w;
+    self.searchBar.text = @"";
     [self changeTabSelected:_selectedTaskIndex];
     [self getCurrentdisplayTaskListView:_selectedTaskIndex];
-    self.searchBar.text = @"";
 }
 
 #pragma mark - UISearchBarDelegate
@@ -70,7 +70,9 @@
     [searchBar setShowsCancelButton:NO animated:YES];
     searchBar.text = @"";
     [searchBar resignFirstResponder];
+    [self getCurrentdisplayTaskListView:_selectedTaskIndex];
     [self updateSearchBarViewLayout:NO];
+    
 }
 
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar{
@@ -78,8 +80,9 @@
     [searchBar setShowsCancelButton:NO animated:YES];
     [searchBar resignFirstResponder];
     [self updateSearchBarViewLayout:NO];
-    
+    [self getCurrentdisplayTaskListView:_selectedTaskIndex];
 }
+
 - (void)updateSearchBarViewLayout:(BOOL)show{
     [self setNeedsUpdateConstraints];
     [UIView animateWithDuration:0.3 animations:^{
@@ -224,6 +227,7 @@
 // 获取当前显示的tasklist 并且reloaddata
 - (void)getCurrentdisplayTaskListView:(NSInteger)index{
     TaskListView *currentListView = self.taskListViewArray[index];
+    [currentListView searchTask:self.searchBar.text];
     [currentListView reloadDataFromNetwork];
 }
 

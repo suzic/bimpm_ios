@@ -15,7 +15,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 @property (nonatomic, strong) NSDictionary *formItem;
 @property (nonatomic, assign) BOOL isFormEdit;
 @property (nonatomic, strong) NSIndexPath *indexPath;
-@property (nonatomic, strong) UITextView *valueTextView;
+@property (nonatomic, strong) UILabel *valueTextView;
 
 // 图片集类型 1:内嵌图片，2:图片list
 @property (nonatomic, assign) NSInteger imageType;
@@ -148,13 +148,13 @@ static NSString *reuseIdentifier = @"ImageCell";
     return _imageCollectionView;
 }
 
-- (UITextView *)valueTextView{
+- (UILabel *)valueTextView{
     if (_valueTextView == nil) {
-        _valueTextView = [[UITextView alloc] init];
+        _valueTextView = [[UILabel alloc] init];
         _valueTextView.font = [UIFont systemFontOfSize:16];
-        _valueTextView.textColor = RGB_COLOR(51, 51, 51);
-        _valueTextView.placeholderColor = [UIColor lightGrayColor];
-        _valueTextView.editable = NO;
+        _valueTextView.textColor = [UIColor lightGrayColor];
+        _valueTextView.textAlignment = NSTextAlignmentLeft;
+        _valueTextView.text = @"无数据";
     }
     return _valueTextView;
 }
@@ -164,14 +164,14 @@ static NSString *reuseIdentifier = @"ImageCell";
     [self.imagesArray removeAllObjects];
     
     if ([_formItem[@"type"] isEqualToNumber:@7]) {
-        self.valueTextView.placeholder = @"小图片";
+        self.valueTextView.text = @"小图片";
         self.imageType = 1;
         if (![SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
             [self.imagesArray addObject:_formItem[@"instance_value"]];
         }
         
     }else if([_formItem[@"type"] isEqualToNumber:@8]){
-        self.valueTextView.placeholder = @"多个图片";
+        self.valueTextView.text = @"多个图片";
         self.imageType = 2;
         if (![SZUtil isEmptyOrNull:_formItem[@"instance_value"]]) {
             [self.imagesArray addObjectsFromArray:[_formItem[@"instance_value"] componentsSeparatedByString:@","]];

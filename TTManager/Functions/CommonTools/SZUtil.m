@@ -1146,4 +1146,14 @@ void ProviderReleaseData (void *info, const void *data, size_t size)
     }
     return dic;
 }
+
++ (BOOL)inputShouldNumber:(NSString *)inputString {
+    if (inputString.length == 0)
+        return NO;
+    NSString *regex = @"^[0-9]+([.]{0,1}[0-9]+){0,1}$";
+    NSPredicate *pred = [NSPredicate predicateWithFormat:@"SELF MATCHES %@",regex];
+    return [pred evaluateWithObject:inputString];
+}
+
+
 @end
