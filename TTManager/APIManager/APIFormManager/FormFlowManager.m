@@ -395,8 +395,9 @@
         NSDictionary *dic = (NSDictionary *)manager.response.responseData;
         if ([dic[@"code"] isEqualToNumber:@0]) {
             self.isModification = NO;
-            [self uploadFillSuccessLaterFrom];
+//            [self uploadFillSuccessLaterFrom];
             [self callFormOperationsFillResultDelagate:YES];
+            [self callTargetUpdateResultDelagate:YES];
         }
     }else if(manager == self.targetCloneManager)
     {
@@ -409,7 +410,7 @@
     }
     else if(manager == self.uploadfileManager)
     {
-        [self informTargetUpdateByBuddy_file];
+//        [self informTargetUpdateByBuddy_file];
     }
     else if(manager == self.targetUpdateManager)
     {
@@ -428,6 +429,7 @@
         [self callFormDetailResultDelegate:NO];
     }else if(manager == self.formOperationsManager){
         [self callFormOperationsFillResultDelagate:NO];
+        [self callTargetUpdateResultDelagate:NO];
     }else if(manager == self.targetCloneManager){
         [self callFormCloneTargetResultDelagate:NO];
     }else if(manager == self.uploadfileManager){

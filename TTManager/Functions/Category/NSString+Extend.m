@@ -60,7 +60,7 @@
                            attributes:@{NSFontAttributeName:font}
                               context:nil];
     
-    NSLog(@"%@: W: %.f, H: %.f", self, rect.size.width, rect.size.height);
+//    NSLog(@"%@: W: %.f, H: %.f", self, rect.size.width, rect.size.height);
     return rect.size.height;
 }
 
