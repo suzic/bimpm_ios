@@ -2071,7 +2071,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 29HSV437NA;
+				DEVELOPMENT_TEAM = XEW439Z58D;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2082,7 +2082,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2097,7 +2097,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 29HSV437NA;
+				DEVELOPMENT_TEAM = XEW439Z58D;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2109,7 +2109,7 @@
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
