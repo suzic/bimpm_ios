@@ -12,7 +12,8 @@
 
 #define RongCloudIMSecret  @"Awlfd3KNBBT"
 
-#define BaiduKey  @"b8APw3ryF03YG2kwU35T9wuQ8nKaN4pc"
+//#define BaiduKey  @"b8APw3ryF03YG2kwU35T9wuQ8nKaN4pc"
+#define BaiduKey  @"AYSAQ052VXTN18s2ROCujop2O9UEPxAI"
 
 
 // 添加这个宏，就不用带mas_前缀

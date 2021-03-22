@@ -183,4 +183,7 @@
 
 + (BOOL)inputShouldNumber:(NSString *)inputString;
 
++ (BOOL)isAllowLocationService;
+
+
 @end

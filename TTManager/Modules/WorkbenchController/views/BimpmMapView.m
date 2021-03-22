@@ -17,6 +17,7 @@
 @property (nonatomic, strong) BMKUserLocation *userLocation; //当前位置对象
 // location
 @property (nonatomic, strong) BMKLocationManager *locationManager;
+@property (nonatomic, strong) CLLocationManager *cllocationManager;
 
 @end
 
@@ -64,6 +65,10 @@
 
 - (void)onCheckPermissionState:(BMKLocationAuthErrorCode)iError{
     if (iError == BMKLocationAuthErrorSuccess) {
+        if ([SZUtil isAllowLocationService] == NO) {
+            [self openLocationSetting];
+        }
+        [self.cllocationManager startUpdatingLocation];
         [self.locationManager setLocatingWithReGeocode:YES];
         [self.locationManager startUpdatingLocation];
         [self.locationManager startUpdatingHeading];
@@ -123,7 +128,20 @@
     NSLog(@"当前所处位置信息%@",address);
     [self routerEventWithName:punch_card_distance userInfo:@{@"type":clockType,@"address":address,@"distance":[NSString stringWithFormat:@"%.2lf",distance]}];
 }
+- (void)openLocationSetting
+{
+    //设置提示提醒用户打开定位服务
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"允许定位提示" message:@"请在设置中打开定位" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"打开定位" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
+                               {
+                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
+                               }];
 
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    [[AppDelegate sharedDelegate].window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
 #pragma mark - setter and getter
 
 - (BMKMapView *)mapView{
@@ -163,7 +181,15 @@
     }
     return _locationManager;
 }
-
+- (CLLocationManager *)cllocationManager{
+    if (!_cllocationManager) {
+        _cllocationManager = [[CLLocationManager alloc] init];
+        _cllocationManager.desiredAccuracy = kCLLocationAccuracyBest;
+        _cllocationManager.distanceFilter = kCLLocationAccuracyHundredMeters;
+        [_cllocationManager requestWhenInUseAuthorization];
+    }
+    return _cllocationManager;
+}
 /*
 // Only override drawRect: if you perform custom drawing.
 // An empty implementation adversely affects performance during animation.
