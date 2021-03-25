@@ -1615,6 +1615,7 @@
 				402A9EEC2595769900A9DABA /* Frameworks */,
 				402A9EED2595769900A9DABA /* Resources */,
 				9DBEABABEA38409F1E25B250 /* [CP] Copy Pods Resources */,
+				EF15FF027F03F0A83CD4929C /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1709,6 +1710,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EF15FF027F03F0A83CD4929C /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TTManager/Pods-TTManager-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -2053,7 +2071,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 29HSV437NA;
+				DEVELOPMENT_TEAM = XEW439Z58D;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2064,7 +2082,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2079,7 +2097,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = TTManager/TTManager.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 29HSV437NA;
+				DEVELOPMENT_TEAM = XEW439Z58D;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2091,7 +2109,7 @@
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = LC.TTManager;
+				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
