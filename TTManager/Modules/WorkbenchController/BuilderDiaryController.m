@@ -150,13 +150,13 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 }
 - (void)normalFillFormInfo{
     ZHUser *user = [DataManager defaultInstance].currentUser;
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
+//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+//    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
 
     // 星期
     NSDictionary *weekDic = @{@"indexPath":[NSIndexPath indexPathForRow:3 inSection:0],@"value":[SZUtil getCurrentWeekDay]};
     // 日期
-    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:8 inSection:0],@"value":time};
+    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:8 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:1]};
     // 记录人
     NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:10 inSection:0],@"value":user.name};
     NSArray *array = @[weekDic,timedic,userdic];

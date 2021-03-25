@@ -376,8 +376,8 @@ static NSString *headerCell = @"headerCell";
 // 默认填充的数据
 - (void)normalFillFormInfo{
     ZHUser *user = [DataManager defaultInstance].currentUser;
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
+//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+//    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
     NSInteger index = NSNotFound;
     NSInteger index2 = NSNotFound;
     if (self.currentStep == 0) {
@@ -391,7 +391,7 @@ static NSString *headerCell = @"headerCell";
         index2 = 11;
     }
     // 日期
-    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":time};
+    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:1]};
     // 记录人
     NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":user.name};
     NSArray *array = @[timedic,userdic];

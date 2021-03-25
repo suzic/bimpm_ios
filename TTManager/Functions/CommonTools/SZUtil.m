@@ -1168,4 +1168,18 @@ void ProviderReleaseData (void *info, const void *data, size_t size)
         return NO;
     }
 }
+
++ (NSString *)getYYYYMMDD:(NSDate *)date type:(NSInteger)type{
+    NSString *time = @"";
+    if (type == 1) {
+        NSString *YYYYMMDD = [SZUtil getDateString:date];
+        YYYYMMDD = [YYYYMMDD stringByAppendingString:@" 00:00:00:000"];
+        NSDate *YYYYMMDDdate = [NSDate br_dateFromString:YYYYMMDD dateFormat:@"yyyy-MM-dd HH:mm:ss:SSS"];
+        NSTimeInterval timeInterval = [YYYYMMDDdate timeIntervalSince1970];
+        time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
+    }else if(type == 2){
+       time = [NSString stringWithFormat:@"%.0f", [date timeIntervalSince1970]*1000];
+    }
+    return time;
+}
 @end

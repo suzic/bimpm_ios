@@ -143,11 +143,11 @@
 - (void)getClockInInfor{
     
     ZHUser *user = [DataManager defaultInstance].currentUser;
-    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
+//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
+//    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
 
     // 打卡日期
-    NSDictionary *dic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":time};
+    NSDictionary *dic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:1]};
     // 打卡人
     NSDictionary *nameDic = @{@"indexPath":[NSIndexPath indexPathForRow:1 inSection:0],@"value":user.name};
     // 电话
@@ -159,7 +159,7 @@
     }
     
     // 打卡时间
-    NSDictionary *timeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":time};
+    NSDictionary *timeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:2]};
     // 打卡地
     NSDictionary *addressDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+1 inSection:0],@"value":self.address == nil ? @"":self.address};
     // 打卡类型
@@ -181,11 +181,12 @@
     
     [self.bimpmMapView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
-        make.height.equalTo(500);
+//        make.height.equalTo(500);
     }];
     
     [self.clockInView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.bimpmMapView.mas_bottom);
+        make.height.equalTo(320);
         make.left.right.bottom.equalTo(0);
     }];
     

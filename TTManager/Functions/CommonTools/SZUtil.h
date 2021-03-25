@@ -186,4 +186,8 @@
 + (BOOL)isAllowLocationService;
 
 
+/// 获取日期时间戳，格式为YYYYMMDD 00:00:00
+/// @param date 需要处理的时间
+/// @param type 需要的数据类型 1：YYYYMMMDD 2：YYYYMMDD HH:mm:ss:SSS"
++ (NSString *)getYYYYMMDD:(NSDate *)date type:(NSInteger)type;
 @end

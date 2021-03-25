@@ -213,7 +213,12 @@
         __weak typeof(self) weakSelf = self;
         _datePickerView.resultBlock = ^(NSDate * _Nullable selectDate, NSString * _Nullable selectValue) {
             __strong typeof(self) strongSelf = weakSelf;
-            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
+            NSInteger type = 2;
+            if ([strongSelf.formItem[@"type"] isEqualToNumber:@3]) {
+                type = 1;
+            }
+            NSString *time = [SZUtil getYYYYMMDD:selectDate type:type];
+//            NSString *time = [NSString stringWithFormat:@"%.0f", [selectDate timeIntervalSince1970]*1000];
             [strongSelf routerEventWithName:form_edit_item userInfo:@{@"value":time,@"indexPath":strongSelf.indexPath}];
         };
     }
