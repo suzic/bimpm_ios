@@ -124,17 +124,8 @@
 
 - (void)clockAction:(UIButton *)button{
 
-    // 如果没有打开定位权限则让用户打开
-    if ([SZUtil isAllowLocationService] == NO) {
-        [self.bimpmMapView openLocationSetting];
-    }else{
-        if ([SZUtil isEmptyOrNull:self.address]) {
-            [SZAlert showInfo:@"暂未获取到您的位置信息,请稍后再试" underTitle:TARGETS_NAME];
-        }else{
-            [self getClockInInfor];
-            [self.formflowManager operationsFormFill];
-        }
-    }
+    [self getClockInInfor];
+    [self.formflowManager operationsFormFill];
 }
 
 // 填充当前需要打卡的数据
@@ -158,7 +149,10 @@
     NSDictionary *timeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:2]};
     // 打卡地
     NSDictionary *addressDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+1 inSection:0],@"value":self.address == nil ? @"":self.address};
-    // 打卡类型
+    // 打卡类型 ,如果地址为空 一致视为外出打卡。
+    if ([SZUtil isEmptyOrNull:self.address]) {
+        self.clockType = 1;
+    }
     NSDictionary *typeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+2 inSection:0],@"value":self.clockType == NSNotFound ? @"1":[NSString stringWithFormat:@"%ld",(long)self.clockType]};
     NSArray *array = @[dic,nameDic,phoneDic,timeDic,addressDic,typeDic];
     for (NSDictionary *itemDic in array) {
