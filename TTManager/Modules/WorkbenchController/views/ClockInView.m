@@ -96,7 +96,7 @@
 - (void)setClockInViewType{
     if (self.clockInTypeView.selectedSegmentIndex == 0) {
         self.clockInTypeLabel.text = @"上班打卡";
-        self.remindLabel.text = @"上班请在08:00之前打卡";
+        self.remindLabel.text = @"上班请在09:00之前打卡";
     }else if(self.clockInTypeView.selectedSegmentIndex == 1){
         self.clockInTypeLabel.text = @"下班打卡";
         self.remindLabel.text = @"下班请在18:00之后打卡";
@@ -206,7 +206,11 @@
     if (_openLocationBtn == nil) {
         _openLocationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         _openLocationBtn.titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        [_openLocationBtn setTitle:@"打开定位服务" forState:UIControlStateNormal];
+        NSMutableAttributedString *title = [[NSMutableAttributedString alloc] initWithString:@"打开定位服务"];
+        NSRange titleRange = {0,[title length]};
+        [title addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:titleRange];
+        [_openLocationBtn setAttributedTitle:title
+        forState:UIControlStateNormal];
         [_openLocationBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
         [_openLocationBtn addTarget:self action:@selector(openSetting:) forControlEvents:UIControlEventTouchUpInside];
     }
