@@ -12,7 +12,7 @@
 #import "SettingViewController.h"
 #import "AboutViewController.h"
 
-@interface FrameController () <APIManagerParamSource, ApiManagerCallBackDelegate, FrameNavViewDelegate>
+@interface FrameController () <APIManagerParamSource, ApiManagerCallBackDelegate, FrameNavViewDelegate,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UIView *homeView;      // 主页面
 @property (weak, nonatomic) IBOutlet UIView *shadowView;    // 遮罩层
@@ -403,9 +403,26 @@
 
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
     if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{@"code":manager.response.responseData[@"code"], @"msg":manager.response.responseData[@"msg"]}];
-//        [self setTabBarViewControllerSelectedIndex:YES];
+        if ([manager.response.responseData[@"code"] intValue] == 105) {
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"正在登录新设备"
+                                                                                     message:@"您正在新的设备上登录，为保证您的账户安全，我们已向您的账户手机发送了验证码，请在下方填写进行验证"
+                                                                              preferredStyle:UIAlertControllerStyleAlert];
+            [alertController addTextFieldWithConfigurationHandler:^(UITextField * textField) {
+                textField.placeholder = [NSString stringWithFormat:@"请在此输入您收到的验证码"];
+                textField.delegate = self;
+            }];
+            [alertController addAction:[UIAlertAction actionWithTitle:@"提交验证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserDeviceCheck object:self.verifyCode];
+            }]];
+            [self presentViewController:alertController animated:YES completion:nil];
+        }else{
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{@"code":manager.response.responseData[@"code"], @"msg":manager.response.responseData[@"msg"]}];
+        }
     }
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    self.verifyCode = textField.text;
 }
 
 #pragma mark - APIManagerParamSource
@@ -415,17 +432,13 @@
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;
     NSString *deviceType = [SZUtil deviceVersion];
     if (manager == self.loginManager){
-        NSString *savedPassword = @"";
-        if ([SZUtil isEmptyOrNull:currentUser.verify_code] == YES){
-            if (![SZUtil isEmptyOrNull:currentUser.password])
-                savedPassword = currentUser.password.MD5String;
-        }
-       params = @{@"phone":currentUser.phone,
-                 @"password":savedPassword,
-                 @"verify":currentUser.verify_code == nil ? @"" : currentUser.verify_code,
-                 @"captcha":@"",
-                 @"device_id":currentUser.device,
-                  @"device_name":deviceType};
+        NSString *savedPassword = currentUser.pass_md5;
+        params = @{@"phone":currentUser.phone,
+                   @"password":savedPassword,
+                   @"verify":@"",
+                   @"captcha":@"",
+                   @"device_id":currentUser.device,
+                   @"device_name":deviceType};
     }else if(manager == self.newDeviceCheckManager){
        params = @{@"phone":currentUser.phone,
                  @"password":currentUser.pass_md5,

@@ -536,14 +536,13 @@
         [self.captchManager loadData];
         [self.tableView reloadData];
     }
-//    else if ([dic[@"code"] intValue] == 105)
-//    {
-//        [self NETWORK_verifyCode:@"NEW_DEVICE"];
+    else if ([dic[@"code"] intValue] == 105)
+    {
+        
 //        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"正在登录新设备"
 //                                                                                 message:@"您正在新的设备上登录，为保证您的账户安全，我们已向您的账户手机发送了验证码，请在下方填写进行验证"
 //                                                                          preferredStyle:UIAlertControllerStyleAlert];
 //        [alertController addTextFieldWithConfigurationHandler:^(UITextField * textField) {
-//            self.deviceVerifyCode = @"";
 //            textField.placeholder = [NSString stringWithFormat:@"请在此输入您收到的验证码"];
 //            textField.delegate = self;
 //        }];
@@ -551,7 +550,7 @@
 //            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserDeviceCheck object:self.deviceVerifyCode];
 //        }]];
 //        [self presentViewController:alertController animated:YES completion:nil];
-//    }
+    }
     else
     {
         if ([dic[@"code"] intValue] == 413)

@@ -37,7 +37,7 @@
     _projectList = [NSMutableArray array];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginNeeded:) name:NotiUserLoginNeeded object:nil];
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadData) name:NotiReloadHomeView object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -46,9 +46,9 @@
     if (user == nil || (self.presentLoginAnimated == YES && user.is_login == NO)) {
         [self presentLoginVC];
     }else{
-        if (user.is_login == YES) {
-            [self reloadData];
-        }
+//        if (user.is_login == YES) {
+//            [self reloadData];
+//        }
     }
 }
 

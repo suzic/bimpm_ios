@@ -63,7 +63,7 @@
 
     // 同步用户自身信息
     currentUser.token = oneData[@"token"];
-//    currentUser.pass_md5 = oneData[@"password"];
+    currentUser.pass_md5 = oneData[@"password"];
 //    currentUser.password = response.requestParams[@"data"][@"password"];
 //    currentUser.verify_code = response.requestParams[@"data"][@"verify"];
 //    currentUser.captcha_code = response.requestParams[@"data"][@"captcha"];
