@@ -8,6 +8,9 @@
 #ifndef ResponderChainHeader_h
 #define ResponderChainHeader_h
 
+// 输入手机号
+#define phone_change           @"phone_change"
+
 // 选择某个task
 #define Task_list_selected      @"Task_list_selected"
 // 工作台查看更多消息

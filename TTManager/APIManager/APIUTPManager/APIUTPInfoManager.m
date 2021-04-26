@@ -61,7 +61,8 @@
             meno.page_index = [projectMemoDic[@"order_index"] intValue];
             meno.order_index = [projectMemoDic[@"order_index"] intValue];
             meno.check = [projectMemoDic[@"check"] boolValue];
-            meno.line = projectMemoDic[@"line"];
+            // 去除html内包含的标签
+            meno.line = [SZUtil removeHtmlWithString:projectMemoDic[@"line"]];
             
             if (![SZUtil isEmptyOrNull:projectMemoDic[@"edit_date"]]) {
                 meno.edit_date = project.build_date = [dateFormatter dateFromString:projectMemoDic[@"edit_date"]];

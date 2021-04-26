@@ -120,31 +120,27 @@
     }else{
         [self.navigationController popViewControllerAnimated:YES];
     }
-//    [self stopTimer];
-//    [self.locationManager stopUpdatingLocation];
 }
 
 - (void)clockAction:(UIButton *)button{
-#warning 测试暂时注释，不在范围之内也能打卡
-//    if (self.clockType == 1) {
-//        [SZAlert showInfo:@"不在打卡范围之内" underTitle:TARGETS_NAME];
-//        return;
-//    }
-    [self getClockInInfor];
-    [self.formflowManager operationsFormFill];
-//    if (self.formflowManager.canEditForm == NO) {
-//        [self.formflowManager cloneCurrentFormByBuddy_file];
-//    }else{
-//
-//    }
+
+    // 如果没有打开定位权限则让用户打开
+    if ([SZUtil isAllowLocationService] == NO) {
+        [self.bimpmMapView openLocationSetting];
+    }else{
+        if ([SZUtil isEmptyOrNull:self.address]) {
+            [SZAlert showInfo:@"暂未获取到您的位置信息,请稍后再试" underTitle:TARGETS_NAME];
+        }else{
+            [self getClockInInfor];
+            [self.formflowManager operationsFormFill];
+        }
+    }
 }
 
 // 填充当前需要打卡的数据
 - (void)getClockInInfor{
     
     ZHUser *user = [DataManager defaultInstance].currentUser;
-//    NSTimeInterval timeInterval = [[NSDate date] timeIntervalSince1970];
-//    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
 
     // 打卡日期
     NSDictionary *dic = @{@"indexPath":[NSIndexPath indexPathForRow:0 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:1]};
@@ -174,14 +170,11 @@
 
 - (void)addUI{
     
-//    [self.view addSubview:self.mapView];
-    
     [self.view addSubview:self.bimpmMapView];
     [self.view addSubview:self.clockInView];
     
     [self.bimpmMapView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
-//        make.height.equalTo(500);
     }];
     
     [self.clockInView makeConstraints:^(MASConstraintMaker *make) {
@@ -189,61 +182,6 @@
         make.height.equalTo(320);
         make.left.right.bottom.equalTo(0);
     }];
-    
-//    [self.view addSubview:self.userView];
-//    [self.userView addSubview:self.userImageView];
-//    [self.userView addSubview:self.userName];
-//    
-//    [self.view addSubview:self.clockBgView];
-//    [self.clockBgView addSubview:self.changClockType];
-//    [self.clockBgView addSubview:self.clockInfo];
-//    [self.clockBgView addSubview:self.clockBtn];
-//    [self.clockBgView addSubview:self.clockTime];
-//    
-//    
-//    
-//    [self.userView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(500);
-//        make.left.equalTo(16);
-//        make.right.equalTo(-16);
-//        make.height.equalTo(120);
-//    }];
-//    
-//    [self.userImageView makeConstraints:^(MASConstraintMaker *make) {
-//        make.width.height.equalTo(60);
-//        make.left.equalTo(16);
-//        make.centerY.equalTo(self.userView.mas_centerY);
-//    }];
-//    
-//    [self.userName makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.equalTo(self.userImageView.mas_right).offset(16);
-//        make.centerY.equalTo(self.userImageView.mas_centerY);
-//    }];
-//    
-//    [self.clockBgView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.userView.mas_bottom).offset(16);
-//        make.left.equalTo(16);
-//        make.right.bottom.equalTo(-16);
-//    }];
-//    [self.changClockType makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(16);
-//        make.width.equalTo(self.clockBgView.mas_width).multipliedBy(0.5);
-//        make.centerX.equalTo(self.clockBgView.mas_centerX);
-//    }];
-//    
-//    [self.clockInfo makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(0);
-//        make.top.equalTo(200);
-//    }];
-//    [self.clockBtn makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.clockInfo.mas_bottom).offset(10);
-//        make.width.height.equalTo(self.clockBgView.mas_width).multipliedBy(0.5);
-//        make.centerX.equalTo(self.clockBgView);
-//    }];
-//    [self.clockTime makeConstraints:^(MASConstraintMaker *make) {
-//        make.left.right.equalTo(0);
-//        make.top.equalTo(self.clockBtn.mas_bottom).offset(10);
-//    }];
 }
 
 #pragma mark - setter and getter
@@ -288,14 +226,4 @@
 - (void)dealloc{
     
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
 @end

@@ -7,12 +7,21 @@
 
 #import "PhoneCell.h"
 
+@interface PhoneCell ()<UITextFieldDelegate>
+
+@end
+
 @implementation PhoneCell
 
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    self.phoneTextField.delegate = self;
     [self changeTextFiledPlaceholderColor:self.phoneTextField.placeholder textFiled:self.phoneTextField];
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    [self routerEventWithName:phone_change userInfo:@{@"phone":textField.text}];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

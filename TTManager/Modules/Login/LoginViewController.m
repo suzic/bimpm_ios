@@ -215,6 +215,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
     return 10;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     switch (self.controllerType)
@@ -242,6 +243,12 @@
     }
 }
 #pragma mark - Action
+
+- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
+    if ([eventName isEqualToString:phone_change]) {
+        self.phone = userInfo[@"phone"];
+    }
+}
 
 - (IBAction)textChange:(id)sender {
 }

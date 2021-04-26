@@ -72,6 +72,8 @@
         [self.locationManager setLocatingWithReGeocode:YES];
         [self.locationManager startUpdatingLocation];
         [self.locationManager startUpdatingHeading];
+    }else{
+        
     }
 }
 
@@ -92,7 +94,6 @@
     }
     self.userLocation.location = location.location;
     [self.mapView updateLocationData:self.userLocation];
-//    [self.mapView setCenterCoordinate:CLLocationCoordinate2DMake(location.location.coordinate.latitude,location.location.coordinate.longitude) animated:YES];
 }
 
 - (void)BMKLocationManager:(BMKLocationManager * _Nonnull)manager didFailWithError:(NSError * _Nullable)error{
@@ -117,7 +118,6 @@
     BMKMapPoint point1 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(location.location.coordinate.latitude,location.location.coordinate.longitude));
     BMKMapPoint point2 = BMKMapPointForCoordinate(CLLocationCoordinate2DMake(project.location_lat,project.location_long));
     CLLocationDistance distance = BMKMetersBetweenMapPoints(point1,point2);
-//    self.clockInfo.text = [NSString stringWithFormat:@"当前距离项目组%.2lf米",distance];
     NSString *clockType = @"";
     if (distance <= 1000) {
         clockType = @"0";
@@ -131,11 +131,11 @@
 - (void)openLocationSetting
 {
     //设置提示提醒用户打开定位服务
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"允许定位提示" message:@"请在设置中打开定位" preferredStyle:UIAlertControllerStyleAlert];
-    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"打开定位" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action)
-                               {
-                                   [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
-                               }];
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"允许定位提示" message:@"请在设置中打开定位,以便于获取打卡位置信息" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"打开定位" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:^(BOOL success) {
+            }];
+    }];
 
     UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
     [alert addAction:okAction];

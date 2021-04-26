@@ -190,4 +190,9 @@
 /// @param date 需要处理的时间
 /// @param type 需要的数据类型 1：YYYYMMMDD 2：YYYYMMDD HH:mm:ss:SSS"
 + (NSString *)getYYYYMMDD:(NSDate *)date type:(NSInteger)type;
+
+/// 去除文本中的html标签
+/// @param htmlString 文本内容
++ (NSString *)removeHtmlWithString:(NSString *)htmlString;
+
 @end

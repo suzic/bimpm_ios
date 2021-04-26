@@ -1182,4 +1182,15 @@ void ProviderReleaseData (void *info, const void *data, size_t size)
     }
     return time;
 }
+
++ (NSString *)removeHtmlWithString:(NSString *)htmlString{
+    
+    if ([SZUtil isEmptyOrNull:htmlString]) {
+        return @"";
+    }
+    NSRegularExpression * regularExpretion=[NSRegularExpression regularExpressionWithPattern:@"<[^>]*>|\n" options:0 error:nil];
+    htmlString = [regularExpretion stringByReplacingMatchesInString:htmlString options:NSMatchingReportProgress range:NSMakeRange(0, htmlString.length) withTemplate:@""];
+    return htmlString;
+}
+
 @end

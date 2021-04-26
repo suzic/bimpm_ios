@@ -144,6 +144,11 @@
     
     if (manager == self.targetListManager) {
         NSArray *result = (NSArray *)manager.response.responseData;
+        if (result == nil || result.count <=0)
+        {
+            [self pushDetai:NO];
+            return;
+        }
         ZHTarget *target = result[0];
         ZHTask *task = self.selectedTaskDic[@"task"];
         // 是表单类型 并且name符合巡检单命名规则 并且是附件不允许用户变更附件，则是巡检任务

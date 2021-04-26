@@ -21,8 +21,10 @@
 @property (nonatomic, strong) UIView *clockInBtnView;
 @property (nonatomic, strong) UILabel *clockInTime;
 @property (nonatomic, strong) UILabel *clockInTypeLabel;
-
+@property (nonatomic, strong) UIButton *openLocationBtn;
 @property (nonatomic, strong) NSTimer *timer;
+
+
 
 @end
 
@@ -35,6 +37,7 @@
         [self addTimer];
         [self initClockInType];
         [self addTapGestureRecognizer];
+        [self changeClockInScope:3];
     }
     return self;
 }
@@ -103,18 +106,44 @@
 - (void)changeClockInScope:(NSInteger)type{
     if (type == 0) {
         self.locationLabel.text = @"在打卡范围之内";
+        self.openLocationBtn.hidden = YES;
     }else if(type == 1){
-        self.locationLabel.text = @"不在打卡范围之内";
+        if ([SZUtil isAllowLocationService] == NO) {
+            self.locationLabel.text = @"不在打卡范围之内(未开启定位服务)";
+            self.openLocationBtn.hidden = NO;
+        }else{
+            self.locationLabel.text = @"不在打卡范围之内";
+            self.openLocationBtn.hidden = YES;
+        }
+    }else{
+        if ([SZUtil isAllowLocationService] == NO) {
+            self.locationLabel.text = @"获取定位信息中(未开启定位服务)";
+            self.openLocationBtn.hidden = NO;
+        }else{
+            self.locationLabel.text = @"获取定位信息中";
+            self.openLocationBtn.hidden = YES;
+        }
     }
 }
+- (void)openSetting:(UIButton *)button{
+    //设置提示提醒用户打开定位服务
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"允许定位提示" message:@"请在设置中打开定位,以便于获取打卡位置信息" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"打开定位" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action){
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString] options:@{} completionHandler:^(BOOL success) {
+            }];
+    }];
 
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+    [alert addAction:okAction];
+    [alert addAction:cancelAction];
+    [[AppDelegate sharedDelegate].window.rootViewController presentViewController:alert animated:YES completion:nil];
+}
 #pragma mark - setter and getter
 
 - (UISegmentedControl *)clockInTypeView{
     if (_clockInTypeView == nil) {
         _clockInTypeView = [[UISegmentedControl alloc] initWithItems:@[@"上班打卡",@"下班打卡"]];
         _clockInTypeView.selectedSegmentIndex = 0;
-//        _clockInTypeView.selectedSegmentTintColor = [UIColor grayColor];
         _clockInTypeView.tintColor = [UIColor whiteColor];
         _clockInTypeView.backgroundColor = [UIColor clearColor];
         [_clockInTypeView addTarget:self action:@selector(changeType:) forControlEvents:UIControlEventValueChanged];
@@ -173,7 +202,16 @@
     }
     return _clockInTypeLabel;
 }
-
+- (UIButton *)openLocationBtn{
+    if (_openLocationBtn == nil) {
+        _openLocationBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        _openLocationBtn.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        [_openLocationBtn setTitle:@"打开定位服务" forState:UIControlStateNormal];
+        [_openLocationBtn setTitleColor:[UIColor redColor] forState:UIControlStateNormal];
+        [_openLocationBtn addTarget:self action:@selector(openSetting:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _openLocationBtn;
+}
 #pragma mark - UI
 
 - (void)addUI{
@@ -188,6 +226,8 @@
     [self addSubview:self.clokInInforView];
     
     [self.clokInInforView addSubview:self.locationLabel];
+    [self.clokInInforView addSubview:self.openLocationBtn];
+    self.openLocationBtn.hidden = YES;
     
     [self addSubview:self.remindLabel];
     
@@ -209,7 +249,12 @@
     
     [self.locationLabel makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.equalTo(16);
-        make.right.equalTo(-16);
+        make.height.equalTo(30);
+    }];
+    [self.openLocationBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.locationLabel.mas_right);
+        make.top.equalTo(16);
+        make.right.equalTo(0);
         make.height.equalTo(30);
     }];
     
