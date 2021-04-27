@@ -293,7 +293,7 @@
     [bgView addSubview:self.predictTimeBtn];
     [bgView addSubview:self.saveBtn];
     [self addSubview:bgView];
-    
+    bgView.backgroundColor = [UIColor whiteColor];
     UIView *view = [[UIView alloc] init];
     [view addSubview:self.predictTimeLabel];
     [view addSubview:self.operationBtn1];
@@ -302,6 +302,7 @@
     lineView.backgroundColor = RGB_COLOR(238, 238, 238);
     [view addSubview:lineView];
     [self addSubview:view];
+    view.backgroundColor = [UIColor whiteColor];
         
     [lineView makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);

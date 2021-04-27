@@ -130,7 +130,13 @@ static NSString *headerCell = @"headerCell";
     
     return cell;
 }
-
+- (void)tableView:(UITableView *)tableView willDisplayCell:(nonnull UITableViewCell *)cell forRowAtIndexPath:(nonnull NSIndexPath *)indexPath{
+    if([indexPath row] == ((NSIndexPath*)[[tableView indexPathsForVisibleRows] lastObject]).row){
+        dispatch_async(dispatch_get_main_queue(),^{
+            [self routerEventWithName:polling_form_height userInfo:@{@"height":[NSString stringWithFormat:@"%f",tableView.contentSize.height+220]}];
+        });
+    }
+}
 #pragma mark - responsder chain
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
@@ -155,6 +161,8 @@ static NSString *headerCell = @"headerCell";
     // 修改了表单内容
     else if([eventName isEqualToString:change_form_info]){
         self.formFlowManager.isModification = YES;
+    }else if([eventName isEqualToString:polling_form_height]){
+        [super routerEventWithName:polling_form_height userInfo:userInfo];
     }
 }
 

@@ -69,5 +69,6 @@
 #define open_form_url           @"open_form_url"
 // 是否修改表单内容
 #define change_form_info        @"change_form_info"
-
+// 表单高度
+#define polling_form_height     @"polling_form_height"
 #endif /* ResponderChainHeader_h */
