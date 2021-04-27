@@ -402,27 +402,11 @@
 }
 
 - (void)managerCallAPIFailed:(BaseApiManager *)manager{
-    if (manager == self.loginManager || manager == self.newDeviceCheckManager) {
-        if ([manager.response.responseData[@"code"] intValue] == 105) {
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"正在登录新设备"
-                                                                                     message:@"您正在新的设备上登录，为保证您的账户安全，我们已向您的账户手机发送了验证码，请在下方填写进行验证"
-                                                                              preferredStyle:UIAlertControllerStyleAlert];
-            [alertController addTextFieldWithConfigurationHandler:^(UITextField * textField) {
-                textField.placeholder = [NSString stringWithFormat:@"请在此输入您收到的验证码"];
-                textField.delegate = self;
-            }];
-            [alertController addAction:[UIAlertAction actionWithTitle:@"提交验证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-                [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserDeviceCheck object:self.verifyCode];
-            }]];
-            [self presentViewController:alertController animated:YES completion:nil];
-        }else{
-            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{@"code":manager.response.responseData[@"code"], @"msg":manager.response.responseData[@"msg"]}];
-        }
+    if (manager == self.loginManager) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{@"code":manager.response.responseData[@"code"], @"msg":manager.response.responseData[@"msg"]}];
+    }else if(manager == self.newDeviceCheckManager){
+        
     }
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField{
-    self.verifyCode = textField.text;
 }
 
 #pragma mark - APIManagerParamSource

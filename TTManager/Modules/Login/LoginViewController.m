@@ -13,7 +13,7 @@
 #import "OperationCell.h"
 
 
-@interface LoginViewController ()<ApiManagerCallBackDelegate,APIManagerParamSource,UITableViewDelegate,UITableViewDataSource>
+@interface LoginViewController ()<ApiManagerCallBackDelegate,APIManagerParamSource,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tabLoginMode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -46,6 +46,7 @@
 @property (nonatomic, copy) NSString *password;
 @property (nonatomic, copy) NSString *verify;
 @property (nonatomic, copy) NSString *captch;
+@property (nonatomic, copy) NSString *verifyCode;
 
 @end
 
@@ -538,18 +539,17 @@
     }
     else if ([dic[@"code"] intValue] == 105)
     {
-        
-//        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"正在登录新设备"
-//                                                                                 message:@"您正在新的设备上登录，为保证您的账户安全，我们已向您的账户手机发送了验证码，请在下方填写进行验证"
-//                                                                          preferredStyle:UIAlertControllerStyleAlert];
-//        [alertController addTextFieldWithConfigurationHandler:^(UITextField * textField) {
-//            textField.placeholder = [NSString stringWithFormat:@"请在此输入您收到的验证码"];
-//            textField.delegate = self;
-//        }];
-//        [alertController addAction:[UIAlertAction actionWithTitle:@"提交验证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
-//            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserDeviceCheck object:self.deviceVerifyCode];
-//        }]];
-//        [self presentViewController:alertController animated:YES completion:nil];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"正在登录新设备"
+                                                                                 message:@"您正在新的设备上登录，为保证您的账户安全，我们已向您的账户手机发送了验证码，请在下方填写进行验证"
+                                                                          preferredStyle:UIAlertControllerStyleAlert];
+        [alertController addTextFieldWithConfigurationHandler:^(UITextField * textField) {
+            textField.placeholder = [NSString stringWithFormat:@"请在此输入您收到的验证码"];
+            textField.delegate = self;
+        }];
+        [alertController addAction:[UIAlertAction actionWithTitle:@"提交验证" style:UIAlertActionStyleDefault handler:^(UIAlertAction * action) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserDeviceCheck object:self.verifyCode];
+        }]];
+        [[SZUtil getCurrentVC] presentViewController:alertController animated:YES completion:nil];
     }
     else
     {
@@ -560,6 +560,9 @@
         NSString *errorInfo = [NSString stringWithFormat:@"登录失败: %@", dic[@"msg"]];
         [SZAlert showInfo:errorInfo underTitle:TARGETS_NAME];
     }
+}
+- (void)textFieldDidEndEditing:(UITextField *)textField{
+    self.verifyCode = textField.text;
 }
 
 - (void)dealloc{
