@@ -66,6 +66,7 @@
 
 - (void)searchTask:(NSString *)searchText{
     self.searchText = searchText;
+    [self addFilter];
     [self reloadDataFromNetwork];
 }
 
@@ -225,19 +226,19 @@
         switch (_currentTaskStatus) {
             case Task_list:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
-                [self addFilter];
+//                [self addFilter];
                 break;
             case Task_finish:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
-                [self addFilter];
+//                [self addFilter];
                 break;
             case Task_sponsoring:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"start_date",@"ascending":@"desc"}];
-                [self addFilter];
+//                [self addFilter];
                 break;
             case Task_sponsored:
                 [self.taskListManager.pageSize.orders addObject:@{@"key":@"end_date",@"ascending":@"desc"}];
-                [self addFilter];
+//                [self addFilter];
                 break;
             default:
                 break;
@@ -246,7 +247,7 @@
 }
 - (void)addFilter{
     if (![SZUtil isEmptyOrNull:self.searchText]) {
-        
+        [self.taskListManager.pageSize.filters removeAllObjects];
         NSDictionary *filter1 = @{@"key":@"name",
                                  @"operator":@":",
                                  @"value":self.searchText,
