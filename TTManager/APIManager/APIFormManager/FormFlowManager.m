@@ -272,7 +272,12 @@
     // fill 的数据
     NSMutableArray *currentitems = [NSMutableArray arrayWithArray:self.instanceFromDic[@"items"]];
     NSMutableDictionary *currentitemDic = [NSMutableDictionary dictionaryWithDictionary:currentitems[indexPath.row]];
-
+    
+    
+    if ([itemDic[@"type"] isEqualToNumber:@7] && imageData.length/1024 > 100) {
+        [SZAlert showInfo:@"上传图片不能大于100k" underTitle:TARGETS_NAME];
+        return;
+    }
     // 内嵌图片
     if ([itemDic[@"type"] isEqualToNumber:@7]) {
         // 加密成Base64形式的NSString
