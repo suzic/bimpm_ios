@@ -39,6 +39,9 @@
     if (_tools.task.belongFlow.state == 1) {
         return;
     }
+    if (_tools.isCanEdit == NO) {
+        return;
+    }
     ZHUser *user = [DataManager defaultInstance].currentUser;
     if (_tools.currentSelectedStep != nil && _tools.currentSelectedStep.responseUser.id_user != user.id_user) {
         return;
@@ -47,9 +50,15 @@
 }
 // 保存
 - (void)saveTask:(UIButton *)button{
+    if (_tools.isCanEdit == NO) {
+        return;
+    }
     [self routerEventWithName:task_click_save userInfo:@{}];
 }
 - (void)rejectBtnAction:(UIButton *)button{
+    if (_tools.isCanEdit == NO) {
+        return;
+    }
     NSString *decsion = @"0";
     NSArray *decsion1 = @[@"拒绝",@"反对",@"驳回"];
     NSArray *decsion2 = @[@"同意",@"通过",@"赞同",@"确认",@"完成"];
@@ -214,6 +223,7 @@
     }else{
         self.saveBtn.hidden = NO;
     }
+    self.saveBtn.hidden = !_tools.isCanEdit;
 }
 - (UIButton *)saveBtn{
     if (_saveBtn == nil) {

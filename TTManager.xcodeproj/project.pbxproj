@@ -2064,7 +2064,7 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jdjt.retail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -2091,7 +2091,7 @@
 					"$(PROJECT_DIR)/Pods/BaiduMapKit/BaiduMapKit/thirdlibs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
+				PRODUCT_BUNDLE_IDENTIFIER = com.jdjt.retail;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
 			};

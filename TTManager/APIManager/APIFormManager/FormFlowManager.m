@@ -313,6 +313,7 @@
                 strongSelf.instanceDownLoadForm[@"items"] = items;
                 currentitems[indexPath.row] = currentitemDic;
                 strongSelf.instanceFromDic[@"items"] = currentitems;
+                [self callReloadViewDelegate];
             }
         };
     }

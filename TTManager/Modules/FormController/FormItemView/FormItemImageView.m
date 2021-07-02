@@ -50,7 +50,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-    if ([eventName isEqualToString:delete_formItem_image]) {
+    if ([eventName isEqualToString:delete_formItem_image] ||[eventName isEqualToString:add_formItem_image]) {
         decoratedUserInfo[@"indexPath"] = self.indexPath;
     }
     [super routerEventWithName:eventName userInfo:decoratedUserInfo];
@@ -99,7 +99,7 @@ static NSString *reuseIdentifier = @"ImageCell";
 
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake((kScreenWidth-10)*0.75/3, (kScreenWidth-10)*0.75/3);
+    return CGSizeMake((kScreenWidth-20)*0.75/3, (kScreenWidth-20)*0.75/3);
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{

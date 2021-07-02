@@ -47,6 +47,8 @@
 
 @property (nonatomic, strong) TaskManager *taskManager;
 
+@property (nonatomic, strong) UIView *contentView;
+
 @end
 
 @implementation TaskController
@@ -340,6 +342,7 @@
 // 修改内容后点击保存
 - (void)alterContentTexOrTaskTitletSave:(NSDictionary *)alterDic{
 //    [self operationPollingForm];
+    NSLog(@"点击了保存按钮");
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
@@ -394,6 +397,7 @@
 }
 - (void)updatePollingViewFrame:(NSDictionary *)dic{
     CGFloat height = [dic[@"height"] floatValue];
+    NSLog(@"当前巡检单的高度%f",height);
     [self.pollingFormView updateConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(height+150);
     }];
@@ -615,9 +619,11 @@
         if (_taskType == task_type_new_polling ||self.isPolling == YES) {
 //            self.pollingFormView.hidden = NO;
             self.taskContentView.hidden = YES;
+            [self updatePollingView:YES];
         }else{
 //            self.pollingFormView.hidden = YES;
             self.taskContentView.hidden = NO;
+            [self updatePollingView:NO];
         }
     }
 }
@@ -730,28 +736,30 @@
 
 - (void)addUI{
     UIScrollView *scrollView = [[UIScrollView alloc] init];
-    UIView *contentView = [[UIView alloc] init];
+    self.contentView = [[UIView alloc] init];
     [self.view addSubview:scrollView];
-    [scrollView addSubview:contentView];
+    [scrollView addSubview:self.contentView];
+    scrollView.userInteractionEnabled = YES;
+    self.contentView.userInteractionEnabled = YES;
     [scrollView makeConstraints:^(MASConstraintMaker *make) {
         make.top.mas_equalTo(0);
         make.right.left.mas_equalTo(0);
-        make.bottom.mas_equalTo(SafeAreaBottomHeight +88);
+        make.bottom.mas_equalTo(0);
     }];
     
 
-    [contentView makeConstraints:^(MASConstraintMaker *make) {
+    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(scrollView);
         make.width.equalTo(scrollView);
     }];
     // 步骤
-    [contentView addSubview:self.stepView];
+    [self.contentView addSubview:self.stepView];
     // 任务名称
-    [contentView addSubview:self.taskTitleView];
+    [self.contentView addSubview:self.taskTitleView];
     // 任务内容
-    [contentView addSubview:self.taskContentView];
+    [self.contentView addSubview:self.taskContentView];
     // 巡检表单
-    [contentView addSubview:self.pollingFormView];
+    [self.contentView addSubview:self.pollingFormView];
     // 底部操作栏
     [self.view addSubview:self.taskOperationView];
     
@@ -769,7 +777,7 @@
     [self.taskContentView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
         make.left.right.equalTo(0);
-        make.bottom.equalTo(self.taskOperationView.mas_top);
+        make.bottom.equalTo(0);
     }];
     
     [self.pollingFormView makeConstraints:^(MASConstraintMaker *make) {
@@ -778,18 +786,28 @@
         make.height.equalTo(400);
         make.bottom.equalTo(0);
     }];
-    [contentView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.pollingFormView.mas_bottom);
+    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(self.taskContentView.mas_bottom);
     }];
     
     [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.equalTo(self.taskContentView.mas_bottom);
         make.left.right.equalTo(0);
         make.bottom.equalTo(-SafeAreaBottomHeight);
         make.height.equalTo(88);
     }];
 }
-
+- (void)updatePollingView:(BOOL)show{
+    if (show == YES) {
+        [self.contentView updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.pollingFormView.mas_bottom);
+        }];
+    }else{
+        
+        [self.contentView updateConstraints:^(MASConstraintMaker *make) {
+            make.bottom.equalTo(self.taskContentView.mas_bottom);
+        }];
+    }
+}
 /*
 #pragma mark - Navigation
 

@@ -12,6 +12,7 @@
     self = [super init];
     if (self) {
         self.type = type;
+        self.isCanEdit = NO;
         [self initOperabilityTools:type];
     }
     return self;
@@ -58,8 +59,12 @@
 
 - (void)setCurrentSelectedStep:(ZHStep *)currentSelectedStep{
     _currentSelectedStep = currentSelectedStep;
+    [self taskEditStatus:_currentSelectedStep];
 }
-
+- (void)setCurrentStep:(ZHStep *)currentStep{
+    _currentStep = currentStep;
+    [self taskEditStatus:_currentSelectedStep];
+}
 - (void)setTask:(ZHTask *)task{
     _task = task;
     self.stepArray = [self getCurrentTaskStep:_task];
@@ -142,5 +147,16 @@
     }
     return resultStep;
 }
-
+- (void)taskEditStatus:(ZHStep *)step{
+    if (step.assignTask.belongFlow.state == 2 && step.state == 2 && step.responseUser.id_user == [DataManager defaultInstance].currentUser.id_user) {
+        self.isCanEdit = YES;
+    }else{
+        self.isCanEdit = NO;
+    }
+    // 未开始也可以编辑
+    if (self.task.belongFlow.state == 0) {
+        self.isCanEdit = YES;
+    }
+    NSLog(@"当前是否可编辑 = %d",self.isCanEdit);
+}
 @end

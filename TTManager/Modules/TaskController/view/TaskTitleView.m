@@ -42,39 +42,12 @@
 }
 #pragma mark - 页面操作
 - (void)setStepTitleOperations:(OperabilityTools *)tools{
-    switch (tools.type) {
-        case task_type_new_task:
-        case task_type_new_apply:
-        case task_type_new_noti:
-        case task_type_new_joint:
-        case task_type_new_polling:
-        case task_type_detail_initiate:
-            self.taskTitle.editable = YES;
-            self.editPriority = YES;
-            break;
-        case task_type_detail_proceeding:
-            self.taskTitle.editable = YES;
-            self.editPriority = YES;
-            break;
-        case task_type_detail_finished:
-            self.taskTitle.editable = NO;
-            self.editPriority = NO;
-            break;
-        case task_type_detail_draft:
-            self.taskTitle.editable = YES;
-            self.editPriority = YES;
-            break;
-        default:
-            break;
-    }
+    
+    [self editTitle];
 }
 - (void)editTitle{
-    ZHUser *user = [DataManager defaultInstance].currentUser;
-    if (_tools.currentSelectedStep.responseUser.id_user == user.id_user) {
-        self.taskTitle.editable = YES;
-    }else{
-        self.taskTitle.editable = NO;
-    }
+    
+    self.taskTitle.editable = _tools.isCanEdit;
 }
 
 // 改变当前选择的任务优先级状态
@@ -109,7 +82,7 @@
 }
 
 - (void)priorityAction:(UIButton *)button{
-    if (self.editPriority == NO) {
+    if (self.editPriority == NO || _tools.isCanEdit == NO) {
         return;
     }
     if (_tools.task.belongFlow.state == 1) {
@@ -186,9 +159,18 @@
 }
 
 #pragma mark - UITextViewDelegate
+- (BOOL)textViewShouldBeginEditing:(UITextView *)textView
+{
+    if(textView == self.taskTitle && _tools.isCanEdit == YES){
+        return YES;
+    }
+    return NO;
+}
+
 -(void)textViewDidChange:(UITextView *)textView{
     if (textView == self.taskTitle) {
-        NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
+        CGFloat height = [NSString heightFromString:textView.text withFont:[UIFont systemFontOfSize:20.0f] constraintToWidth:kScreenWidth-60];
+//        NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
         if (height > MaxTitleHeight) {
             textView.scrollEnabled = YES;
             height = MaxTitleHeight;
@@ -199,6 +181,8 @@
             make.height.equalTo(height);
         }];
         self.isModification = YES;
+        NSLog(@"当前的高度 %f",height);
+
     }
 }
 - (void)textViewDidEndEditing:(UITextView *)textView{

@@ -29,6 +29,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ZHStep *currentSelectedStep;
 /// 当前默认选择的index
 @property (nonatomic, assign) NSInteger currentIndex;
+// 当前流程自己是否可编辑
+@property (nonatomic, assign) BOOL isCanEdit;
 
 @property (nonatomic,assign) BOOL isDetails;
 // 修改步骤
