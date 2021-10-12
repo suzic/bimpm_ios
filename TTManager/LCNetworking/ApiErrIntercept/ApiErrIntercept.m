@@ -23,7 +23,12 @@
         if ([status isEqualToNumber:@1]||[status isEqualToNumber:@2] ||[status isEqualToNumber:@3]){
             [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:@{}];
         }else{
-            [SZAlert showInfo:dataDic[@"msg"] underTitle:TARGETS_NAME];
+            NSString *msg = dataDic[@"msg"];
+            NSString *url = [response.request.currentRequest.URL absoluteString];
+            if ([url rangeOfString:URI_SIGN_IN].location !=NSNotFound && [status isEqualToNumber:@105]) {
+                msg = @"在新的设备上登录，请输入图片中验证码";
+            }
+            [SZAlert showInfo:msg underTitle:TARGETS_NAME];
         }
     }
     return result;

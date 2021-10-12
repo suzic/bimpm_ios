@@ -29,7 +29,7 @@
         make.leading.equalTo(self);
         make.trailing.equalTo(self);
         make.top.equalTo(20);
-        make.bottom.equalTo(20);
+        make.bottom.equalTo(-20);
     }];
 }
 - (void)setMessageArray:(NSArray *)messageArray{
@@ -57,7 +57,7 @@
         name = memo.line;
     }
     CGFloat textHeight = [NSString heightFromString:name withFont:[UIFont systemFontOfSize:14.0f] constraintToWidth:self.frame.size.width];
-    return textHeight < 30 ? 30:textHeight;
+    return textHeight < 30 ? 40:textHeight+20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
@@ -78,7 +78,7 @@
     }else if([data isKindOfClass:[ZHProjectMemo class]]){
         ZHProjectMemo *memo = (ZHProjectMemo *)data;
         cell.textLabel.text = memo.line;
-        cell.textLabel.textColor = [SZUtil colorWithHex:@"#333333"];
+        cell.textLabel.textColor = [UIColor whiteColor];
         cell.detailTextLabel.text = [SZUtil getTimeString:memo.edit_date];
     }
     cell.textLabel.font = [UIFont systemFontOfSize:14.0f];

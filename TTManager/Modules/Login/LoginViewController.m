@@ -508,6 +508,7 @@
     }
     return _registerManager;
 }
+
 -(APIVerifyPhoneManager *)verifyManager{
     if (_verifyManager == nil) {
         _verifyManager = [[APIVerifyPhoneManager alloc] init];
@@ -516,14 +517,13 @@
     }
     return _verifyManager;
 }
+
 #pragma mark - Notification
 - (void)userLoginFinish:(NSNotification *)notification
 {
-//    ZHUser *user = [DataManager defaultInstance].currentUser;
-//    user.phone = self.phoneCell.phoneTextField.text;
-//    [[DataManager defaultInstance] saveContext];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
+
 - (void)userLoginFailed:(NSNotification *)notification
 {
     ZHUser *currentUser = [DataManager defaultInstance].currentUser;

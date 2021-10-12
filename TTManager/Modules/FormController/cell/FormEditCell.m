@@ -53,16 +53,6 @@
     [self.itemsView setItemView:formItemType_text edit:NO indexPath:self.indexPath data:data];
 }
 
-//- (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
-//    NSMutableDictionary *decoratedUserInfo = [[NSMutableDictionary alloc] initWithDictionary:userInfo];
-//    if ([eventName isEqualToString:form_edit_item] ||
-//        [eventName isEqualToString:add_formItem_image] ||
-//        [eventName isEqualToString:delete_formItem_image]) {
-//        decoratedUserInfo[@"indexPath"] = self.indexPath;
-//    }
-//    [super routerEventWithName:eventName userInfo:decoratedUserInfo];
-//}
-
 #pragma mark - setter and getter
 
 - (void)setIsFormEdit:(BOOL)isFormEdit indexPath:(NSIndexPath *)indexPath item:(NSDictionary *)formItem{
@@ -73,7 +63,6 @@
 }
 
 - (void)setFormItemViewType{
-//    self.keyLabel.text = _formItem[@"name"];
     NSInteger type = [self.formItem[@"type"] intValue];
     self.itemsView.isPollingTask = self.isPollingTask;
     if (self.templateType == 1) {

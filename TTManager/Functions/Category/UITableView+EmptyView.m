@@ -37,7 +37,7 @@
     UILabel *label = [[UILabel alloc] init];
     label.textAlignment = NSTextAlignmentCenter;
     label.font = [UIFont systemFontOfSize:24.0f];
-    label.textColor = [UIColor blackColor];
+    label.textColor = [UIColor whiteColor];
     label.text = @"暂无公告";
     [bgView addSubview:label];
     [label makeConstraints:^(MASConstraintMaker *make) {

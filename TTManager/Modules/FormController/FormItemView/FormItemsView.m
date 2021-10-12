@@ -149,6 +149,8 @@
         _formTitleLabel.font = [UIFont systemFontOfSize:16];
         _formTitleLabel.textColor = RGB_COLOR(51, 51, 51);
         _formTitleLabel.textAlignment = NSTextAlignmentLeft;
+        _formTitleLabel.adjustsFontSizeToFitWidth = YES;
+        _formTitleLabel.minimumScaleFactor = 0.5;
     }
     return _formTitleLabel;
 }

@@ -45,10 +45,6 @@
     ZHUser *user = [DataManager defaultInstance].currentUser;
     if (user == nil || (self.presentLoginAnimated == YES && user.is_login == NO)) {
         [self presentLoginVC];
-    }else{
-//        if (user.is_login == YES) {
-//            [self reloadData];
-//        }
     }
 }
 

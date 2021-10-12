@@ -22,8 +22,38 @@
 {
     [super viewDidLoad];
     self.delegate = self;
+//    if (@available(iOS 13.0, *)) {
+//        UINavigationBarAppearance *appearance = [[UINavigationBarAppearance alloc] init];
+//        [appearance configureWithOpaqueBackground];
+//        appearance.backgroundColor = RGB_COLOR(5, 125, 255);
+//        self.navigationBar.standardAppearance = appearance;
+//        self.navigationBar.scrollEdgeAppearance = self.navigationBar.standardAppearance;
+//    } else {
+//        // Fallback on earlier versions
+//    }
+   
+    
+//    let appearance = UINavigationBarAppearance()
+//    appearance.configureWithOpaqueBackground()
+//    appearance.backgroundColor = <your tint color>
+//    navigationBar.standardAppearance = appearance;
+//    navigationBar.scrollEdgeAppearance = navigationBar.standardAppearance
+    
 }
-
+- (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    if (@available(iOS 13.0, *)) {
+           UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame] ;
+            statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
+            [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
+        } else {
+            // Fallback on earlier versions
+            UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+               if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+                   statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
+               }
+        }
+}
 - (NSArray *)viewControlersList{
     if (_viewControlersList == nil) {
         /*
@@ -83,14 +113,8 @@
         [[NSNotificationCenter defaultCenter] postNotificationName:NotiShowHeaderView object:@(NO)];
     }
 }
-//- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer{
-//    if (self.viewControllers.count <= 1) {
-//        return NO;
-//    }
-//    return YES;
-//}
-- (void)didReceiveMemoryWarning
-{
+
+- (void)didReceiveMemoryWarning{
     [super didReceiveMemoryWarning];
 }
 

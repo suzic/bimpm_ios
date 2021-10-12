@@ -35,7 +35,7 @@
     [self.logsView insertSubview:self.msgView atIndex:0];
     [self.msgView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.top.left.right.equalTo(0);
-        make.bottom.equalTo(-48);
+        make.bottom.equalTo(0);
     }];
 }
 
