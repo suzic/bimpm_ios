@@ -11,6 +11,7 @@
 @interface MoreWorkMsgController ()<APIManagerParamSource,ApiManagerCallBackDelegate>
 
 @property (nonatomic, strong) APIUTPInfoManager *UTPInfoManager;
+@property (nonatomic, strong) APIUTPGanttManager *UTPGanttManager;
 @property (nonatomic, strong) MessageView *messageView;
 @property (nonatomic, strong) MessageView *projectInfoView;
 
@@ -23,7 +24,9 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"消息详情";
-    [self.UTPInfoManager loadData];
+//    [self.UTPInfoManager loadData];
+    [self.UTPGanttManager loadData];
+
     [self addUI];
 }
 - (void)addUI{
@@ -48,12 +51,14 @@
     ZHProject *project = [DataManager defaultInstance].currentProject;
     if(manager == self.UTPInfoManager){
         dic = @{@"id_project":INT_32_TO_STRING(project.id_project),@"edit_date":@"",};
+    }else if (manager == self.UTPGanttManager) {
+        dic = @{@"id_project":INT_32_TO_STRING(project.id_project),@"forward_days":@"7",@"gantt_type":@"0"};
     }
     return dic;
 }
 #pragma mark - ApiManagerCallBackDelegate
 - (void)managerCallAPISuccess:(BaseApiManager *)manager{
-    if(manager == self.UTPInfoManager){
+    if(manager == self.UTPGanttManager){
         NSArray *projectInfoArray = (NSArray *)(manager.response.responseData);
         self.projectInfoView.messageArray = projectInfoArray;
     }
@@ -74,17 +79,17 @@
 - (MessageView *)projectInfoView{
     if (_projectInfoView == nil) {
         _projectInfoView = [[MessageView alloc] init];
-        _projectInfoView.backgroundColor = [UIColor whiteColor];
+        _projectInfoView.backgroundColor = [SZUtil colorWithHex:@"#057DFF"];
     }
     return _projectInfoView;
 }
-- (APIUTPInfoManager *)UTPInfoManager{
-    if (_UTPInfoManager == nil) {
-        _UTPInfoManager = [[APIUTPInfoManager alloc] init];
-        _UTPInfoManager.delegate = self;
-        _UTPInfoManager.paramSource = self;
+- (APIUTPGanttManager *)UTPGanttManager{
+    if (_UTPGanttManager == nil) {
+        _UTPGanttManager = [[APIUTPGanttManager alloc] init];
+        _UTPGanttManager.delegate = self;
+        _UTPGanttManager.paramSource = self;
     }
-    return _UTPInfoManager;
+    return _UTPGanttManager;
 }
 /*
 #pragma mark - Navigation

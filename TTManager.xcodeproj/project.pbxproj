@@ -140,6 +140,7 @@
 		40618FE125D0E7AA00DA197E /* FormItemBtnView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE025D0E7AA00DA197E /* FormItemBtnView.m */; };
 		40618FE525D0E7BB00DA197E /* FormSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE425D0E7BB00DA197E /* FormSliderView.m */; };
 		40618FE925D0E89B00DA197E /* FormItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE825D0E89B00DA197E /* FormItemImageView.m */; };
+		406697FC27157AA900AABF94 /* MsgFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406697FB27157AA900AABF94 /* MsgFooterView.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -483,6 +484,9 @@
 		40618FE425D0E7BB00DA197E /* FormSliderView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormSliderView.m; sourceTree = "<group>"; };
 		40618FE725D0E89B00DA197E /* FormItemImageView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormItemImageView.h; sourceTree = "<group>"; };
 		40618FE825D0E89B00DA197E /* FormItemImageView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormItemImageView.m; sourceTree = "<group>"; };
+		406697FA27157AA900AABF94 /* MsgFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MsgFooterView.h; sourceTree = "<group>"; };
+		406697FB27157AA900AABF94 /* MsgFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MsgFooterView.m; sourceTree = "<group>"; };
+		406697FD271598EE00AABF94 /* bimpm2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = bimpm2.xcdatamodel; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1247,6 +1251,8 @@
 				402AA1ED2599815700A9DABA /* MessageView.m */,
 				402AA1FE2599ACCE00A9DABA /* FuncatioCollectionCell.h */,
 				402AA1FF2599ACCE00A9DABA /* FuncatioCollectionCell.m */,
+				406697FA27157AA900AABF94 /* MsgFooterView.h */,
+				406697FB27157AA900AABF94 /* MsgFooterView.m */,
 			);
 			path = cell;
 			sourceTree = "<group>";
@@ -1893,6 +1899,7 @@
 				40A8890425E495EA0044F1FE /* ClockInView.m in Sources */,
 				40618FE125D0E7AA00DA197E /* FormItemBtnView.m in Sources */,
 				4081EFD025BBF7BB004F8BB4 /* VerificationCell.m in Sources */,
+				406697FC27157AA900AABF94 /* MsgFooterView.m in Sources */,
 				4081EFCC25BBF79B004F8BB4 /* PassCell.m in Sources */,
 				402A9F632595B12A00A9DABA /* NSString+BPUtil.m in Sources */,
 				4054B95A25B5C7C20023FC7F /* ZHUserProject+CoreDataClass.m in Sources */,
@@ -2124,9 +2131,10 @@
 		402AA1152595D9AC00A9DABA /* bimpm.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				406697FD271598EE00AABF94 /* bimpm2.xcdatamodel */,
 				402AA1162595D9AC00A9DABA /* bimpm.xcdatamodel */,
 			);
-			currentVersion = 402AA1162595D9AC00A9DABA /* bimpm.xcdatamodel */;
+			currentVersion = 406697FD271598EE00AABF94 /* bimpm2.xcdatamodel */;
 			path = bimpm.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

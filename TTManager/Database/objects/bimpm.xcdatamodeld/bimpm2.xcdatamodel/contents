@@ -131,6 +131,7 @@
         <attribute name="order_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="page_index" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="assignProject" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProject" inverseName="assignMemo" inverseEntity="ZHProject"/>
+        <relationship name="last_user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHUser" inverseName="hasMemo" inverseEntity="ZHUser"/>
     </entity>
     <entity name="ZHRole" representedClassName="ZHRole" syncable="YES">
         <attribute name="fid_project" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -255,6 +256,7 @@
         <relationship name="asTaskEnder" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="endUser" inverseEntity="ZHTask"/>
         <relationship name="asTaskStarter" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHTask" inverseName="startUser" inverseEntity="ZHTask"/>
         <relationship name="hasAllows" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHAllow" inverseName="belongUser" inverseEntity="ZHAllow"/>
+        <relationship name="hasMemo" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="ZHProjectMemo" inverseName="last_user" inverseEntity="ZHProjectMemo"/>
         <relationship name="hasProjects" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHUserProject" inverseName="belongUser" inverseEntity="ZHUserProject"/>
         <relationship name="hasSteps" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="ZHStep" inverseName="responseUser" inverseEntity="ZHStep"/>
         <relationship name="hasTasks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHTask" inverseName="responseUser" inverseEntity="ZHTask"/>
@@ -288,12 +290,12 @@
         <element name="ZHMessage" positionX="300" positionY="897" width="160" height="194"/>
         <element name="ZHModule" positionX="300" positionY="30" width="160" height="163"/>
         <element name="ZHProject" positionX="900" positionY="234" width="160" height="463"/>
-        <element name="ZHProjectMemo" positionX="900" positionY="0" width="160" height="134"/>
+        <element name="ZHProjectMemo" positionX="900" positionY="0" width="160" height="163"/>
         <element name="ZHRole" positionX="600" positionY="0" width="160" height="193"/>
         <element name="ZHStep" positionX="0" positionY="339" width="160" height="419"/>
         <element name="ZHTarget" positionX="1200" positionY="399" width="160" height="463"/>
         <element name="ZHTask" positionX="0" positionY="814" width="160" height="374"/>
-        <element name="ZHUser" positionX="300" positionY="294" width="160" height="494"/>
+        <element name="ZHUser" positionX="300" positionY="294" width="160" height="509"/>
         <element name="ZHUserProject" positionX="600" positionY="384" width="160" height="269"/>
     </elements>
 </model>

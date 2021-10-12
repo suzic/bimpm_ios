@@ -1,8 +1,8 @@
 //
 //  ZHProjectMemo+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/10/12.
 //
 //
 
@@ -21,5 +21,6 @@
 @dynamic order_index;
 @dynamic page_index;
 @dynamic assignProject;
+@dynamic last_user;
 
 @end

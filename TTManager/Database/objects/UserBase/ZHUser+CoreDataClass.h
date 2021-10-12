@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class ZHUserProject, ZHTask, ZHStep, ZHFlow, ZHFormItem, ZHForm, ZHMessage, ZHAllow, ZHTarget;
+@class ZHUserProject, ZHTask, ZHStep, ZHFlow, ZHFormItem, ZHForm, ZHMessage, ZHAllow, ZHTarget,ZHProjectMemo;
 
 NS_ASSUME_NONNULL_BEGIN
 

@@ -65,7 +65,13 @@
             meno.line = [SZUtil removeHtmlWithString:projectMemoDic[@"line"]];
             
             if (![SZUtil isEmptyOrNull:projectMemoDic[@"edit_date"]]) {
-                meno.edit_date = project.build_date = [dateFormatter dateFromString:projectMemoDic[@"edit_date"]];
+                meno.edit_date = [dateFormatter dateFromString:projectMemoDic[@"edit_date"]];
+            }
+            if (projectMemoDic[@"last_user"]) {
+                NSDictionary *last_user = projectMemoDic[@"last_user"];
+                ZHUser *user = [[DataManager defaultInstance] getUserFromCoredataByID:[last_user[@"id_user"] intValue]];
+               user = [[DataManager defaultInstance] syncUser:user withUserInfo:last_user];
+                meno.last_user = user;
             }
             meno.assignProject = project;
             [resultArray addObject:meno];

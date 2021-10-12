@@ -1,8 +1,8 @@
 //
 //  ZHProjectMemo+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/10/12.
 //
 //
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZHProjectMemo (CoreDataProperties)
 
-+ (NSFetchRequest<ZHProjectMemo *> *)fetchRequest;
++ (NSFetchRequest<ZHProjectMemo *> *)fetchRequest NS_SWIFT_NAME(fetchRequest());
 
 @property (nonatomic) BOOL check;
 @property (nullable, nonatomic, copy) NSDate *edit_date;
@@ -22,6 +22,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) int32_t order_index;
 @property (nonatomic) int32_t page_index;
 @property (nullable, nonatomic, retain) ZHProject *assignProject;
+@property (nullable, nonatomic, retain) ZHUser *last_user;
 
 @end
 

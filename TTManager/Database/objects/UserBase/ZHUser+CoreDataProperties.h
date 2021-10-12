@@ -1,8 +1,8 @@
 //
 //  ZHUser+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/10/12.
 //
 //
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZHUser (CoreDataProperties)
 
-+ (NSFetchRequest<ZHUser *> *)fetchRequest;
++ (NSFetchRequest<ZHUser *> *)fetchRequest NS_SWIFT_NAME(fetchRequest());
 
 @property (nullable, nonatomic, copy) NSString *avatar;
 @property (nullable, nonatomic, copy) NSString *captcha_code;
@@ -46,6 +46,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nullable, nonatomic, retain) NSSet<ZHStep *> *hasSteps;
 @property (nullable, nonatomic, retain) NSSet<ZHTask *> *hasTasks;
 @property (nullable, nonatomic, retain) NSSet<ZHTarget *> *ownTargets;
+@property (nullable, nonatomic, retain) ZHProjectMemo *hasMemo;
 
 @end
 
