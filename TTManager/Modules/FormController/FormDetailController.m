@@ -133,7 +133,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_edit_item]) {
-        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
+        [self.formFlowManager modifyCurrentDownLoadForm:userInfo automatic:NO];
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){

@@ -141,7 +141,7 @@ static NSString *headerCell = @"headerCell";
 
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:form_edit_item]) {
-        [self.formFlowManager modifyCurrentDownLoadForm:userInfo];
+        [self.formFlowManager modifyCurrentDownLoadForm:userInfo automatic:NO];
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
@@ -250,7 +250,7 @@ static NSString *headerCell = @"headerCell";
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:10 inSection:0];
         dic[@"indexPath"] = indexPath;
     }
-    [self.formFlowManager modifyCurrentDownLoadForm:dic];
+    [self.formFlowManager modifyCurrentDownLoadForm:dic automatic:NO];
     [self saveForm:^(BOOL success) {
         
     }];
@@ -271,7 +271,7 @@ static NSString *headerCell = @"headerCell";
         NSMutableDictionary *dic = [NSMutableDictionary dictionaryWithDictionary:@{@"value":text}];
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:5 inSection:0];
         dic[@"indexPath"] = indexPath;
-        [self.formFlowManager modifyCurrentDownLoadForm:dic];
+        [self.formFlowManager modifyCurrentDownLoadForm:dic automatic:NO];
     }
 }
 
@@ -401,7 +401,7 @@ static NSString *headerCell = @"headerCell";
     NSArray *array = @[timedic,userdic];
 
     for (NSDictionary *itemDic in array) {
-        [self.formFlowManager modifyCurrentDownLoadForm:itemDic];
+        [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:YES];
     }
     
     [self.expandSectionArray removeAllObjects];

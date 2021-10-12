@@ -74,8 +74,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 修改表单内容(文本相关)
 /// @param modifyData 当前修改的表单信息(包含indexPath 和需要修改的数据)
-- (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData;
-
+/// @params automatic 自动修改
+- (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData automatic:(BOOL)automatic;
 /// 添加图片到表单中
 /// @param addDic 图片信息(包含indexPath 和需要修改的数据)
 - (void)addImageToCurrentImageFormItem:(NSDictionary *)addDic;

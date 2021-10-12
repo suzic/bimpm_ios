@@ -156,7 +156,7 @@
     NSDictionary *typeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+2 inSection:0],@"value":self.clockType == NSNotFound ? @"1":[NSString stringWithFormat:@"%ld",(long)self.clockType]};
     NSArray *array = @[dic,nameDic,phoneDic,timeDic,addressDic,typeDic];
     for (NSDictionary *itemDic in array) {
-        [self.formflowManager modifyCurrentDownLoadForm:itemDic];
+        [self.formflowManager modifyCurrentDownLoadForm:itemDic automatic:YES];
     }
 }
 

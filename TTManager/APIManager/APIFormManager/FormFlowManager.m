@@ -220,14 +220,15 @@
     }
 }
 // 修改当前编辑的数据(包含显示的form和下载的form)
-- (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData{
+- (void)modifyCurrentDownLoadForm:(NSDictionary *)modifyData automatic:(BOOL)automatic{
     
     if (self.isSnapshoot == YES) {
         [self callReloadViewDelegate];
         return;;
     }
-    
-    self.isModification = YES;
+    if (automatic == NO) {
+        self.isModification = YES;
+    }
     // 显示的数据
     NSIndexPath *indexPath = modifyData[@"indexPath"];
     NSString *value = modifyData[@"value"];
