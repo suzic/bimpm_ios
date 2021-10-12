@@ -31,7 +31,13 @@
 - (void)setItemEdit:(BOOL)edit data:(NSDictionary *)data indexPath:(NSIndexPath *)indexPath{
     self.isEdit = edit;
     self.indexPath = indexPath;
-    [self.contentTextView setEditable:edit];
+#warning 表单中没有当前表单是否可编辑，问题文档中记录人不可修改，可能出现未知问题
+    if ([data[@"name"] isEqualToString:@"记录人"]) {
+        [self.contentTextView setEditable:NO];
+    }else{
+        [self.contentTextView setEditable:edit];
+    }
+    
     if ([SZUtil isEmptyOrNull:data[@"instance_value"]]) {
         self.contentTextView.placeholder = self.itemTypeValueDic[[NSString stringWithFormat:@"%@",data[@"type"]]];
         self.contentTextView.text = @"";
