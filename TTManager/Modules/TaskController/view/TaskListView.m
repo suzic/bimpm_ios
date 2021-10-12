@@ -246,19 +246,17 @@
     }
 }
 - (void)addFilter{
-    if (![SZUtil isEmptyOrNull:self.searchText]) {
-        [self.taskListManager.pageSize.filters removeAllObjects];
-        NSDictionary *filter1 = @{@"key":@"name",
-                                 @"operator":@":",
-                                 @"value":self.searchText,
-                                 @"join":@"or"};
-        NSDictionary *filter2 = @{@"key":@"memo",
-                                 @"operator":@":",
-                                 @"value":self.searchText,
-                                 @"join":@"or"};
-        [self.taskListManager.pageSize.filters addObject:filter1];
-        [self.taskListManager.pageSize.filters addObject:filter2];
-    }
+    [self.taskListManager.pageSize.filters removeAllObjects];
+    NSDictionary *filter1 = @{@"key":@"name",
+                             @"operator":@":",
+                             @"value":self.searchText,
+                             @"join":@"or"};
+    NSDictionary *filter2 = @{@"key":@"memo",
+                             @"operator":@":",
+                             @"value":self.searchText,
+                             @"join":@"or"};
+    [self.taskListManager.pageSize.filters addObject:filter1];
+    [self.taskListManager.pageSize.filters addObject:filter2];
 }
 -(void)setFormType:(NSInteger)formType{
     if (_formType != formType) {
