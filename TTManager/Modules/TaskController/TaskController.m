@@ -23,6 +23,8 @@
 
 @interface TaskController ()<PopViewSelectedIndexDelegate,UIPopoverPresentationControllerDelegate,UITextFieldDelegate,TaskApiDelegate>
 
+@property (nonatomic,strong) UIScrollView *scrollView;
+
 @property (nonatomic,strong) UIButton *rightButtonItem;
 // 任务步骤
 @property (nonatomic, strong) TaskStepView *stepView;
@@ -59,6 +61,7 @@
     self.actionSheetType = 1;
     [self setNavbackItemAndTitle];
     [self addUI];
+    [self isTaskType:self.taskType];
     [self loadData];
 }
 #pragma mark - api
@@ -398,8 +401,11 @@
 - (void)updatePollingViewFrame:(NSDictionary *)dic{
     CGFloat height = [dic[@"height"] floatValue];
     NSLog(@"当前巡检单的高度%f",height);
-    [self.pollingFormView updateConstraints:^(MASConstraintMaker *make) {
+    [self.pollingFormView mas_remakeConstraints:^(MASConstraintMaker *make) {
         make.height.equalTo(height+150);
+        make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
+        make.left.right.equalTo(0);
+        make.bottom.equalTo(0);
     }];
 }
 #pragma mark - Responder Chain
@@ -609,22 +615,20 @@
 
 #pragma mark - setting and getter
 
-- (void)setTaskType:(TaskType)taskType{
-    if (_taskType != taskType) {
-        _taskType = taskType;
-        self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
-        self.operabilityTools.isPolling = self.isPolling;
-        self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||self.isPolling == YES);
-        self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||self.isPolling == YES);
-        if (_taskType == task_type_new_polling ||self.isPolling == YES) {
+- (void)isTaskType:(TaskType)taskType{
+    _taskType = taskType;
+    self.operabilityTools = [[OperabilityTools alloc] initWithType:_taskType];
+    self.operabilityTools.isPolling = self.isPolling;
+    self.pollingFormView.hidden = !(_taskType == task_type_new_polling ||self.isPolling == YES);
+    self.taskContentView.hidden = _taskType == (_taskType == task_type_new_polling ||self.isPolling == YES);
+    if (_taskType == task_type_new_polling ||self.isPolling == YES) {
 //            self.pollingFormView.hidden = NO;
-            self.taskContentView.hidden = YES;
-            [self updatePollingView:YES];
-        }else{
+        self.taskContentView.hidden = YES;
+        [self updatePollingView:YES];
+    }else{
 //            self.pollingFormView.hidden = YES;
-            self.taskContentView.hidden = NO;
-            [self updatePollingView:NO];
-        }
+        self.taskContentView.hidden = NO;
+        [self updatePollingView:NO];
     }
 }
 
@@ -735,23 +739,13 @@
 #pragma mark - UI
 
 - (void)addUI{
-    UIScrollView *scrollView = [[UIScrollView alloc] init];
+    self.scrollView = [[UIScrollView alloc] init];
     self.contentView = [[UIView alloc] init];
-    [self.view addSubview:scrollView];
-    [scrollView addSubview:self.contentView];
-    scrollView.userInteractionEnabled = YES;
+    [self.view addSubview:self.scrollView];
+    [self.scrollView addSubview:self.contentView];
+    self.scrollView.userInteractionEnabled = YES;
     self.contentView.userInteractionEnabled = YES;
-    [scrollView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.mas_equalTo(0);
-        make.right.left.mas_equalTo(0);
-        make.bottom.mas_equalTo(0);
-    }];
     
-
-    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
-        make.edges.equalTo(scrollView);
-        make.width.equalTo(scrollView);
-    }];
     // 步骤
     [self.contentView addSubview:self.stepView];
     // 任务名称
@@ -762,6 +756,19 @@
     [self.contentView addSubview:self.pollingFormView];
     // 底部操作栏
     [self.view addSubview:self.taskOperationView];
+    
+    [self.scrollView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.mas_equalTo(0);
+        make.right.left.mas_equalTo(0);
+        make.bottom.mas_equalTo(0);
+    }];
+    
+
+    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(self.scrollView);
+        make.width.equalTo(self.scrollView);
+        make.bottom.equalTo(self.taskContentView.mas_bottom);
+    }];
     
     [self.stepView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(15);
@@ -777,17 +784,13 @@
     [self.taskContentView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
         make.left.right.equalTo(0);
-        make.bottom.equalTo(0);
+        make.bottom.equalTo(self.taskOperationView.mas_top);
     }];
-    
     [self.pollingFormView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
+        make.top.equalTo(self.taskTitleView.mas_top).offset(10);
         make.left.right.equalTo(0);
         make.height.equalTo(400);
         make.bottom.equalTo(0);
-    }];
-    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
-        make.bottom.equalTo(self.taskContentView.mas_bottom);
     }];
     
     [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
@@ -798,24 +801,24 @@
 }
 - (void)updatePollingView:(BOOL)show{
     if (show == YES) {
-        [self.contentView updateConstraints:^(MASConstraintMaker *make) {
+        [self.pollingFormView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(self.taskTitleView.mas_bottom).offset(10);
+            make.left.right.equalTo(0);
+            make.height.equalTo(400);
+            make.bottom.equalTo(0);
+        }];
+        [self.contentView mas_remakeConstraints:^(MASConstraintMaker *make) {
+            make.edges.equalTo(self.scrollView);
+            make.width.equalTo(self.scrollView);
             make.bottom.equalTo(self.pollingFormView.mas_bottom);
         }];
     }else{
-        
         [self.contentView updateConstraints:^(MASConstraintMaker *make) {
             make.bottom.equalTo(self.taskContentView.mas_bottom);
+            make.edges.equalTo(self.scrollView);
+            make.width.equalTo(self.scrollView);
         }];
     }
 }
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

@@ -13,7 +13,6 @@
 
 @property (nonatomic, strong) UIView *priorityView;
 @property (nonatomic, strong) NSArray *prioritybtnArray;
-@property (nonatomic,assign) BOOL editPriority;
 @property (nonatomic, strong) UIView *taskTypeTagView;
 
 @end
@@ -23,7 +22,6 @@
     self = [super init];
     if (self) {
         self.isModification = NO;
-        self.editPriority = NO;
         [self addUI];
     }
     return self;
@@ -82,7 +80,7 @@
 }
 
 - (void)priorityAction:(UIButton *)button{
-    if (self.editPriority == NO || _tools.isCanEdit == NO) {
+    if ( _tools.isCanEdit == NO) {
         return;
     }
     if (_tools.task.belongFlow.state == 1) {
@@ -117,7 +115,6 @@
         _taskTitle.delegate = self;
         _taskTitle.placeholder = @"请输入任务标题";
         _taskTitle.placeholderColor = [UIColor lightGrayColor];
-//        _taskTitle.contentInset = UIEdgeInsetsMake(-6, 0, 0, 0);
     }
     return _taskTitle;
 }
@@ -170,7 +167,6 @@
 -(void)textViewDidChange:(UITextView *)textView{
     if (textView == self.taskTitle) {
         CGFloat height = [NSString heightFromString:textView.text withFont:[UIFont systemFontOfSize:20.0f] constraintToWidth:kScreenWidth-60];
-//        NSInteger height = ([self.taskTitle sizeThatFits:CGSizeMake(self.taskTitle.bounds.size.width, MAXFLOAT)].height);
         if (height > MaxTitleHeight) {
             textView.scrollEnabled = YES;
             height = MaxTitleHeight;
@@ -192,9 +188,7 @@
 }
 #pragma mark - UI
 - (void)addUI{
-    
-//    self.backgroundColor = [UIColor blueColor];
-    
+        
     [self addSubview:self.taskTypeTagView];
     [self addSubview:self.taskTitle];
     
@@ -214,7 +208,6 @@
         make.right.equalTo(-12);
         make.height.greaterThanOrEqualTo(30);
         make.height.lessThanOrEqualTo(90);
-//        make.bottom.equalTo(0);
     }];
     [self.priorityView makeConstraints:^(MASConstraintMaker *make) {
         make.top.equalTo(self.taskTitle.mas_bottom).offset(5);
