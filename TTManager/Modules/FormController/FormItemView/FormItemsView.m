@@ -56,25 +56,25 @@
     }];
     
     [self.textView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.formTitleLabel.mas_right);
+        make.left.equalTo(self.formTitleLabel.mas_right).offset(10);
         make.top.bottom.equalTo(0);
         make.right.equalTo(0);
     }];
     
     [self.sliderView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.formTitleLabel.mas_right);
+        make.left.equalTo(self.formTitleLabel.mas_right).offset(10);
         make.top.bottom.equalTo(0);
         make.right.equalTo(0);
     }];
     
     [self.btnView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.formTitleLabel.mas_right);
+        make.left.equalTo(self.formTitleLabel.mas_right).offset(10);
         make.top.bottom.equalTo(0);
         make.right.equalTo(0);
     }];
     
     [self.imageView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(self.formTitleLabel.mas_right);
+        make.left.equalTo(self.formTitleLabel.mas_right).offset(10);
         make.top.bottom.equalTo(0);
         make.right.equalTo(0);
     }];

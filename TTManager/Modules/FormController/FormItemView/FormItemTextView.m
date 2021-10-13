@@ -32,7 +32,7 @@
     self.isEdit = edit;
     self.indexPath = indexPath;
 #warning 表单中没有当前表单是否可编辑，问题文档中记录人不可修改，可能出现未知问题
-    if ([data[@"name"] isEqualToString:@"记录人"]) {
+    if ([data[@"name"] isEqualToString:@"记录人"] && ![SZUtil isEmptyOrNull:data[@"instance_value"]]) {
         [self.contentTextView setEditable:NO];
     }else{
         [self.contentTextView setEditable:edit];

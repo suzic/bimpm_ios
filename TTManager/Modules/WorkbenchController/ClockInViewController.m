@@ -157,7 +157,6 @@
     if (self.clockOutOrIn == 1) {
         index = 6;
     }
-    
     // 打卡时间
     NSDictionary *timeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:2]};
     // 打卡地
@@ -166,8 +165,14 @@
     if ([SZUtil isEmptyOrNull:self.address]) {
         self.clockType = 1;
     }
+    
+    // 正常打卡、迟到/早退
+    NSInteger clockStatus = [self.clockInManager clockInStatusType:self.clockOutOrIn];
+    // 上班打卡状态
+    NSDictionary *clockStatusDic = @{@"indexPath":[NSIndexPath indexPathForRow:self.clockOutOrIn == 0? 9:10 inSection:0],@"value":[NSNumber numberWithInteger:clockStatus]};
+    
     NSDictionary *typeDic = @{@"indexPath":[NSIndexPath indexPathForRow:index+2 inSection:0],@"value":self.clockType == NSNotFound ? @"1":[NSString stringWithFormat:@"%ld",(long)self.clockType]};
-    NSArray *array = @[dic,nameDic,phoneDic,timeDic,addressDic,typeDic];
+    NSArray *array = @[dic,nameDic,phoneDic,timeDic,addressDic,typeDic,clockStatusDic];
     for (NSDictionary *itemDic in array) {
         [self.formflowManager modifyCurrentDownLoadForm:itemDic automatic:YES];
     }

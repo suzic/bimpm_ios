@@ -21,6 +21,10 @@ NS_ASSUME_NONNULL_BEGIN
 /// 上班打卡成功，不可再次上班打卡
 - (void)goWorkClockInSuccess;
 
+/// 当前打卡状态，0:未打卡 1:正常打卡，2:迟到/早退
+/// @param type 0:上班打卡 1:下班打卡
+- (NSInteger)clockInStatusType:(NSInteger)type;
+
 @end
 
 NS_ASSUME_NONNULL_END

@@ -162,7 +162,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     NSArray *array = @[weekDic,timedic,userdic];
 
     for (NSDictionary *itemDic in array) {
-        [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:YES];
+        [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:NO];
     }
 }
 - (void)back:(UIBarButtonItem *)item{

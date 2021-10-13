@@ -149,6 +149,11 @@
     NSString *stringOutput = [NSString stringWithFormat:@"%02ld:%02ld", (long)(len / 60), (long)(len % 60)];
     return stringOutput;
 }
++ (NSDate *)getTimeDate:(NSString *)str{
+    NSDateFormatter *dateFormatter=[[NSDateFormatter alloc]init];
+    dateFormatter.dateFormat=@"yyyy-MM-dd HH:mm:ss";
+    return [dateFormatter dateFromString:str];
+}
 + (NSInteger)getTimePeroid:(NSDate *)date
 {
     NSDateFormatter * formatter = [[NSDateFormatter alloc ] init];
