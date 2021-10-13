@@ -19,6 +19,8 @@
 @property (nonatomic, strong) NSMutableDictionary *cloneFormDic;
 /// 克隆后的buddy_file
 @property (nonatomic, copy) NSString *clone_buddy_file;
+/// 默认自动保存内容
+@property (nonatomic, assign) BOOL is_auto_save;
 
 /// 获取表单json
 @property (nonatomic, strong) APIFileDownLoadManager *downLoadManager;
@@ -54,6 +56,7 @@
     self.isEditForm = NO;
     self.canCloneForm = NO;
     self.isSnapshoot = NO;
+    self.is_auto_save = NO;
 }
 
 // 获取操作后的提交的参数
@@ -149,7 +152,11 @@
 /// 表单更新完成
 - (void)callTargetUpdateResultDelagate:(BOOL)success{
     if (self.delegate && [self.delegate respondsToSelector:@selector(targetUpdateResult:)]) {
-        [self.delegate targetUpdateResult:success];
+        if (self.is_auto_save == YES) {
+            self.is_auto_save = NO;
+        }else{
+            [self.delegate targetUpdateResult:success];
+        }
     }
 //    [self exitEditorModel];
 }
@@ -314,14 +321,17 @@
                 strongSelf.instanceDownLoadForm[@"items"] = items;
                 currentitems[indexPath.row] = currentitemDic;
                 strongSelf.instanceFromDic[@"items"] = currentitems;
-                [self callReloadViewDelegate];
+                [strongSelf callReloadViewDelegate];
             }
         };
     }
     
     [self callReloadViewDelegate];
 }
-
+- (void)save{
+    self.is_auto_save = YES;
+    [self operationsFormFill];
+}
 #pragma mark - network
 
 // 下载当前form表单

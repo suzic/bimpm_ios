@@ -164,6 +164,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:NO];
     }
+    [self.formFlowManager save];
     [self.tableView reloadData];
 }
 

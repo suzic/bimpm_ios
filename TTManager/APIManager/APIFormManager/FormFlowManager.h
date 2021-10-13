@@ -84,6 +84,9 @@ NS_ASSUME_NONNULL_BEGIN
 /// @param deleteDic 删除的信息(包含indexPath和需要删除的图片的下标 和需要修改的数据)
 - (void)deleteImageToCurrentImageFormItem:(NSDictionary *)deleteDic;
 
+/// 保存当前表单内容
+- (void)save;
+
 @end
 
 NS_ASSUME_NONNULL_END

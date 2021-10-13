@@ -403,7 +403,7 @@ static NSString *headerCell = @"headerCell";
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:YES];
     }
-    
+    [self.formFlowManager save];
     [self.expandSectionArray removeAllObjects];
     
     BOOL expand = [self.expandSectionArray containsObject:[NSString stringWithFormat:@"%ld",self.currentStep]];
