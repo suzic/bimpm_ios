@@ -11,6 +11,7 @@
 
 @property (nonatomic, strong) UIButton *adjunctFileBtn;
 @property (nonatomic, strong) UIButton *deleteFileBtn;
+@property (nonatomic, strong) UIButton *saveBtn;
 @property (nonatomic, copy) NSString *uid_target;
 @property (nonatomic, copy) NSString *targetType;
 @property (nonatomic, copy) NSString *taskContent;
@@ -142,12 +143,11 @@
     self.deleteFileBtn.hidden = hide;
     if (hide == YES) {
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
+        [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
     }else{
+        [_adjunctFileBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
         [_adjunctFileBtn setImage:[UIImage new] forState:UIControlStateNormal];
     }
-    [self.deleteFileBtn updateConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(hide == YES ? 15 :-10);
-    }];
 }
 
 #pragma mark - Actions
@@ -165,7 +165,13 @@
     NSLog(@"删除当前文档");
     [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":@"4",@"uid_target":self.uid_target}];
 }
-
+// 保存
+- (void)saveTask:(UIButton *)button{
+    if (_tools.isCanEdit == NO) {
+        return;
+    }
+    [self routerEventWithName:task_click_save userInfo:@{}];
+}
 #pragma mark - setter and getter
 
 
@@ -199,7 +205,7 @@
         [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
         [_adjunctFileBtn addTarget:self action:@selector(chooseAdjunctFile:) forControlEvents:UIControlEventTouchUpInside];
-        _adjunctFileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+        _adjunctFileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
         _adjunctFileBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 5);
         _adjunctFileBtn.backgroundColor = [UIColor whiteColor];
     }
@@ -213,7 +219,16 @@
     }
     return _deleteFileBtn;
 }
-
+- (UIButton *)saveBtn{
+    if (_saveBtn == nil) {
+        _saveBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+        [_saveBtn setTitle:@"保存" forState:UIControlStateNormal];
+        [_saveBtn setTitleColor:RGB_COLOR(25, 107, 248) forState:UIControlStateNormal];
+        _saveBtn.titleLabel.font = [UIFont systemFontOfSize:13];
+        [_saveBtn addTarget:self action:@selector(saveTask:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    return _saveBtn;
+}
 #pragma mark - UITextViewDelegate
 - (BOOL)textViewShouldBeginEditing:(UITextView *)textView
 {
@@ -238,36 +253,52 @@
     self.userInteractionEnabled = YES;
     UIView *bgView = [[UIView alloc] init];
     [self addSubview:bgView];
-    [bgView addSubview:self.contentView];
-    self.contentView.userInteractionEnabled = YES;
-    [bgView addSubview:self.adjunctFileBtn];
     bgView.userInteractionEnabled = YES;
-    [bgView addSubview:self.deleteFileBtn];
+    [bgView addSubview:self.contentView];
     
-    [bgView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(0);
+    self.contentView.userInteractionEnabled = YES;
+    UIView *bottomView = [[UIView alloc] init];
+    [self addSubview:bottomView];
+    
+    [bottomView addSubview:self.adjunctFileBtn];
+    [bottomView addSubview:self.deleteFileBtn];
+    [bottomView addSubview:self.saveBtn];
+    
+    [bottomView makeConstraints:^(MASConstraintMaker *make) {
+        make.height.equalTo(30);
         make.left.equalTo(16);
         make.right.equalTo(-16);
         make.bottom.equalTo(0);
     }];
     
-    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(0);
-        make.bottom.equalTo(-30);
-    }];
-    [self.deleteFileBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(15);
-        make.bottom.equalTo(-10);
-        make.width.height.equalTo(20);
+    [bgView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(0);
+        make.left.equalTo(16);
+        make.right.equalTo(-16);
+        make.bottom.equalTo(bottomView.mas_top);
     }];
     
+    [self.contentView makeConstraints:^(MASConstraintMaker *make) {
+        make.top.left.right.equalTo(0);
+        make.bottom.equalTo(0);
+    }];
     [self.adjunctFileBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(bgView.mas_right).offset(-5);
-        make.width.equalTo(240);
+        make.left.equalTo(8);
         make.height.equalTo(20);
         make.bottom.equalTo(-5);
     }];
+    [self.deleteFileBtn makeConstraints:^(MASConstraintMaker *make) {
+        make.left.equalTo(self.adjunctFileBtn.mas_right).offset(4);
+        make.bottom.equalTo(-10);
+        make.width.height.equalTo(10);
+    }];
+    [self.saveBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.right.equalTo(-12);
+        make.centerY.equalTo(bottomView);
+    }];
+    
     [bgView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
+    [bottomView borderForColor:[SZUtil colorWithHex:@"#CCCCCC"] borderWidth:0.5 borderType:UIBorderSideTypeAll];
     [self hideDelete:YES];
 }
 

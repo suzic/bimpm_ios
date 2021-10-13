@@ -796,7 +796,7 @@
     [self.taskOperationView makeConstraints:^(MASConstraintMaker *make) {
         make.left.right.equalTo(0);
         make.bottom.equalTo(-SafeAreaBottomHeight);
-        make.height.equalTo(88);
+        make.height.equalTo(48);
     }];
 }
 - (void)updatePollingView:(BOOL)show{

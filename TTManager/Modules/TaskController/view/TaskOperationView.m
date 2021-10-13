@@ -207,9 +207,10 @@
 - (void)setPlanEndTime{
     NSString *predictTime = [NSDate br_stringFromDate:_tools.currentSelectedStep.plan_end dateFormat:@"yyyy-MM-dd HH:mm"];
     if (![SZUtil isEmptyOrNull:predictTime]) {
-        self.predictTimeLabel.text = predictTime;
+        [self.predictTimeBtn setTitle:predictTime forState:UIControlStateNormal];
     }else{
-        self.predictTimeLabel.text = @"未设置预计完成时间";
+        [self.predictTimeBtn setTitle:@"预计处理时间" forState:UIControlStateNormal];
+//        self.predictTimeBtn.text = @"未设置预计完成时间";
     }
 }
 
@@ -299,13 +300,14 @@
 }
 #pragma mark - UI
 - (void)addUI{
-    UIView *bgView = [[UIView alloc] init];
-    [bgView addSubview:self.predictTimeBtn];
-    [bgView addSubview:self.saveBtn];
-    [self addSubview:bgView];
-    bgView.backgroundColor = [UIColor whiteColor];
+//    UIView *bgView = [[UIView alloc] init];
+//    [bgView addSubview:self.predictTimeBtn];
+//    [bgView addSubview:self.saveBtn];
+//    [self addSubview:bgView];
+//    bgView.backgroundColor = [UIColor whiteColor];
+    
     UIView *view = [[UIView alloc] init];
-    [view addSubview:self.predictTimeLabel];
+    [view addSubview:self.predictTimeBtn];
     [view addSubview:self.operationBtn1];
     [view addSubview:self.operationBtn2];
     UIView *lineView = [[UIView alloc] init];
@@ -318,28 +320,28 @@
         make.top.left.right.equalTo(0);
         make.height.equalTo(0.5);
     }];
-    [bgView makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.right.equalTo(0);
-        make.height.equalTo(self).multipliedBy(0.5);
-    }];
+//    [bgView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.right.equalTo(0);
+//        make.height.equalTo(self).multipliedBy(0.5);
+//    }];
     
     [self.predictTimeBtn makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(18);
-        make.centerY.equalTo(bgView);
-        make.width.equalTo(bgView).multipliedBy(0.5);
+        make.centerY.equalTo(view);
+        make.width.equalTo(view).multipliedBy(0.5);
     }];
-    [self.saveBtn makeConstraints:^(MASConstraintMaker *make) {
-        make.right.equalTo(-12);
-        make.centerY.equalTo(bgView);
-    }];
+//    [self.saveBtn makeConstraints:^(MASConstraintMaker *make) {
+//        make.right.equalTo(-12);
+//        make.centerY.equalTo(bgView);
+//    }];
     [view makeConstraints:^(MASConstraintMaker *make) {
-        make.top.equalTo(bgView.mas_bottom);
+        make.top.equalTo(4);
         make.left.right.bottom.equalTo(0);
     }];
-    [self.predictTimeLabel makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(18);
-        make.centerY.equalTo(view);
-    }];
+//    [self.predictTimeLabel makeConstraints:^(MASConstraintMaker *make) {
+//        make.left.equalTo(18);
+//        make.centerY.equalTo(view);
+//    }];
     
     [self.operationBtn2 makeConstraints:^(MASConstraintMaker *make) {
         make.right.top.bottom.equalTo(0);
