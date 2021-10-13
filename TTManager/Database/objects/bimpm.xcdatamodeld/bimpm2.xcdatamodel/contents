@@ -113,6 +113,8 @@
         <attribute name="name" optional="YES" attributeType="String"/>
         <attribute name="progress" optional="YES" attributeType="Float" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="snap_image" optional="YES" attributeType="String"/>
+        <attribute name="time_check_in" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="time_check_out" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="total_storage" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
         <relationship name="assignMemo" optional="YES" maxCount="1" deletionRule="Cascade" destinationEntity="ZHProjectMemo" inverseName="assignProject" inverseEntity="ZHProjectMemo"/>
         <relationship name="hasDepartments" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="ZHDepartment" inverseName="belongProject" inverseEntity="ZHDepartment"/>
@@ -289,7 +291,7 @@
         <element name="ZHFormItem" positionX="1500" positionY="60" width="160" height="239"/>
         <element name="ZHMessage" positionX="300" positionY="897" width="160" height="194"/>
         <element name="ZHModule" positionX="300" positionY="30" width="160" height="163"/>
-        <element name="ZHProject" positionX="900" positionY="234" width="160" height="463"/>
+        <element name="ZHProject" positionX="900" positionY="234" width="160" height="479"/>
         <element name="ZHProjectMemo" positionX="900" positionY="0" width="160" height="163"/>
         <element name="ZHRole" positionX="600" positionY="0" width="160" height="193"/>
         <element name="ZHStep" positionX="0" positionY="339" width="160" height="419"/>

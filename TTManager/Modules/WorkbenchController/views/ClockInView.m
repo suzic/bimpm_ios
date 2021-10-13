@@ -24,8 +24,6 @@
 @property (nonatomic, strong) UIButton *openLocationBtn;
 @property (nonatomic, strong) NSTimer *timer;
 
-
-
 @end
 
 @implementation ClockInView
@@ -73,13 +71,7 @@
         self.clockInTypeView.selectedSegmentIndex = 1;
         [self setClockInViewType];
     }else{
-        // 创建日历对象
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        // 获取当前时间
-        NSDate *currentDate = [NSDate date];
-        
-        NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour fromDate:currentDate];
-        NSInteger type = (components.hour < 12 ? 0 : 1);
+        NSInteger type = [self.clockInManager getClockInType];
         self.clockInTypeView.selectedSegmentIndex = type;
         [self setClockInViewType];
     }
@@ -103,12 +95,13 @@
 }
 
 - (void)setClockInViewType{
+    [self.clockInManager setWorkTime];
     if (self.clockInTypeView.selectedSegmentIndex == 0) {
         self.clockInTypeLabel.text = @"上班打卡";
-        self.remindLabel.text = @"上班请在09:00之前打卡";
+        self.remindLabel.text = self.clockInManager.time_check_in;
     }else if(self.clockInTypeView.selectedSegmentIndex == 1){
         self.clockInTypeLabel.text = @"下班打卡";
-        self.remindLabel.text = @"下班请在18:00之后打卡";
+        self.remindLabel.text = self.clockInManager.time_check_out;
     }
 }
 

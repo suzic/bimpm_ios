@@ -1,8 +1,8 @@
 //
 //  ZHProject+CoreDataProperties.m
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/10/13.
 //
 //
 
@@ -34,6 +34,8 @@
 @dynamic progress;
 @dynamic snap_image;
 @dynamic total_storage;
+@dynamic time_check_in;
+@dynamic time_check_out;
 @dynamic assignMemo;
 @dynamic hasDepartments;
 @dynamic hasFlows;

@@ -64,5 +64,41 @@ static NSString *clockInList = @"clockInList";
     [[NSUserDefaults standardUserDefaults] setObject:dict forKey:clockInList];
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
+- (NSInteger)getClockInType{
+    NSInteger type = NSNotFound;
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    NSString *check_in = [NSString stringWithFormat:@"%lld",project.time_check_in];
+    if ([SZUtil isEmptyOrNull:check_in] || [check_in isEqualToString:@"0"]){
+        check_in = @"09:00:00";
+    }else{
+        self.time_check_in = [SZUtil getTimeLengthString:project.time_check_in];
+    }
+    NSString *nowDate = [SZUtil getShortTimeString:[NSDate date]];
+    NSDate *date = [SZUtil dateFromStr:nowDate withFormatterStr:@"HH:mm:ss"];
+    NSDate *clockinData = [SZUtil dateFromStr:check_in withFormatterStr:@"HH:mm:ss"];
+    NSComparisonResult result = [date compare:clockinData];
+    if (result == NSOrderedDescending) {
+        type = 1;
+    }else{
+        type = 0;
+    }
+    return type;
+}
+- (void)setWorkTime{
+    ZHProject *project = [DataManager defaultInstance].currentProject;
+    NSString *check_in = [NSString stringWithFormat:@"%lld",project.time_check_in];
+    if ([SZUtil isEmptyOrNull:check_in] || [check_in isEqualToString:@"0"]){
+        self.time_check_in = @"上班请在09:00之前打卡";
+    }else{
+        self.time_check_in = [NSString stringWithFormat:@"上班请在%@之前打卡",[SZUtil getTimeLengthString:project.time_check_in]];
+    }
+    
+    NSString *check_out = [NSString stringWithFormat:@"%lld",project.time_check_out];
+    if ([SZUtil isEmptyOrNull:check_out] ||[check_out isEqualToString:@"0"]){
+        self.time_check_out = @"下班请在18:00之后打卡";
+    }else{
+        self.time_check_out = [NSString stringWithFormat:@"下班请在%@之后打卡",[SZUtil getTimeLengthString:project.time_check_out]];
+    }
+}
 
 @end

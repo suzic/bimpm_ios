@@ -215,6 +215,12 @@
         project.address = dicData[@"address"];
     if (![SZUtil isEmptyOrNull:dicData[@"current_manager"]])
         project.current_manager = dicData[@"current_manager"];
+    NSString *time_check_in = [NSString stringWithFormat:@"%@",dicData[@"time_check_in"]];
+    if (![SZUtil isEmptyOrNull:time_check_in])
+        project.time_check_in = [dicData[@"time_check_in"] doubleValue];
+    NSString *time_check_out = [NSString stringWithFormat:@"%@",dicData[@"time_check_out"]];
+    if (![SZUtil isEmptyOrNull:time_check_out])
+        project.time_check_out = [dicData[@"time_check_out"] doubleValue];
     project.kind = [dicData[@"kind"] intValue];
 }
 

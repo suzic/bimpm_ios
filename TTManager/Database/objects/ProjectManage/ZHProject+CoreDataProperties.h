@@ -1,8 +1,8 @@
 //
 //  ZHProject+CoreDataProperties.h
-//  
+//  TTManager
 //
-//  Created by 苏智 on 2020/12/21.
+//  Created by chao liu on 2021/10/13.
 //
 //
 
@@ -13,7 +13,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface ZHProject (CoreDataProperties)
 
-+ (NSFetchRequest<ZHProject *> *)fetchRequest;
++ (NSFetchRequest<ZHProject *> *)fetchRequest NS_SWIFT_NAME(fetchRequest());
 
 @property (nonatomic) int64_t actual_storage;
 @property (nullable, nonatomic, copy) NSString *address;
@@ -35,6 +35,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic) float progress;
 @property (nullable, nonatomic, copy) NSString *snap_image;
 @property (nonatomic) int64_t total_storage;
+@property (nonatomic) int64_t time_check_in;
+@property (nonatomic) int64_t time_check_out;
 @property (nullable, nonatomic, retain) ZHProjectMemo *assignMemo;
 @property (nullable, nonatomic, retain) NSSet<ZHDepartment *> *hasDepartments;
 @property (nullable, nonatomic, retain) NSSet<ZHFlow *> *hasFlows;
