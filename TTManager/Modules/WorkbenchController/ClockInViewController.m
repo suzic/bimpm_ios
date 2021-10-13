@@ -8,11 +8,14 @@
 #import "ClockInViewController.h"
 #import "BimpmMapView.h"
 #import "ClockInView.h"
+#import "ClockInManager.h"
 
 @interface ClockInViewController ()<FormFlowManagerDelgate>
 
 @property (nonatomic, strong) BimpmMapView *bimpmMapView;
 @property (nonatomic, strong) ClockInView *clockInView;
+@property (nonatomic, strong) ClockInManager *clockInManager;
+
 /// 打卡类型 0 公司打卡 1 外出打卡
 @property (nonatomic, assign) NSInteger clockType;
 /// 上班打卡或者下班打卡
@@ -37,7 +40,7 @@
     self.view.backgroundColor = [UIColor groupTableViewBackgroundColor];
     self.title = @"日常打卡";
     self.navigationItem.leftBarButtonItem = self.closeItem;
-        
+    self.clockInManager = [[ClockInManager alloc] init];
     [self addUI];
     
     [self reloadNetwork];
@@ -66,6 +69,7 @@
     // 点击打卡事件
     else if([eventName isEqualToString:punch_card_action]){
         self.clockOutOrIn = [userInfo[@"type"] intValue];
+        NSLog(@"当前打卡类型 == %ld",(long)self.clockOutOrIn);
         [self clockAction:nil];
     }
 }
@@ -104,7 +108,16 @@
 }
 /// 表单更新完成
 - (void)targetUpdateResult:(BOOL)success{
-    [SZAlert showInfo:@"打卡成功" underTitle:TARGETS_NAME];
+    NSString *msg = @"";
+    if (self.clockOutOrIn == 0) {
+        [self.clockInManager goWorkClockInSuccess];
+        self.clockInView.clockInTypeView.selectedSegmentIndex = 1;
+        [self.clockInView setClockInViewType];
+        msg = @"上班打卡成功";
+    }else{
+        msg = @"下班打卡成功";
+    }
+    [SZAlert showInfo:msg underTitle:TARGETS_NAME];
 }
 
 #pragma mark - private method
@@ -182,7 +195,7 @@
 
 - (ClockInView *)clockInView{
     if (_clockInView == nil) {
-        _clockInView = [[ClockInView alloc] init];
+        _clockInView = [[ClockInView alloc] initWithManager:self.clockInManager];
     }
     return _clockInView;
 }

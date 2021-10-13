@@ -141,6 +141,7 @@
 		40618FE525D0E7BB00DA197E /* FormSliderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE425D0E7BB00DA197E /* FormSliderView.m */; };
 		40618FE925D0E89B00DA197E /* FormItemImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40618FE825D0E89B00DA197E /* FormItemImageView.m */; };
 		406697FC27157AA900AABF94 /* MsgFooterView.m in Sources */ = {isa = PBXBuildFile; fileRef = 406697FB27157AA900AABF94 /* MsgFooterView.m */; };
+		406910552716757F007EF85C /* ClockInManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 406910542716757F007EF85C /* ClockInManager.m */; };
 		406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */; };
 		406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */; };
 		406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 406BF18025ADD47800A12DC3 /* CoreAudio.framework */; };
@@ -487,6 +488,8 @@
 		406697FA27157AA900AABF94 /* MsgFooterView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MsgFooterView.h; sourceTree = "<group>"; };
 		406697FB27157AA900AABF94 /* MsgFooterView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MsgFooterView.m; sourceTree = "<group>"; };
 		406697FD271598EE00AABF94 /* bimpm2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = bimpm2.xcdatamodel; sourceTree = "<group>"; };
+		406910532716757F007EF85C /* ClockInManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ClockInManager.h; sourceTree = "<group>"; };
+		406910542716757F007EF85C /* ClockInManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ClockInManager.m; sourceTree = "<group>"; };
 		406BF17C25ADD46300A12DC3 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		406BF17E25ADD46C00A12DC3 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		406BF18025ADD47800A12DC3 /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
@@ -1585,6 +1588,8 @@
 				40A888FF25E495C50044F1FE /* BimpmMapView.m */,
 				40A8890225E495EA0044F1FE /* ClockInView.h */,
 				40A8890325E495EA0044F1FE /* ClockInView.m */,
+				406910532716757F007EF85C /* ClockInManager.h */,
+				406910542716757F007EF85C /* ClockInManager.m */,
 			);
 			path = views;
 			sourceTree = "<group>";
@@ -1782,6 +1787,7 @@
 				40C7CAB825CC3D950059C0C3 /* BuilderDiaryController.m in Sources */,
 				402A9F552595B04500A9DABA /* BaseNavigationController.m in Sources */,
 				40A8891525E559D80044F1FE /* IMDelegateManager.m in Sources */,
+				406910552716757F007EF85C /* ClockInManager.m in Sources */,
 				40E334C225A978A0008DBDAB /* TaskParams.m in Sources */,
 				402AA0D62595D8A300A9DABA /* ZHProjectMemo+CoreDataProperties.m in Sources */,
 				4054B9EC25BACF680023FC7F /* APITargetOperations.m in Sources */,

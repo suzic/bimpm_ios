@@ -8,8 +8,8 @@
 #import "ClockInView.h"
 
 @interface ClockInView ()
-// 切换打卡类型
-@property (nonatomic, strong) UISegmentedControl *clockInTypeView;
+
+@property (nonatomic, strong) ClockInManager *clockInManager;
 
 @property (nonatomic, strong) UIView *clokInInforView;
 // 当前位置提醒
@@ -30,9 +30,10 @@
 
 @implementation ClockInView
 
-- (instancetype)init{
+- (instancetype)initWithManager:(ClockInManager *)manager{
     self = [super init];
     if (self) {
+        self.clockInManager = manager;
         [self addUI];
         [self addTimer];
         [self initClockInType];
@@ -68,15 +69,20 @@
 }
 
 - (void)initClockInType{
-    // 创建日历对象
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    // 获取当前时间
-    NSDate *currentDate = [NSDate date];
-    
-    NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour fromDate:currentDate];
-    NSInteger type = (components.hour < 12 ? 0 : 1);
-    self.clockInTypeView.selectedSegmentIndex = type;
-    [self setClockInViewType];
+    if (self.clockInManager.isWork == YES) {
+        self.clockInTypeView.selectedSegmentIndex = 1;
+        [self setClockInViewType];
+    }else{
+        // 创建日历对象
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        // 获取当前时间
+        NSDate *currentDate = [NSDate date];
+        
+        NSDateComponents *components = [calendar components:NSCalendarUnitYear| NSCalendarUnitMonth|NSCalendarUnitDay|NSCalendarUnitHour fromDate:currentDate];
+        NSInteger type = (components.hour < 12 ? 0 : 1);
+        self.clockInTypeView.selectedSegmentIndex = type;
+        [self setClockInViewType];
+    }
 }
 
 - (void)addTapGestureRecognizer{
@@ -90,6 +96,9 @@
 }
 
 - (void)changeType:(UISegmentedControl *)segmented{
+    if (self.clockInTypeView.selectedSegmentIndex == 0 && self.clockInManager.isWork == YES) {
+        self.clockInTypeView.selectedSegmentIndex = 1;
+    }
     [self setClockInViewType];
 }
 
