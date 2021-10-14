@@ -99,9 +99,11 @@
         self.uid_target = target.uid_target;
         self.targetType = INT_32_TO_STRING(target.type);
         self.adjunctType = 2;
+        [_adjunctFileBtn highlightColor];
     }else{
         fileName = @"当前步骤未添加附件";
         self.adjunctType = 3;
+        [_adjunctFileBtn defaultColor];
     }
     [self.adjunctFileBtn setTitle:fileName forState:UIControlStateNormal];
 }
@@ -116,10 +118,12 @@
             self.targetType = INT_32_TO_STRING(target.type);
             self.adjunctType = 2;
             [self hideDelete:NO];
+            [_adjunctFileBtn highlightColor];
         }else{
             fileName = @"添加附件";
             self.adjunctType = 1;
             [self hideDelete:YES];
+            [_adjunctFileBtn defaultColor];
         }
     }
     else{
@@ -131,10 +135,12 @@
 
             self.adjunctType = 2;
             [self hideDelete:YES];
+            [_adjunctFileBtn highlightColor];
         }else{
             fileName = @"当前步骤未添加附件";
             self.adjunctType = 3;
             [self hideDelete:YES];
+            [_adjunctFileBtn defaultColor];
         }
     }
     [self.adjunctFileBtn setTitle:fileName forState:UIControlStateNormal];
@@ -143,9 +149,9 @@
     self.deleteFileBtn.hidden = hide;
     if (hide == YES) {
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
-        [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
+        [_adjunctFileBtn defaultColor];
     }else{
-        [_adjunctFileBtn setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+        [_adjunctFileBtn highlightColor];
         [_adjunctFileBtn setImage:[UIImage new] forState:UIControlStateNormal];
     }
 }
@@ -156,10 +162,8 @@
     if (self.adjunctType == 3) {
         return;
     }
-    if (_tools.isCanEdit == NO) {
-        return;
-    }
-    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":[NSString stringWithFormat:@"%ld",self.adjunctType],@"uid_target":self.uid_target,@"type":self.targetType}];
+    
+    [self routerEventWithName:choose_adjunct_file userInfo:@{@"adjunctType":[NSString stringWithFormat:@"%ld",self.adjunctType],@"uid_target":self.uid_target,@"type":self.targetType,@"canEdit":@(_tools.isCanEdit)}];
 }
 - (void)deleteAdjunctFile:(UIButton *)button{
     NSLog(@"删除当前文档");
@@ -202,7 +206,7 @@
         _adjunctFileBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         [_adjunctFileBtn setTitle:@"添加附件" forState:UIControlStateNormal];
         _adjunctFileBtn.titleLabel.font = [UIFont systemFontOfSize:14.0f];
-        [_adjunctFileBtn setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
+        [_adjunctFileBtn defaultColor];
         [_adjunctFileBtn setImage:[UIImage imageNamed:@"task_adjunctFile"] forState:UIControlStateNormal];
         [_adjunctFileBtn addTarget:self action:@selector(chooseAdjunctFile:) forControlEvents:UIControlEventTouchUpInside];
         _adjunctFileBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

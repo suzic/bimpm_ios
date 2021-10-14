@@ -13,6 +13,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface FormDetailController : UIViewController
 
+/// 是否显示编辑按钮
+@property (nonatomic,assign) BOOL hideEdit;
+
 // 是否来自taskDetail
 @property (nonatomic, assign) BOOL isTaskDetail;
 

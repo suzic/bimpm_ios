@@ -265,7 +265,7 @@ static NSString *imageCellIndex = @"ImageCellIndex";
 
 - (void)changeEditView{
     // 快照直接不显示
-    if (self.formFlowManager.isSnapshoot == YES) {
+    if (self.formFlowManager.isSnapshoot == YES || self.hideEdit == YES) {
         self.navigationItem.rightBarButtonItem = nil;
     }else{
         UIBarButtonItem *rightCustomView = [[UIBarButtonItem alloc] initWithCustomView:self.editButton];

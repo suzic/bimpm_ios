@@ -206,6 +206,7 @@
 - (void)addFileToCurrentStep:(NSDictionary *)addFileDic{
     NSString *type = addFileDic[@"adjunctType"];
     NSString *uid_target = addFileDic[@"uid_target"];
+    BOOL canEdit = addFileDic[@"canEdit"];
     self.taskParams.uid_target = uid_target;
     // 1添加附件（相册和文件库），2删除附件 ，4查看附件
     if ([type isEqualToString:@"1"]) {
@@ -230,6 +231,7 @@
             FormDetailController *vc = [[FormDetailController alloc] init];
             vc.buddy_file = uid_target;
             vc.isTaskDetail = YES;
+            vc.hideEdit = canEdit;
             vc.selectedTarget = ^(NSString * _Nullable buddy_file) {
                 if (![SZUtil isEmptyOrNull:buddy_file]) {
                     [self setTaskAdjunctBy:self.taskParams.uid_target newtarget:buddy_file];

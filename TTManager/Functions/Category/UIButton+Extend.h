@@ -28,6 +28,8 @@ NS_ASSUME_NONNULL_BEGIN
 /// 反对的样式
 - (void)opposeFinishType:(NSString *)text;
 
+- (void)highlightColor;
+- (void)defaultColor;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -105,4 +105,11 @@ static void *timerKey = @"timerKey";
     self.hidden = NO;
 }
 
+- (void)highlightColor{
+    [self setTitleColor:[UIColor blueColor] forState:UIControlStateNormal];
+}
+- (void)defaultColor{
+    [self setTitleColor:RGB_COLOR(51, 51, 51) forState:UIControlStateNormal];
+}
+
 @end
