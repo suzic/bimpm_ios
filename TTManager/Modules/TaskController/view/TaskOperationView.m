@@ -56,9 +56,12 @@
     [self routerEventWithName:task_click_save userInfo:@{}];
 }
 - (void)rejectBtnAction:(UIButton *)button{
-    if (_tools.isCanEdit == NO) {
-        return;
+    if(![button.titleLabel.text isEqualToString:@"我知道了"]){
+        if (_tools.isCanEdit == NO) {
+            return;
+        }
     }
+    
     NSString *decsion = @"0";
     NSArray *decsion1 = @[@"拒绝",@"反对",@"驳回"];
     NSArray *decsion2 = @[@"同意",@"通过",@"赞同",@"确认",@"完成"];
@@ -66,6 +69,8 @@
         decsion = @"2";
     }else if([decsion2 containsObject:button.titleLabel.text]){
         decsion = @"1";
+    }else if([button.titleLabel.text isEqualToString:@"我知道了"]){
+        decsion = @"3";
     }
     [self routerEventWithName:task_process_submit userInfo:@{@"operation":decsion,@"uid_target":@""}];
 }

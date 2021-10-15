@@ -311,7 +311,16 @@
                 [self operationPollingForm];
             }
         }];
-    }else{
+    }
+    else if([operation isEqualToString:@"3"]){
+        [CNAlertView showWithTitle:@"您即将进行“我知道了”操作，请再次确认。" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
+            if (buttonIndex == 1) {
+                self.taskParams.submitParams = @"1";
+                [self operationPollingForm];
+            }
+        }];
+    }
+    else{
         [CNAlertView showWithTitle:@"确认提交任务进度" message:nil tapBlock:^(CNAlertView *alertView, NSInteger buttonIndex) {
             if (buttonIndex == 1) {
                 self.taskParams.submitParams = operation;
@@ -568,7 +577,7 @@
 // 设置巡检负责人
 - (void)setPollingStepUser:(NSString *)user index:(NSInteger)index{
     if (self.taskType == task_type_new_polling ||self.isPolling == YES) {
-//        [self.pollingFormView setPollingUser:user index:index];
+        [self.pollingFormView setPollingUser:user index:index];
         NSArray *result = [self.operabilityTools.currentSelectedStep.memoDocs allObjects];
         if (result.count > 0) {
 //            self.pollingFormView.hidden = NO;

@@ -191,7 +191,15 @@ static NSString *headerCell = @"headerCell";
     if (success == YES) {
         if (self.formFlowManager.canEditForm == NO && self.needClone == YES) {
             if ([self startPollingFormStatus] == YES) {
-                [self.formFlowManager cloneCurrentFormByBuddy_file];
+                // 如果是快照，默认展开所有的
+                if (self.formFlowManager.isSnapshoot == YES) {
+                    [self.expandSectionArray addObject:@"0"];
+                    [self.expandSectionArray addObject:@"1"];
+                    [self.expandSectionArray addObject:@"2"];
+                    [self.tableView reloadData];
+                }else{
+                    [self.formFlowManager cloneCurrentFormByBuddy_file];
+                }
             }else{
                 [self normalFillFormInfo];
             }
