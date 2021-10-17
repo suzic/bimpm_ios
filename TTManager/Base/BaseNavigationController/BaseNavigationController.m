@@ -43,16 +43,23 @@
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     if (@available(iOS 13.0, *)) {
-           UIView *statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame] ;
-            statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
-            [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
-        } else {
-            // Fallback on earlier versions
-            UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
-               if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
-                   statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
-               }
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        UIView *statusBar = [keyWindow viewWithTag:1999999];
+        if (!statusBar) {
+            statusBar = [[UIView alloc]initWithFrame:[UIApplication sharedApplication].keyWindow.windowScene.statusBarManager.statusBarFrame] ;
+            statusBar.tag = 1999999;
+             statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
+             [[UIApplication sharedApplication].keyWindow addSubview:statusBar];
+        }else{
+            [[UIApplication sharedApplication].keyWindow insertSubview:statusBar aboveSubview:[self topViewController].view];
         }
+    } else {
+        // Fallback on earlier versions
+        UIView *statusBar = [[[UIApplication sharedApplication] valueForKey:@"statusBarWindow"] valueForKey:@"statusBar"];
+           if ([statusBar respondsToSelector:@selector(setBackgroundColor:)]) {
+               statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
+           }
+    }
 }
 - (NSArray *)viewControlersList{
     if (_viewControlersList == nil) {
@@ -69,6 +76,7 @@
     }
     return _viewControlersList;
 }
+
 #pragma mark -- navigation delegate
 
 //该方法可以解决popRootViewController时tabbar的bug

@@ -161,6 +161,7 @@
 {
     self.shadowView.hidden = NO;
     self.userView.hidden = NO;
+    [self.userView clearStatusBarColor];
     CGRect rect = self.userView.frame;
     rect.origin.x = 0;
     [self setUserViewShadowLayer:YES];
@@ -175,13 +176,13 @@
 {
     CGRect rect = self.userView.frame;
     rect.origin.x = -kScreenWidth * 4 / 5 - 5;
-    
     [UIView animateWithDuration:0.2 animations:^{
         self.userView.frame = rect;
         self.shadowView.alpha = 1;
     } completion:^(BOOL finished) {
         self.shadowView.hidden = YES;
         self.userView.hidden = YES;
+        [self.userView defaultStatusBarColor];
     }];
     [self showUserSetting:[notification object]];
 }

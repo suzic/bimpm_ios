@@ -121,4 +121,24 @@ static void *HUD = @"HUD";
         [self.hud stopAnimating];
     }
 }
+
+- (void)clearStatusBarColor{
+    if (@available(iOS 13.0, *)) {
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        UIView *statusBar = [keyWindow viewWithTag:1999999];
+        if (statusBar) {
+            statusBar.backgroundColor = [UIColor clearColor];
+        }
+    }
+}
+- (void)defaultStatusBarColor{
+    if (@available(iOS 13.0, *)) {
+        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+        UIView *statusBar = [keyWindow viewWithTag:1999999];
+        if (statusBar) {
+            statusBar.backgroundColor = RGB_COLOR(5, 125, 255);
+        }
+    }
+}
+
 @end

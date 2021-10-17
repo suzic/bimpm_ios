@@ -28,6 +28,9 @@ typedef NS_OPTIONS(NSUInteger, UIBorderSideType) {
 - (void)startActivityIndicatorView;
 - (void)stopActivityIndicatorView;
 
+- (void)clearStatusBarColor;
+- (void)defaultStatusBarColor;
+
 @end
 
 NS_ASSUME_NONNULL_END
