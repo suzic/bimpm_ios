@@ -7,6 +7,8 @@
 
 #import "MessageView.h"
 #import "MsgFooterView.h"
+#import "MsgCell.h"
+
 
 @interface MessageView ()<UITableViewDelegate,UITableViewDataSource>
 
@@ -29,7 +31,7 @@
     [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.leading.equalTo(self);
         make.trailing.equalTo(self);
-        make.top.equalTo(20);
+        make.top.equalTo(0);
         make.bottom.equalTo(-20);
     }];
 }
@@ -85,32 +87,18 @@
         ZHProjectMemo *memo = (ZHProjectMemo *)data;
         name = memo.line;
     }
-    CGFloat textHeight = [NSString heightFromString:name withFont:[UIFont systemFontOfSize:14.0f] constraintToWidth:self.frame.size.width-40];
-    return textHeight < 30 ? 40:textHeight+10;
+    CGFloat textHeight = [NSString heightFromString:name withFont:[UIFont systemFontOfSize:14.0f] constraintToWidth:self.frame.size.width - 70];
+    return textHeight < 30 ? 40:textHeight+38;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"messageCell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     if (!cell) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+        cell = (MsgCell *)[[MsgCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor = [UIColor clearColor];
-    
     id data = self.messageArray[indexPath.section];
-    cell.textLabel.numberOfLines = 0;
-    cell.imageView.image = [UIImage imageNamed:@"delete_password"];
-    if ([data isKindOfClass:[NSString class]])
-    {
-        cell.textLabel.text = (NSString *)data;
-        cell.textLabel.textColor = [UIColor whiteColor];
-    }else if([data isKindOfClass:[ZHProjectMemo class]]){
-        ZHProjectMemo *memo = (ZHProjectMemo *)data;
-        cell.textLabel.text = memo.line;
-        cell.textLabel.textColor = [UIColor whiteColor];
-    }
-    cell.textLabel.font = [UIFont systemFontOfSize:14.0f];
+    cell.msgData = data;
     return cell;
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

@@ -40,7 +40,7 @@
     lineView.backgroundColor = [UIColor grayColor];
     [self.contentView addSubview:lineView];
     [self.authorLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.equalTo(44);
+        make.left.equalTo(40);
         make.top.equalTo(0);
         make.bottom.equalTo(lineView.mas_top).offset(-5);
         make.width.equalTo(self.contentView.mas_width).multipliedBy(0.4);
