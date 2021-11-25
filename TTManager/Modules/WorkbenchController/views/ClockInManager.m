@@ -57,7 +57,7 @@ static NSString *clockInList = @"clockInList";
 - (void)goWorkClockInSuccess{
     self.isWork = YES;
     // 获取当前时间
-    NSString *curTime = [SZUtil getTimeNow];
+    NSString *curTime = [SZUtil getDateString:[NSDate date]];
     ZHProject *project = [DataManager defaultInstance].currentProject;
     NSString *curProjectId = INT_32_TO_STRING(project.id_project);
     NSDictionary *dict = @{curProjectId:@{curTime:@"1"}};
