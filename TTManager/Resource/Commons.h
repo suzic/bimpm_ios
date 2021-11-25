@@ -25,16 +25,27 @@
 
 
 #import <UIKit/UIKit.h>
-#import <AFNetworking/AFNetworking.h>
-#import <IQKeyboardManager/IQKeyboardManager.h>
-#import <SDWebImage/SDWebImage.h>
-#import <MBProgressHUD/MBProgressHUD.h>
-#import <Masonry/Masonry.h>
-#import <MJRefresh/MJRefresh.h>
+#import "AFNetworking.h"
+#import "IQKeyboardManager.h"
+#import "UIImageView+WebCache.h"
+#import "UIButton+WebCache.h"
+#import "MBProgressHUD.h"
+#import "Masonry.h"
+#import "MJRefresh.h"
 #import <RongIMKit/RongIMKit.h>
-#import <Aspects/Aspects.h>
-#import <BRPickerView/BRPickerView.h>
-#import <UITextView+Placeholder/UITextView+Placeholder.h>
+#import "Aspects.h"
+#import "BRPickerView.h"
+#import "UITextView+Placeholder.h"
+//#import <AFNetworking/AFNetworking.h>
+//#import <IQKeyboardManager/IQKeyboardManager.h>
+//#import <SDWebImage/SDWebImage.h>
+//#import <MBProgressHUD/MBProgressHUD.h>
+//#import <Masonry/Masonry.h>
+//#import <MJRefresh/MJRefresh.h>
+//#import <RongIMKit/RongIMKit.h>
+//#import <Aspects/Aspects.h>
+//#import <BRPickerView/BRPickerView.h>
+//#import <UITextView+Placeholder/UITextView+Placeholder.h>
 //#import <BaiduMapAPI_Base/BMKBaseComponent.h>
 //#import <BaiduMapAPI_Map/BMKMapComponent.h>
 //#import <MapKit/MapKit.h>
