@@ -33,9 +33,16 @@
 #import "Masonry.h"
 #import "MJRefresh.h"
 #import <RongIMKit/RongIMKit.h>
+#import <RongIMLib/RongIMLib.h>
 #import "Aspects.h"
 #import "BRPickerView.h"
 #import "UITextView+Placeholder.h"
+#import <BMKLocationKit/BMKLocationComponent.h>
+#import <BaiduMapAPI_Base/BMKBaseComponent.h>
+#import <BaiduMapAPI_Map/BMKMapComponent.h>
+#import <BaiduMapAPI_Utils/BMKUtilsComponent.h>
+#import <MapKit/MapKit.h>
+
 //#import <AFNetworking/AFNetworking.h>
 //#import <IQKeyboardManager/IQKeyboardManager.h>
 //#import <SDWebImage/SDWebImage.h>

@@ -124,7 +124,7 @@
     }else{
         clockType = @"1";
     }
-    NSString *address = [NSString stringWithFormat:@"%@%@%@%@%@",location.rgcData.province,location.rgcData.city,location.rgcData.district,location.rgcData.town,location.rgcData.street];
+    NSString *address = [NSString stringWithFormat:@"%@%@%@%@",location.rgcData.province,location.rgcData.city,location.rgcData.district,location.rgcData.street];
     NSLog(@"当前所处位置信息%@",address);
     [self routerEventWithName:punch_card_distance userInfo:@{@"type":clockType,@"address":address,@"distance":[NSString stringWithFormat:@"%.2lf",distance]}];
 }

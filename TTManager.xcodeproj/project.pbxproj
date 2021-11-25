@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -238,23 +238,6 @@
 		40CEA16A274F6A280079F3F6 /* MJRefreshComponent.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA003274F6A270079F3F6 /* MJRefreshComponent.m */; };
 		40CEA16B274F6A280079F3F6 /* MJRefreshTrailer.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA006274F6A270079F3F6 /* MJRefreshTrailer.m */; };
 		40CEA16F274F6A280079F3F6 /* Aspects.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA00C274F6A270079F3F6 /* Aspects.m */; };
-		40CEA170274F6A280079F3F6 /* RCColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA00F274F6A270079F3F6 /* RCColor.plist */; };
-		40CEA171274F6A280079F3F6 /* RongSticker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA010274F6A270079F3F6 /* RongSticker.strings */; };
-		40CEA172274F6A280079F3F6 /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA012274F6A270079F3F6 /* RongCloudKit.strings */; };
-		40CEA173274F6A290079F3F6 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA016274F6A270079F3F6 /* RongIMKit.framework */; };
-		40CEA174274F6A290079F3F6 /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA017274F6A270079F3F6 /* RongIMLib.framework */; };
-		40CEA175274F6A290079F3F6 /* libopencore-amrwb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA018274F6A270079F3F6 /* libopencore-amrwb.a */; };
-		40CEA176274F6A290079F3F6 /* libopencore-amrnb.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA019274F6A270079F3F6 /* libopencore-amrnb.a */; };
-		40CEA177274F6A290079F3F6 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA01A274F6A270079F3F6 /* Emoji.plist */; };
-		40CEA178274F6A290079F3F6 /* libvo-amrwbenc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA01B274F6A270079F3F6 /* libvo-amrwbenc.a */; };
-		40CEA179274F6A290079F3F6 /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA01C274F6A270079F3F6 /* RongCloud.bundle */; };
-		40CEA17A274F6A290079F3F6 /* RCConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA01D274F6A270079F3F6 /* RCConfig.plist */; };
-		40CEA17B274F6A290079F3F6 /* BaiduMapAPI_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA020274F6A270079F3F6 /* BaiduMapAPI_Map.framework */; };
-		40CEA17E274F6A290079F3F6 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA024274F6A270079F3F6 /* BaiduMapAPI_Utils.framework */; };
-		40CEA17F274F6A290079F3F6 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA025274F6A270079F3F6 /* BaiduMapAPI_Base.framework */; };
-		40CEA180274F6A290079F3F6 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA026274F6A270079F3F6 /* BaiduMapAPI_Search.framework */; };
-		40CEA181274F6A290079F3F6 /* BaiduMapAPI_Cloud.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA027274F6A270079F3F6 /* BaiduMapAPI_Cloud.framework */; };
-		40CEA183274F6A290079F3F6 /* BMKLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA02B274F6A270079F3F6 /* BMKLocationKit.framework */; };
 		40CEA186274F6A290079F3F6 /* NSLayoutConstraint+MASDebugAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA031274F6A270079F3F6 /* NSLayoutConstraint+MASDebugAdditions.m */; };
 		40CEA187274F6A290079F3F6 /* ViewController+MASAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA03A274F6A270079F3F6 /* ViewController+MASAdditions.m */; };
 		40CEA188274F6A290079F3F6 /* MASCompositeConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA03E274F6A270079F3F6 /* MASCompositeConstraint.m */; };
@@ -375,9 +358,50 @@
 		40CEA31A274F6E960079F3F6 /* SDDisplayLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA2D4274F6E960079F3F6 /* SDDisplayLink.m */; };
 		40CEA31B274F6E960079F3F6 /* SDAsyncBlockOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA2D6274F6E960079F3F6 /* SDAsyncBlockOperation.m */; };
 		40CEA31C274F6E960079F3F6 /* SDAssociatedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 40CEA2D7274F6E960079F3F6 /* SDAssociatedObject.m */; };
-		40CEA31F274F75080079F3F6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA022274F6A270079F3F6 /* libcrypto.a */; };
-		40CEA320274F750B0079F3F6 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA023274F6A270079F3F6 /* libssl.a */; };
 		40CEA323274F76EC0079F3F6 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA322274F76EC0079F3F6 /* AdSupport.framework */; };
+		40CEA34A274F88210079F3F6 /* RongCallKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA328274F88200079F3F6 /* RongCallKit.strings */; };
+		40CEA34C274F88210079F3F6 /* RongCallKit.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA32D274F88200079F3F6 /* RongCallKit.bundle */; };
+		40CEA34E274F88210079F3F6 /* RCColor.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA330274F88200079F3F6 /* RCColor.plist */; };
+		40CEA350274F88210079F3F6 /* RongCloudKit.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA332274F88200079F3F6 /* RongCloudKit.strings */; };
+		40CEA351274F88210079F3F6 /* Emoji.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA336274F88200079F3F6 /* Emoji.plist */; };
+		40CEA352274F88210079F3F6 /* RongCloud.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA337274F88200079F3F6 /* RongCloud.bundle */; };
+		40CEA353274F88210079F3F6 /* RongSticker.strings in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA339274F88210079F3F6 /* RongSticker.strings */; };
+		40CEA355274F88210079F3F6 /* RongSticker.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA33E274F88210079F3F6 /* RongSticker.bundle */; };
+		40CEA35D274F88210079F3F6 /* RCConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA347274F88210079F3F6 /* RCConfig.plist */; };
+		40CEA35E274F884A0079F3F6 /* RongCallKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA327274F88200079F3F6 /* RongCallKit.xcframework */; };
+		40CEA35F274F884A0079F3F6 /* RongCallKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA327274F88200079F3F6 /* RongCallKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA361274F884C0079F3F6 /* RongCallLib.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA32C274F88200079F3F6 /* RongCallLib.xcframework */; };
+		40CEA362274F884C0079F3F6 /* RongCallLib.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA32C274F88200079F3F6 /* RongCallLib.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA363274F884E0079F3F6 /* RongChatRoom.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA341274F88210079F3F6 /* RongChatRoom.xcframework */; };
+		40CEA364274F884E0079F3F6 /* RongChatRoom.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA341274F88210079F3F6 /* RongChatRoom.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA365274F88500079F3F6 /* RongCustomerService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA340274F88210079F3F6 /* RongCustomerService.xcframework */; };
+		40CEA366274F88500079F3F6 /* RongCustomerService.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA340274F88210079F3F6 /* RongCustomerService.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA367274F88520079F3F6 /* RongDiscussion.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA346274F88210079F3F6 /* RongDiscussion.xcframework */; };
+		40CEA368274F88520079F3F6 /* RongDiscussion.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA346274F88210079F3F6 /* RongDiscussion.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA369274F88540079F3F6 /* RongIMKit.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA331274F88200079F3F6 /* RongIMKit.xcframework */; };
+		40CEA36A274F88540079F3F6 /* RongIMKit.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA331274F88200079F3F6 /* RongIMKit.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA36B274F88570079F3F6 /* RongIMLib.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA342274F88210079F3F6 /* RongIMLib.xcframework */; };
+		40CEA36C274F88570079F3F6 /* RongIMLib.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA342274F88210079F3F6 /* RongIMLib.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA36D274F885E0079F3F6 /* RongIMLibCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA343274F88210079F3F6 /* RongIMLibCore.xcframework */; };
+		40CEA36E274F885F0079F3F6 /* RongIMLibCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA343274F88210079F3F6 /* RongIMLibCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA36F274F88610079F3F6 /* RongLocation.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA344274F88210079F3F6 /* RongLocation.xcframework */; };
+		40CEA370274F88610079F3F6 /* RongLocation.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA344274F88210079F3F6 /* RongLocation.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA371274F88640079F3F6 /* RongPublicService.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA345274F88210079F3F6 /* RongPublicService.xcframework */; };
+		40CEA372274F88640079F3F6 /* RongPublicService.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA345274F88210079F3F6 /* RongPublicService.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA373274F88670079F3F6 /* RongRTCLib.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA32E274F88200079F3F6 /* RongRTCLib.xcframework */; };
+		40CEA374274F88680079F3F6 /* RongRTCLib.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA32E274F88200079F3F6 /* RongRTCLib.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA375274F886A0079F3F6 /* RongSight.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA325274F88200079F3F6 /* RongSight.xcframework */; };
+		40CEA376274F886A0079F3F6 /* RongSight.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA325274F88200079F3F6 /* RongSight.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA377274F886D0079F3F6 /* RongSticker.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA33C274F88210079F3F6 /* RongSticker.xcframework */; };
+		40CEA378274F886D0079F3F6 /* RongSticker.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA33C274F88210079F3F6 /* RongSticker.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		40CEA381274F91070079F3F6 /* BaiduMapAPI_Base.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA379274F91060079F3F6 /* BaiduMapAPI_Base.framework */; };
+		40CEA382274F91070079F3F6 /* BMKLocationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA37A274F91060079F3F6 /* BMKLocationKit.framework */; };
+		40CEA383274F91070079F3F6 /* BaiduMapAPI_Utils.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA37B274F91060079F3F6 /* BaiduMapAPI_Utils.framework */; };
+		40CEA384274F91070079F3F6 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA37D274F91060079F3F6 /* libcrypto.a */; };
+		40CEA385274F91070079F3F6 /* libssl.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA37E274F91060079F3F6 /* libssl.a */; };
+		40CEA386274F91070079F3F6 /* BaiduMapAPI_Search.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA37F274F91070079F3F6 /* BaiduMapAPI_Search.framework */; };
+		40CEA387274F91070079F3F6 /* BaiduMapAPI_Map.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 40CEA380274F91070079F3F6 /* BaiduMapAPI_Map.framework */; };
+		40CEA389274F91EA0079F3F6 /* mapapi.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 40CEA388274F91EA0079F3F6 /* mapapi.bundle */; };
 		40E334BE25A8AAAE008DBDAB /* SupernatantView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334BD25A8AAAE008DBDAB /* SupernatantView.m */; };
 		40E334C225A978A0008DBDAB /* TaskParams.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C125A978A0008DBDAB /* TaskParams.m */; };
 		40E334C625A98E00008DBDAB /* OperabilityTools.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E334C525A98E00008DBDAB /* OperabilityTools.m */; };
@@ -387,6 +411,32 @@
 		40E73E8E25BF178C00FC98DD /* APITargetUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E8D25BF178C00FC98DD /* APITargetUpdateManager.m */; };
 		40E73E9225BF1B3600FC98DD /* BottomView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40E73E9125BF1B3600FC98DD /* BottomView.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		40CEA360274F884A0079F3F6 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				40CEA36A274F88540079F3F6 /* RongIMKit.xcframework in Embed Frameworks */,
+				40CEA368274F88520079F3F6 /* RongDiscussion.xcframework in Embed Frameworks */,
+				40CEA372274F88640079F3F6 /* RongPublicService.xcframework in Embed Frameworks */,
+				40CEA35F274F884A0079F3F6 /* RongCallKit.xcframework in Embed Frameworks */,
+				40CEA370274F88610079F3F6 /* RongLocation.xcframework in Embed Frameworks */,
+				40CEA376274F886A0079F3F6 /* RongSight.xcframework in Embed Frameworks */,
+				40CEA364274F884E0079F3F6 /* RongChatRoom.xcframework in Embed Frameworks */,
+				40CEA378274F886D0079F3F6 /* RongSticker.xcframework in Embed Frameworks */,
+				40CEA374274F88680079F3F6 /* RongRTCLib.xcframework in Embed Frameworks */,
+				40CEA36E274F885F0079F3F6 /* RongIMLibCore.xcframework in Embed Frameworks */,
+				40CEA362274F884C0079F3F6 /* RongCallLib.xcframework in Embed Frameworks */,
+				40CEA36C274F88570079F3F6 /* RongIMLib.xcframework in Embed Frameworks */,
+				40CEA366274F88500079F3F6 /* RongCustomerService.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		400B494C25A6B598006CBEBB /* UIViewController+ImagePicker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIViewController+ImagePicker.h"; sourceTree = "<group>"; };
@@ -831,27 +881,6 @@
 		40CEA006274F6A270079F3F6 /* MJRefreshTrailer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MJRefreshTrailer.m; sourceTree = "<group>"; };
 		40CEA00A274F6A270079F3F6 /* Aspects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Aspects.h; sourceTree = "<group>"; };
 		40CEA00C274F6A270079F3F6 /* Aspects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Aspects.m; sourceTree = "<group>"; };
-		40CEA00F274F6A270079F3F6 /* RCColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCColor.plist; sourceTree = "<group>"; };
-		40CEA011274F6A270079F3F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongSticker.strings"; sourceTree = "<group>"; };
-		40CEA013274F6A270079F3F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCloudKit.strings"; sourceTree = "<group>"; };
-		40CEA014274F6A270079F3F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongSticker.strings; sourceTree = "<group>"; };
-		40CEA015274F6A270079F3F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongCloudKit.strings; sourceTree = "<group>"; };
-		40CEA016274F6A270079F3F6 /* RongIMKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMKit.framework; sourceTree = "<group>"; };
-		40CEA017274F6A270079F3F6 /* RongIMLib.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RongIMLib.framework; sourceTree = "<group>"; };
-		40CEA018274F6A270079F3F6 /* libopencore-amrwb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrwb.a"; sourceTree = "<group>"; };
-		40CEA019274F6A270079F3F6 /* libopencore-amrnb.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libopencore-amrnb.a"; sourceTree = "<group>"; };
-		40CEA01A274F6A270079F3F6 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
-		40CEA01B274F6A270079F3F6 /* libvo-amrwbenc.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = "libvo-amrwbenc.a"; sourceTree = "<group>"; };
-		40CEA01C274F6A270079F3F6 /* RongCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCloud.bundle; sourceTree = "<group>"; };
-		40CEA01D274F6A270079F3F6 /* RCConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCConfig.plist; sourceTree = "<group>"; };
-		40CEA020274F6A270079F3F6 /* BaiduMapAPI_Map.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Map.framework; sourceTree = "<group>"; };
-		40CEA022274F6A270079F3F6 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
-		40CEA023274F6A270079F3F6 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
-		40CEA024274F6A270079F3F6 /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
-		40CEA025274F6A270079F3F6 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
-		40CEA026274F6A270079F3F6 /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
-		40CEA027274F6A270079F3F6 /* BaiduMapAPI_Cloud.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Cloud.framework; sourceTree = "<group>"; };
-		40CEA02B274F6A270079F3F6 /* BMKLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BMKLocationKit.framework; sourceTree = "<group>"; };
 		40CEA030274F6A270079F3F6 /* MASCompositeConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MASCompositeConstraint.h; sourceTree = "<group>"; };
 		40CEA031274F6A270079F3F6 /* NSLayoutConstraint+MASDebugAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+MASDebugAdditions.m"; sourceTree = "<group>"; };
 		40CEA032274F6A270079F3F6 /* MASConstraint+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MASConstraint+Private.h"; sourceTree = "<group>"; };
@@ -1166,6 +1195,42 @@
 		40CEA2D6274F6E960079F3F6 /* SDAsyncBlockOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAsyncBlockOperation.m; sourceTree = "<group>"; };
 		40CEA2D7274F6E960079F3F6 /* SDAssociatedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDAssociatedObject.m; sourceTree = "<group>"; };
 		40CEA322274F76EC0079F3F6 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		40CEA325274F88200079F3F6 /* RongSight.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongSight.xcframework; sourceTree = "<group>"; };
+		40CEA327274F88200079F3F6 /* RongCallKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongCallKit.xcframework; sourceTree = "<group>"; };
+		40CEA329274F88200079F3F6 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/RongCallKit.strings; sourceTree = "<group>"; };
+		40CEA32A274F88200079F3F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCallKit.strings"; sourceTree = "<group>"; };
+		40CEA32B274F88200079F3F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongCallKit.strings; sourceTree = "<group>"; };
+		40CEA32C274F88200079F3F6 /* RongCallLib.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongCallLib.xcframework; sourceTree = "<group>"; };
+		40CEA32D274F88200079F3F6 /* RongCallKit.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCallKit.bundle; sourceTree = "<group>"; };
+		40CEA32E274F88200079F3F6 /* RongRTCLib.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongRTCLib.xcframework; sourceTree = "<group>"; };
+		40CEA330274F88200079F3F6 /* RCColor.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCColor.plist; sourceTree = "<group>"; };
+		40CEA331274F88200079F3F6 /* RongIMKit.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongIMKit.xcframework; sourceTree = "<group>"; };
+		40CEA333274F88200079F3F6 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/RongCloudKit.strings; sourceTree = "<group>"; };
+		40CEA334274F88200079F3F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongCloudKit.strings"; sourceTree = "<group>"; };
+		40CEA335274F88200079F3F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongCloudKit.strings; sourceTree = "<group>"; };
+		40CEA336274F88200079F3F6 /* Emoji.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Emoji.plist; sourceTree = "<group>"; };
+		40CEA337274F88200079F3F6 /* RongCloud.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongCloud.bundle; sourceTree = "<group>"; };
+		40CEA33A274F88210079F3F6 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/RongSticker.strings; sourceTree = "<group>"; };
+		40CEA33B274F88210079F3F6 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/RongSticker.strings"; sourceTree = "<group>"; };
+		40CEA33C274F88210079F3F6 /* RongSticker.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongSticker.xcframework; sourceTree = "<group>"; };
+		40CEA33D274F88210079F3F6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/RongSticker.strings; sourceTree = "<group>"; };
+		40CEA33E274F88210079F3F6 /* RongSticker.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RongSticker.bundle; sourceTree = "<group>"; };
+		40CEA340274F88210079F3F6 /* RongCustomerService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongCustomerService.xcframework; sourceTree = "<group>"; };
+		40CEA341274F88210079F3F6 /* RongChatRoom.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongChatRoom.xcframework; sourceTree = "<group>"; };
+		40CEA342274F88210079F3F6 /* RongIMLib.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongIMLib.xcframework; sourceTree = "<group>"; };
+		40CEA343274F88210079F3F6 /* RongIMLibCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongIMLibCore.xcframework; sourceTree = "<group>"; };
+		40CEA344274F88210079F3F6 /* RongLocation.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongLocation.xcframework; sourceTree = "<group>"; };
+		40CEA345274F88210079F3F6 /* RongPublicService.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongPublicService.xcframework; sourceTree = "<group>"; };
+		40CEA346274F88210079F3F6 /* RongDiscussion.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = RongDiscussion.xcframework; sourceTree = "<group>"; };
+		40CEA347274F88210079F3F6 /* RCConfig.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = RCConfig.plist; sourceTree = "<group>"; };
+		40CEA379274F91060079F3F6 /* BaiduMapAPI_Base.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Base.framework; sourceTree = "<group>"; };
+		40CEA37A274F91060079F3F6 /* BMKLocationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BMKLocationKit.framework; sourceTree = "<group>"; };
+		40CEA37B274F91060079F3F6 /* BaiduMapAPI_Utils.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Utils.framework; sourceTree = "<group>"; };
+		40CEA37D274F91060079F3F6 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libcrypto.a; sourceTree = "<group>"; };
+		40CEA37E274F91060079F3F6 /* libssl.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libssl.a; sourceTree = "<group>"; };
+		40CEA37F274F91070079F3F6 /* BaiduMapAPI_Search.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Search.framework; sourceTree = "<group>"; };
+		40CEA380274F91070079F3F6 /* BaiduMapAPI_Map.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BaiduMapAPI_Map.framework; sourceTree = "<group>"; };
+		40CEA388274F91EA0079F3F6 /* mapapi.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = mapapi.bundle; sourceTree = "<group>"; };
 		40E334BC25A8AAAE008DBDAB /* SupernatantView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SupernatantView.h; sourceTree = "<group>"; };
 		40E334BD25A8AAAE008DBDAB /* SupernatantView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SupernatantView.m; sourceTree = "<group>"; };
 		40E334C025A978A0008DBDAB /* TaskParams.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskParams.h; sourceTree = "<group>"; };
@@ -1189,46 +1254,53 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				40CEA369274F88540079F3F6 /* RongIMKit.xcframework in Frameworks */,
 				40CEA323274F76EC0079F3F6 /* AdSupport.framework in Frameworks */,
-				40CEA17F274F6A290079F3F6 /* BaiduMapAPI_Base.framework in Frameworks */,
-				40CEA31F274F75080079F3F6 /* libcrypto.a in Frameworks */,
 				403D948B25C287B0003B1B60 /* MobileCoreServices.framework in Frameworks */,
 				4054B8F825B409D60023FC7F /* SystemConfiguration.framework in Frameworks */,
+				40CEA382274F91070079F3F6 /* BMKLocationKit.framework in Frameworks */,
 				4054B8F625B409BB0023FC7F /* Accelerate.framework in Frameworks */,
+				40CEA361274F884C0079F3F6 /* RongCallLib.xcframework in Frameworks */,
+				40CEA384274F91070079F3F6 /* libcrypto.a in Frameworks */,
 				406BF1A525ADD52100A12DC3 /* QuartzCore.framework in Frameworks */,
-				40CEA320274F750B0079F3F6 /* libssl.a in Frameworks */,
+				40CEA35E274F884A0079F3F6 /* RongCallKit.xcframework in Frameworks */,
 				406BF1A325ADD51700A12DC3 /* OpenGLES.framework in Frameworks */,
 				406BF1A125ADD50E00A12DC3 /* MapKit.framework in Frameworks */,
-				40CEA17B274F6A290079F3F6 /* BaiduMapAPI_Map.framework in Frameworks */,
+				40CEA36B274F88570079F3F6 /* RongIMLib.xcframework in Frameworks */,
 				406BF19E25ADD50300A12DC3 /* libz.tbd in Frameworks */,
 				406BF19B25ADD4FA00A12DC3 /* libxml2.tbd in Frameworks */,
+				40CEA387274F91070079F3F6 /* BaiduMapAPI_Map.framework in Frameworks */,
+				40CEA375274F886A0079F3F6 /* RongSight.xcframework in Frameworks */,
 				406BF19525ADD4D600A12DC3 /* libsqlite3.0.tbd in Frameworks */,
+				40CEA373274F88670079F3F6 /* RongRTCLib.xcframework in Frameworks */,
 				406BF19225ADD4CC00A12DC3 /* libc++abi.tbd in Frameworks */,
 				406BF18F25ADD4C500A12DC3 /* libc++.tbd in Frameworks */,
-				40CEA181274F6A290079F3F6 /* BaiduMapAPI_Cloud.framework in Frameworks */,
 				406BF18D25ADD4B400A12DC3 /* ImageIO.framework in Frameworks */,
+				40CEA385274F91070079F3F6 /* libssl.a in Frameworks */,
 				406BF18B25ADD4A800A12DC3 /* CoreVideo.framework in Frameworks */,
+				40CEA377274F886D0079F3F6 /* RongSticker.xcframework in Frameworks */,
 				406BF18925ADD49D00A12DC3 /* CoreTelephony.framework in Frameworks */,
 				406BF18725ADD49500A12DC3 /* CoreMedia.framework in Frameworks */,
+				40CEA383274F91070079F3F6 /* BaiduMapAPI_Utils.framework in Frameworks */,
+				40CEA371274F88640079F3F6 /* RongPublicService.xcframework in Frameworks */,
 				406BF18525ADD48C00A12DC3 /* CoreLocation.framework in Frameworks */,
 				406BF18325ADD48200A12DC3 /* CoreGraphics.framework in Frameworks */,
-				40CEA178274F6A290079F3F6 /* libvo-amrwbenc.a in Frameworks */,
+				40CEA36D274F885E0079F3F6 /* RongIMLibCore.xcframework in Frameworks */,
 				406BF18125ADD47800A12DC3 /* CoreAudio.framework in Frameworks */,
+				40CEA36F274F88610079F3F6 /* RongLocation.xcframework in Frameworks */,
 				406BF17F25ADD46C00A12DC3 /* CFNetwork.framework in Frameworks */,
-				40CEA183274F6A290079F3F6 /* BMKLocationKit.framework in Frameworks */,
-				40CEA174274F6A290079F3F6 /* RongIMLib.framework in Frameworks */,
-				40CEA176274F6A290079F3F6 /* libopencore-amrnb.a in Frameworks */,
-				40CEA180274F6A290079F3F6 /* BaiduMapAPI_Search.framework in Frameworks */,
+				40CEA363274F884E0079F3F6 /* RongChatRoom.xcframework in Frameworks */,
 				406BF17D25ADD46300A12DC3 /* AudioToolbox.framework in Frameworks */,
 				400B495125A6B653006CBEBB /* AssetsLibrary.framework in Frameworks */,
 				400B495525A6B66D006CBEBB /* AVFoundation.framework in Frameworks */,
 				400B495325A6B660006CBEBB /* Photos.framework in Frameworks */,
-				40CEA175274F6A290079F3F6 /* libopencore-amrwb.a in Frameworks */,
 				402AA1E12599738E00A9DABA /* WebKit.framework in Frameworks */,
+				40CEA367274F88520079F3F6 /* RongDiscussion.xcframework in Frameworks */,
 				402AA1222595E13100A9DABA /* CoreData.framework in Frameworks */,
-				40CEA17E274F6A290079F3F6 /* BaiduMapAPI_Utils.framework in Frameworks */,
+				40CEA386274F91070079F3F6 /* BaiduMapAPI_Search.framework in Frameworks */,
 				402A9F692595B1B500A9DABA /* UIKit.framework in Frameworks */,
-				40CEA173274F6A290079F3F6 /* RongIMKit.framework in Frameworks */,
+				40CEA381274F91070079F3F6 /* BaiduMapAPI_Base.framework in Frameworks */,
+				40CEA365274F88500079F3F6 /* RongCustomerService.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2152,7 +2224,6 @@
 				40CEA073274F6A280079F3F6 /* AFNetworking */,
 				40CEA008274F6A270079F3F6 /* Aspects */,
 				40CEA01E274F6A270079F3F6 /* BaiduMapKit */,
-				40CEA028274F6A270079F3F6 /* BMKLocationKit */,
 				40CEA099274F6A280079F3F6 /* BRPickerView */,
 				40CEA04A274F6A270079F3F6 /* IQKeyboardManager */,
 				40CEA02D274F6A270079F3F6 /* Masonry */,
@@ -2295,25 +2366,11 @@
 		40CEA00D274F6A270079F3F6 /* RongCloudIM */ = {
 			isa = PBXGroup;
 			children = (
-				40CEA00E274F6A270079F3F6 /* RongCloudIM */,
-			);
-			path = RongCloudIM;
-			sourceTree = "<group>";
-		};
-		40CEA00E274F6A270079F3F6 /* RongCloudIM */ = {
-			isa = PBXGroup;
-			children = (
-				40CEA00F274F6A270079F3F6 /* RCColor.plist */,
-				40CEA010274F6A270079F3F6 /* RongSticker.strings */,
-				40CEA012274F6A270079F3F6 /* RongCloudKit.strings */,
-				40CEA016274F6A270079F3F6 /* RongIMKit.framework */,
-				40CEA017274F6A270079F3F6 /* RongIMLib.framework */,
-				40CEA018274F6A270079F3F6 /* libopencore-amrwb.a */,
-				40CEA019274F6A270079F3F6 /* libopencore-amrnb.a */,
-				40CEA01A274F6A270079F3F6 /* Emoji.plist */,
-				40CEA01B274F6A270079F3F6 /* libvo-amrwbenc.a */,
-				40CEA01C274F6A270079F3F6 /* RongCloud.bundle */,
-				40CEA01D274F6A270079F3F6 /* RCConfig.plist */,
+				40CEA32F274F88200079F3F6 /* IMKit */,
+				40CEA33F274F88210079F3F6 /* IMLib */,
+				40CEA326274F88200079F3F6 /* Rong_Cloud_iOS_CallKit_SDK_v5_1_12_Stable */,
+				40CEA324274F88200079F3F6 /* Sight */,
+				40CEA338274F88210079F3F6 /* Sticker */,
 			);
 			path = RongCloudIM;
 			sourceTree = "<group>";
@@ -2321,47 +2378,15 @@
 		40CEA01E274F6A270079F3F6 /* BaiduMapKit */ = {
 			isa = PBXGroup;
 			children = (
-				40CEA01F274F6A270079F3F6 /* BaiduMapKit */,
+				40CEA388274F91EA0079F3F6 /* mapapi.bundle */,
+				40CEA379274F91060079F3F6 /* BaiduMapAPI_Base.framework */,
+				40CEA380274F91070079F3F6 /* BaiduMapAPI_Map.framework */,
+				40CEA37F274F91070079F3F6 /* BaiduMapAPI_Search.framework */,
+				40CEA37B274F91060079F3F6 /* BaiduMapAPI_Utils.framework */,
+				40CEA37A274F91060079F3F6 /* BMKLocationKit.framework */,
+				40CEA37C274F91060079F3F6 /* thirdlibs */,
 			);
 			path = BaiduMapKit;
-			sourceTree = "<group>";
-		};
-		40CEA01F274F6A270079F3F6 /* BaiduMapKit */ = {
-			isa = PBXGroup;
-			children = (
-				40CEA020274F6A270079F3F6 /* BaiduMapAPI_Map.framework */,
-				40CEA021274F6A270079F3F6 /* thirdlibs */,
-				40CEA024274F6A270079F3F6 /* BaiduMapAPI_Utils.framework */,
-				40CEA025274F6A270079F3F6 /* BaiduMapAPI_Base.framework */,
-				40CEA026274F6A270079F3F6 /* BaiduMapAPI_Search.framework */,
-				40CEA027274F6A270079F3F6 /* BaiduMapAPI_Cloud.framework */,
-			);
-			path = BaiduMapKit;
-			sourceTree = "<group>";
-		};
-		40CEA021274F6A270079F3F6 /* thirdlibs */ = {
-			isa = PBXGroup;
-			children = (
-				40CEA022274F6A270079F3F6 /* libcrypto.a */,
-				40CEA023274F6A270079F3F6 /* libssl.a */,
-			);
-			path = thirdlibs;
-			sourceTree = "<group>";
-		};
-		40CEA028274F6A270079F3F6 /* BMKLocationKit */ = {
-			isa = PBXGroup;
-			children = (
-				40CEA02A274F6A270079F3F6 /* framework */,
-			);
-			path = BMKLocationKit;
-			sourceTree = "<group>";
-		};
-		40CEA02A274F6A270079F3F6 /* framework */ = {
-			isa = PBXGroup;
-			children = (
-				40CEA02B274F6A270079F3F6 /* BMKLocationKit.framework */,
-			);
-			path = framework;
 			sourceTree = "<group>";
 		};
 		40CEA02D274F6A270079F3F6 /* Masonry */ = {
@@ -2870,6 +2895,72 @@
 			path = Private;
 			sourceTree = "<group>";
 		};
+		40CEA324274F88200079F3F6 /* Sight */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA325274F88200079F3F6 /* RongSight.xcframework */,
+			);
+			path = Sight;
+			sourceTree = "<group>";
+		};
+		40CEA326274F88200079F3F6 /* Rong_Cloud_iOS_CallKit_SDK_v5_1_12_Stable */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA327274F88200079F3F6 /* RongCallKit.xcframework */,
+				40CEA328274F88200079F3F6 /* RongCallKit.strings */,
+				40CEA32C274F88200079F3F6 /* RongCallLib.xcframework */,
+				40CEA32D274F88200079F3F6 /* RongCallKit.bundle */,
+				40CEA32E274F88200079F3F6 /* RongRTCLib.xcframework */,
+			);
+			path = Rong_Cloud_iOS_CallKit_SDK_v5_1_12_Stable;
+			sourceTree = "<group>";
+		};
+		40CEA32F274F88200079F3F6 /* IMKit */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA330274F88200079F3F6 /* RCColor.plist */,
+				40CEA331274F88200079F3F6 /* RongIMKit.xcframework */,
+				40CEA332274F88200079F3F6 /* RongCloudKit.strings */,
+				40CEA336274F88200079F3F6 /* Emoji.plist */,
+				40CEA337274F88200079F3F6 /* RongCloud.bundle */,
+			);
+			path = IMKit;
+			sourceTree = "<group>";
+		};
+		40CEA338274F88210079F3F6 /* Sticker */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA339274F88210079F3F6 /* RongSticker.strings */,
+				40CEA33C274F88210079F3F6 /* RongSticker.xcframework */,
+				40CEA33E274F88210079F3F6 /* RongSticker.bundle */,
+			);
+			path = Sticker;
+			sourceTree = "<group>";
+		};
+		40CEA33F274F88210079F3F6 /* IMLib */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA340274F88210079F3F6 /* RongCustomerService.xcframework */,
+				40CEA341274F88210079F3F6 /* RongChatRoom.xcframework */,
+				40CEA342274F88210079F3F6 /* RongIMLib.xcframework */,
+				40CEA343274F88210079F3F6 /* RongIMLibCore.xcframework */,
+				40CEA344274F88210079F3F6 /* RongLocation.xcframework */,
+				40CEA345274F88210079F3F6 /* RongPublicService.xcframework */,
+				40CEA346274F88210079F3F6 /* RongDiscussion.xcframework */,
+				40CEA347274F88210079F3F6 /* RCConfig.plist */,
+			);
+			path = IMLib;
+			sourceTree = "<group>";
+		};
+		40CEA37C274F91060079F3F6 /* thirdlibs */ = {
+			isa = PBXGroup;
+			children = (
+				40CEA37D274F91060079F3F6 /* libcrypto.a */,
+				40CEA37E274F91060079F3F6 /* libssl.a */,
+			);
+			path = thirdlibs;
+			sourceTree = "<group>";
+		};
 		40E334BB25A8AA91008DBDAB /* SupernatantView */ = {
 			isa = PBXGroup;
 			children = (
@@ -2889,6 +2980,7 @@
 				402A9EEB2595769900A9DABA /* Sources */,
 				402A9EEC2595769900A9DABA /* Frameworks */,
 				402A9EED2595769900A9DABA /* Resources */,
+				40CEA360274F884A0079F3F6 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -2920,6 +3012,7 @@
 				en,
 				Base,
 				"zh-Hans",
+				ar,
 			);
 			mainGroup = 402A9EE62595769900A9DABA;
 			productRefGroup = 402A9EF02595769900A9DABA /* Products */;
@@ -2936,18 +3029,22 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				40CEA170274F6A280079F3F6 /* RCColor.plist in Resources */,
+				40CEA353274F88210079F3F6 /* RongSticker.strings in Resources */,
 				402AA2042599E02100A9DABA /* Task.storyboard in Resources */,
-				40CEA17A274F6A290079F3F6 /* RCConfig.plist in Resources */,
 				40CEA157274F6A280079F3F6 /* MJRefresh.bundle in Resources */,
+				40CEA35D274F88210079F3F6 /* RCConfig.plist in Resources */,
 				402A9F052595769C00A9DABA /* LaunchScreen.storyboard in Resources */,
+				40CEA34E274F88210079F3F6 /* RCColor.plist in Resources */,
+				40CEA352274F88210079F3F6 /* RongCloud.bundle in Resources */,
 				402A9F022595769C00A9DABA /* Assets.xcassets in Resources */,
 				402A9EFD2595769900A9DABA /* Main.storyboard in Resources */,
+				40CEA355274F88210079F3F6 /* RongSticker.bundle in Resources */,
+				40CEA34C274F88210079F3F6 /* RongCallKit.bundle in Resources */,
+				40CEA389274F91EA0079F3F6 /* mapapi.bundle in Resources */,
+				40CEA34A274F88210079F3F6 /* RongCallKit.strings in Resources */,
 				40CEA1B9274F6A2A0079F3F6 /* BRPickerView.bundle in Resources */,
-				40CEA179274F6A290079F3F6 /* RongCloud.bundle in Resources */,
-				40CEA172274F6A280079F3F6 /* RongCloudKit.strings in Resources */,
-				40CEA177274F6A290079F3F6 /* Emoji.plist in Resources */,
-				40CEA171274F6A280079F3F6 /* RongSticker.strings in Resources */,
+				40CEA351274F88210079F3F6 /* Emoji.plist in Resources */,
+				40CEA350274F88210079F3F6 /* RongCloudKit.strings in Resources */,
 				402AA1BD2598762000A9DABA /* Team.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3315,22 +3412,34 @@
 			name = Team.storyboard;
 			sourceTree = "<group>";
 		};
-		40CEA010274F6A270079F3F6 /* RongSticker.strings */ = {
+		40CEA328274F88200079F3F6 /* RongCallKit.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				40CEA011274F6A270079F3F6 /* zh-Hans */,
-				40CEA014274F6A270079F3F6 /* en */,
+				40CEA329274F88200079F3F6 /* ar */,
+				40CEA32A274F88200079F3F6 /* zh-Hans */,
+				40CEA32B274F88200079F3F6 /* en */,
 			);
-			name = RongSticker.strings;
+			name = RongCallKit.strings;
 			sourceTree = "<group>";
 		};
-		40CEA012274F6A270079F3F6 /* RongCloudKit.strings */ = {
+		40CEA332274F88200079F3F6 /* RongCloudKit.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				40CEA013274F6A270079F3F6 /* zh-Hans */,
-				40CEA015274F6A270079F3F6 /* en */,
+				40CEA333274F88200079F3F6 /* ar */,
+				40CEA334274F88200079F3F6 /* zh-Hans */,
+				40CEA335274F88200079F3F6 /* en */,
 			);
 			name = RongCloudKit.strings;
+			sourceTree = "<group>";
+		};
+		40CEA339274F88210079F3F6 /* RongSticker.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				40CEA33A274F88210079F3F6 /* ar */,
+				40CEA33B274F88210079F3F6 /* zh-Hans */,
+				40CEA33D274F88210079F3F6 /* en */,
+			);
+			name = RongSticker.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -3463,6 +3572,7 @@
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BMKLocationKit/framework",
 					"\"$(SRCROOT)/TTManager/thirdLib/SDWebImage\"",
+					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
@@ -3475,7 +3585,9 @@
 					"$(PROJECT_DIR)/TTManager/thirdLib/RongCloudIM/RongCloudIM",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit/thirdlibs",
+					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/thirdlibs",
 				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
@@ -3497,6 +3609,7 @@
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BMKLocationKit/framework",
 					"\"$(SRCROOT)/TTManager/thirdLib/SDWebImage\"",
+					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit",
 				);
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TTManager/Resource/PrefixHeader.pch";
 				INFOPLIST_FILE = TTManager/Info.plist;
@@ -3509,8 +3622,10 @@
 					"$(PROJECT_DIR)/TTManager/thirdLib/RongCloudIM/RongCloudIM",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit",
 					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/BaiduMapKit/thirdlibs",
+					"$(PROJECT_DIR)/TTManager/thirdLib/BaiduMapKit/thirdlibs",
 				);
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.suzic.zhkj;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = 1;
