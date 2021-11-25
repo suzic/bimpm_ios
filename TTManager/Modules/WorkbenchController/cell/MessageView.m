@@ -77,20 +77,6 @@
     return view;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    NSString *name = @"";
-    id data = self.messageArray[indexPath.section];
-    if ([data isKindOfClass:[NSString class]])
-    {
-        name = (NSString *)name;
-    }else if([data isKindOfClass:[ZHProjectMemo class]]){
-        ZHProjectMemo *memo = (ZHProjectMemo *)data;
-        name = memo.line;
-    }
-    CGFloat textHeight = [NSString heightFromString:name withFont:[UIFont systemFontOfSize:14.0f] constraintToWidth:self.frame.size.width - 70];
-    return textHeight < 30 ? 40:textHeight+38;
-}
-
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     static NSString *cellIdentifier = @"messageCell";
     MsgCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
@@ -112,6 +98,9 @@
         [_tableView registerClass:[MsgFooterView class] forHeaderFooterViewReuseIdentifier:@"footer"];
         _tableView.delegate = self;
         _tableView.dataSource = self;
+        _tableView.estimatedRowHeight = 44.0f;
+        _tableView.rowHeight = UITableViewAutomaticDimension;
+        
     }
     return _tableView;
 }
