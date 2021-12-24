@@ -403,7 +403,7 @@ static NSString *headerCell = @"headerCell";
         index2 = 11;
     }
     // 日期
-    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:1]};
+    NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:2]};
     // 记录人
     NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":user.name};
     NSArray *array = @[timedic,userdic];
