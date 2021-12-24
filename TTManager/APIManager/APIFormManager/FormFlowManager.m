@@ -313,7 +313,7 @@
                 }else{
                     itemImageArray = [NSMutableArray array];
                 }
-                NSString *url = [NSString stringWithFormat:@"%@/FileService/%@",FILESERVICEADDRESS,link];
+                NSString *url = [NSString stringWithFormat:@"%@/FileService/%@",SERVICEADDRESS,link];
                 [itemImageArray addObject:url];
                 itemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];
                 currentitemDic[@"instance_value"] = [itemImageArray componentsJoinedByString:@","];

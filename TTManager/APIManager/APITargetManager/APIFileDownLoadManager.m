@@ -21,7 +21,7 @@
     return URL_FILE_DOWNLOAD(self.uid_target);
 }
 - (NSString *)service{
-    return FILESERVICEADDRESS;
+    return SERVICEADDRESS;
 }
 - (RequestType)requestType{
     return REQUEST_TYPE_GET;

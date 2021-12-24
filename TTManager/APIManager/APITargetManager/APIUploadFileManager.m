@@ -22,7 +22,7 @@
     return URL_UPLOAD_FILE;
 }
 - (NSString *)service{
-    return FILESERVICEADDRESS;
+    return SERVICEADDRESS;
 }
 - (RequestType)requestType{
     return REQUEST_TYPE_UPLOAD;

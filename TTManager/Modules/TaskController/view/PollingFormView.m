@@ -338,7 +338,7 @@ static NSString *headerCell = @"headerCell";
 }
 
 - (NSString *)getDownLoadFormUrl{
-    NSString *url = [NSString stringWithFormat:@"%@%@",FILESERVICEADDRESS,URL_FILE_DOWNLOAD(self.formFlowManager.instanceBuddy_file)];
+    NSString *url = [NSString stringWithFormat:@"%@%@",SERVICEADDRESS,URL_FILE_DOWNLOAD(self.formFlowManager.instanceBuddy_file)];
     return url;
 }
 

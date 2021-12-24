@@ -83,6 +83,13 @@
 - (NSNumber *)loadDataWithParams:(NSDictionary *)params
 {
     NSNumber *requestId = 0;
+    // 获取当前是否选择过服务器，如果没选择过，直接返回，到选择服务器页面
+    BOOL hasServer = [[TTProductManager defaultInstance] hasCurrentSelectedProduct];
+    if (hasServer == NO) {
+        [self noSelectedProductServerAddress];
+        return requestId;
+    }
+    
     NSDictionary *apiParams = [self reformParams:params];
     // 校验参数
     if ([self.validator manager:self isCorrectWithParamsData:apiParams])
@@ -137,6 +144,12 @@
         [self.requestIdList removeObject:requestIDToRemove];
     }
 }
+// 没有选择产品地址时，直接触发登录操作
+- (void)noSelectedProductServerAddress{
+    LCURLResponse *noServer = [[LCURLResponse alloc] initWithResponseData:@{@"code":@1} requestId:@0 task:[[NSURLSessionDataTask alloc] init] status:LCURLResponseStatusSuccess];
+    [self.errIntercept shouldCallBackByFailedOnCallingAPI:noServer];
+}
+
 #pragma mark - api callbacks
 - (void)successedOnCallingAPI:(LCURLResponse *)response
 {

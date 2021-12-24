@@ -57,26 +57,25 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFinish:) name:NotiUserLogined object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFailed:) name:NotiUserLoginFailed object:nil];
-    
     self.controllerType = typeLoginPassword;
     self.currentSelectedTab = 0;
     self.showCaptch = NO;
-    
-//    TTProductView *productView = [[TTProductView alloc] initWithFrame:CGRectZero];
-//    [self.view addSubview:productView];
-//    [productView makeConstraints:^(MASConstraintMaker *make) {
-//        make.top.left.bottom.right.equalTo(0);
-//    }];
+    [self addNoti];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.view clearStatusBarColor];
-    NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
-    [self changeLogo:dict];
+    // 当前是否选择过服务器
+    BOOL hasServer = [[TTProductManager defaultInstance] hasCurrentSelectedProduct];
+    // 显示选择服务器
+    if (hasServer == NO) {
+        [[LCPopTool defaultInstance] showAnimated:YES];
+    }
+    // 更新登录logo
+    else{
+        [self changeLogo];
+    }
 }
 
 - (void)viewWillDisappear:(BOOL)animated{
@@ -269,11 +268,13 @@
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:phone_change]) {
         self.phone = userInfo[@"phone"];
-    }else if([eventName isEqualToString:current_selected_service]){
-        [self changeLogo:userInfo];
     }
 }
-- (void)changeLogo:(NSDictionary *)dict{
+- (void)notiCloseProductView:(NSNotification *)noti{
+    
+}
+- (void)changeLogo{
+    NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
     if ([SZUtil isEmptyOrNull:dict[@"image"]]) {
         return;
     }
@@ -553,6 +554,12 @@
 }
 
 #pragma mark - Notification
+
+- (void)addNoti{
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFinish:) name:NotiUserLogined object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userLoginFailed:) name:NotiUserLoginFailed object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(changeLogo) name:NotiCloseProductView object:nil];
+}
 - (void)userLoginFinish:(NSNotification *)notification
 {
     [self dismissViewControllerAnimated:YES completion:nil];

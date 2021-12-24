@@ -25,16 +25,14 @@
     return self;
 }
 - (void)setProductDict:(NSDictionary *)productDict{
-    if (_productDict != productDict) {
-        _productDict = productDict;
-        [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image"]] forState:UIControlStateNormal];
-        [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateHighlighted];
-        [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateSelected];
-        self.titleLabel.text = _productDict[@"title"];
-        NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
-        if ([[TTProductManager defaultInstance] hasCurrentSelectedProduct] == true) {
-            self.imageView.selected = [dict[@"type"] isEqualToString:_productDict[@"type"]];
-        }
+    _productDict = productDict;
+    [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image"]] forState:UIControlStateNormal];
+    [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateHighlighted];
+    [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateSelected];
+    self.titleLabel.text = _productDict[@"title"];
+    NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
+    if ([[TTProductManager defaultInstance] hasCurrentSelectedProduct] == true) {
+        self.imageView.selected = [dict[@"type"] isEqualToString:_productDict[@"type"]];
     }
 }
 

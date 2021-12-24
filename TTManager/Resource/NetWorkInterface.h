@@ -14,7 +14,10 @@
 #define roadwork_form_template_id       @"basicform-sgrz_37_104"
 #define inspection_form_template_id     @"basicform-xjd_20_39_51_103_104"
 
+// 当前选择的服务器
 #define current_selected_service        @"current_selected_service"
+
+// 产品列表
 #define product_list                    @[@{@"type":@"3",\
 @"title":@"BIM+智慧工地",\
 @"image":@"product_zhgd",\
@@ -41,81 +44,49 @@
 @"image_selected":@"product_glypt_selected",\
 @"address":@"https://www.bim-pm.com"}]\
 
-// 切换服务器
-#define UserDefaultsNetService          @"userDefaultsNetService"
-// 当前选择的服务器 0 测试 1线上
-#define SelectedService                 ([[NSUserDefaults standardUserDefaults] objectForKey:UserDefaultsNetService])
-
 // 服务器地址
-#if DEBUG
-#define SERVICEADDRESS ({ \
-NSString *service = @"https://www.bim-pm.com/bimpmservice"; \
-if ([SelectedService isEqualToString:@"0"]) { \
-    service =@"http://www.suzic.cn:8010"; \
-}else if([SelectedService isEqualToString:@"1"]){ \
-    service = @"https://www.bim-pm.com/bimpmservice"; \
-} \
-service; \
-})
-#else
-#define SERVICEADDRESS  @"https://www.bim-pm.com/bimpmservice"
-#endif
-
-// 服务器地址
-#if DEBUG
-#define FILESERVICEADDRESS ({ \
-NSString *fileService = @"https://www.bim-pm.com"; \
-if ([SelectedService isEqualToString:@"0"]) { \
-fileService =@"https://www.suzic.cn"; \
-}else if([SelectedService isEqualToString:@"1"]){ \
-fileService = @"https://www.bim-pm.com"; \
-} \
-fileService; \
-})
-#else
-#define FILESERVICEADDRESS @"https://www.bim-pm.com"
-#endif
+#define SERVICEADDRESS ([[TTProductManager defaultInstance] getCurrentProduc][@"address"])
 
 // 用户登录相关接口
-#define URI_SIGN_IN                             @"/login/signIn"
-#define URI_SIGN_UP                             @"/login/signUp"
-#define URI_SIGN_OUT                            @"/login/signOut"
-#define URI_SIGN_RESET                          @"/login/signReset"
-#define URI_VERIFY_CAPTCHA                      @"/login/verifyByCaptcha"
-#define URI_VERIFY_PHONE                        @"/login/verifyByPhone"
+#define URI_SIGN_IN                             @"/bimpmservice/login/signIn"
+#define URI_SIGN_UP                             @"/bimpmservice/login/signUp"
+#define URI_SIGN_OUT                            @"/bimpmservice/login/signOut"
+#define URI_SIGN_RESET                          @"/bimpmservice/login/signReset"
+#define URI_VERIFY_CAPTCHA                      @"/bimpmservice/login/verifyByCaptcha"
+#define URI_VERIFY_PHONE                        @"/bimpmservice/login/verifyByPhone"
 
 // 获取IM的token
-#define URL_CHAT_TOKEN                          @"/user/UserChat"
+#define URL_CHAT_TOKEN                          @"/bimpmservice/user/UserChat"
 // 用户基础信息
-#define URL_USER_DETAIL                         @"/user/UserDetail"
+#define URL_USER_DETAIL                         @"/bimpmservice/user/UserDetail"
 
 // 用户对项目操作
-#define URL_USER_PROJECT_INFO                   @"/user/UserToProjectInfo"
-#define URL_USER_PROJECT_GANTT                  @"/user/UserToProjectGantt"
-#define URL_USER_PROJECT_LIST                   @"/user/UserToProjectList"
-#define URL_USER_PROJECT_DETAIL                 @"/user/UserToProjectDetail"
-#define URL_USER_PROJECT_OPERATIONS             @"/user/UserToProjectOperations"
+#define URL_USER_PROJECT_INFO                   @"/bimpmservice/user/UserToProjectInfo"
+#define URL_USER_PROJECT_GANTT                  @"/bimpmservice/user/UserToProjectGantt"
+#define URL_USER_PROJECT_LIST                   @"/bimpmservice/user/UserToProjectList"
+#define URL_USER_PROJECT_DETAIL                 @"/bimpmservice/user/UserToProjectDetail"
+#define URL_USER_PROJECT_OPERATIONS             @"/bimpmservice/user/UserToProjectOperations"
 
 // 文件
-#define URL_TARGET_LIST                         @"/file/TargetList"
-#define URL_TARGET_RENAME                       @"/file/TargetRename"
-#define URL_TARGET_OPERATIONS                   @"/file/TargetOperations"
-#define URL_TARGET_CLONE                        @"/file/TargetClone"
-#define URL_TARGET_NEW                          @"/file/TargetNew"
-#define URL_TARGET_UPDATE                       @"/file/TargetUpdate"
+#define URL_TARGET_LIST                         @"/bimpmservice/file/TargetList"
+#define URL_TARGET_RENAME                       @"/bimpmservice/file/TargetRename"
+#define URL_TARGET_OPERATIONS                   @"/bimpmservice/file/TargetOperations"
+#define URL_TARGET_CLONE                        @"/bimpmservice/file/TargetClone"
+#define URL_TARGET_NEW                          @"/bimpmservice/file/TargetNew"
+#define URL_TARGET_UPDATE                       @"/bimpmservice/file/TargetUpdate"
 
 // 团队成员
-#define URL_DEPARTMENT_LIST                      @"/department/DepartmentList"
-#define URL_DEPARTMENT_DETAIL                    @"/department/DepartmentDetail"
+#define URL_DEPARTMENT_LIST                      @"/bimpmservice/department/DepartmentList"
+#define URL_DEPARTMENT_DETAIL                    @"/bimpmservice/department/DepartmentDetail"
 #define URL_PROJECTTOUSER_DETAIL                 @"/project/ProjectToUserDetail"
 
 // 任务
-#define URL_TASK_LIST                            @"/task/TaskList"
-#define URL_TASK_DETAIL                          @"/task/TaskDetail"
-#define URL_TASK_NEW                             @"/task/TaskNew"
-#define URL_TASK_EDIT                            @"/task/TaskEdit"
-#define URL_TASK_OPERATIONS                      @"/task/TaskOperations"
-#define URL_TASK_PROCESS                         @"/task/TaskProcess"
+#define URL_TASK_LIST                            @"/bimpmservice/task/TaskList"
+#define URL_TASK_DETAIL                          @"/bimpmservice/task/TaskDetail"
+#define URL_TASK_NEW                             @"/bimpmservice/task/TaskNew"
+#define URL_TASK_EDIT                            @"/bimpmservice/task/TaskEdit"
+#define URL_TASK_OPERATIONS                      @"/bimpmservice/task/TaskOperations"
+#define URL_TASK_PROCESS                         @"/bimpmservice/task/TaskProcess"
 
 // 文件
 #define URL_UPLOAD_FILE      @"/fileviewservice/file/FileUpload"
@@ -125,9 +96,9 @@ fileService; \
 
 
 // 表单
-#define URL_FORM_NEW             @"/form/FormNew"
-#define URL_FORM_DETAIL          @"/form/FormDetail"
-#define URL_FORM_EDIT            @"/form/FormEdit"
-#define URL_FORM_LIST            @"/form/FormList"
-#define URL_FORM_OPERATIONS      @"/form/FormOperations"
+#define URL_FORM_NEW             @"/bimpmservice/form/FormNew"
+#define URL_FORM_DETAIL          @"/bimpmservice/form/FormDetail"
+#define URL_FORM_EDIT            @"/bimpmservice/form/FormEdit"
+#define URL_FORM_LIST            @"/bimpmservice/form/FormList"
+#define URL_FORM_OPERATIONS      @"/bimpmservice/form/FormOperations"
 #endif /* NetWorkInterface_h */

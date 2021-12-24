@@ -8,6 +8,7 @@
 #ifndef NotificationHeader_h
 #define NotificationHeader_h
 
+#define NotiCloseProductView            @"NotiCloseProductView"
 #define NotiShowLogin                   @"NotiShowLogin"
 #define NotiUserLogined                 @"NotiUserLogined"
 #define NotiUserLoginFailed             @"NotiUserLoginFailed"

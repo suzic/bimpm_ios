@@ -26,9 +26,11 @@
 }
 
 - (void)showAnimated:(BOOL)animated{
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     if (!_currentView) {
-        UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
         [keyWindow addSubview:self.currentView];
+    }else{
+        [keyWindow bringSubviewToFront:self.currentView];
     }
     // 屏幕中心
 //    CGPoint screenCenter = CGPointMake(kScreenWidth, kScreenHeight);
@@ -57,6 +59,8 @@
                   CGAffineTransformIdentity, 0.001, 0.001);
         } completion:^(BOOL finished) {
             self.currentView.hidden = YES;
+            self.currentView.transform = CGAffineTransformIdentity;
+            [[NSNotificationCenter defaultCenter] postNotificationName:NotiCloseProductView object:nil];
         }];
     }];
 }

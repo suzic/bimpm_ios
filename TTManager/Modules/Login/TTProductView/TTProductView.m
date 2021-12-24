@@ -34,7 +34,7 @@
     return self;
 }
 
-#pragma UICollectionViewDelegate && UICollectionViewDataSource
+#pragma - mark UICollectionViewDelegate && UICollectionViewDataSource
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView
 {
@@ -65,7 +65,11 @@
     }
 }
 
-#pragma get && set
+- (void)reloadProductView{
+    [self.collectionView reloadData];
+}
+
+#pragma - mark get && set
 
 - (UICollectionView *)collectionView
 {

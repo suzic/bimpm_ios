@@ -336,7 +336,7 @@
     
     ZHProject *currentProject = [DataManager defaultInstance].currentProject;
     // 正式服 项目id为53时显示监控
-    if (currentProject != nil && currentProject.id_project == 53 && [SelectedService isEqualToString:@"1"]) {
+    if (currentProject != nil && currentProject.id_project == 53) {
         [self.tarbarVC setViewControllers:self.tabbarVCArray];
     }else{
         NSMutableArray *tabbarViewControllers= [NSMutableArray arrayWithArray: [self.tarbarVC viewControllers]];

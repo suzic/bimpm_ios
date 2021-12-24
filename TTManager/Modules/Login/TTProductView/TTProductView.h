@@ -11,6 +11,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface TTProductView : UIView
 
+- (void)reloadProductView;
+
 @end
 
 NS_ASSUME_NONNULL_END
