@@ -202,6 +202,11 @@
 		40931CA3259B5CD7008C3518 /* TaskListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA2259B5CD7008C3518 /* TaskListCell.m */; };
 		40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CA6259C16CE008C3518 /* TaskStepView.m */; };
 		40931CAB259C27DC008C3518 /* TaskController.m in Sources */ = {isa = PBXBuildFile; fileRef = 40931CAA259C27DC008C3518 /* TaskController.m */; };
+		4099DE482775869300445395 /* TTProductView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099DE472775869300445395 /* TTProductView.m */; };
+		4099DE4C277586FE00445395 /* CircleLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099DE4B277586FE00445395 /* CircleLayout.m */; };
+		4099DE4F2775928300445395 /* TTProductCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099DE4E2775928300445395 /* TTProductCell.m */; };
+		4099DE522775B94A00445395 /* TTProductManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099DE512775B94A00445395 /* TTProductManager.m */; };
+		4099DE552775CFA300445395 /* LCPopTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4099DE542775CFA300445395 /* LCPopTool.m */; };
 		40A5294A25D6661C001C23E8 /* FormQRCodeView.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5294925D6661C001C23E8 /* FormQRCodeView.m */; };
 		40A5295425D67D7A001C23E8 /* TaskManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A5295325D67D7A001C23E8 /* TaskManager.m */; };
 		40A888D025E3F26E0044F1FE /* DateCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 40A888CF25E3F26E0044F1FE /* DateCell.m */; };
@@ -807,6 +812,16 @@
 		40931CA6259C16CE008C3518 /* TaskStepView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskStepView.m; sourceTree = "<group>"; };
 		40931CA9259C27DC008C3518 /* TaskController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskController.h; sourceTree = "<group>"; };
 		40931CAA259C27DC008C3518 /* TaskController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TaskController.m; sourceTree = "<group>"; };
+		4099DE462775869300445395 /* TTProductView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTProductView.h; sourceTree = "<group>"; };
+		4099DE472775869300445395 /* TTProductView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTProductView.m; sourceTree = "<group>"; };
+		4099DE4A277586FE00445395 /* CircleLayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CircleLayout.h; sourceTree = "<group>"; };
+		4099DE4B277586FE00445395 /* CircleLayout.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CircleLayout.m; sourceTree = "<group>"; };
+		4099DE4D2775928300445395 /* TTProductCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTProductCell.h; sourceTree = "<group>"; };
+		4099DE4E2775928300445395 /* TTProductCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTProductCell.m; sourceTree = "<group>"; };
+		4099DE502775B94A00445395 /* TTProductManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TTProductManager.h; sourceTree = "<group>"; };
+		4099DE512775B94A00445395 /* TTProductManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TTProductManager.m; sourceTree = "<group>"; };
+		4099DE532775CFA300445395 /* LCPopTool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LCPopTool.h; sourceTree = "<group>"; };
+		4099DE542775CFA300445395 /* LCPopTool.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LCPopTool.m; sourceTree = "<group>"; };
 		40A5294825D6661C001C23E8 /* FormQRCodeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FormQRCodeView.h; sourceTree = "<group>"; };
 		40A5294925D6661C001C23E8 /* FormQRCodeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FormQRCodeView.m; sourceTree = "<group>"; };
 		40A5295225D67D7A001C23E8 /* TaskManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TaskManager.h; sourceTree = "<group>"; };
@@ -1722,6 +1737,8 @@
 		402AA13A2596D06100A9DABA /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				4099DE49277586BF00445395 /* CircleLayout */,
+				4099DE452775867C00445395 /* TTProductView */,
 				4081EFC425BBF749004F8BB4 /* cell */,
 				402AA1632597039800A9DABA /* LoginViewController.h */,
 				402AA1642597039800A9DABA /* LoginViewController.m */,
@@ -2191,6 +2208,30 @@
 				40931C9C259B33C4008C3518 /* DragButton.m */,
 			);
 			path = DragButton;
+			sourceTree = "<group>";
+		};
+		4099DE452775867C00445395 /* TTProductView */ = {
+			isa = PBXGroup;
+			children = (
+				4099DE462775869300445395 /* TTProductView.h */,
+				4099DE472775869300445395 /* TTProductView.m */,
+				4099DE4D2775928300445395 /* TTProductCell.h */,
+				4099DE4E2775928300445395 /* TTProductCell.m */,
+				4099DE502775B94A00445395 /* TTProductManager.h */,
+				4099DE512775B94A00445395 /* TTProductManager.m */,
+				4099DE532775CFA300445395 /* LCPopTool.h */,
+				4099DE542775CFA300445395 /* LCPopTool.m */,
+			);
+			path = TTProductView;
+			sourceTree = "<group>";
+		};
+		4099DE49277586BF00445395 /* CircleLayout */ = {
+			isa = PBXGroup;
+			children = (
+				4099DE4A277586FE00445395 /* CircleLayout.h */,
+				4099DE4B277586FE00445395 /* CircleLayout.m */,
+			);
+			path = CircleLayout;
 			sourceTree = "<group>";
 		};
 		40A888FD25E495410044F1FE /* views */ = {
@@ -3121,6 +3162,7 @@
 				40E73E8A25BF13B500FC98DD /* APIFileDownLoadManager.m in Sources */,
 				40CEB600274FE5C40079F3F6 /* UIProgressView+AFNetworking.m in Sources */,
 				406FCAB525A1A74900636079 /* APITaskProcessManager.m in Sources */,
+				4099DE552775CFA300445395 /* LCPopTool.m in Sources */,
 				40CEB633274FE5C50079F3F6 /* SDWebImageManager.m in Sources */,
 				40CEB66B274FE5C50079F3F6 /* SDWeakProxy.m in Sources */,
 				4054B92125B40E560023FC7F /* ZHTarget+CoreDataProperties.m in Sources */,
@@ -3210,6 +3252,7 @@
 				40CEB5DD274FE5C40079F3F6 /* MJRefreshAutoNormalFooter.m in Sources */,
 				40CEB5E7274FE5C40079F3F6 /* MJRefreshComponent.m in Sources */,
 				402AA0ED2595D8CF00A9DABA /* ZHAllow+CoreDataClass.m in Sources */,
+				4099DE522775B94A00445395 /* TTProductManager.m in Sources */,
 				403BF301259D792F004D317C /* FileListView.m in Sources */,
 				402AA1042595D90400A9DABA /* ZHStep+CoreDataClass.m in Sources */,
 				402AA0DB2595D8A300A9DABA /* ZHProject+CoreDataClass.m in Sources */,
@@ -3229,6 +3272,8 @@
 				4054B99C25B719190023FC7F /* APIFormEditManager.m in Sources */,
 				406FCAD325A2036900636079 /* UIViewController+AOP.m in Sources */,
 				402AA0E02595D8A300A9DABA /* ZHModule+CoreDataClass.m in Sources */,
+				4099DE4C277586FE00445395 /* CircleLayout.m in Sources */,
+				4099DE482775869300445395 /* TTProductView.m in Sources */,
 				402AA1D42598AD1700A9DABA /* TaskInforCell.m in Sources */,
 				40931CA7259C16CE008C3518 /* TaskStepView.m in Sources */,
 				40CEB653274FE5C50079F3F6 /* SDImageFrame.m in Sources */,
@@ -3332,6 +3377,7 @@
 				402AA1992597448800A9DABA /* APILoginManager.m in Sources */,
 				402A9F752595B5BF00A9DABA /* NSArray+Dlog.m in Sources */,
 				406FCA6225A0430900636079 /* TaskTitleView.m in Sources */,
+				4099DE4F2775928300445395 /* TTProductCell.m in Sources */,
 				402AA1C72598A64800A9DABA /* UIView+BorderLine.m in Sources */,
 				4054B92E25B40F500023FC7F /* SettingViewController.m in Sources */,
 				406FCA9425A1A51900636079 /* APIUTPGanttManager.m in Sources */,

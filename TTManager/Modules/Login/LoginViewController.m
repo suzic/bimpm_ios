@@ -11,9 +11,12 @@
 #import "PassCell.h"
 #import "VerificationCell.h"
 #import "OperationCell.h"
-
+#import "TTProductView.h"
 
 @interface LoginViewController ()<ApiManagerCallBackDelegate,APIManagerParamSource,UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate>
+
+@property (weak, nonatomic) IBOutlet UIImageView *logo;
+@property (weak, nonatomic) IBOutlet UILabel *logoName;
 
 @property (weak, nonatomic) IBOutlet UISegmentedControl *tabLoginMode;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -61,15 +64,26 @@
     self.controllerType = typeLoginPassword;
     self.currentSelectedTab = 0;
     self.showCaptch = NO;
+    
+//    TTProductView *productView = [[TTProductView alloc] initWithFrame:CGRectZero];
+//    [self.view addSubview:productView];
+//    [productView makeConstraints:^(MASConstraintMaker *make) {
+//        make.top.left.bottom.right.equalTo(0);
+//    }];
 }
+
 - (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     [self.view clearStatusBarColor];
+    NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
+    [self changeLogo:dict];
 }
+
 - (void)viewWillDisappear:(BOOL)animated{
     [super viewWillDisappear:animated];
     [self.view defaultStatusBarColor];
 }
+
 #pragma mark - UITableViewDelegate,UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
@@ -255,7 +269,20 @@
 - (void)routerEventWithName:(NSString *)eventName userInfo:(NSDictionary *)userInfo{
     if ([eventName isEqualToString:phone_change]) {
         self.phone = userInfo[@"phone"];
+    }else if([eventName isEqualToString:current_selected_service]){
+        [self changeLogo:userInfo];
     }
+}
+- (void)changeLogo:(NSDictionary *)dict{
+    if ([SZUtil isEmptyOrNull:dict[@"image"]]) {
+        return;
+    }
+    self.logo.image = [UIImage imageNamed:dict[@"image"]];
+    self.logoName.text = dict[@"title"];
+}
+- (IBAction)showSelectedProductView:(id)sender {
+    NSLog(@"111111111111111");
+    [[LCPopTool defaultInstance] showAnimated:true];
 }
 
 - (IBAction)textChange:(id)sender {

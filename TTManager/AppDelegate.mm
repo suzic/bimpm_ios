@@ -19,6 +19,8 @@
     // Override point for customization after application launch.
     // 初始化数据库实例
     [DataManager defaultInstance];
+    
+    [TTProductManager defaultInstance];
     // 初始化键盘
     [self initIQKeyBoard];
     // 初始化融云

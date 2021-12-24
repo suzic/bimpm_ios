@@ -14,6 +14,33 @@
 #define roadwork_form_template_id       @"basicform-sgrz_37_104"
 #define inspection_form_template_id     @"basicform-xjd_20_39_51_103_104"
 
+#define current_selected_service        @"current_selected_service"
+#define product_list                    @[@{@"type":@"3",\
+@"title":@"BIM+智慧工地",\
+@"image":@"product_zhgd",\
+@"image_selected":@"product_zhgd_selected",\
+@"address":@"https://building.bim-pm.com"},\
+@{@"type":@"4",\
+@"title":@"BIM+智慧物业",\
+@"image":@"product_zhwy",\
+@"image_selected":@"product_zhwy_selected",\
+@"address":@"htps://property.bim-pm.com"},\
+@{@"type":@"5",\
+@"title":@"BIM+智慧园区",\
+@"image":@"product_zhyq",\
+@"image_selected":@"product_zhyq_selected",\
+@"address":@"https://park.bim-pm.com"},\
+@{@"type":@"1",\
+@"title":@"企业云盘",\
+@"image":@"product_qyyp",\
+@"image_selected":@"product_qyyp_selected",\
+@"address":@"https://cloud.bim-pm.com"},\
+@{@"type":@"2",\
+@"title":@"管理云平台",\
+@"image":@"product_glypt",\
+@"image_selected":@"product_glypt_selected",\
+@"address":@"https://www.bim-pm.com"}]\
+
 // 切换服务器
 #define UserDefaultsNetService          @"userDefaultsNetService"
 // 当前选择的服务器 0 测试 1线上

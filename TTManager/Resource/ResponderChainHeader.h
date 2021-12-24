@@ -8,8 +8,10 @@
 #ifndef ResponderChainHeader_h
 #define ResponderChainHeader_h
 
+// 表单高度
+#define login_product_selected  @"login_product_selected"
 // 输入手机号
-#define phone_change           @"phone_change"
+#define phone_change            @"phone_change"
 
 // 选择某个task
 #define Task_list_selected      @"Task_list_selected"
