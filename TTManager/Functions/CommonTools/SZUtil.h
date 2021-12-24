@@ -196,4 +196,7 @@
 /// @param htmlString 文本内容
 + (NSString *)removeHtmlWithString:(NSString *)htmlString;
 
+/// 获取字符串中的中文
+/// @param string 原字符串
++ (NSString *)getChineseInString:(NSString *)string;
 @end

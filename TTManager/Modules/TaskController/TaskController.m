@@ -498,7 +498,9 @@
     NSDictionary *dic = (NSDictionary *)manager.response.responseData;
     NSDictionary *result = dic[@"data"][@"results"][0];
     if (![result[@"sub_code"] isEqualToNumber:@0]) {
-        [SZAlert showInfo:result[@"msg"] underTitle:TARGETS_NAME];
+        NSString *msg = [SZUtil getChineseInString:result[@"msg"]];
+        [SZAlert showInfo:msg underTitle:TARGETS_NAME];
+        
     }else{
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"操作成功" message:nil preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *sure = [UIAlertAction actionWithTitle:@"确认" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {

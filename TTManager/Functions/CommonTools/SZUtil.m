@@ -1198,4 +1198,20 @@ void ProviderReleaseData (void *info, const void *data, size_t size)
     return htmlString;
 }
 
++ (NSString *)getChineseInString:(NSString *)string{
+    if ([SZUtil isEmptyOrNull:string]) {
+        return @"";
+    }
+    NSMutableArray *array = [NSMutableArray array];
+    //(unicode中文编码范围是0x4e00~0x9fa5)
+    for (int i=0; i<[string length]; i++){
+        int a = [string characterAtIndex:i];
+        if (a < 0x9fff && a > 0x4e00)
+        {
+            [array addObject:[string substringWithRange:NSMakeRange(i, 1)]];
+        }
+    }
+    return [array componentsJoinedByString:@""];
+}
+
 @end
