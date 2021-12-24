@@ -171,14 +171,13 @@
     [self addSubview:self.downImageView];
     
     [self.button makeConstraints:^(MASConstraintMaker *make) {
-        make.top.left.bottom.equalTo(0);
+        make.top.left.bottom.right.equalTo(0);
     }];
     
     [self.downImageView makeConstraints:^(MASConstraintMaker *make) {
         make.centerY.equalTo(self);
         make.width.height.equalTo(20);
         make.right.equalTo(-15);
-        make.left.equalTo(self.button.mas_right);
     }];
     
 }
