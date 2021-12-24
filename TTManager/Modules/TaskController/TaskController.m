@@ -344,11 +344,12 @@
 
 // 改变当前选中的步骤
 - (void)changeCurrentSelectedStepUser:(NSDictionary *)stepUserDic{
-    NSLog(@"改变当前选中的步骤");
+    NSLog(@"改变当前选中的步骤 = %@",stepUserDic);
     self.operabilityTools.currentSelectedStep = stepUserDic[@"step"];
 //    NSIndexPath *indexPath = stepUserDic[@"indexPath"];
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
+    self.pollingFormView.currentStep = self.operabilityTools.currentIndex;
 //    [self setPollingStepUser:self.operabilityTools.currentSelectedStep.responseUser.name index:indexPath.row];
     [self setPollingFromDetail];
 }
@@ -585,7 +586,7 @@
 //            self.pollingFormView.hidden = NO;
             ZHTarget *target = result[0];
             self.pollingFormView.formName = target.name;
-            self.pollingFormView.currentStep = index;
+            self.pollingFormView.currentStep = self.operabilityTools.currentIndex;
             [self.pollingFormView getCurrentFormDetail:target.uid_target];
         }else{
 //            self.pollingFormView.hidden = YES;

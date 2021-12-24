@@ -189,23 +189,28 @@ static NSString *headerCell = @"headerCell";
 // 获取表单详情成功
 - (void)formDetailResult:(BOOL)success{
     if (success == YES) {
-        if (self.formFlowManager.canEditForm == NO && self.needClone == YES) {
+        if (self.formFlowManager.canEditForm == NO) {
             if ([self startPollingFormStatus] == YES) {
                 // 如果是快照，默认展开所有的
                 if (self.formFlowManager.isSnapshoot == YES) {
                     [self.expandSectionArray addObject:@"0"];
                     [self.expandSectionArray addObject:@"1"];
                     [self.expandSectionArray addObject:@"2"];
+                    [self setExpandSectionArrayRule];
                     [self.tableView reloadData];
                 }else{
                     [self.formFlowManager cloneCurrentFormByBuddy_file];
                 }
             }else{
-                [self normalFillFormInfo];
+                if (self.needClone == YES) {
+                    [self normalFillFormInfo];
+                }
             }
         }else{
             self.formFlowManager.isEditForm = YES;
-            [self normalFillFormInfo];
+            if (self.needClone == YES) {
+                [self normalFillFormInfo];
+            }
         }
         self.loadFormSuccess = YES;
     }else{
@@ -332,11 +337,48 @@ static NSString *headerCell = @"headerCell";
     }else{
         [self.expandSectionArray addObject:sectionString];
     }
+    [self setExpandSectionArrayRule];
     NSIndexSet *reloadSet = [NSIndexSet indexSetWithIndex:section];
     [self.tableView reloadSections:reloadSet withRowAnimation:UITableViewRowAnimationFade];
     [self fillPollingUser];
 }
 
+- (void)setExpandSectionArrayRule{
+    NSMutableArray *array = [NSMutableArray arrayWithArray:self.expandSectionArray];
+    for (int i = 0; i < array.count; i++) {
+        int section = [array[i] intValue];
+        if (section == 0) {
+            if ([self hasFillData:1 end:6] == NO) {
+                [self.expandSectionArray removeObject: array[i]];
+            }
+        }else if(section == 1){
+            if ([self hasFillData:7 end:10] == NO) {
+                [self.expandSectionArray removeObject: array[i]];
+            }
+        }else if(section == 2){
+            if ([self hasFillData:11 end:20] == NO) {
+                [self.expandSectionArray removeObject: array[i]];
+            }
+        }
+    }
+}
+
+- (BOOL)hasFillData:(int)start end:(int)end{
+    BOOL hasFill = NO;
+    NSArray *items = self.formFlowManager.instanceDownLoadForm[@"items"];
+    for (int i = start; i < end; i ++) {
+        if (i > items.count-1) {
+            hasFill = NO;
+            break;
+        }
+        NSDictionary *itemDict = items[i];
+        if (![SZUtil isEmptyOrNull:itemDict[@"instance_value"]]) {
+            hasFill = YES;
+            break;
+        }
+    }
+    return hasFill;
+}
 - (NSString *)getDownLoadFormUrl{
     NSString *url = [NSString stringWithFormat:@"%@%@",SERVICEADDRESS,URL_FILE_DOWNLOAD(self.formFlowManager.instanceBuddy_file)];
     return url;
@@ -433,6 +475,7 @@ static NSString *headerCell = @"headerCell";
         }else{
             [self.expandSectionArray addObject:[NSString stringWithFormat:@"%ld",self.currentStep]];
         }
+        [self setExpandSectionArrayRule];
         [self.tableView reloadData];
         [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:self.currentStep] atScrollPosition:UITableViewScrollPositionNone animated:YES];
     }

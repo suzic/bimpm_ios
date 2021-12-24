@@ -290,6 +290,7 @@
         make.left.equalTo(8);
         make.height.equalTo(20);
         make.bottom.equalTo(-5);
+        make.width.equalTo(self.mas_width).multipliedBy(0.5);
     }];
     [self.deleteFileBtn makeConstraints:^(MASConstraintMaker *make) {
         make.left.equalTo(self.adjunctFileBtn.mas_right).offset(4);
