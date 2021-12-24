@@ -289,8 +289,7 @@
     // 内嵌图片
     if ([itemDic[@"type"] isEqualToNumber:@7]) {
         // 加密成Base64形式的NSString
-        NSString *base64String = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
-        base64String = [NSString stringWithFormat:@"data:text/rtf;base64,%@",base64String];
+        NSString *base64String = [SZUtil imageDataTobase64:imageData];
         itemDic[@"instance_value"] = base64String;
         currentitemDic[@"instance_value"] = base64String;
         items[indexPath.row] = itemDic;

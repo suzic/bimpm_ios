@@ -392,6 +392,7 @@ static NSString *headerCell = @"headerCell";
 //    NSString *time = [NSString stringWithFormat:@"%.0f", timeInterval*1000];
     NSInteger index = NSNotFound;
     NSInteger index2 = NSNotFound;
+    NSInteger index3 = NSNotFound;
     if (self.currentStep == 0) {
         index = 0;
         index2 = 1;
@@ -401,12 +402,21 @@ static NSString *headerCell = @"headerCell";
     }else if(self.currentStep == 2){
         index = 10;
         index2 = 11;
+        index3 = 12;
     }
     // 日期
     NSDictionary *timedic = @{@"indexPath":[NSIndexPath indexPathForRow:index2 inSection:0],@"value":[SZUtil getYYYYMMDD:[NSDate date] type:2]};
     // 记录人
     NSDictionary *userdic = @{@"indexPath":[NSIndexPath indexPathForRow:index inSection:0],@"value":user.name};
-    NSArray *array = @[timedic,userdic];
+    NSMutableArray *array = [NSMutableArray arrayWithArray:@[timedic,userdic]];
+    if (self.currentStep == 2) {
+        // 巡检单二维码
+       UIImage *image = [SZUtil createNonInterpolatedUIImageFormCIImage:[SZUtil createQRForString:[self getDownLoadFormUrl]] withSize:88];
+        NSString *imageData = [SZUtil imageTobase64:image];
+        
+        NSDictionary *code = @{@"indexPath":[NSIndexPath indexPathForRow:index3 inSection:0],@"value":imageData};
+        [array addObject:code];
+    }
 
     for (NSDictionary *itemDic in array) {
         [self.formFlowManager modifyCurrentDownLoadForm:itemDic automatic:YES];

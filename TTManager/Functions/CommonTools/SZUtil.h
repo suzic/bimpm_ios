@@ -199,4 +199,9 @@
 /// 获取字符串中的中文
 /// @param string 原字符串
 + (NSString *)getChineseInString:(NSString *)string;
+
+/// 图片转换base64
+/// @param image 图片
++ (NSString *)imageTobase64:(UIImage *)image;
++ (NSString *)imageDataTobase64:(NSData *)imageData;
 @end

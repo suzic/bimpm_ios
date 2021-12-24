@@ -1213,5 +1213,14 @@ void ProviderReleaseData (void *info, const void *data, size_t size)
     }
     return [array componentsJoinedByString:@""];
 }
++ (NSString *)imageTobase64:(UIImage *)image{
+    NSData *imageData = UIImageJPEGRepresentation(image, 1.0);
+    return  [self imageDataTobase64:imageData];
+}
++ (NSString *)imageDataTobase64:(NSData *)imageData{
+    NSString *base64String = [imageData base64EncodedStringWithOptions:NSDataBase64EncodingEndLineWithLineFeed];
+    base64String = [NSString stringWithFormat:@"data:text/rtf;base64,%@",base64String];
+    return base64String;
+}
 
 @end
