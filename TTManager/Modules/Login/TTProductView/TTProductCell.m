@@ -30,13 +30,22 @@
     [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateHighlighted];
     [self.imageView setBackgroundImage:[UIImage imageNamed:_productDict[@"image_selected"]] forState:UIControlStateSelected];
     self.titleLabel.text = _productDict[@"title"];
-    NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
     if ([[TTProductManager defaultInstance] hasCurrentSelectedProduct] == true) {
+        NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
         self.imageView.selected = [dict[@"type"] isEqualToString:_productDict[@"type"]];
     }
 }
 
 - (void)tapProductAction:(UIButton *)button{
+    // 如果当前选中和已经选中的相同则不做任何操作
+    if ([[TTProductManager defaultInstance] hasCurrentSelectedProduct] == true) {
+        NSDictionary *dict = [[TTProductManager defaultInstance] getCurrentProduc];
+        if ([dict[@"type"] isEqualToString:_productDict[@"type"]]) {
+            NSLog(@"两次选择一致，不做任何操作");
+            return;
+        }
+    }
+    
     button.selected = !button.selected;
     [self routerEventWithName:login_product_selected userInfo:self.productDict];
 }

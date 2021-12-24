@@ -32,9 +32,7 @@
     }else{
         [keyWindow bringSubviewToFront:self.currentView];
     }
-    // 屏幕中心
-//    CGPoint screenCenter = CGPointMake(kScreenWidth, kScreenHeight);
-//    self.currentView.center = screenCenter;
+    
     if (animated) {
         self.currentView.hidden = NO;
        // 第一步：将view宽高缩至无限小（点）
@@ -44,7 +42,6 @@
             self.currentView.transform =
                   CGAffineTransformScale(CGAffineTransformIdentity, 1, 1);
         } completion:^(BOOL finished) {
-            NSLog(@"%@", self.currentView);
         }];
      }
 }

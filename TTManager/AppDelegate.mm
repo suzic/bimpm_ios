@@ -92,7 +92,7 @@
     // 设置占位文字的字体
     keyboardManager.placeholderFont = [UIFont boldSystemFontOfSize:17];
     // 输入框距离键盘的距离
-    keyboardManager.keyboardDistanceFromTextField = 10.0f;
+    keyboardManager.keyboardDistanceFromTextField = 20.0f;
 }
 - (void)setAppearanceStyle
 {
