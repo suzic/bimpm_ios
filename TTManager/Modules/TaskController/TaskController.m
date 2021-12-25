@@ -155,6 +155,7 @@
     self.taskTitleView.tools = self.operabilityTools;
     self.taskContentView.tools = self.operabilityTools;
     self.taskOperationView.tools = self.operabilityTools;
+    self.pollingFormView.tools = self.operabilityTools;
 }
 
 // 设置请求参数
@@ -361,7 +362,14 @@
 }
 
 - (void)savePollingForm:(NSDictionary *)dic{
-    
+    NSLog(@"当前选中步骤的状态==%d",self.operabilityTools.currentSelectedStep.state);
+    NSLog(@"当前流程状态==%d",self.operabilityTools.task.belongFlow.state)
+    if (self.operabilityTools.task.belongFlow.state == 1 ||self.operabilityTools.task.belongFlow.state == 3) {
+        return;
+    }
+    if (self.operabilityTools.currentSelectedStep.state == 1 || self.operabilityTools.currentSelectedStep.state == 3 ) {
+        return;
+    }
     NSArray *memoDocs = [self.operabilityTools.currentStep.memoDocs allObjects];
     NSString *id_target = @"";
     if (memoDocs.count >0) {

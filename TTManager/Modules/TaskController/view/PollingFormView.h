@@ -6,12 +6,15 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "OperabilityTools.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef void(^SaveFromBlock)(BOOL success);
 
 @interface PollingFormView : UIView
+
+@property (nonatomic, strong) OperabilityTools *tools;
 
 /// 当前进行中的步骤 0，1，2
 @property (nonatomic, assign) NSInteger currentStep;

@@ -145,11 +145,7 @@ static NSString *headerCell = @"headerCell";
     }else if ([eventName isEqualToString:delete_formItem_image]) {
         [self.formFlowManager deleteImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:save_edit_form]){
-        [self endEditing:YES];
-        [self.formFlowManager operationsFormFill];
-        if ([SZUtil isEmptyOrNull:userInfo[@"sava"]]) {
-            [super routerEventWithName:save_edit_form userInfo:@{}];
-        }
+        [self clickSaveForm:userInfo];
     }else if([eventName isEqualToString:add_formItem_image]){
         [self addImageToCurrentImageFormItem:userInfo];
     }else if([eventName isEqualToString:open_form_url]){
@@ -523,6 +519,21 @@ static NSString *headerCell = @"headerCell";
     }
     return  [NSIndexPath indexPathForRow:index inSection:0];
 }
+// 点击了保存表单
+- (void)clickSaveForm:(NSDictionary *)userInfo{
+    if (self.tools.task.belongFlow.state == 1 ||self.tools.task.belongFlow.state == 3) {
+        return;
+    }
+    if (self.tools.currentSelectedStep.state == 1 || self.tools.currentSelectedStep.state == 3 ) {
+        return;
+    }
+    [self endEditing:YES];
+    [self.formFlowManager operationsFormFill];
+    if ([SZUtil isEmptyOrNull:userInfo[@"sava"]]) {
+        [super routerEventWithName:save_edit_form userInfo:@{}];
+    }
+}
+
 #pragma mark - UI
 
 - (void)addUI{
