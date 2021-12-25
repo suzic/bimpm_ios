@@ -203,6 +203,11 @@ static NSString *headerCell = @"headerCell";
                 }
             }
         }else{
+            [self.expandSectionArray addObject:@"0"];
+            [self.expandSectionArray addObject:@"1"];
+            [self.expandSectionArray addObject:@"2"];
+            [self setExpandSectionArrayRule];
+            [self.tableView reloadData];
             self.formFlowManager.isEditForm = YES;
             if (self.needClone == YES) {
                 [self normalFillFormInfo];
@@ -325,7 +330,20 @@ static NSString *headerCell = @"headerCell";
     if ([SZUtil isEmptyOrNull:sectionItem[@"instance_value"]]) {
         return;
     }
-    
+    // 没有内容不可展开
+    if (section == 0) {
+        if ([self hasFillData:1 end:6] == NO) {
+            return;
+        }
+    }else if(section == 1){
+        if ([self hasFillData:7 end:10] == NO) {
+            return;
+        }
+    }else if(section == 2){
+        if ([self hasFillData:11 end:20] == NO) {
+            return;
+        }
+    }
     self.currentSelectedIndex = section;
     // 已经展开点击收起，否则展开
     if ([self.expandSectionArray containsObject:sectionString]) {
@@ -333,7 +351,6 @@ static NSString *headerCell = @"headerCell";
     }else{
         [self.expandSectionArray addObject:sectionString];
     }
-    [self setExpandSectionArrayRule];
     NSIndexSet *reloadSet = [NSIndexSet indexSetWithIndex:section];
     [self.tableView reloadSections:reloadSet withRowAnimation:UITableViewRowAnimationFade];
     [self fillPollingUser];
