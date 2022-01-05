@@ -113,7 +113,7 @@
 {
     if (_bgImageView == nil) {
         _bgImageView = [[UIImageView alloc] init];
-        _bgImageView.contentMode = UIViewContentModeScaleAspectFit;
+        _bgImageView.contentMode = UIViewContentModeScaleAspectFill;
         _bgImageView.image = [UIImage imageNamed:@"product_login_bg"];
     }
     return _bgImageView;
@@ -137,7 +137,7 @@
 
 - (void)addUI
 {
-    self.backgroundColor = [UIColor clearColor];
+    self.backgroundColor = [UIColor redColor];
     UIView *bgView = [[UIView alloc] init];
     bgView.backgroundColor = [UIColor clearColor];
     [self addSubview:self.bgImageView];
@@ -147,14 +147,15 @@
     [bgView addSubview:self.logoImageView];
     [self addSubview:bgView];
     
-    [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.bottom.equalTo(0);
-    }];
-    
     [bgView makeConstraints:^(MASConstraintMaker *make) {
         make.width.height.equalTo(self.mas_width);
         make.centerX.equalTo(self.centerX);
         make.centerY.equalTo(self.centerY).multipliedBy(1.2);
+    }];
+    
+    [self.bgImageView makeConstraints:^(MASConstraintMaker *make) {
+        make.width.equalTo(self.mas_width);
+        make.height.equalTo(self.mas_height);
     }];
     
     [self.productbgImageView makeConstraints:^(MASConstraintMaker *make) {

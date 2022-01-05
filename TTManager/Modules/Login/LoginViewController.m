@@ -280,7 +280,21 @@
     }
     self.logo.image = [UIImage imageNamed:dict[@"image"]];
     self.logoName.text = dict[@"title"];
+    self.phone = @"";
+    self.password = @"";
+    self.verify = @"";
+    self.captch = @"";
+    self.verifyCode = @"";
+    self.phoneCell.phoneTextField.text = @"";
+    self.passwordCell.passWordtextField.text = @"";
+    self.verifyCell.verificationTextField.text = @"";
+    self.captchaCell.verificationTextField.text = @"";
+    _controllerType = NSNotFound;
+    self.currentSelectedTab = 0;
+    self.controllerType = typeLoginPassword;
+    [self.tableView reloadData];
 }
+
 - (IBAction)showSelectedProductView:(id)sender {
     NSLog(@"111111111111111");
     [[LCPopTool defaultInstance] showAnimated:true];

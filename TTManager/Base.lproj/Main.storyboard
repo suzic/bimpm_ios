@@ -98,7 +98,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="428" height="926"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_login_bg" translatesAutoresizingMaskIntoConstraints="NO" id="qRl-HO-pUH">
+                            <imageView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="product_login_bg" translatesAutoresizingMaskIntoConstraints="NO" id="qRl-HO-pUH">
                                 <rect key="frame" x="0.0" y="5" width="428" height="926"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fra-4q-7Zd" userLabel="icon">

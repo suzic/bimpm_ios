@@ -29,8 +29,10 @@
     UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
     if (!_currentView) {
         [keyWindow addSubview:self.currentView];
+        [self updateProductViewLayout];
     }else{
         [keyWindow bringSubviewToFront:self.currentView];
+        [self updateProductViewLayout];
     }
     
     if (animated) {
@@ -61,10 +63,15 @@
         }];
     }];
 }
-
+- (void)updateProductViewLayout{
+    UIWindow *keyWindow = [UIApplication sharedApplication].keyWindow;
+    [self.currentView makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(keyWindow);
+    }];
+}
 - (TTProductView *)currentView{
     if (_currentView == nil) {
-        _currentView = [[TTProductView alloc] initWithFrame:CGRectMake(0, 0, kScreenWidth, kScreenHeight)];
+        _currentView = [[TTProductView alloc] initWithFrame:CGRectZero];
         _currentView.hidden = YES;
     }
     return _currentView;

@@ -27,7 +27,7 @@
 @"title":@"BIM+智慧物业",\
 @"image":@"product_zhwy",\
 @"image_selected":@"product_zhwy_selected",\
-@"address":@"htps://property.bim-pm.com"},\
+@"address":@"https://property.bim-pm.com"},\
 @{@"type":@"5",\
 @"title":@"BIM+智慧园区",\
 @"image":@"product_zhyq",\
