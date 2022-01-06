@@ -95,7 +95,6 @@
 - (void)managerCallAPISuccess:(BaseApiManager *)manager
 {
     if (manager == self.logoutManager) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
         [[LoginUserManager defaultInstance] removeCurrentLoginUserPhone];
         [DataManager defaultInstance].currentUser = nil;
         [DataManager defaultInstance].currentProject = nil;
@@ -103,6 +102,7 @@
         [DataManager defaultInstance].currentProjectList = nil;
         [[RCIM sharedRCIM] logout];
         [AppDelegate sharedDelegate].initRongCloud = NO;
+        [[NSNotificationCenter defaultCenter] postNotificationName:NotiUserLoginFailed object:nil];
     }
 }
 

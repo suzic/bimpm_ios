@@ -46,10 +46,12 @@
     // 文件夹
     if (target.is_file == 0) {
         name = @"file_group";
+        self.arrowImg.hidden = NO;
     }
     // 文件
     else if(target.is_file == 1){
         name = [NSString stringWithFormat:@"file_Image_%d",target.type];
+        self.arrowImg.hidden = YES;
     }
     return name;
 }

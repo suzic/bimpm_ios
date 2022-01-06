@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface DocumentLibCell : UITableViewCell
 @property (weak, nonatomic) IBOutlet UIImageView *documentIcon;
 @property (weak, nonatomic) IBOutlet UILabel *documentTitle;
+@property (weak, nonatomic) IBOutlet UIImageView *arrowImg;
 
 @property (nonatomic, strong)ZHUser *currentUser;
 @property (nonatomic, strong) ZHTarget *target;

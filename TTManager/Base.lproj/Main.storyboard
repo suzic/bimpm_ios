@@ -1566,6 +1566,7 @@
                                     <constraint firstItem="yuW-Z7-p6f" firstAttribute="centerY" secondItem="dTs-Kc-zDt" secondAttribute="centerY" id="dZB-eG-As7"/>
                                 </constraints>
                                 <connections>
+                                    <outlet property="arrowImg" destination="dtb-l1-8DD" id="1g4-tR-MuA"/>
                                     <outlet property="documentIcon" destination="yuW-Z7-p6f" id="Clg-D7-tne"/>
                                     <outlet property="documentTitle" destination="bbn-U1-Mmp" id="0Av-dH-ArX"/>
                                 </connections>
