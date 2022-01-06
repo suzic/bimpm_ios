@@ -121,7 +121,6 @@
 
     [self requestUrl:loadUrl];
     
-    self.navigationItem.leftBarButtonItems = @[self.close,self.goBack];
 }
 - (void)addViewCustomLaytou{
     [self.loadingProgressView makeConstraints:^(MASConstraintMaker *make) {
@@ -162,6 +161,7 @@
 {
     self.title = webView.title;
     self.webView.hidden = NO;
+    [self bottomToolItemBack];
 }
 
 //网页加载错误
@@ -320,8 +320,13 @@
 
 - (void)bottomToolItemBack
 {
-    if ([self.webView canGoBack])
+    if ([self.webView canGoBack]){
         [self.webView goBack];
+        self.navigationItem.leftBarButtonItems = @[self.close,self.goBack];
+    }
+    else{
+        self.navigationItem.leftBarButtonItems = @[self.close];
+    }
 }
 
 - (void)bottomToolItemRefresh
