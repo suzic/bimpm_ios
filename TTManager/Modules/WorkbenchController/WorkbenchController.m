@@ -361,8 +361,14 @@
     if(manager == self.UTPInfoManager){
         self.ganttInfoArray = manager.response.responseData;
         [self.tableView reloadData];
+        [self.tableView scrollsToTop];
     }else if(manager == self.filterTargetManager){
         [self filterSuccess:(NSArray *)manager.response.responseData];
+    }
+    //这里要判断一下，不然会容易出现崩溃的现象
+    if(self.tableView.visibleCells.count > 0) {
+      //请求完之后让列表置顶
+      [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
     }
 }
 

@@ -49,6 +49,7 @@
     self.dmDetailsManager.pageSize.pageIndex = 1;
     self.dmDetailsManager.pageSize.pageSize = 20;
     [self.dmDetailsManager loadData];
+    
 }
 //}
 #pragma mark - action
@@ -134,6 +135,11 @@
         self.departmentUserArray = (NSMutableArray *)manager.response.responseData;
         [self.tableView showDataCount:self.departmentUserArray.count type:0];
         [self.tableView reloadData];
+        //这里要判断一下，不然会容易出现崩溃的现象
+        if(self.tableView.visibleCells.count > 0) {
+          //请求完之后让列表置顶
+          [self.tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] atScrollPosition:UITableViewScrollPositionTop animated:NO];
+        }
     }
 }
 
